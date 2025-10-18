@@ -7,7 +7,7 @@ import {
   listAgentDescriptors,
 } from "./config.js";
 import { getAgentDefinition } from "./agents/index.js";
-import { runChatbotSession } from "./runtime/chatbot-session.js";
+import { runChatbotSession } from "./runtime/mill/chatbot-session.js";
 
 const HELP_TEXT = `
 Usage: agent-cli <command>

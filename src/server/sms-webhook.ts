@@ -1,14 +1,14 @@
 import { createServer } from "node:http";
 import { URL } from "node:url";
 
-import { createDevAgentEnvironment } from "../runtime/dev-agent.js";
+import { createDevAgentEnvironment } from "../runtime/dev/dev-agent.js";
 import {
   processSmsMessage,
   type ProcessSmsMessageOutcome,
   type SmsExport,
   type SmsMessage,
-} from "../runtime/dev-sms-agent.js";
-import { createSmsLog } from "../runtime/sms-log.js";
+} from "../runtime/dev/dev-sms-agent.js";
+import { createSmsLog } from "../runtime/dev/sms-log.js";
 
 const PORT = Number.parseInt(process.env.SMS_WEBHOOK_PORT ?? "7070", 10);
 

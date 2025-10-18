@@ -1,0 +1,102 @@
+{
+  "timestamp": "2025-10-18T08:04:12.501Z",
+  "tests": [
+    {
+      "name": "SMS Webhook - Health Check",
+      "description": "Verify SMS webhook server is running and healthy",
+      "status": "failed",
+      "duration": 55,
+      "error": "fetch failed"
+    },
+    {
+      "name": "SMS Webhook - Valid Transaction Processing",
+      "description": "Send valid bank SMS and verify transaction is logged",
+      "status": "failed",
+      "duration": 3,
+      "error": "fetch failed"
+    },
+    {
+      "name": "SMS Webhook - Duplicate Detection",
+      "description": "Send duplicate SMS and verify it is suppressed",
+      "status": "failed",
+      "duration": 3,
+      "error": "fetch failed"
+    },
+    {
+      "name": "SMS Webhook - Authentication Failure",
+      "description": "Verify invalid auth header is rejected (if auth enabled)",
+      "status": "failed",
+      "duration": 3,
+      "error": "fetch failed"
+    },
+    {
+      "name": "SMS Webhook - Rate Limiting",
+      "description": "Send many requests and verify rate limiting kicks in",
+      "status": "failed",
+      "duration": 31,
+      "error": "fetch failed"
+    },
+    {
+      "name": "Intent Parser - Expense Detection (English)",
+      "description": "Verify intent parser detects expense patterns correctly",
+      "status": "failed",
+      "duration": 1,
+      "error": "Cannot find module 'C:\\Users\\konth\\Desktop\\project\\MH\\Convo check\\src\\runtime\\intent-parser.js' imported from C:\\Users\\konth\\Desktop\\project\\MH\\Convo check\\test-suite.js"
+    },
+    {
+      "name": "Intent Parser - Income Detection",
+      "description": "Verify intent parser detects income patterns correctly",
+      "status": "failed",
+      "duration": 1,
+      "error": "Cannot find module 'C:\\Users\\konth\\Desktop\\project\\MH\\Convo check\\src\\runtime\\intent-parser.js' imported from C:\\Users\\konth\\Desktop\\project\\MH\\Convo check\\test-suite.js"
+    },
+    {
+      "name": "Intent Parser - Query Detection",
+      "description": "Verify intent parser detects query patterns correctly",
+      "status": "failed",
+      "duration": 0,
+      "error": "Cannot find module 'C:\\Users\\konth\\Desktop\\project\\MH\\Convo check\\src\\runtime\\intent-parser.js' imported from C:\\Users\\konth\\Desktop\\project\\MH\\Convo check\\test-suite.js"
+    },
+    {
+      "name": "File System - CSV Files Exist",
+      "description": "Verify all critical data files exist",
+      "status": "passed",
+      "duration": 7,
+      "error": null
+    },
+    {
+      "name": "File System - Transaction Count",
+      "description": "Load and verify transaction data",
+      "status": "failed",
+      "duration": 1,
+      "error": "Cannot find module 'C:\\Users\\konth\\Desktop\\project\\MH\\Convo check\\src\\runtime\\transactions-loader.js' imported from C:\\Users\\konth\\Desktop\\project\\MH\\Convo check\\test-suite.js"
+    },
+    {
+      "name": "File System - Habit Insights Exist",
+      "description": "Verify Param agent has generated habit insights",
+      "status": "passed",
+      "duration": 1,
+      "error": null
+    },
+    {
+      "name": "File System - Coach Briefings Exist",
+      "description": "Verify Coach agent has generated briefings",
+      "status": "failed",
+      "duration": 1,
+      "error": "Invalid briefing format"
+    },
+    {
+      "name": "Agent Coordination - Config Validation",
+      "description": "Verify all 4 agents (Mill, Dev, Param, Chatur) are configured",
+      "status": "failed",
+      "duration": 1,
+      "error": "Cannot find module 'C:\\Users\\konth\\Desktop\\project\\MH\\Convo check\\src\\config.js' imported from C:\\Users\\konth\\Desktop\\project\\MH\\Convo check\\test-suite.js"
+    }
+  ],
+  "summary": {
+    "total": 13,
+    "passed": 2,
+    "failed": 11,
+    "skipped": 0
+  }
+}

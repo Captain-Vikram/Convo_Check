@@ -46,6 +46,7 @@ npm run typecheck
 ## 🎮 Usage
 
 ### Start Interactive Chat (Mill)
+
 ```bash
 npx agent-cli chat
 # or
@@ -53,12 +54,14 @@ npm run dev
 ```
 
 **What happens on startup:**
+
 - Dev Agent monitors `data/transactions.csv` for external changes
 - Param (Analyst) analyzes transaction patterns
 - Coach (Chatur) generates fresh financial guidance
 - Mill is ready for conversation!
 
 **Example commands:**
+
 ```
 you> I spent 250 on groceries
 you> show me my last 3 transactions
@@ -67,18 +70,23 @@ you> what can you do
 ```
 
 ### Run Analyst Manually (Param)
+
 ```bash
 npm run analyst
 ```
+
 Generates habit insights in `data/habits.csv` and triggers Coach briefing.
 
 ### Start SMS Webhook Server
+
 ```bash
 npm run sms-server
 ```
+
 Listens on `http://localhost:7070/sms` for bank SMS transactions.
 
 **Test with dummy SMS:**
+
 ```powershell
 Invoke-RestMethod -Uri http://localhost:7070/sms -Method Post -ContentType 'application/json' -Body '{
   "messages": [{
@@ -96,6 +104,7 @@ Invoke-RestMethod -Uri http://localhost:7070/sms -Method Post -ContentType 'appl
 ```
 
 ### Other Commands
+
 ```bash
 npm run build      # Compile TypeScript to dist/
 npm run typecheck  # Validate TypeScript without emitting

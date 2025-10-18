@@ -1,0 +1,1 @@
+cd "C:\Users\konth\Desktop\project\MH\Convo check" && git init && git add . && git commit -m "Initial commit: Multi-agent financial tracking system with Mill, Dev, Param, and Coach agents" && git branch -M main && git remote add origin https://github.com/Captain-Vikram/Convo_Check.git && git push -u origin main
