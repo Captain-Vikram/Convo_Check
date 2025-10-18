@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Savings Management",
+    "evidence": "Last 30 days show a savings rate of -0.01",
+    "counsel": "Identify and reduce minor costs to improve your savings performance",
+    "fullText": "- Savings Management: Last 30 days show a savings rate of -0.01. Counsel: Identify and reduce minor costs to improve your savings performance."
+  },
+  {
+    "habitLabel": "Cashflow Vigilance",
+    "evidence": "Your net cashflow for the last 30 days is -3 INR",
+    "counsel": "Focus on balancing income with expenses to achieve a positive cashflow",
+    "fullText": "- Cashflow Vigilance: Your net cashflow for the last 30 days is -3 INR. Counsel: Focus on balancing income with expenses to achieve a positive cashflow."
+  },
+  {
+    "habitLabel": "Transfer Expense Dominance",
+    "evidence": "Transfers account for 252 INR, or 99.6% of total expenses",
+    "counsel": "Deep dive into transfer types to understand spending purpose",
+    "fullText": "- Transfer Expense Dominance: Transfers account for 252 INR, or 99.6% of total expenses. Counsel: Deep dive into transfer types to understand spending purpose."
+  },
+  {
+    "habitLabel": "Necessity Spending",
+    "evidence": "All 6 transactions are tagged as 'necessity'",
+    "counsel": "Regularly review if all tagged expenses genuinely fit the 'necessity' definition",
+    "fullText": "- Necessity Spending: All 6 transactions are tagged as 'necessity'. Counsel: Regularly review if all tagged expenses genuinely fit the 'necessity' definition."
+  },
+  {
+    "habitLabel": "Major Expense Impact",
+    "evidence": "Your largest single expense was a 250 INR Transfer",
+    "counsel": "Be aware of how significant individual expenses affect your overall budget",
+    "fullText": "- Major Expense Impact: Your largest single expense was a 250 INR Transfer. Counsel: Be aware of how significant individual expenses affect your overall budget."
+  },
+  {
+    "habitLabel": "Income Source Clarity",
+    "evidence": "Your 250 INR income was received as a 'Transfer'",
+    "counsel": "Gain clarity on the nature of this income for better financial planning",
+    "fullText": "- Income Source Clarity: Your 250 INR income was received as a 'Transfer'. Counsel: Gain clarity on the nature of this income for better financial planning."
+  },
+  {
+    "habitLabel": "Average Spend Insight",
+    "evidence": "Your average transaction amount is 100.5 INR",
+    "counsel": "Use this average to benchmark your individual spending habits effectively",
+    "fullText": "- Average Spend Insight: Your average transaction amount is 100.5 INR. Counsel: Use this average to benchmark your individual spending habits effectively."
+  }
+]

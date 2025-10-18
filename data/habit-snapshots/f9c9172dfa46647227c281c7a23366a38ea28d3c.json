@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Cashflow Management",
+    "evidence": "Last 30 days' net cashflow is -3 INR (Income 250, Expense 253)",
+    "counsel": "Strive to keep your income higher than your expenses to build financial stability",
+    "fullText": "- Cashflow Management: Last 30 days' net cashflow is -3 INR (Income 250, Expense 253). Counsel: Strive to keep your income higher than your expenses to build financial stability."
+  },
+  {
+    "habitLabel": "Expense Categorization",
+    "evidence": "\"Transfer\" amounts to 252 INR, nearly all of your 253 INR total expenses",
+    "counsel": "Understand the purpose of these transfers to determine their budget impact",
+    "fullText": "- Expense Categorization: \"Transfer\" amounts to 252 INR, nearly all of your 253 INR total expenses. Counsel: Understand the purpose of these transfers to determine their budget impact."
+  },
+  {
+    "habitLabel": "Transaction Clarity",
+    "evidence": "One 100 INR \"Transportation\" transaction lacks an expense/income direction",
+    "counsel": "Classify all transactions to accurately reflect your true spending and income",
+    "fullText": "- Transaction Clarity: One 100 INR \"Transportation\" transaction lacks an expense/income direction. Counsel: Classify all transactions to accurately reflect your true spending and income."
+  },
+  {
+    "habitLabel": "Savings Improvement",
+    "evidence": "Your savings rate for the last 30 days is -0.01",
+    "counsel": "Focus on increasing income or reducing discretionary spending to achieve positive savings",
+    "fullText": "- Savings Improvement: Your savings rate for the last 30 days is -0.01. Counsel: Focus on increasing income or reducing discretionary spending to achieve positive savings."
+  },
+  {
+    "habitLabel": "Comprehensive Tracking",
+    "evidence": "You have only 6 transactions recorded in the last 30 days",
+    "counsel": "Ensure all financial activities are logged to get a full view of your money movements",
+    "fullText": "- Comprehensive Tracking: You have only 6 transactions recorded in the last 30 days. Counsel: Ensure all financial activities are logged to get a full view of your money movements."
+  },
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Total income (350 INR) is higher than last 30 days income (250 INR)",
+    "counsel": "Consistent reporting of all income sources provides a clearer long-term financial picture",
+    "fullText": "- Income Tracking: Total income (350 INR) is higher than last 30 days income (250 INR). Counsel: Consistent reporting of all income sources provides a clearer long-term financial picture."
+  }
+]

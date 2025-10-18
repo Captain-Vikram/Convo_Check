@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Budget Balance",
+    "evidence": "Last 30 days savings rate -0.01, net cashflow -3 INR",
+    "counsel": "Prioritize earning or reduce spending to build a positive balance",
+    "fullText": "- Budget Balance: Last 30 days savings rate -0.01, net cashflow -3 INR; Counsel: Prioritize earning or reduce spending to build a positive balance."
+  },
+  {
+    "habitLabel": "Transfer Awareness",
+    "evidence": "\"Transfer\" category accounts for 252 INR, 99.6% of total expenses (253 INR)",
+    "counsel": "Review transfer details to classify actual spending habits",
+    "fullText": "- Transfer Awareness: \"Transfer\" category accounts for 252 INR, 99.6% of total expenses (253 INR).; Counsel: Review transfer details to classify actual spending habits."
+  },
+  {
+    "habitLabel": "Cashflow Alignment",
+    "evidence": "Last 30 days income 250 INR vs. expense 253 INR",
+    "counsel": "Strive to match or exceed income with spending to avoid shortfalls",
+    "fullText": "- Cashflow Alignment: Last 30 days income 250 INR vs. expense 253 INR.; Counsel: Strive to match or exceed income with spending to avoid shortfalls."
+  },
+  {
+    "habitLabel": "Major Expense Control",
+    "evidence": "The largest expense is a 250 INR transfer",
+    "counsel": "Track significant outlays to prevent unexpected budget impacts",
+    "fullText": "- Major Expense Control: The largest expense is a 250 INR transfer.; Counsel: Track significant outlays to prevent unexpected budget impacts."
+  },
+  {
+    "habitLabel": "Essential Prioritization",
+    "evidence": "All 6 recorded transactions are tagged as \"necessity.\"",
+    "counsel": "Regularly assess if all \"necessity\" items are truly indispensable",
+    "fullText": "- Essential Prioritization: All 6 recorded transactions are tagged as \"necessity.\"; Counsel: Regularly assess if all \"necessity\" items are truly indispensable."
+  },
+  {
+    "habitLabel": "Data Collection",
+    "evidence": "Only 6 transactions are recorded lifetime and in the last 30 days",
+    "counsel": "Consistent tracking helps reveal more accurate financial patterns",
+    "fullText": "- Data Collection: Only 6 transactions are recorded lifetime and in the last 30 days.; Counsel: Consistent tracking helps reveal more accurate financial patterns."
+  }
+]

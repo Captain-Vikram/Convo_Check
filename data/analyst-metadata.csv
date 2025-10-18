@@ -1,0 +1,7 @@
+transaction_id,recorded_at,amount,currency,direction,category,flavor,tags,description,event_date,event_time
+"d9e964a3-9dd0-4a72-9315-e547a31189ab","2025-10-11T15:18:22.000Z","1","INR","expense","Everyday Expense","necessity","expense|necessity|everyday-expense","528488568914","2025-10-11","01:00"
+"0bdf6d35-24d8-4e51-8c75-3a7dfbffe7b9","2025-10-17T16:23:00.165Z","1","INR","expense","Transfer","necessity","expense|necessity|transfer|sms-ingest|medium-upi|type-debit","Payment with reference 528488568914.","2025-10-11","08:48"
+"6d45e189-11df-46ea-85fa-82fa8017fce2","2025-10-17T16:25:56.487Z","100","INR","","Transportation","necessity","|necessity|transportation","Cab to get home","2025-10-17",""
+"9df33671-ce13-4da8-87cd-8552b6f6c70f","2025-10-17T16:26:41.995Z","1","INR","expense","Transfer","necessity","expense|necessity|transfer|sms-ingest|medium-upi|type-debit","Payment with reference 528488568914.","2025-10-11","08:48"
+"2fd29fe3-f1ad-4934-b3ad-46a6975a2655","2025-10-17T17:15:08.825Z","250","INR","expense","Transfer","necessity","expense|necessity|transfer|sms-ingest|medium-upi|type-debit","Payment with reference 564699951953.","2025-10-07","06:36"
+"ed5a0818-a7ee-431d-98e9-4798aaf30b47","2025-10-18T05:24:57.973Z","250","INR","income","Transfer","necessity","income|necessity|transfer|sms-ingest|medium-upi|type-credit","Payment received via UPI from paytm@upi with reference 991124333201.","2025-10-12","15:28"

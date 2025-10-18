@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Cashflow Management",
+    "evidence": "Last 30 days savings rate -0.01; net cashflow -3 INR",
+    "counsel": "Prioritize balancing income/expenses to avoid negative cashflow",
+    "fullText": "- Cashflow Management: Last 30 days savings rate -0.01; net cashflow -3 INR; Counsel: Prioritize balancing income/expenses to avoid negative cashflow."
+  },
+  {
+    "habitLabel": "Transfer Awareness",
+    "evidence": "\"Transfer\" category is 252 INR of 253 INR total expense",
+    "counsel": "Review transfer purposes to distinguish necessary vs. discretionary",
+    "fullText": "- Transfer Awareness: \"Transfer\" category is 252 INR of 253 INR total expense; Counsel: Review transfer purposes to distinguish necessary vs. discretionary."
+  },
+  {
+    "habitLabel": "Essential Spending Review",
+    "evidence": "All 6 transactions tagged as \"necessity\"",
+    "counsel": "Evaluate if all \"necessity\" items are truly indispensable or if alternatives exist",
+    "fullText": "- Essential Spending Review: All 6 transactions tagged as \"necessity\"; Counsel: Evaluate if all \"necessity\" items are truly indispensable or if alternatives exist."
+  },
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Lifetime income 350 INR; last 30 days income 250 INR",
+    "counsel": "Understand income variations for better financial planning",
+    "fullText": "- Income Tracking: Lifetime income 350 INR; last 30 days income 250 INR; Counsel: Understand income variations for better financial planning."
+  },
+  {
+    "habitLabel": "Major Expense Planning",
+    "evidence": "Largest expense 250 INR to \"nafisahamd5678@okicici\"",
+    "counsel": "Plan for large transfers to mitigate cashflow impact",
+    "fullText": "- Major Expense Planning: Largest expense 250 INR to \"nafisahamd5678@okicici\"; Counsel: Plan for large transfers to mitigate cashflow impact."
+  },
+  {
+    "habitLabel": "Weekly Spending Analysis",
+    "evidence": "A 250 INR expense occurred on a Tuesday",
+    "counsel": "Identify if specific weekdays consistently incur larger expenditures",
+    "fullText": "- Weekly Spending Analysis: A 250 INR expense occurred on a Tuesday; Counsel: Identify if specific weekdays consistently incur larger expenditures."
+  }
+]
