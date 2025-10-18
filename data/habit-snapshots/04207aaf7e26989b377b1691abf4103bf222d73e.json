@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Income Awareness",
+    "evidence": "Total income recorded as Rs 0",
+    "counsel": "Prioritize logging all income for a complete financial overview",
+    "fullText": "- Income Awareness: Evidence: Total income recorded as Rs 0; Counsel: Prioritize logging all income for a complete financial overview."
+  },
+  {
+    "habitLabel": "Expense Dominance",
+    "evidence": "All 13 recorded transactions (Rs 1072) are expenses",
+    "counsel": "Record all financial inflows to understand your net cash flow better",
+    "fullText": "- Expense Dominance: Evidence: All 13 recorded transactions (Rs 1072) are expenses; Counsel: Record all financial inflows to understand your net cash flow better."
+  },
+  {
+    "habitLabel": "Essential Outlays",
+    "evidence": "All 13 expenses are marked as \"necessity\" items",
+    "counsel": "Track your necessity spending to ensure it aligns with your budget",
+    "fullText": "- Essential Outlays: Evidence: All 13 expenses are marked as \"necessity\" items; Counsel: Track your necessity spending to ensure it aligns with your budget."
+  },
+  {
+    "habitLabel": "Singular Category",
+    "evidence": "100% of total spend (Rs 1072) is in \"Financial - High Confidence\"",
+    "counsel": "Review if this category adequately reflects all your expenses",
+    "fullText": "- Singular Category: Evidence: 100% of total spend (Rs 1072) is in \"Financial - High Confidence\"; Counsel: Review if this category adequately reflects all your expenses."
+  },
+  {
+    "habitLabel": "Stale Data",
+    "evidence": "No transactions, spend, or income in the last 30 days",
+    "counsel": "Ensure all recent financial activity is linked for an up-to-date analysis",
+    "fullText": "- Stale Data: Evidence: No transactions, spend, or income in the last 30 days; Counsel: Ensure all recent financial activity is linked for an up-to-date analysis."
+  },
+  {
+    "habitLabel": "Transaction Size",
+    "evidence": "Average expense transaction is Rs 82.46",
+    "counsel": "Note that frequent smaller expenses can add up significantly over time",
+    "fullText": "- Transaction Size: Evidence: Average expense transaction is Rs 82.46; Counsel: Note that frequent smaller expenses can add up significantly over time."
+  }
+]

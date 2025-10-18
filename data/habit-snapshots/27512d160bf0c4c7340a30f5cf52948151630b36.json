@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Total income is 0 Rs",
+    "counsel": "Verify all income sources are linked for a full financial picture",
+    "fullText": "- Income Tracking: Total income is 0 Rs; Counsel: Verify all income sources are linked for a full financial picture."
+  },
+  {
+    "habitLabel": "Spending Focus",
+    "evidence": "Total expense is 1072 Rs across 13 transactions",
+    "counsel": "Track all spending diligently, especially without recorded income",
+    "fullText": "- Spending Focus: Total expense is 1072 Rs across 13 transactions; Counsel: Track all spending diligently, especially without recorded income."
+  },
+  {
+    "habitLabel": "Recent Inactivity",
+    "evidence": "Zero transactions or spend in the last 30 days",
+    "counsel": "Ensure all active accounts are connected for current data visibility",
+    "fullText": "- Recent Inactivity: Zero transactions or spend in the last 30 days; Counsel: Ensure all active accounts are connected for current data visibility."
+  },
+  {
+    "habitLabel": "Essential Spending",
+    "evidence": "All 13 expenses are categorized as necessity",
+    "counsel": "Review these essential costs for potential savings or optimization",
+    "fullText": "- Essential Spending: All 13 expenses are categorized as necessity; Counsel: Review these essential costs for potential savings or optimization."
+  },
+  {
+    "habitLabel": "Large Expense Impact",
+    "evidence": "Largest transaction is 666 Rs, 62% of 1072 Rs total expense",
+    "counsel": "Be mindful of how large individual expenses impact your budget",
+    "fullText": "- Large Expense Impact: Largest transaction is 666 Rs, 62% of 1072 Rs total expense; Counsel: Be mindful of how large individual expenses impact your budget."
+  },
+  {
+    "habitLabel": "Category Detail",
+    "evidence": "All 13 transactions are \"Financial - High Confidence\"",
+    "counsel": "Enhance categorization for more granular spending insights",
+    "fullText": "- Category Detail: All 13 transactions are \"Financial - High Confidence\"; Counsel: Enhance categorization for more granular spending insights."
+  },
+  {
+    "habitLabel": "Average Transaction",
+    "evidence": "Average expense ticket is 82.46 Rs across 13 transactions",
+    "counsel": "Monitor small, recurring expenses as they can add up over time",
+    "fullText": "- Average Transaction: Average expense ticket is 82.46 Rs across 13 transactions; Counsel: Monitor small, recurring expenses as they can add up over time."
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "899f51f0-df70-4868-bbb5-b79b32482f65",
+    "createdAt": "2025-10-18T19:07:25.549Z",
+    "headline": "Track Every Rupee Earned!",
+    "counsel": "To build a complete financial picture, let's start by logging all your income transactions, even the small ones.",
+    "evidence": "Total income recorded as Rs 0",
+    "insightHash": "04207aaf7e26989b377b1691abf4103bf222d73e",
+    "trigger": "analyst"
+  },
+  {
+    "id": "70851cc9-a378-49a8-b92d-0f65a30273b9",
+    "createdAt": "2025-10-18T19:07:57.835Z",
+    "headline": "Track Income, See Growth!",
+    "counsel": "Record all your earnings to truly understand your financial journey and progress.",
+    "evidence": "Total income recorded as 0 across 13 transactions",
+    "insightHash": "cf2e06221eac748067a5e167af8b7dd156289bc3",
+    "trigger": "analyst"
+  },
+  {
+    "id": "e780d675-1a2d-4e48-aaa2-a7d6821caf00",
+    "createdAt": "2025-10-18T19:08:01.643Z",
+    "headline": "Refresh Your Financial View",
+    "counsel": "Ensure all active accounts are connected for current data visibility to get the most accurate financial insights.",
+    "evidence": "Zero transactions or spend in the last 30 days",
+    "insightHash": "27512d160bf0c4c7340a30f5cf52948151630b36",
+    "trigger": "analyst"
+  },
+  {
+    "id": "7ec489cd-b921-422b-a18f-ec59027799c6",
+    "createdAt": "2025-10-18T19:12:05.325Z",
+    "headline": "Log Your Full Income",
+    "counsel": "Track every earning and fund, like your INR 300 pocket money, for a complete financial overview and better planning.",
+    "evidence": "Total income is 0 across all recorded transactions.",
+    "insightHash": "84fb7469638f47641b5a389243df55b6c2201407",
+    "trigger": "analyst"
+  },
+  {
+    "id": "514aea5d-53ff-4cb9-a03d-fa78ce949f08",
+    "createdAt": "2025-10-18T19:13:37.173Z",
+    "headline": "Unlock Your Income Flow",
+    "counsel": "Let's log every earning to see your full financial picture and plan for your 1472 expenses.",
+    "evidence": "Total income is 0, while total expenses are 1472",
+    "insightHash": "f94e67e31591bad88cf5cb76f7b6bb3fca466d06",
+    "trigger": "analyst"
+  }
+]

@@ -1,0 +1,3 @@
+transaction_id,recorded_at,amount,currency,direction,category,flavor,tags,description,event_date,event_time
+"ec52654d-ed83-48ad-ade2-17ce8f3c2c7a","2025-10-18T19:09:27.644Z","300","INR","credit","Pocket Money","necessity","credit|necessity|pocket-money","Pocket money from dad","2025-10-19",""
+"1a8975ae-6829-4f7d-b594-58ba08aef5a7","2025-10-18T19:10:35.526Z","100","INR","debit","Lent Money","necessity","debit|necessity|lent-money","Lent money to Yash","2025-10-19",""

@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Essential; Evidence: Total income recorded as 0 across 13 transactions",
+    "counsel": "Log all income sources to build a complete financial profile",
+    "fullText": "- Income Tracking: Essential; Evidence: Total income recorded as 0 across 13 transactions; Counsel: Log all income sources to build a complete financial profile."
+  },
+  {
+    "habitLabel": "Expense Focus",
+    "evidence": "Proactive; Evidence: All 13 transactions are expenses, totaling 1072.00",
+    "counsel": "Continue diligent expense tracking to manage your budget effectively",
+    "fullText": "- Expense Focus: Proactive; Evidence: All 13 transactions are expenses, totaling 1072.00; Counsel: Continue diligent expense tracking to manage your budget effectively."
+  },
+  {
+    "habitLabel": "Categorization",
+    "evidence": "Refine; Evidence: 100% of 1072.00 spend is \"Financial - High Confidence\"",
+    "counsel": "Use more specific categories to gain deeper spending insights",
+    "fullText": "- Categorization: Refine; Evidence: 100% of 1072.00 spend is \"Financial - High Confidence\"; Counsel: Use more specific categories to gain deeper spending insights."
+  },
+  {
+    "habitLabel": "Tracking Consistency",
+    "evidence": "Maintain; Evidence: Zero transactions recorded in the last 30 days",
+    "counsel": "Log transactions regularly to ensure your financial picture stays current",
+    "fullText": "- Tracking Consistency: Maintain; Evidence: Zero transactions recorded in the last 30 days; Counsel: Log transactions regularly to ensure your financial picture stays current."
+  },
+  {
+    "habitLabel": "Spending Nature",
+    "evidence": "Verify; Evidence: All 13 expenses are marked as 'necessity'",
+    "counsel": "Periodically review if this categorization accurately reflects all your spending",
+    "fullText": "- Spending Nature: Verify; Evidence: All 13 expenses are marked as 'necessity'; Counsel: Periodically review if this categorization accurately reflects all your spending."
+  },
+  {
+    "habitLabel": "Transaction Awareness",
+    "evidence": "Broaden; Evidence: Largest expense 666.00, smallest 1.00, average 82.46",
+    "counsel": "Be mindful of both significant and minor outlays",
+    "fullText": "- Transaction Awareness: Broaden; Evidence: Largest expense 666.00, smallest 1.00, average 82.46; Counsel: Be mindful of both significant and minor outlays."
+  },
+  {
+    "habitLabel": "Data Quality",
+    "evidence": "Improve; Evidence: All 13 transactions show \"Unknown\" for weekday",
+    "counsel": "Ensure transaction dates are logged for better temporal analysis",
+    "fullText": "- Data Quality: Improve; Evidence: All 13 transactions show \"Unknown\" for weekday; Counsel: Ensure transaction dates are logged for better temporal analysis."
+  }
+]

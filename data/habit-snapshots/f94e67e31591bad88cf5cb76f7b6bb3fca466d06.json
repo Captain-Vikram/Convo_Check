@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Financial Flow",
+    "evidence": "[Critical]; Evidence: Total income is 0, while total expenses are 1472",
+    "counsel": "Prioritize tracking all income sources to understand your financial inflows",
+    "fullText": "- Financial Flow: [Critical]; Evidence: Total income is 0, while total expenses are 1472; Counsel: Prioritize tracking all income sources to understand your financial inflows."
+  },
+  {
+    "habitLabel": "Core Spending",
+    "evidence": "[High]; Evidence: \"Financial - High Confidence\" covers 1072 of 1472 total expenses",
+    "counsel": "Analyze these 13 transactions for potential savings or better budgeting",
+    "fullText": "- Core Spending: [High]; Evidence: \"Financial - High Confidence\" covers 1072 of 1472 total expenses; Counsel: Analyze these 13 transactions for potential savings or better budgeting."
+  },
+  {
+    "habitLabel": "Activity Lapse",
+    "evidence": "[Noticeable]; Evidence: No transactions, income, or expenses in the last 30 days",
+    "counsel": "Verify that all recent financial activity is being fully tracked",
+    "fullText": "- Activity Lapse: [Noticeable]; Evidence: No transactions, income, or expenses in the last 30 days; Counsel: Verify that all recent financial activity is being fully tracked."
+  },
+  {
+    "habitLabel": "Expense Focus",
+    "evidence": "[Sole]; Evidence: All 15 recorded transactions are expenses, totaling 1472",
+    "counsel": "Start tracking income and any non-expense transactions to gain a holistic view",
+    "fullText": "- Expense Focus: [Sole]; Evidence: All 15 recorded transactions are expenses, totaling 1472; Counsel: Start tracking income and any non-expense transactions to gain a holistic view."
+  },
+  {
+    "habitLabel": "[Universal]",
+    "evidence": "All 15 transactions are categorized as \"necessity\"",
+    "counsel": "Re-evaluate spending to differentiate true necessities from potential discretionary items",
+    "fullText": "- Necessity Label: [Universal]; Evidence: All 15 transactions are categorized as \"necessity\"; Counsel: Re-evaluate spending to differentiate true necessities from potential discretionary items."
+  },
+  {
+    "habitLabel": "Recharge Impact",
+    "evidence": "[Significant]; Evidence: The largest single expense is a 666 Vi recharge",
+    "counsel": "Explore different plans or usage patterns to optimize recurring telecom costs",
+    "fullText": "- Recharge Impact: [Significant]; Evidence: The largest single expense is a 666 Vi recharge; Counsel: Explore different plans or usage patterns to optimize recurring telecom costs."
+  },
+  {
+    "habitLabel": "Pocket Money Flow",
+    "evidence": "[Ambiguous]; Evidence: 300 is listed as \"Pocket Money\" expense",
+    "counsel": "Clarify if this represents an expense or a miscategorized income event",
+    "fullText": "- Pocket Money Flow: [Ambiguous]; Evidence: 300 is listed as \"Pocket Money\" expense; Counsel: Clarify if this represents an expense or a miscategorized income event."
+  }
+]

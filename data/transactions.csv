@@ -12,3 +12,5 @@ owner_phone,transaction_id,datetime,date,time,amount,currency,type,target_party,
 "+919619183585","526772878959","2025-09-24T10:36:24","2025-09-24","10:36:24","10.0","Rs.","debit","bdpg.iruts@sbi","Ref:526772878959, to bdpg.iruts@sbi, AvlBal:Rs286.72","Financial - High Confidence","true",""
 "+919619183585","526672339719","2025-09-23T13:36:13","2025-09-23","13:36:13","25.0","INR","credit","","Ref:526672339719, AvlBal:Rs246.72","Financial - High Confidence","true","UPI"
 "+919619183585","562784610003","2025-09-18T13:02:21","2025-09-18","13:02:21","10.0","Rs.","debit","bdpg.iruts@sbi","Ref:562784610003, to bdpg.iruts@sbi, AvlBal:Rs226.72","Financial - High Confidence","true",""
+"mill-chat","ec52654d-ed83-48ad-ade2-17ce8f3c2c7a","2025-10-19T00:00:00","2025-10-19","00:00:00","300","INR","credit","","Pocket money from dad","Pocket Money","true",""
+"mill-chat","1a8975ae-6829-4f7d-b594-58ba08aef5a7","2025-10-19T00:00:00","2025-10-19","00:00:00","100","INR","debit","","Lent money to Yash","Lent Money","true",""
