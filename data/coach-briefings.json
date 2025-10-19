@@ -43,5 +43,122 @@
     "evidence": "Total income is 0, while total expenses are 1472",
     "insightHash": "f94e67e31591bad88cf5cb76f7b6bb3fca466d06",
     "trigger": "analyst"
+  },
+  {
+    "id": "d40cc369-1aed-4d0a-b58e-00db3297dc9f",
+    "createdAt": "2025-10-19T05:52:36.444Z",
+    "headline": "Track All Income Sources",
+    "counsel": "Let's log all your earnings! Total expenses are 1472, and tracking income gives you the full financial picture.",
+    "evidence": "Total income is 0, while total expenses are 1472.",
+    "insightHash": "cec67628d8249675158fcd3716f563c4580ef250",
+    "trigger": "analyst"
+  },
+  {
+    "id": "eb0e26c1-13ec-48b2-911b-39bb9605e71b",
+    "createdAt": "2025-10-19T05:52:36.790Z",
+    "headline": "Track Income, See Your Flow",
+    "counsel": "Let's ensure all your income is tracked; 0 income is recorded against your 1472 in expenses, so you see your full financial flow!",
+    "evidence": "Total income is 0 from 15 transactions; all 15 transactions totaling 1472 are expenses.",
+    "insightHash": "644a5f2e155efd78b4edf8d37c256e54410f98a0",
+    "trigger": "analyst"
+  },
+  {
+    "id": "67fbda3f-6539-4e79-bc9f-995770dd2390",
+    "createdAt": "2025-10-19T05:55:31.611Z",
+    "headline": "Fix Data Sync Now",
+    "counsel": "Ensure all accounts are linked and transactions are syncing regularly for a complete financial picture.",
+    "evidence": "Last 30 days: 0 transactions, 0 spend, 0 income.",
+    "insightHash": "5171a3438c435664308052c6deda5e87189da6d2",
+    "trigger": "analyst"
+  },
+  {
+    "id": "3ac0f218-0723-4385-89c3-b4973b6ab07b",
+    "createdAt": "2025-10-19T07:09:30.102Z",
+    "headline": "Track Income & Recent Activity",
+    "counsel": "Ensure all income sources & recent financial activity are logged for complete insights & better guidance.",
+    "evidence": "Total income 0 across all records; No transactions, spend, or income in last 30 days.",
+    "insightHash": "d7ce36cc75eae560fbaf11551409ffaf31dc5d75",
+    "trigger": "analyst"
+  },
+  {
+    "id": "b5986970-39fc-4ea0-bb3c-64fbec93bc9f",
+    "createdAt": "2025-10-19T07:09:32.177Z",
+    "headline": "Track Income, Sync Data Now",
+    "counsel": "Record all income sources & verify accounts are linked and syncing regularly for a complete financial overview. Essential for gig worker planning.",
+    "evidence": "Total income 0. Last 30 days: 0 transactions, 0 spend, 0 income.",
+    "insightHash": "f06661cd83bf5e5c92b67c1015f649882089aeed",
+    "trigger": "analyst"
+  },
+  {
+    "id": "e511a7ba-cc22-43ab-8827-82ee632cf310",
+    "createdAt": "2025-10-19T07:20:44.887Z",
+    "headline": "Log Income & Recent Activity",
+    "counsel": "Track all income sources & recent activities to get a full, accurate financial picture & enable better money management.",
+    "evidence": "Total income is 0 across 15 transactions; Zero transactions recorded in the last 30 days.",
+    "insightHash": "f384824bdf40e4add2da42ff02f480293267d134",
+    "trigger": "analyst"
+  },
+  {
+    "id": "60ac275b-57dd-4858-adfb-e49b171921ca",
+    "createdAt": "2025-10-19T07:20:47.626Z",
+    "headline": "Track Income, Log Recent Activity",
+    "counsel": "Ensure all income sources & recent transactions are accurately recorded to get a complete financial overview & unlock smarter insights.",
+    "evidence": "Your `totalIncome: 0`, all 15 transactions are expenses totaling `1472`, & `transactionCount: 0` in `last30d`.",
+    "insightHash": "c40c0742bc674f9af30a43160f7eee55973b9432",
+    "trigger": "analyst"
+  },
+  {
+    "id": "84730058-e47e-4ceb-99ce-063da5f7d504",
+    "createdAt": "2025-10-19T07:47:24.043Z",
+    "headline": "Fix Income, Refresh Data First",
+    "counsel": "Recategorize Salary/Refund as income & sync transactions to enable real financial tracking.",
+    "evidence": "Total income is Rs. 0; Salary (Rs. 5,38,250) and Refund (Rs. 28,731) are expenses; no transactions in 30 days.",
+    "insightHash": "ae1b25a1b0ac1cc3f333bef6d4748b1b62de3fbe",
+    "trigger": "analyst"
+  },
+  {
+    "id": "42ac5709-fce9-41ba-ac6a-5d8815331646",
+    "createdAt": "2025-10-19T07:47:24.864Z",
+    "headline": "Track Income, Update Data Now",
+    "counsel": "Ensure all income is categorized & transactions are current for a true financial picture. Reclassify 'Salary' if it's income!",
+    "evidence": "Total income recorded as 0, 'Salary' is 538,250.12 INR as expense, and 0 transactions in last 30 days.",
+    "insightHash": "f1ffbe634d58e6cd2d168ea55000679e6e7ce86b",
+    "trigger": "analyst"
+  },
+  {
+    "id": "c6d67f0e-5ccb-4bca-b428-961f3a65eed2",
+    "createdAt": "2025-10-19T07:50:13.176Z",
+    "headline": "Correct Income & Categories",
+    "counsel": "Update 'Salary' to income & classify 'Financial' spend to unlock accurate financial insights.",
+    "evidence": "Income is Rs 0, 'Salary' is Rs 538,250 as expense; 'Financial - High Confidence' is Rs 3.57M of total spend.",
+    "insightHash": "4284037e2763799f406c01c1891f2f7864235604",
+    "trigger": "analyst"
+  },
+  {
+    "id": "c1bc7037-e26e-444d-84af-0647c37610a5",
+    "createdAt": "2025-10-19T07:52:51.362Z",
+    "headline": "Urgent: Income Data Missing",
+    "counsel": "Correctly classify income & link sources. Your ₹538,250.12 'Salary' shows as an expense. Fix now for a true financial picture.",
+    "evidence": "Total income ₹0, but ₹538,250.12 categorized as 'Salary' is an expense, and all 1015 lifetime transactions are expenses.",
+    "insightHash": "b5021ab04c6318bac71a9ef8836e1de80f022f78",
+    "trigger": "analyst"
+  },
+  {
+    "id": "9ade9655-741a-41b3-bcd0-88bdf1a57e04",
+    "createdAt": "2025-10-19T07:54:42.760Z",
+    "headline": "Crucial: Fix Income Data",
+    "counsel": "Prioritize tracking all income and confirm expense labels for accurate financial reporting.",
+    "evidence": "Lifetime income 0 INR; total expenses 4,423,349.68 INR.",
+    "insightHash": "38eb2186b2d2832967fa9336c620a20d2fc8419a",
+    "trigger": "analyst"
+  },
+  {
+    "id": "81a8f318-9176-4419-8efd-3ff086991759",
+    "createdAt": "2025-10-19T07:54:43.747Z",
+    "headline": "Data Sync & Income Check",
+    "counsel": "Verify account syncing, reclassify salary as income, and ensure all earnings are logged for a complete financial picture.",
+    "evidence": "Total income 0 INR, 'Salary' is listed as an expense (538,250.12 INR), 0 transactions in the last 30 days.",
+    "insightHash": "9fc9891554f30b909e612a1f5097ea68c0c61f7a",
+    "trigger": "analyst"
   }
 ]

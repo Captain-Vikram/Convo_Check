@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Expense Focus",
+    "evidence": "Total expense 1472 across 15 transactions, total income 0",
+    "counsel": "Prioritize tracking all income sources for a complete financial picture",
+    "fullText": "- Expense Focus: Total expense 1472 across 15 transactions, total income 0. Counsel: Prioritize tracking all income sources for a complete financial picture."
+  },
+  {
+    "habitLabel": "Core Financial Outflows",
+    "evidence": "1072 of 1472 total expense is in \"Financial - High Confidence\"",
+    "counsel": "Review these expenses to identify and manage recurring payments or transfers",
+    "fullText": "- Core Financial Outflows: 1072 of 1472 total expense is in \"Financial - High Confidence\". Counsel: Review these expenses to identify and manage recurring payments or transfers."
+  },
+  {
+    "habitLabel": "Recent Inactivity",
+    "evidence": "Last 30 days: 0 transactions, 0 spend, 0 income",
+    "counsel": "Verify all accounts are linked and transactions are syncing regularly",
+    "fullText": "- Recent Inactivity: Last 30 days: 0 transactions, 0 spend, 0 income. Counsel: Verify all accounts are linked and transactions are syncing regularly."
+  },
+  {
+    "habitLabel": "Moderate Transaction Size",
+    "evidence": "Average transaction amount is 98.13",
+    "counsel": "Your expenses have a moderate average ticket; maintain diligent tracking",
+    "fullText": "- Moderate Transaction Size: Average transaction amount is 98.13. Counsel: Your expenses have a moderate average ticket; maintain diligent tracking."
+  },
+  {
+    "habitLabel": "Necessity Classification",
+    "evidence": "All 15 transactions are flagged as \"necessity\"",
+    "counsel": "Periodically review this classification to distinguish true needs from wants",
+    "fullText": "- Necessity Classification: All 15 transactions are flagged as \"necessity\". Counsel: Periodically review this classification to distinguish true needs from wants."
+  },
+  {
+    "habitLabel": "Largest Bill Management",
+    "evidence": "Largest expense is 666 for a Vi recharge",
+    "counsel": "Plan for this and other recurring bill payments to manage your cash flow",
+    "fullText": "- Largest Bill Management: Largest expense is 666 for a Vi recharge. Counsel: Plan for this and other recurring bill payments to manage your cash flow."
+  },
+  {
+    "habitLabel": "Data Enrichment",
+    "evidence": "All transactions show \"Unknown\" weekday and no counterparties",
+    "counsel": "Enhance transaction details for deeper spending context",
+    "fullText": "- Data Enrichment: All transactions show \"Unknown\" weekday and no counterparties. Counsel: Enhance transaction details for deeper spending context."
+  }
+]

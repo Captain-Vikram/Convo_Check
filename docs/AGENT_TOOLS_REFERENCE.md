@@ -2,13 +2,13 @@
 
 ## Agent Capabilities Matrix
 
-| Agent                        | Tools                                                  | Database Access                                                                     | Can Trigger        | Triggered By                | Conversational |
-| ---------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------- | ------------------ | --------------------------- | -------------- |
-| **Mill (Chatbot)**           | log_cash_transaction<br>query_spending_summary         | Read: all CSVs<br>Write: none                                                       | Dev, Param, Chatur | User input                  | ✅ Yes         |
-| **Dev (Transaction)**        | saveToDatabase<br>sendToAnalyst                        | Read: transactions.csv<br>Write: transactions.csv, analyst-metadata.csv             | None (data layer)  | Mill, SMS ingestion         | ❌ No          |
-| **Param (Analyst)**          | metrics_snapshot<br>habit_recommendation               | Read: transactions.csv, analyst-metadata.csv<br>Write: habits.csv, habit-snapshots/ | Chatur (auto)      | Mill, Dev (via metadata)    | ❌ No          |
-| **Chatur (Coach)**           | None (receives data)                                   | Read: habits.csv, habit-snapshots/<br>Write: coach-briefings.json                   | Mill (escalation)  | Param (auto), Mill (manual) | ✅ Yes         |
-| **ConversationRouter (NEW)** | Routes between Mill & Chatur<br>Manages agent handoffs | Read: conversation context                                                          | Mill, Chatur       | User input                  | ✅ Yes         |
+| Agent                        | Tools                                                                | Database Access                                                                     | Can Trigger        | Triggered By                | Conversational |
+| ---------------------------- | -------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------ | --------------------------- | -------------- |
+| **Mill (Chatbot)**           | log_cash_transaction<br>query_spending_summary<br>get_factual_answer | Read: all CSVs<br>Write: none                                                       | Dev, Param, Chatur | User input                  | ✅ Yes         |
+| **Dev (Transaction)**        | saveToDatabase<br>sendToAnalyst                                      | Read: transactions.csv<br>Write: transactions.csv, analyst-metadata.csv             | None (data layer)  | Mill, SMS ingestion         | ❌ No          |
+| **Param (Analyst)**          | metrics_snapshot<br>habit_recommendation                             | Read: transactions.csv, analyst-metadata.csv<br>Write: habits.csv, habit-snapshots/ | Chatur (auto)      | Mill, Dev (via metadata)    | ❌ No          |
+| **Chatur (Coach)**           | Financial Calculations<br>(auto-triggered)                           | Read: habits.csv, habit-snapshots/, Param vector DB<br>Write: coach-briefings.json  | Mill (escalation)  | Param (auto), Mill (manual) | ✅ Yes         |
+| **ConversationRouter (NEW)** | Routes between Mill & Chatur<br>Manages agent handoffs               | Read: conversation context                                                          | Mill, Chatur       | User input                  | ✅ Yes         |
 
 ## Data Flow Diagram
 
@@ -199,15 +199,15 @@ User: "Give me advice"
 
 ## Shared Data Files
 
-| File                    | Format | Written By | Read By      | Purpose                               |
-| ----------------------- | ------ | ---------- | ------------ | ------------------------------------- |
-| transactions.csv        | CSV    | Dev        | Param, Mill  | Master transaction log                |
-| analyst-metadata.csv    | CSV    | Dev        | Param        | Lightweight analytics feed            |
-| habits.csv              | CSV    | Param      | Chatur, Mill | Current habit insights (5-7 rows)     |
-| coach-briefings.json    | JSON   | Chatur     | Mill         | Financial guidance history            |
-| habit-snapshots/\*.json | JSON   | Chatur     | Chatur       | Versioned insight snapshots (by hash) |
-| sms-ingest-log.csv      | CSV    | Dev SMS    | Dev SMS      | SMS processing audit trail            |
-| agent-messages.log      | JSONL  | MessageBus | All          | Inter-agent communication log (NEW)   |
+| File                    | Format | Written By | Read By             | Purpose                               |
+| ----------------------- | ------ | ---------- | ------------------- | ------------------------------------- |
+| transactions.csv        | CSV    | Dev        | Param, Mill, Chatur | Master transaction log                |
+| analyst-metadata.csv    | CSV    | Dev        | Param               | Lightweight analytics feed            |
+| habits.csv              | CSV    | Param      | Chatur, Mill        | Current habit insights (5-7 rows)     |
+| coach-briefings.json    | JSON   | Chatur     | Mill                | Financial guidance history            |
+| habit-snapshots/\*.json | JSON   | Chatur     | Chatur              | Versioned insight snapshots (by hash) |
+| sms-ingest-log.csv      | CSV    | Dev SMS    | Dev SMS             | SMS processing audit trail            |
+| agent-messages.log      | JSONL  | MessageBus | All                 | Inter-agent communication log (NEW)   |
 
 ## CSV Schemas
 
@@ -345,7 +345,233 @@ await withRetry(async () => callGeminiAPI(), {
 });
 ```
 
+## NEW: Financial Calculation Tools (Chatur)
+
+### Overview
+
+Chatur now includes **mathematically accurate financial calculators** that automatically trigger for calculation-based queries. These tools provide exact numbers that Chatur then translates into natural, actionable advice.
+
+### Calculation Types
+
+#### 1. Savings Goal Calculator
+
+**Triggers on**: "save X per month", "reach X in Y months", "how much daily to save"
+
+**Calculates**:
+
+- Daily, weekly, monthly savings requirements
+- Affordability check (% of income)
+- Recommended adjustments if unachievable
+
+**Example Query**: _"How much should I save daily to reach ₹10,000 in 6 months?"_
+
+**Calculation Output**:
+
+```
+Target: ₹10,000
+Current Savings: ₹2,340
+Need to Save: ₹7,660
+
+Required Savings:
+• Daily: ₹43 (one auto ride or two chai breaks)
+• Weekly: ₹295 (one dinner out)
+• Monthly: ₹1,277 (6% of income)
+
+✅ Achievable: Only 6% of monthly income
+```
+
+**Chatur's Natural Response**:
+
+> "Great goal! To reach ₹10,000 in 6 months from your current ₹2,340 savings, you'd need to save about ₹43 per day. That's roughly the cost of one auto ride or two cups of chai. Looking at your spending, you spend ₹1,800/month on dining out. If we redirect 70% of that, you'd hit your goal while still enjoying occasional treats..."
+
+---
+
+#### 2. Daily Budget Calculator
+
+**Triggers on**: "how much can I spend daily", "daily budget", "spending limit per day"
+
+**Calculates**:
+
+- Daily and weekly discretionary spending limits
+- Budget breakdown (income - fixed - savings)
+- Affordability warnings if too tight
+
+**Example Query**: _"How much can I spend daily if I want to save ₹4,000 per month?"_
+
+**Calculation Output**:
+
+```
+Monthly Income: ₹20,000
+Fixed Expenses: ₹10,000
+Savings Goal: ₹4,000
+Discretionary: ₹6,000
+
+Your Spending Budget:
+• Daily: ₹200
+• Weekly: ₹1,385
+```
+
+**Chatur's Natural Response**:
+
+> "Smart question! With ₹20k income, ₹10k fixed expenses, and ₹4k savings goal, you have ₹6,000 for everything else. That's ₹200 per day—about 2 meals out OR 1 meal + groceries + one treat. This is tight but doable. However, gig work has income swings, right? Maybe flexible approach: ₹200/day in good weeks, ₹250 in lean weeks..."
+
+---
+
+#### 3. Budget Allocation (50/30/20 Rule)
+
+**Triggers on**: "how should I allocate", "budget breakdown", "divide my income"
+
+**Calculates**:
+
+- 50% Needs (essentials)
+- 30% Wants (lifestyle)
+- 20% Savings (future)
+- Emergency fund targets (3-6 months)
+
+**Example Query**: _"How should I divide my ₹25,000 monthly income?"_
+
+**Calculation Output**:
+
+```
+Recommended Allocation:
+• Needs (50%): ₹12,500 (rent, food, utilities)
+• Wants (30%): ₹7,500 (entertainment, dining)
+• Savings (20%): ₹5,000 (emergency, goals)
+
+Emergency Fund Target:
+• Minimum (3 months): ₹75,000
+• Ideal (6 months): ₹1,50,000
+```
+
+**Chatur's Natural Response**:
+
+> "Let me show you the 50/30/20 rule adapted for your ₹25,000 income. Ideally: ₹12,500 needs, ₹7,500 wants, ₹5,000 savings. But I see your income varies (₹15-25k). So let's be flexible: High income months (₹25k+) → save 20%. Normal months (₹20k) → save 10-15%. Looking at your data, you're spending 45% on food—that's our biggest opportunity..."
+
+---
+
+#### 4. Affordability Check
+
+**Triggers on**: "can I afford", "should I buy", purchase decision queries
+
+**Calculates**:
+
+- % of monthly income
+- % of current savings
+- Emergency fund impact
+- Months to save if needed
+- Recommendation (buy_now / save_first / reconsider)
+
+**Example Query**: _"Can I afford to buy a ₹15,000 phone?"_
+
+**Calculation Output**:
+
+```
+Analysis:
+• 75% of monthly income (₹20,000)
+• 187% of current savings (₹8,000)
+• ⚠️ Impact on emergency fund: YES
+
+Recommendation: SAVE_FIRST
+Reason: Would dip emergency fund. Save for 3 months (₹2,334/month)
+```
+
+**Chatur's Natural Response**:
+
+> "Let's look at this carefully. A ₹15,000 phone is 75% of your monthly income—that's significant. If you buy now, you'd have only ₹-7,000 left, dipping below your emergency buffer. For gig workers with irregular income, that's risky. Better path: Save ₹2,334/month for 3 months. That's ₹78 daily. I notice you spend ₹200/day on average, so cutting back 40% would work..."
+
+---
+
+### Technical Implementation
+
+**Module**: `src/tools/financial-calculator.ts`
+
+**Key Functions**:
+
+```typescript
+// Exported functions
+calculateSavingsGoal(target, current, months, income): SavingsGoalCalculation
+calculateDailyBudget(income, fixed, savings): DailyBudgetResult
+calculateBudgetAllocation(income): BudgetAllocation
+checkAffordability(cost, income, savings, expenses): AffordabilityCheck
+calculateCompoundInterest(principal, rate, years, monthly): CompoundInterestResult
+calculateDebtPayoff(principal, rate, payment): DebtPayoffPlan
+
+// Utility functions
+formatCurrency(amount): string  // "₹10,000"
+formatPercentage(value): string // "6.5%"
+```
+
+**Integration with Chatur**:
+
+1. **Detection**: `needsFinancialCalculation(query)` checks if query needs math
+2. **Extraction**: `extractCalculationParams(query, context)` parses amounts, timeframes
+3. **Calculation**: `performCalculation(type, params)` runs exact math
+4. **Natural Language**: Chatur receives calculations and explains in conversational tone
+
+**Example Flow**:
+
+```
+User: "Save ₹200 per month, how much daily?"
+  ↓
+needsFinancialCalculation() → TRUE
+  ↓
+extractCalculationParams() → { type: "savings_goal", params: {target: 200, ...} }
+  ↓
+performCalculation() → "Daily: ₹7, Weekly: ₹46, Monthly: ₹200"
+  ↓
+Chatur receives calculation in prompt context
+  ↓
+Chatur: "₹200/month—I LOVE this! You're starting small and realistic.
+         The math: ₹7 daily (literally one chai + biscuit). Looking at
+         your spending, you spend ₹200-300 daily. Saving ₹7 means ₹193
+         instead of ₹200. Three easy ways to find ₹7 daily: [strategies]..."
+```
+
+### Calculation Accuracy
+
+✅ **Mathematically Precise**:
+
+- All calculations use standard formulas
+- Rounding only for display (₹43.21 → ₹43)
+- Handles edge cases (negative savings, infinite debt payoff)
+
+✅ **Context-Aware**:
+
+- Uses actual user data (income, expenses, savings)
+- Adjusts for irregular gig income patterns
+- Considers emergency fund requirements
+
+✅ **Validated Output**:
+
+- Test suite covers all calculation types
+- Edge cases tested (zero income, negative balance)
+- Comparison against financial calculators
+
+### Test Calculations
+
+Run comprehensive tests:
+
+```bash
+node test-calculations.js
+```
+
+**Test Scenarios**:
+
+1. Savings goal: ₹10,000 in 6 months → ₹43/day
+2. Daily budget: Save ₹4,000/month → ₹200/day spending
+3. Budget allocation: ₹25,000 income → 50/30/20 breakdown
+4. Affordability: ₹15,000 phone → Save first (3 months)
+5. Small goal: ₹200/month → ₹7/day (1.3% of income)
+
+---
+
 ## Quick Commands
+
+### Test Financial Calculations
+
+```bash
+node test-calculations.js
+```
 
 ### Start Chatbot with All Agents
 

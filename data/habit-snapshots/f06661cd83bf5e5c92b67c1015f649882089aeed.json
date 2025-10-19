@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Expense Monitoring",
+    "evidence": "Total expense 1472 across 15 transactions",
+    "counsel": "Maintain spending awareness by consistently tracking all outlays",
+    "fullText": "- Expense Monitoring: Evidence: Total expense 1472 across 15 transactions. Counsel: Maintain spending awareness by consistently tracking all outlays."
+  },
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Total income 0",
+    "counsel": "Record all income to build a complete and accurate financial profile",
+    "fullText": "- Income Tracking: Evidence: Total income 0. Counsel: Record all income to build a complete and accurate financial profile."
+  },
+  {
+    "habitLabel": "Core Financials",
+    "evidence": "\"Financial - High Confidence\" is 1072 of 1472 total spend (13 tx)",
+    "counsel": "Review these significant commitments for potential optimization",
+    "fullText": "- Core Financials: Evidence: \"Financial - High Confidence\" is 1072 of 1472 total spend (13 tx). Counsel: Review these significant commitments for potential optimization."
+  },
+  {
+    "habitLabel": "Activity Dormancy",
+    "evidence": "Last 30 days show 0 transactions, spend, or income",
+    "counsel": "Note this recent period of no recorded financial activity",
+    "fullText": "- Activity Dormancy: Evidence: Last 30 days show 0 transactions, spend, or income. Counsel: Note this recent period of no recorded financial activity."
+  },
+  {
+    "habitLabel": "Large Expense Awareness",
+    "evidence": "Largest single transaction was a Rs 666 recharge",
+    "counsel": "Keep track of significant recurring necessary expenses",
+    "fullText": "- Large Expense Awareness: Evidence: Largest single transaction was a Rs 666 recharge. Counsel: Keep track of significant recurring necessary expenses."
+  },
+  {
+    "habitLabel": "Lending Management",
+    "evidence": "Evidence: 100 was recorded as \"Lent Money.\"",
+    "counsel": "Track money lent to ensure timely recovery",
+    "fullText": "- Lending Management: Evidence: 100 was recorded as \"Lent Money.\" Counsel: Track money lent to ensure timely recovery."
+  }
+]

@@ -18,9 +18,13 @@ import {
 } from "../dev/dev-agent.js";
 import type { NormalizedTransaction } from "../dev/transaction-normalizer.js";
 import { runCoach } from "../chatur/coach-agent.js";
+import { handleCoachingQuery } from "../chatur/chatur-coordinator.js";
+import { routeQuery } from "./query-router.js";
 import { runAnalyst } from "../param/analyst-agent.js";
 import { loadTransactions } from "../param/transactions-loader.js";
 import { parseUserIntent, hasIntent, type ParsedIntent } from "./intent-parser.js";
+import { searchWeb, formatSearchResults } from "../../tools/web-search.js";
+import { handleNaturalQuery } from "./natural-query-handler.js";
 
 const DEFAULT_MAX_HISTORY = 20;
 const HABITS_FILE_PATH = join(process.cwd(), "data", "habits.csv");
@@ -199,6 +203,29 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
         const message = error instanceof Error ? error.message : String(error);
         console.error("[chatbot] query_spending_summary failed:", message);
         throw error;
+      }
+    },
+    async (query: string, maxResults?: number) => {
+      // Factual answer executor for get_factual_answer tool
+      console.log(`[mill] 🔍 Getting factual answer for: "${query}"`);
+      try {
+        const result = await searchWeb(query, maxResults || 3);
+        
+        if (result.totalResults > 0) {
+          console.log(`[mill] ✅ Found ${result.totalResults} factual answers`);
+        } else {
+          console.log(`[mill] ❌ No factual answer found for "${query}"`);
+        }
+        
+        return result;
+      } catch (error) {
+        console.error(`[mill] ❌ Factual answer lookup failed:`, error);
+        return {
+          query,
+          results: [],
+          searchTime: "0ms",
+          totalResults: 0,
+        };
       }
     },
   );
@@ -602,6 +629,37 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
         continue;
       }
 
+      // NEW: Smart Query Routing - Detect if Chatur should handle this
+      try {
+        const routing = await routeQuery(normalizedInput);
+        
+        if (routing.targetAgent === "chatur" && routing.confidence !== "low") {
+          // Route to Chatur for coaching/calculations/advice
+          output.write(`mill> Let me connect you with Coach Chatur for this... 🎯\n\n`);
+          
+          const coachingResult = await handleCoachingQuery(
+            normalizedInput,
+            "user123", // TODO: actual user ID
+            routing,
+            { enableFactualLookup: true }
+          );
+          
+          output.write(`chatur> ${coachingResult.response}\n`);
+          
+          // Add to history as Chatur's response
+          const userMessage = createUserMessage(normalizedInput);
+          const chaturMessage = createAssistantMessage(coachingResult.response);
+          const conversationContext = trimHistory(history, maxHistory);
+          const updatedHistory = [...conversationContext, userMessage, chaturMessage];
+          writeHistory(history, updatedHistory, maxHistory);
+          
+          continue;
+        }
+      } catch (error) {
+        console.error("[routing] Failed to route query, falling back to Mill", error);
+        // Fall through to Mill if routing fails
+      }
+
       // Fallback intent parser for when LLM doesn't call tools
       const parsedIntent = parseUserIntent(normalizedInput);
       if (hasIntent(parsedIntent) && (await handleParsedIntent(parsedIntent, normalizedInput))) {
@@ -930,6 +988,10 @@ function createSystemMessage(content: string): ModelMessage {
 
 function createUserMessage(content: string): ModelMessage {
   return { role: "user", content } as ModelMessage;
+}
+
+function createAssistantMessage(content: string): ModelMessage {
+  return { role: "assistant", content } as ModelMessage;
 }
 
 function trimHistory(history: ConversationHistory, maxHistory: number): ConversationHistory {

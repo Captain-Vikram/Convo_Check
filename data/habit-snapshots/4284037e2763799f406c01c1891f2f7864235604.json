@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Significant Spending",
+    "evidence": "Total expense Rs 4,423,349.68 over 1015 transactions",
+    "counsel": "Review overall spending patterns to align with long-term financial objectives",
+    "fullText": "- Significant Spending: Evidence: Total expense Rs 4,423,349.68 over 1015 transactions. Counsel: Review overall spending patterns to align with long-term financial objectives."
+  },
+  {
+    "habitLabel": "Financial Focus",
+    "evidence": "\"Financial - High Confidence\" is Rs 3,570,329.79 of total spend",
+    "counsel": "Classify these funds to distinguish between true expenses, investments, or transfers",
+    "fullText": "- Financial Focus: Evidence: \"Financial - High Confidence\" is Rs 3,570,329.79 of total spend. Counsel: Classify these funds to distinguish between true expenses, investments, or transfers."
+  },
+  {
+    "habitLabel": "Data Categorization",
+    "evidence": "Total income Rs 0, but Rs 538,250.12 from \"Salary\" is an expense",
+    "counsel": "Update data to properly record income, providing a clearer financial picture",
+    "fullText": "- Data Categorization: Evidence: Total income Rs 0, but Rs 538,250.12 from \"Salary\" is an expense. Counsel: Update data to properly record income, providing a clearer financial picture."
+  },
+  {
+    "habitLabel": "Recent Inactivity",
+    "evidence": "Last 30 days show 0 transactions, 0 spend, and 0 income",
+    "counsel": "Confirm if this reflects a data gap or a temporary pause in financial activity",
+    "fullText": "- Recent Inactivity: Evidence: Last 30 days show 0 transactions, 0 spend, and 0 income. Counsel: Confirm if this reflects a data gap or a temporary pause in financial activity."
+  },
+  {
+    "habitLabel": "High Average Outlay",
+    "evidence": "Average transaction amount Rs 4357.98",
+    "counsel": "Monitor individual transaction sizes to identify and manage significant expenditures",
+    "fullText": "- High Average Outlay: Evidence: Average transaction amount Rs 4357.98. Counsel: Monitor individual transaction sizes to identify and manage significant expenditures."
+  },
+  {
+    "habitLabel": "Essential Spending",
+    "evidence": "Evidence: All 1015 transactions are labeled as \"necessity.\"",
+    "counsel": "Validate this categorization to ensure flexibility for discretionary spending",
+    "fullText": "- Essential Spending: Evidence: All 1015 transactions are labeled as \"necessity.\" Counsel: Validate this categorization to ensure flexibility for discretionary spending."
+  }
+]

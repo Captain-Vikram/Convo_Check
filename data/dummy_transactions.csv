@@ -1,19 +1,4 @@
 owner_phone,transaction_id,datetime,date,time,amount,currency,type,target_party,description,category,is_financial,medium
-"+919619183585","528488568914","2025-10-11T20:48:22","2025-10-11","20:48:22","1.0","Rs.","debit","9324612161@kotak811","Ref:528488568914, to 9324612161@kotak811, AvlBal:Rs288.41","Financial - High Confidence","true",""
-"+919619183585","528229066015","2025-10-09T10:53:33","2025-10-09","10:53:33","1.0","Rs.","debit","9324612161@kotak811","Ref:528229066015, to 9324612161@kotak811, AvlBal:Rs298.41","Financial - High Confidence","true",""
-"+919619183585","564699951953","2025-10-07T18:36:49","2025-10-07","18:36:49","250.0","Rs.","debit","nafisahamd5678@okicici","Ref:564699951953, to nafisahamd5678@okicici, AvlBal:Rs56.72","Financial - High Confidence","true",""
-"+919619183585","1759810548905","2025-10-07T09:45:48","2025-10-07","09:45:48","666.0","Rs","credit","","Hi! On your Vi Rs666 recharge, we have credited EXTRA 6 days validity+10GB(28D). Your pack has total","Financial - High Confidence","true",""
-"+919619183585","721738312785","2025-10-05T15:22:07","2025-10-05","15:22:07","2.0","INR","credit","","Ref:721738312785, AvlBal:Rs316.72","Financial - High Confidence","true","UPI"
-"+919619183585","721652862785","2025-10-05T15:21:42","2025-10-05","15:21:42","2.0","Rs.","debit","playstore@axisbank","Ref:721652862785, to playstore@axisbank, AvlBal:Rs314.72","Financial - High Confidence","true",""
-"+919619183585","527616848500","2025-10-03T12:40:00","2025-10-03","12:40:00","10.0","Rs.","debit","bdpg2.iruts@sbi","Ref:527616848500, to bdpg2.iruts@sbi, AvlBal:Rs316.72","Financial - High Confidence","true",""
-"+919619183585","527599442302","2025-10-02T23:43:24","2025-10-02","23:43:24","75.0","Rs.","debit","aayushsingh9004@okicici","Ref:527599442302, to aayushsingh9004@okicici, AvlBal:Rs401.72","Financial - High Confidence","true",""
-"+919619183585","527345684417","2025-09-30T17:07:32","2025-09-30","17:07:32","10.0","Rs.","debit","paytm-64670120@ptys","Ref:527345684417, to paytm-64670120@ptys, AvlBal:Rs516.72","Financial - High Confidence","true",""
-"+919619183585","563846183458","2025-09-29T10:28:53","2025-09-29","10:28:53","10.0","Rs.","debit","bdpg.iruts@sbi","Ref:563846183458, to bdpg.iruts@sbi, AvlBal:Rs56.72","Financial - High Confidence","true",""
-"+919619183585","526772878959","2025-09-24T10:36:24","2025-09-24","10:36:24","10.0","Rs.","debit","bdpg.iruts@sbi","Ref:526772878959, to bdpg.iruts@sbi, AvlBal:Rs286.72","Financial - High Confidence","true",""
-"+919619183585","526672339719","2025-09-23T13:36:13","2025-09-23","13:36:13","25.0","INR","credit","","Ref:526672339719, AvlBal:Rs246.72","Financial - High Confidence","true","UPI"
-"+919619183585","562784610003","2025-09-18T13:02:21","2025-09-18","13:02:21","10.0","Rs.","debit","bdpg.iruts@sbi","Ref:562784610003, to bdpg.iruts@sbi, AvlBal:Rs226.72","Financial - High Confidence","true",""
-"mill-chat","ec52654d-ed83-48ad-ade2-17ce8f3c2c7a","2025-10-19T00:00:00","2025-10-19","00:00:00","300","INR","credit","","Pocket money from dad","Pocket Money","true",""
-"mill-chat","1a8975ae-6829-4f7d-b594-58ba08aef5a7","2025-10-19T00:00:00","2025-10-19","00:00:00","100","INR","debit","","Lent money to Yash","Lent Money","true",""
 mill-chat,ced54d44-7ec0-492e-869c-fb8daffd2b3a,2025-07-20T07:51:58,2025-07-20,07:51:58,838.69,Rs,debit,spotify.india@okhdfc,Entertainment,Entertainment,true,
 mill-chat,b9efc22a-9df4-4051-ae70-b2e47c971ab3,2025-03-13T23:01:29,2025-03-13,23:01:29,4986.18,Rs.,credit,amazon.refunds@paytm,Refund,Refund,true,
 +919619183585,2925937395645,2024-07-11T08:44:52,2024-07-11,08:44:52,1855.76,Rs.,debit,netmeds@kotak,"Ref:2925937395645, to netmeds@kotak, AvlBal:Rs5434.10",Financial - High Confidence,true,
