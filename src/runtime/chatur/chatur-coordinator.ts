@@ -8,9 +8,8 @@
  * Enhanced with factual answer lookup for educational coaching.
  */
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
-import { getAgentConfig } from "../../config.js";
+import { getAgentConfig, createLanguageModel } from "../../config.js";
 import { buildChaturUserContext, type ChaturUserContext } from "./context-builder.js";
 import { CHATUR_SYSTEM_PROMPT, isChaturQuery, isMillQuery, type ChaturResponse } from "./chatur-personality.js";
 import type { QueryRouting } from "../mill/query-router.js";
@@ -261,9 +260,8 @@ async function generateCoachingResponse(
   expenseAnalysis?: ExpenseAnalysis,
   purchaseAssessment?: PurchaseAssessment,
 ): Promise<string> {
-  const { apiKey, model } = getAgentConfig("agent4"); // Chatur uses agent4 (Coach)
-  const provider = createGoogleGenerativeAI({ apiKey });
-  const languageModel = provider(model);
+  const config = getAgentConfig("agent4"); // Chatur uses agent4 (Coach)
+  const languageModel = createLanguageModel(config);
   
   // Enhanced system prompt with factual answer guidance
   const enhancedSystemPrompt = CHATUR_SYSTEM_PROMPT + `

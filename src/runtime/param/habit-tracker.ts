@@ -16,7 +16,7 @@ import { constants } from "node:fs";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
 import { generateText } from "ai";
-import { google } from "@ai-sdk/google";
+import { getAgentConfig, createLanguageModel } from "../../config.js";
 
 export interface Transaction {
   ownerPhone: string;
@@ -156,7 +156,10 @@ export async function analyzeTransactionHabit(
   const habitsFile = join(baseDir, options.habitsFile ?? "habits.csv");
   const snapshotsDir = join(baseDir, options.snapshotsDir ?? "habit-snapshots");
   const lookbackCount = options.lookbackCount ?? 5;
-  const model = options.model ?? "gemini-2.0-flash-exp";
+  
+  // Get model from config (defaults to Bedrock Claude if not specified)
+  const config = getAgentConfig("agent3");
+  const model = options.model ?? config.model;
 
   // Ensure habits CSV exists
   await ensureHabitsFile(habitsFile);
@@ -255,8 +258,11 @@ async function analyzeWithLLM(
   const prompt = buildAnalysisPrompt(transaction, recentTransactions, previousHabits);
 
   try {
+    const config = getAgentConfig("agent3");
+    const languageModel = createLanguageModel(config);
+    
     const { text } = await generateText({
-      model: google(model),
+      model: languageModel,
       prompt,
       temperature: 0.3,
     });

@@ -1,6 +1,5 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
-import { getAgentConfig } from "../../config.js";
+import { getAgentConfig, createLanguageModel } from "../../config.js";
 import type { AgentId } from "./agent-message-bus.js";
 
 export interface RoutingDecision {
@@ -157,9 +156,8 @@ export class AgentOrchestrator {
    * Use LLM to make intelligent routing decisions
    */
   private async routeWithLlm(userRequest: string, context?: string): Promise<RoutingDecision> {
-    const { apiKey, model } = getAgentConfig("agent1"); // Use Mill's config
-    const provider = createGoogleGenerativeAI({ apiKey });
-    const languageModel = provider(model);
+    const config = getAgentConfig("agent1"); // Use Mill's config
+    const languageModel = createLanguageModel(config);
 
     const prompt = context
       ? `User request: "${userRequest}"\n\nContext: ${context}\n\nRoute this request.`

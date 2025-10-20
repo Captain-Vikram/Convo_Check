@@ -1,8 +1,7 @@
 import { randomUUID } from "node:crypto";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
 import { coachAgent } from "../../agents/coach.js";
-import { getAgentConfig } from "../../config.js";
+import { getAgentConfig, createLanguageModel } from "../../config.js";
 import type { HabitInsight } from "../param/analyst-agent.js";
 import { getCircuitBreaker, withRetry, LLMError } from "../shared/error-handling.js";
 
@@ -180,9 +179,8 @@ export class ConversationalCoach {
         async () => {
           return withRetry(
             async () => {
-              const { apiKey, model } = getAgentConfig("agent4");
-              const provider = createGoogleGenerativeAI({ apiKey });
-              const languageModel = provider(model);
+              const config = getAgentConfig("agent4");
+              const languageModel = createLanguageModel(config);
 
               const result = await generateText({
                 model: languageModel,

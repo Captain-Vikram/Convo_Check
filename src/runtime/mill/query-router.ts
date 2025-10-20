@@ -7,9 +7,8 @@
  * 3. Route appropriately without unnecessary agent handoffs
  */
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
-import { getAgentConfig } from "../../config.js";
+import { getAgentConfig, createLanguageModel } from "../../config.js";
 
 export interface QueryRouting {
   targetAgent: "mill" | "chatur";
@@ -116,9 +115,8 @@ coaching_advice:
 RESPOND ONLY WITH VALID JSON.`;
 
   try {
-    const { apiKey, model } = getAgentConfig("agent1");
-    const provider = createGoogleGenerativeAI({ apiKey });
-    const languageModel = provider(model);
+    const config = getAgentConfig("agent1");
+    const languageModel = createLanguageModel(config);
 
     const result = await generateText({
       model: languageModel,

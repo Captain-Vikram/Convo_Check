@@ -2,11 +2,10 @@ import { createHash, randomUUID } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
 
 import { coachAgent } from "../../agents/coach.js";
-import { getAgentConfig } from "../../config.js";
+import { getAgentConfig, createLanguageModel } from "../../config.js";
 import type { HabitInsight } from "../param/analyst-agent.js";
 
 const DATA_DIR = join(process.cwd(), "data");
@@ -83,9 +82,8 @@ interface CoachModelPayload {
 
 async function callCoachModel(prompt: string): Promise<CoachModelPayload | null> {
   try {
-    const { apiKey, model } = getAgentConfig("agent4");
-    const provider = createGoogleGenerativeAI({ apiKey });
-    const languageModel = provider(model);
+    const config = getAgentConfig("agent4");
+    const languageModel = createLanguageModel(config);
 
     const result = await generateText({
       model: languageModel,

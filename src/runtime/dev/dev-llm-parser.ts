@@ -1,16 +1,12 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
 import { z } from "zod";
 
 import { devAgent } from "../../agents/dev.js";
-import { getAgentConfig } from "../../config.js";
+import { getAgentConfig, createLanguageModel } from "../../config.js";
 import type { SmsMessage } from "./dev-sms-agent.js";
 
 const DATE_CONTEXT_LABEL = "Monday, October 13, 2025";
 const DATE_CONTEXT_ISO = "2025-10-13";
-
-type GoogleModelProvider = ReturnType<typeof createGoogleGenerativeAI>;
-type GoogleLanguageModel = ReturnType<GoogleModelProvider>;
 
 const extractionSchema = z.object({
   amount: z.coerce.number(),
@@ -30,23 +26,22 @@ const extractionSchema = z.object({
 
 export type DevExtraction = z.infer<typeof extractionSchema>;
 
-let cachedModel: GoogleLanguageModel | undefined;
+let cachedModel: any | undefined;
 let modelInitializationFailed = false;
 
-function ensureLanguageModel(): GoogleLanguageModel | undefined {
+function ensureLanguageModel(): any | undefined {
   if (modelInitializationFailed) {
     return undefined;
   }
 
   if (!cachedModel) {
     try {
-      const { apiKey, model } = getAgentConfig("agent2");
-      const provider = createGoogleGenerativeAI({ apiKey });
-      cachedModel = provider(model);
+      const config = getAgentConfig("agent2");
+      cachedModel = createLanguageModel(config);
     } catch (error) {
       modelInitializationFailed = true;
       const message = error instanceof Error ? error.message : String(error);
-      console.error("[dev-llm-parser] Gemini configuration unavailable", message);
+      console.error("[dev-llm-parser] Model configuration unavailable", message);
       return undefined;
     }
   }

@@ -3,10 +3,9 @@ import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { join } from "node:path";
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
 
-import { getAgentConfig } from "../../config.js";
+import { getAgentConfig, createLanguageModel } from "../../config.js";
 import { chatbotAgent, createChatbotToolset } from "../../agents/chatbot.js";
 import { categorizeTransaction } from "../shared/categorize.js";
 import type { LogCashTransactionPayload } from "../../tools/log-cash-transaction.js";
@@ -61,9 +60,8 @@ type ModelMessage = Extract<GenerateTextOptions, { messages: unknown[] }> extend
 type ConversationHistory = ModelMessage[];
 
 export async function runChatbotSession(options: ChatbotSessionOptions = {}): Promise<void> {
-  const { apiKey, model } = getAgentConfig("agent1");
-  const provider = createGoogleGenerativeAI({ apiKey });
-  const languageModel = provider(model);
+  const config = getAgentConfig("agent1");
+  const languageModel = createLanguageModel(config);
 
   const loggedTransactions: Array<{
     entry: LogCashTransactionPayload;

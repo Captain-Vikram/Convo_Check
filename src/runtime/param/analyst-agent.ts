@@ -1,11 +1,10 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
 
 import { analystAgent } from "../../agents/analyst.js";
-import { getAgentConfig } from "../../config.js";
+import { getAgentConfig, createLanguageModel } from "../../config.js";
 import { loadTransactions } from "./transactions-loader.js";
 import type { NormalizedTransaction } from "../dev/transaction-normalizer.js";
 import { runCoach } from "../chatur/coach-agent.js";
@@ -355,9 +354,8 @@ function buildPromptPayload(stats: AnalysisStats) {
 }
 
 async function callLanguageModel(prompt: string): Promise<string> {
-  const { apiKey, model } = getAgentConfig("agent3");
-  const provider = createGoogleGenerativeAI({ apiKey });
-  const languageModel = provider(model);
+  const config = getAgentConfig("agent3");
+  const languageModel = createLanguageModel(config);
 
   const result = await generateText({
     model: languageModel,
