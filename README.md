@@ -44,6 +44,7 @@ cp .env.example .env
 ```
 
 **Option A: AWS Bedrock (Recommended)**
+
 ```env
 AI_PROVIDER=bedrock
 AWS_ACCESS_KEY_ID=your_access_key
@@ -52,6 +53,7 @@ AWS_REGION=us-east-1
 ```
 
 **Option B: Google Gemini**
+
 ```env
 AI_PROVIDER=google
 GOOGLE_API_KEY=your_api_key
@@ -175,17 +177,20 @@ data/
 This system supports **both AWS Bedrock and Google Gemini** with automatic model selection:
 
 **AWS Bedrock (Default Models):**
+
 - **Mill (Chatbot)**: Claude 3.5 Sonnet - Best for conversational quality
 - **Dev (Accountant)**: Claude 3.5 Haiku - Fast transaction parsing
 - **Param (Analyst)**: Claude 3.5 Sonnet - Deep pattern analysis
 - **Chatur (Coach)**: Claude 3.5 Sonnet - Personalized guidance
 
 **Google Gemini (Default Models):**
+
 - **All Agents**: Gemini 1.5 Flash - Fast and efficient
 
 ### Environment Variables
 
 **Minimal Setup (Single API Key):**
+
 ```env
 # AWS Bedrock
 AI_PROVIDER=bedrock
@@ -199,6 +204,7 @@ GOOGLE_API_KEY=xxx
 ```
 
 **Advanced: Custom Models (Optional)**
+
 ```env
 AI_MODEL=anthropic.claude-3-5-sonnet-20241022-v2:0  # Override all agents
 # OR per-agent:
