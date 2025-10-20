@@ -2,6 +2,9 @@
 
 AI-powered financial assistant for gig workers featuring a multi-agent architecture with conversational transaction logging, automated habit analysis, and personalized financial coaching.
 
+> **AWS Bedrock Compatible** 🚀  
+> This branch supports both **AWS Bedrock (Claude 3.5)** and **Google Gemini** with simplified configuration. Switch providers with a single environment variable!
+
 ## 🎯 Overview
 
 Convo Check is a comprehensive financial tracking system built for **MumbaiHacks 2025** (Fintech PS1) that helps gig workers manage irregular income through intelligent SMS integration and conversational AI.
@@ -26,22 +29,41 @@ Convo Check is a comprehensive financial tracking system built for **MumbaiHacks
 
 - Node.js 20+
 - npm 10+
-- Google Gemini API key (for LLM agents)
+- **Choose ONE:**
+  - **AWS Bedrock** access (recommended - Claude 3.5 Sonnet/Haiku)
+  - **Google Gemini** API key (alternative provider)
 
-## 🛠️ Setup
+## 🛠️ Quick Setup (2 Minutes)
 
 ```bash
-# Install dependencies
+# 1. Install dependencies
 npm install
 
-# Configure environment
+# 2. Configure environment (choose ONE provider)
 cp .env.example .env
-# Add your Google Gemini API key to .env:
-# GOOGLE_GENERATIVE_AI_API_KEY=your_key_here
-
-# TypeScript check
-npm run typecheck
 ```
+
+**Option A: AWS Bedrock (Recommended)**
+```env
+AI_PROVIDER=bedrock
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+AWS_REGION=us-east-1
+```
+
+**Option B: Google Gemini**
+```env
+AI_PROVIDER=google
+GOOGLE_API_KEY=your_api_key
+```
+
+```bash
+# 3. Verify setup
+npm run typecheck
+npm run build
+```
+
+📖 **Detailed Setup Guide:** See [docs/QUICK_START.md](docs/QUICK_START.md)
 
 ## 🎮 Usage
 
@@ -148,15 +170,45 @@ data/
 
 ## 🔧 Configuration
 
-All agents use Google Gemini models configured in `.env`:
+### Dual-Provider Support
 
+This system supports **both AWS Bedrock and Google Gemini** with automatic model selection:
+
+**AWS Bedrock (Default Models):**
+- **Mill (Chatbot)**: Claude 3.5 Sonnet - Best for conversational quality
+- **Dev (Accountant)**: Claude 3.5 Haiku - Fast transaction parsing
+- **Param (Analyst)**: Claude 3.5 Sonnet - Deep pattern analysis
+- **Chatur (Coach)**: Claude 3.5 Sonnet - Personalized guidance
+
+**Google Gemini (Default Models):**
+- **All Agents**: Gemini 1.5 Flash - Fast and efficient
+
+### Environment Variables
+
+**Minimal Setup (Single API Key):**
 ```env
-GOOGLE_GENERATIVE_AI_API_KEY=your_key_here
-AGENT1_MODEL=gemini-1.5-flash    # Mill (Conversational)
-AGENT2_MODEL=gemini-1.5-flash    # Dev (Monitor)
-AGENT3_MODEL=gemini-1.5-flash    # Param (Analyst)
-AGENT4_MODEL=gemini-1.5-flash    # Chatur (Coach)
+# AWS Bedrock
+AI_PROVIDER=bedrock
+AWS_ACCESS_KEY_ID=xxx
+AWS_SECRET_ACCESS_KEY=xxx
+AWS_REGION=us-east-1
+
+# OR Google Gemini
+AI_PROVIDER=google
+GOOGLE_API_KEY=xxx
 ```
+
+**Advanced: Custom Models (Optional)**
+```env
+AI_MODEL=anthropic.claude-3-5-sonnet-20241022-v2:0  # Override all agents
+# OR per-agent:
+CHATBOT_MODEL=custom-model-id
+ACCOUNTANT_MODEL=custom-model-id
+ANALYST_MODEL=custom-model-id
+COACH_MODEL=custom-model-id
+```
+
+📖 **Full Migration Guide:** See [docs/MIGRATION_AWS_BEDROCK.md](docs/MIGRATION_AWS_BEDROCK.md)
 
 ## 📊 Data Flow
 
@@ -170,10 +222,34 @@ SMS Server → sms-ingest-log.csv → Dev Agent → transactions.csv
                                           Mill ← query_spending_summary
 ```
 
+## 🔄 What's New in AWS Bedrock Branch
+
+- ✅ **Dual-Provider Architecture** - Switch between AWS Bedrock and Google Gemini instantly
+- ✅ **Simplified Configuration** - Single API key per provider (no per-agent keys)
+- ✅ **Smart Model Defaults** - Automatic role-based model selection
+- ✅ **Type-Safe Implementation** - Unified `createLanguageModel()` helper
+- ✅ **Claude 3.5 Support** - Access to latest Anthropic models via Bedrock
+- ✅ **Zero Breaking Changes** - Backward compatible with existing Google setup
+
+### Key Changes
+
+- **Before:** Required 4 separate API keys (one per agent)
+- **After:** Single `GOOGLE_API_KEY` or AWS credentials
+- **Before:** Manual model configuration for each agent
+- **After:** Smart defaults based on agent role (conversational vs analytical)
+- **Migration Time:** ~2 minutes (see Quick Start guide)
+
 ## 🎓 Built For
 
 **MumbaiHacks 2025 - Fintech Problem Statement 1**  
 Financial assistance system for gig workers with irregular income patterns.
+
+## 📚 Documentation
+
+- [Quick Start Guide](docs/QUICK_START.md) - 2-minute setup
+- [AWS Bedrock Migration](docs/MIGRATION_AWS_BEDROCK.md) - Comprehensive guide
+- [Agent Tools Reference](docs/AGENT_TOOLS_REFERENCE.md) - Available functions
+- [Financial Calculator](docs/FINANCIAL_CALCULATOR.md) - Built-in tools
 
 ## 📝 License
 
@@ -185,4 +261,4 @@ MIT
 
 ---
 
-**Built with:** TypeScript, Vercel AI SDK, Google Gemini, Node.js
+**Built with:** TypeScript, Vercel AI SDK, AWS Bedrock (Claude 3.5), Google Gemini, Node.js
