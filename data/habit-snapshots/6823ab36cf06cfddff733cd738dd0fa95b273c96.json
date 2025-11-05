@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Expense Domination",
+    "evidence": "All 1015 transactions are expenses, totaling 4,423,349.68 INR, with 0 recorded income",
+    "counsel": "Regularly review categorization to distinguish income from outflows",
+    "fullText": "- Expense Domination: All 1015 transactions are expenses, totaling 4,423,349.68 INR, with 0 recorded income. Counsel: Regularly review categorization to distinguish income from outflows."
+  },
+  {
+    "habitLabel": "Financial Transfers Focus",
+    "evidence": "\"Financial - High Confidence\" category accounts for 853 transactions and 3,570,329.79 INR spend",
+    "counsel": "Examine these transactions to understand their nature and purpose",
+    "fullText": "- Financial Transfers Focus: \"Financial - High Confidence\" category accounts for 853 transactions and 3,570,329.79 INR spend. Counsel: Examine these transactions to understand their nature and purpose."
+  },
+  {
+    "habitLabel": "Salary Outflow Review",
+    "evidence": "\"Salary\" is an expense category with 10 transactions totaling 538,250.12 INR",
+    "counsel": "Clarify if \"Salary\" represents income or an internal transfer for better tracking",
+    "fullText": "- Salary Outflow Review: \"Salary\" is an expense category with 10 transactions totaling 538,250.12 INR. Counsel: Clarify if \"Salary\" represents income or an internal transfer for better tracking."
+  },
+  {
+    "habitLabel": "Transaction Tracking Gap",
+    "evidence": "Last 30 days show 0 transactions, 0 spend, and 0 income",
+    "counsel": "Ensure all financial accounts are linked and syncing correctly for up-to-date data",
+    "fullText": "- Transaction Tracking Gap: Last 30 days show 0 transactions, 0 spend, and 0 income. Counsel: Ensure all financial accounts are linked and syncing correctly for up-to-date data."
+  },
+  {
+    "habitLabel": "Consistent Spending Level",
+    "evidence": "Your average transaction amount is 4357.98 INR across 1015 transactions",
+    "counsel": "Analyze larger transactions to identify potential areas for optimization",
+    "fullText": "- Consistent Spending Level: Your average transaction amount is 4357.98 INR across 1015 transactions. Counsel: Analyze larger transactions to identify potential areas for optimization."
+  },
+  {
+    "habitLabel": "Discretionary Spending",
+    "evidence": "\"Pocket Money\" has 42 transactions totaling 112,800.24 INR",
+    "counsel": "Consider setting a monthly budget for \"Pocket Money\" to manage discretionary spending",
+    "fullText": "- Discretionary Spending: \"Pocket Money\" has 42 transactions totaling 112,800.24 INR. Counsel: Consider setting a monthly budget for \"Pocket Money\" to manage discretionary spending."
+  },
+  {
+    "habitLabel": "Essential Spending Focus",
+    "evidence": "All 1015 transactions are tagged with the \"necessity\" flavor",
+    "counsel": "Review this tagging to confirm alignment with your actual spending priorities",
+    "fullText": "- Essential Spending Focus: All 1015 transactions are tagged with the \"necessity\" flavor. Counsel: Review this tagging to confirm alignment with your actual spending priorities."
+  }
+]

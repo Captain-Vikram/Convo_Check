@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Financial Pause",
+    "evidence": "No transactions, spend, or income in last 30 days",
+    "counsel": "Review your accounts to ensure all activity is captured or note this quiet period",
+    "fullText": "- Financial Pause: No transactions, spend, or income in last 30 days; Counsel: Review your accounts to ensure all activity is captured or note this quiet period."
+  },
+  {
+    "habitLabel": "Core Financial Outlays",
+    "evidence": "\"Financial - High Confidence\" accounts for 3,570,329.79 INR of lifetime expenses",
+    "counsel": "Understand the nature of these large financial movements for better control",
+    "fullText": "- Core Financial Outlays: \"Financial - High Confidence\" accounts for 3,570,329.79 INR of lifetime expenses; Counsel: Understand the nature of these large financial movements for better control."
+  },
+  {
+    "habitLabel": "Income Tracking Anomaly",
+    "evidence": "538,250.12 INR categorized as \"Salary\" is recorded as an expense",
+    "counsel": "Clarify if these are outgoing payments or if incoming salary is misclassified",
+    "fullText": "- Income Tracking Anomaly: 538,250.12 INR categorized as \"Salary\" is recorded as an expense; Counsel: Clarify if these are outgoing payments or if incoming salary is misclassified."
+  },
+  {
+    "habitLabel": "Expense-Focused Tracking",
+    "evidence": "All 1015 lifetime transactions totaling 4,423,349.68 INR are recorded as expenses",
+    "counsel": "Ensure all income sources are properly linked and categorized for a complete financial picture",
+    "fullText": "- Expense-Focused Tracking: All 1015 lifetime transactions totaling 4,423,349.68 INR are recorded as expenses; Counsel: Ensure all income sources are properly linked and categorized for a complete financial picture."
+  },
+  {
+    "habitLabel": "Large Ticket Transactions",
+    "evidence": "Average transaction amount is 4,357.98 INR",
+    "counsel": "Monitor large individual expenses to identify areas for potential savings or optimization",
+    "fullText": "- Large Ticket Transactions: Average transaction amount is 4,357.98 INR; Counsel: Monitor large individual expenses to identify areas for potential savings or optimization."
+  },
+  {
+    "habitLabel": "Refund Classification",
+    "evidence": "28,731.54 INR in \"Refund\" is recorded as an expense",
+    "counsel": "Verify if these are actual outgoing refunds or miscategorized incoming credits",
+    "fullText": "- Refund Classification: 28,731.54 INR in \"Refund\" is recorded as an expense; Counsel: Verify if these are actual outgoing refunds or miscategorized incoming credits."
+  }
+]

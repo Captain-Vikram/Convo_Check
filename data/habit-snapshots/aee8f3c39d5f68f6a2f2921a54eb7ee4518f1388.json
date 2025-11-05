@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Expense Focus",
+    "evidence": "Total expense 4423349.68, total income 0",
+    "counsel": "Link all income sources for a complete financial overview",
+    "fullText": "- Expense Focus: Total expense 4423349.68, total income 0; Counsel: Link all income sources for a complete financial overview."
+  },
+  {
+    "habitLabel": "Data Lag",
+    "evidence": "Last 30 days show 0 transactions and 0 spend/income",
+    "counsel": "Ensure accounts are linked and updated for real-time insights",
+    "fullText": "- Data Lag: Last 30 days show 0 transactions and 0 spend/income; Counsel: Ensure accounts are linked and updated for real-time insights."
+  },
+  {
+    "habitLabel": "Category Ambiguity",
+    "evidence": "\"Financial - High Confidence\" is 3570329.79 (80.7%) of total spend",
+    "counsel": "Refine categories to clarify where most funds are truly going",
+    "fullText": "- Category Ambiguity: \"Financial - High Confidence\" is 3570329.79 (80.7%) of total spend; Counsel: Refine categories to clarify where most funds are truly going."
+  },
+  {
+    "habitLabel": "Income Misclassification",
+    "evidence": "\"Salary\" is listed as an expense category totaling 538250.12",
+    "counsel": "Verify if these are actual salary payments or transfers out",
+    "fullText": "- Income Misclassification: \"Salary\" is listed as an expense category totaling 538250.12; Counsel: Verify if these are actual salary payments or transfers out."
+  },
+  {
+    "habitLabel": "Detail Deficiency",
+    "evidence": "All 1015 transactions are \"necessity\" on \"Unknown\" weekdays",
+    "counsel": "Enhance transaction tagging for richer insights into spending habits",
+    "fullText": "- Detail Deficiency: All 1015 transactions are \"necessity\" on \"Unknown\" weekdays; Counsel: Enhance transaction tagging for richer insights into spending habits."
+  },
+  {
+    "habitLabel": "Transaction Scale",
+    "evidence": "Average transaction amount is 4357.98",
+    "counsel": "Monitor larger transactions closely to manage significant outflows",
+    "fullText": "- Transaction Scale: Average transaction amount is 4357.98; Counsel: Monitor larger transactions closely to manage significant outflows."
+  }
+]

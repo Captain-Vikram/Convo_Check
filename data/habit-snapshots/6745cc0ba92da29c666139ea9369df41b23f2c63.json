@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Transaction Logging",
+    "evidence": "1 total transaction recorded",
+    "counsel": "Continue to log all transactions to build a complete financial picture",
+    "fullText": "- Habit Label: Transaction Logging; Evidence: 1 total transaction recorded; Counsel: Continue to log all transactions to build a complete financial picture."
+  },
+  {
+    "habitLabel": "Income Recording",
+    "evidence": "Total income 0, last 30 days income 0",
+    "counsel": "Record all income to get a full view of your cash flow",
+    "fullText": "- Habit Label: Income Recording; Evidence: Total income 0, last 30 days income 0; Counsel: Record all income to get a full view of your cash flow."
+  },
+  {
+    "habitLabel": "Category Accuracy",
+    "evidence": "All spending (499.75 INR) is in 'testing'",
+    "counsel": "Review and refine this category to reflect actual spending types",
+    "fullText": "- Habit Label: Category Accuracy; Evidence: All spending (499.75 INR) is in 'testing'; Counsel: Review and refine this category to reflect actual spending types."
+  },
+  {
+    "habitLabel": "Cash Flow Balance",
+    "evidence": "Net cashflow -499.75 INR in last 30 days",
+    "counsel": "Balance expenses with recorded income to improve cash flow",
+    "fullText": "- Habit Label: Cash Flow Balance; Evidence: Net cashflow -499.75 INR in last 30 days; Counsel: Balance expenses with recorded income to improve cash flow."
+  },
+  {
+    "habitLabel": "Savings Foundation",
+    "evidence": "Last 30 days savings rate 0",
+    "counsel": "As income grows, establish a savings habit to build financial resilience",
+    "fullText": "- Habit Label: Savings Foundation; Evidence: Last 30 days savings rate 0; Counsel: As income grows, establish a savings habit to build financial resilience."
+  },
+  {
+    "habitLabel": "Expense Identification",
+    "evidence": "Single expense (499.75 INR) is marked 'necessity'",
+    "counsel": "Regularly check if all 'necessity' expenses are truly essential",
+    "fullText": "- Habit Label: Expense Identification; Evidence: Single expense (499.75 INR) is marked 'necessity'; Counsel: Regularly check if all 'necessity' expenses are truly essential."
+  }
+]

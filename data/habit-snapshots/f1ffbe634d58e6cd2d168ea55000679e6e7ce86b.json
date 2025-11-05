@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Total income recorded as 0, total expense 4,423,349.68 INR",
+    "counsel": "Ensure all income is categorized to reflect your financial health",
+    "fullText": "- Income Tracking: Total income recorded as 0, total expense 4,423,349.68 INR; Counsel: Ensure all income is categorized to reflect your financial health."
+  },
+  {
+    "habitLabel": "Financial Review",
+    "evidence": "\"Financial - High Confidence\" is 3,570,329.79 INR of 4,423,349.68 total spend",
+    "counsel": "Investigate these transactions for better insight into outflows",
+    "fullText": "- Financial Review: \"Financial - High Confidence\" is 3,570,329.79 INR of 4,423,349.68 total spend; Counsel: Investigate these transactions for better insight into outflows."
+  },
+  {
+    "habitLabel": "Transaction Classification",
+    "evidence": "\"Salary\" appears as an expense (538,250.12 INR, 10 tx)",
+    "counsel": "Reclassify these transactions if they represent income, not outflow",
+    "fullText": "- Transaction Classification: \"Salary\" appears as an expense (538,250.12 INR, 10 tx); Counsel: Reclassify these transactions if they represent income, not outflow."
+  },
+  {
+    "habitLabel": "Data Freshness",
+    "evidence": "0 transactions, spend, or income in the last 30 days",
+    "counsel": "Verify your data connection for up-to-date financial tracking",
+    "fullText": "- Data Freshness: 0 transactions, spend, or income in the last 30 days; Counsel: Verify your data connection for up-to-date financial tracking."
+  },
+  {
+    "habitLabel": "High-Value Purchases",
+    "evidence": "Average transaction is 4357.98 INR over 1015 expenses",
+    "counsel": "Scrutinize larger transactions for savings opportunities",
+    "fullText": "- High-Value Purchases: Average transaction is 4357.98 INR over 1015 expenses; Counsel: Scrutinize larger transactions for savings opportunities."
+  },
+  {
+    "habitLabel": "Necessity Spending",
+    "evidence": "All 1015 transactions are categorized as \"necessity\"",
+    "counsel": "Look for efficiencies to lower essential costs without sacrificing quality",
+    "fullText": "- Necessity Spending: All 1015 transactions are categorized as \"necessity\"; Counsel: Look for efficiencies to lower essential costs without sacrificing quality."
+  },
+  {
+    "habitLabel": "Bill Optimization",
+    "evidence": "Bills & Utilities total 34,040.04 INR over 15 transactions",
+    "counsel": "Review recurring bills for potential savings or better deals",
+    "fullText": "- Bill Optimization: Bills & Utilities total 34,040.04 INR over 15 transactions; Counsel: Review recurring bills for potential savings or better deals."
+  }
+]

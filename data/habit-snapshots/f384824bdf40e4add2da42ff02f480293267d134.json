@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "[Critical]; Evidence: Total income is 0 across 15 transactions",
+    "counsel": "Log all income sources to see your full financial picture",
+    "fullText": "- Income Tracking: [Critical]; Evidence: Total income is 0 across 15 transactions; Counsel: Log all income sources to see your full financial picture."
+  },
+  {
+    "habitLabel": "Expense Focus",
+    "evidence": "[Essential]; Evidence: All 15 recorded transactions are expenses, totaling 1472",
+    "counsel": "Continue tracking expenses diligently to manage outflows",
+    "fullText": "- Expense Focus: [Essential]; Evidence: All 15 recorded transactions are expenses, totaling 1472; Counsel: Continue tracking expenses diligently to manage outflows."
+  },
+  {
+    "habitLabel": "Recent Activity",
+    "evidence": "[Awareness]; Evidence: Zero transactions recorded in the last 30 days",
+    "counsel": "Ensure all recent financial activities are captured for an up-to-date view",
+    "fullText": "- Recent Activity: [Awareness]; Evidence: Zero transactions recorded in the last 30 days; Counsel: Ensure all recent financial activities are captured for an up-to-date view."
+  },
+  {
+    "habitLabel": "Core Financial Flows",
+    "evidence": "[Review]; Evidence: \"Financial - High Confidence\" totals 1072 out of 1472 expenses",
+    "counsel": "Review these significant transactions to understand their purpose",
+    "fullText": "- Core Financial Flows: [Review]; Evidence: \"Financial - High Confidence\" totals 1072 out of 1472 expenses; Counsel: Review these significant transactions to understand their purpose."
+  },
+  {
+    "habitLabel": "Average Spend",
+    "evidence": "[Monitoring]; Evidence: Your average transaction amount is 98.13 across 15 expenses",
+    "counsel": "Monitor individual transaction sizes to identify larger outflows",
+    "fullText": "- Average Spend: [Monitoring]; Evidence: Your average transaction amount is 98.13 across 15 expenses; Counsel: Monitor individual transaction sizes to identify larger outflows."
+  },
+  {
+    "habitLabel": "Lending Habits",
+    "evidence": "[Tracking]; Evidence: 100 was lent to others in one transaction",
+    "counsel": "Track lent money carefully to ensure timely repayment",
+    "fullText": "- Lending Habits: [Tracking]; Evidence: 100 was lent to others in one transaction; Counsel: Track lent money carefully to ensure timely repayment."
+  },
+  {
+    "habitLabel": "Personal Allowance",
+    "evidence": "[Allocation]; Evidence: 300 was categorized as Pocket Money",
+    "counsel": "Acknowledge and plan for this dedicated personal spending",
+    "fullText": "- Personal Allowance: [Allocation]; Evidence: 300 was categorized as Pocket Money; Counsel: Acknowledge and plan for this dedicated personal spending."
+  }
+]

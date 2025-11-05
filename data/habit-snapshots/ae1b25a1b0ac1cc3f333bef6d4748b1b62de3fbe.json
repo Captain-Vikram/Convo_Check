@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Clarity",
+    "evidence": "Total income is Rs. 0, but Rs. 538250.12 from 'Salary' is an expense",
+    "counsel": "Recategorize income for a true financial picture",
+    "fullText": "- Income Clarity: Total income is Rs. 0, but Rs. 538250.12 from 'Salary' is an expense; Counsel: Recategorize income for a true financial picture."
+  },
+  {
+    "habitLabel": "Expense Breakdown",
+    "evidence": "'Financial - High Confidence' accounts for Rs. 3570329.79 of total spend",
+    "counsel": "Detail these transactions to understand major movements",
+    "fullText": "- Expense Breakdown: 'Financial - High Confidence' accounts for Rs. 3570329.79 of total spend; Counsel: Detail these transactions to understand major movements."
+  },
+  {
+    "habitLabel": "Data Freshness",
+    "evidence": "No transactions, spend, or income recorded in the last 30 days",
+    "counsel": "Verify data sync to ensure up-to-date financial tracking",
+    "fullText": "- Data Freshness: No transactions, spend, or income recorded in the last 30 days; Counsel: Verify data sync to ensure up-to-date financial tracking."
+  },
+  {
+    "habitLabel": "Refund Accuracy",
+    "evidence": "Rs. 28731.54 from 'Refund' is listed as an expense",
+    "counsel": "Adjust these entries to reflect income, not an outflow",
+    "fullText": "- Refund Accuracy: Rs. 28731.54 from 'Refund' is listed as an expense; Counsel: Adjust these entries to reflect income, not an outflow."
+  },
+  {
+    "habitLabel": "Spending Overview",
+    "evidence": "Lifetime expenses total Rs. 4423349.68 across 1015 transactions",
+    "counsel": "Acknowledge your substantial overall financial outflow",
+    "fullText": "- Spending Overview: Lifetime expenses total Rs. 4423349.68 across 1015 transactions; Counsel: Acknowledge your substantial overall financial outflow."
+  },
+  {
+    "habitLabel": "Transaction Size",
+    "evidence": "Your average transaction amount is Rs. 4357.98",
+    "counsel": "Reflect on the common size of your financial interactions",
+    "fullText": "- Transaction Size: Your average transaction amount is Rs. 4357.98; Counsel: Reflect on the common size of your financial interactions."
+  },
+  {
+    "habitLabel": "Data Enhancement",
+    "evidence": "All 1015 transactions lack specific weekday data and are labeled 'necessity'",
+    "counsel": "Add more transaction details for richer insights",
+    "fullText": "- Data Enhancement: All 1015 transactions lack specific weekday data and are labeled 'necessity'; Counsel: Add more transaction details for richer insights."
+  }
+]

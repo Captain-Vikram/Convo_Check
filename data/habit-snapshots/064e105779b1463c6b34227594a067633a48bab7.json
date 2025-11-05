@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Income Tracking Gap",
+    "evidence": "Verify all income sources; Evidence: Total income 0, total expense 4,545,509.68 INR",
+    "counsel": "Ensure all income is correctly recorded for a comprehensive financial overview",
+    "fullText": "- Income Tracking Gap: Verify all income sources; Evidence: Total income 0, total expense 4,545,509.68 INR; Counsel: Ensure all income is correctly recorded for a comprehensive financial overview."
+  },
+  {
+    "habitLabel": "Unclassified Financial Outflows",
+    "evidence": "Review large \"Financial\" expenses; Evidence: \"Financial - High Confidence\" is 3,570,329.79 INR of total expenses",
+    "counsel": "Re-categorize these transactions for clearer financial insight",
+    "fullText": "- Unclassified Financial Outflows: Review large \"Financial\" expenses; Evidence: \"Financial - High Confidence\" is 3,570,329.79 INR of total expenses; Counsel: Re-categorize these transactions for clearer financial insight."
+  },
+  {
+    "habitLabel": "Salary Categorization Anomaly",
+    "evidence": "Clarify \"Salary\" nature; Evidence: \"Salary\" is an expense category with 538,250.12 INR total spend",
+    "counsel": "Determine if this represents miscategorized income or an unusual outgoing payment",
+    "fullText": "- Salary Categorization Anomaly: Clarify \"Salary\" nature; Evidence: \"Salary\" is an expense category with 538,250.12 INR total spend; Counsel: Determine if this represents miscategorized income or an unusual outgoing payment."
+  },
+  {
+    "habitLabel": "Recent Inactivity",
+    "evidence": "Check account synchronization; Evidence: No transactions, spend, or income recorded in the last 30 days",
+    "counsel": "Confirm all financial accounts are linked and updating correctly",
+    "fullText": "- Recent Inactivity: Check account synchronization; Evidence: No transactions, spend, or income recorded in the last 30 days; Counsel: Confirm all financial accounts are linked and updating correctly."
+  },
+  {
+    "habitLabel": "High Value Transactions",
+    "evidence": "Monitor average spend; Evidence: Average transaction amount is 4,434.64 INR across 1025 transactions",
+    "counsel": "Periodically review larger expenditures to align with your budget",
+    "fullText": "- High Value Transactions: Monitor average spend; Evidence: Average transaction amount is 4,434.64 INR across 1025 transactions; Counsel: Periodically review larger expenditures to align with your budget."
+  },
+  {
+    "habitLabel": "Spending Flavor Consistency",
+    "evidence": "Evaluate expense types; Evidence: All 1025 transactions are marked as 'necessity'",
+    "counsel": "Re-examine if all expenses are true necessities to identify areas for discretionary spending",
+    "fullText": "- Spending Flavor Consistency: Evaluate expense types; Evidence: All 1025 transactions are marked as 'necessity'; Counsel: Re-examine if all expenses are true necessities to identify areas for discretionary spending."
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Incomplete; Evidence: Total income 0, total expense 4,545,509.68",
+    "counsel": "Integrate all income sources for a complete financial overview",
+    "fullText": "- Income Tracking: Incomplete; Evidence: Total income 0, total expense 4,545,509.68. Counsel: Integrate all income sources for a complete financial overview."
+  },
+  {
+    "habitLabel": "Category Clarity",
+    "evidence": "Needed; Evidence: \"Financial - High Confidence\" is 3,570,329.79 (853 tx)",
+    "counsel": "Review and reclassify \"Financial - High Confidence\" for better insight",
+    "fullText": "- Category Clarity: Needed; Evidence: \"Financial - High Confidence\" is 3,570,329.79 (853 tx). Counsel: Review and reclassify \"Financial - High Confidence\" for better insight."
+  },
+  {
+    "habitLabel": "Data Integrity",
+    "evidence": "Essential; Evidence: \"Salary\" is an expense category with 538,250.12 spend",
+    "counsel": "Correctly categorize salary as income to accurately reflect cash flow",
+    "fullText": "- Data Integrity: Essential; Evidence: \"Salary\" is an expense category with 538,250.12 spend. Counsel: Correctly categorize salary as income to accurately reflect cash flow."
+  },
+  {
+    "habitLabel": "Account Activity",
+    "evidence": "Dormant; Evidence: Last 30 days show 0 transactions, 0 spend, 0 income",
+    "counsel": "Confirm if this account is actively used or if data tracking has paused",
+    "fullText": "- Account Activity: Dormant; Evidence: Last 30 days show 0 transactions, 0 spend, 0 income. Counsel: Confirm if this account is actively used or if data tracking has paused."
+  },
+  {
+    "habitLabel": "Pocket Money",
+    "evidence": "High; Evidence: \"Pocket Money\" spend is 112,800.24 (42 tx)",
+    "counsel": "Evaluate if this \"necessity\" spend aligns with your financial priorities",
+    "fullText": "- Pocket Money: High; Evidence: \"Pocket Money\" spend is 112,800.24 (42 tx). Counsel: Evaluate if this \"necessity\" spend aligns with your financial priorities."
+  },
+  {
+    "habitLabel": "Average Expense",
+    "evidence": "Substantial; Evidence: Average transaction amount is 4434.64",
+    "counsel": "Review individual large expenses to ensure they align with your financial goals",
+    "fullText": "- Average Expense: Substantial; Evidence: Average transaction amount is 4434.64. Counsel: Review individual large expenses to ensure they align with your financial goals."
+  },
+  {
+    "habitLabel": "Tracking Detail",
+    "evidence": "Basic; Evidence: All weekdays \"Unknown\", no tags or counterparties",
+    "counsel": "Enhance transaction details (tags, counterparties) for richer insights",
+    "fullText": "- Tracking Detail: Basic; Evidence: All weekdays \"Unknown\", no tags or counterparties. Counsel: Enhance transaction details (tags, counterparties) for richer insights."
+  }
+]

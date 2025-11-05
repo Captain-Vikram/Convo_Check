@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "[No income recorded]; Evidence: Total income 0 INR, total expense 4,423,349.68 INR",
+    "counsel": "Ensure all income transactions are correctly imported and categorized",
+    "fullText": "- Income Tracking: [No income recorded]; Evidence: Total income 0 INR, total expense 4,423,349.68 INR; Counsel: Ensure all income transactions are correctly imported and categorized."
+  },
+  {
+    "habitLabel": "Category Specificity",
+    "evidence": "[Broad financial category]; Evidence: 3,570,329.79 INR across 853 transactions in 'Financial - High Confidence'",
+    "counsel": "Break down this category for clearer spending visibility",
+    "fullText": "- Category Specificity: [Broad financial category]; Evidence: 3,570,329.79 INR across 853 transactions in 'Financial - High Confidence'; Counsel: Break down this category for clearer spending visibility."
+  },
+  {
+    "habitLabel": "Data Misclassification",
+    "evidence": "[Salary as expense]; Evidence: 'Salary' is listed as an expense category with 538,250.12 INR",
+    "counsel": "Reclassify salary as income to accurately reflect earnings",
+    "fullText": "- Data Misclassification: [Salary as expense]; Evidence: 'Salary' is listed as an expense category with 538,250.12 INR; Counsel: Reclassify salary as income to accurately reflect earnings."
+  },
+  {
+    "habitLabel": "Data Freshness",
+    "evidence": "[No recent activity]; Evidence: 0 transactions, 0 spend in the last 30 days",
+    "counsel": "Verify that all your accounts are actively syncing data",
+    "fullText": "- Data Freshness: [No recent activity]; Evidence: 0 transactions, 0 spend in the last 30 days; Counsel: Verify that all your accounts are actively syncing data."
+  },
+  {
+    "habitLabel": "High Transaction Value",
+    "evidence": "[Large average spend]; Evidence: Average transaction amount is 4,357.98 INR",
+    "counsel": "Review your larger transactions to understand significant outflows",
+    "fullText": "- High Transaction Value: [Large average spend]; Evidence: Average transaction amount is 4,357.98 INR; Counsel: Review your larger transactions to understand significant outflows."
+  },
+  {
+    "habitLabel": "Spending Intent",
+    "evidence": "[All necessity]; Evidence: All 1015 transactions are labeled as 'necessity' expenses",
+    "counsel": "Consider if any expenses could be reclassified as discretionary spending",
+    "fullText": "- Spending Intent: [All necessity]; Evidence: All 1015 transactions are labeled as 'necessity' expenses; Counsel: Consider if any expenses could be reclassified as discretionary spending."
+  }
+]

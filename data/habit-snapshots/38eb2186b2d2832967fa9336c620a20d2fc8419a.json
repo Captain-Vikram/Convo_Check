@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Lifetime income 0 INR; total expenses 4,423,349.68 INR",
+    "counsel": "Prioritize tracking all income sources for a complete financial picture",
+    "fullText": "- Income Tracking: Evidence: Lifetime income 0 INR; total expenses 4,423,349.68 INR. Counsel: Prioritize tracking all income sources for a complete financial picture."
+  },
+  {
+    "habitLabel": "Core Spending",
+    "evidence": "\"Financial - High Confidence\" is 3,570,329.79 INR of total spend",
+    "counsel": "Deep dive into this category to understand its composition better",
+    "fullText": "- Core Spending: Evidence: \"Financial - High Confidence\" is 3,570,329.79 INR of total spend. Counsel: Deep dive into this category to understand its composition better."
+  },
+  {
+    "habitLabel": "Data Clarity",
+    "evidence": "\"Salary\" is an expense category totaling 538,250.12 INR",
+    "counsel": "Confirm income vs. expense labeling for accurate financial reporting",
+    "fullText": "- Data Clarity: Evidence: \"Salary\" is an expense category totaling 538,250.12 INR. Counsel: Confirm income vs. expense labeling for accurate financial reporting."
+  },
+  {
+    "habitLabel": "Data Recency",
+    "evidence": "Last 30 days show 0 transactions, 0 spend, and 0 income",
+    "counsel": "Ensure consistent data syncing for current and reliable financial analysis",
+    "fullText": "- Data Recency: Evidence: Last 30 days show 0 transactions, 0 spend, and 0 income. Counsel: Ensure consistent data syncing for current and reliable financial analysis."
+  },
+  {
+    "habitLabel": "Transaction Type",
+    "evidence": "All 1,015 recorded transactions are expenses, totaling 4,423,349.68 INR",
+    "counsel": "Expand transaction capture to include all incoming funds for holistic review",
+    "fullText": "- Transaction Type: Evidence: All 1,015 recorded transactions are expenses, totaling 4,423,349.68 INR. Counsel: Expand transaction capture to include all incoming funds for holistic review."
+  },
+  {
+    "habitLabel": "Expense Monitoring",
+    "evidence": "Average transaction amount is 4,357.98 INR",
+    "counsel": "Review high-value individual expenses to identify potential areas for optimization",
+    "fullText": "- Expense Monitoring: Evidence: Average transaction amount is 4,357.98 INR. Counsel: Review high-value individual expenses to identify potential areas for optimization."
+  },
+  {
+    "habitLabel": "Flavor Validation",
+    "evidence": "All 1,015 transactions are labeled as \"necessity\"",
+    "counsel": "Verify this categorization to correctly identify discretionary vs. essential spending",
+    "fullText": "- Flavor Validation: Evidence: All 1,015 transactions are labeled as \"necessity\". Counsel: Verify this categorization to correctly identify discretionary vs. essential spending."
+  }
+]

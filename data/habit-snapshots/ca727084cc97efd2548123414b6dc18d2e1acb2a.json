@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Spending Pause",
+    "evidence": "0 transactions, 0 spend, 0 income in last 30 days",
+    "counsel": "Review if this reflects current financial activity or a data gap",
+    "fullText": "- Spending Pause: Evidence: 0 transactions, 0 spend, 0 income in last 30 days; Counsel: Review if this reflects current financial activity or a data gap."
+  },
+  {
+    "habitLabel": "Core Spending Focus",
+    "evidence": "\"Financial - High Confidence\" is 3,570,329.79 of 4,423,349.68 total expense",
+    "counsel": "Investigate what this largest outflow truly represents",
+    "fullText": "- Core Spending Focus: Evidence: \"Financial - High Confidence\" is 3,570,329.79 of 4,423,349.68 total expense; Counsel: Investigate what this largest outflow truly represents."
+  },
+  {
+    "habitLabel": "Income vs. Expense Clarity",
+    "evidence": "\"Salary\" accounts for 538,250.12 in expenses, yet total income is 0",
+    "counsel": "Clarify if \"Salary\" is an expense you pay or income miscategorized",
+    "fullText": "- Income vs. Expense Clarity: Evidence: \"Salary\" accounts for 538,250.12 in expenses, yet total income is 0; Counsel: Clarify if \"Salary\" is an expense you pay or income miscategorized."
+  },
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Lifetime total income is 0",
+    "counsel": "Ensure all income sources are accurately recorded to reflect your true financial position",
+    "fullText": "- Income Tracking: Evidence: Lifetime total income is 0; Counsel: Ensure all income sources are accurately recorded to reflect your true financial position."
+  },
+  {
+    "habitLabel": "Major Spending Volume",
+    "evidence": "Total lifetime expenses are 4,423,349.68 across 1015 transactions",
+    "counsel": "Acknowledge significant historical spending to benchmark future financial goals",
+    "fullText": "- Major Spending Volume: Evidence: Total lifetime expenses are 4,423,349.68 across 1015 transactions; Counsel: Acknowledge significant historical spending to benchmark future financial goals."
+  },
+  {
+    "habitLabel": "Granular Categorization",
+    "evidence": "All 1015 transactions are labeled as \"necessity\"",
+    "counsel": "Enhance categorization to differentiate between true necessities and discretionary spending",
+    "fullText": "- Granular Categorization: Evidence: All 1015 transactions are labeled as \"necessity\"; Counsel: Enhance categorization to differentiate between true necessities and discretionary spending."
+  }
+]

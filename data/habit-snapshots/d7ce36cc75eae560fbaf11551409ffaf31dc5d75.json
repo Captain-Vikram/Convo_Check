@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Awareness",
+    "evidence": "Total income is 0 across all records",
+    "counsel": "Track all income sources to get a full financial picture",
+    "fullText": "- Income Awareness: Total income is 0 across all records; Counsel: Track all income sources to get a full financial picture."
+  },
+  {
+    "habitLabel": "Core Spending",
+    "evidence": "\"Financial - High Confidence\" is 1072 of total expense 1472",
+    "counsel": "Review \"Financial\" transactions to identify specific patterns",
+    "fullText": "- Core Spending: \"Financial - High Confidence\" is 1072 of total expense 1472; Counsel: Review \"Financial\" transactions to identify specific patterns."
+  },
+  {
+    "habitLabel": "Recent Activity",
+    "evidence": "No transactions, spend, or income in the last 30 days",
+    "counsel": "Ensure all recent financial activity is being recorded",
+    "fullText": "- Recent Activity: No transactions, spend, or income in the last 30 days; Counsel: Ensure all recent financial activity is being recorded."
+  },
+  {
+    "habitLabel": "Expense Management",
+    "evidence": "All 15 recorded transactions are expenses, totaling 1472",
+    "counsel": "Focus on understanding and optimizing current spending habits",
+    "fullText": "- Expense Management: All 15 recorded transactions are expenses, totaling 1472; Counsel: Focus on understanding and optimizing current spending habits."
+  },
+  {
+    "habitLabel": "Category Clarity",
+    "evidence": "\"Pocket Money\" is a 300 expense",
+    "counsel": "Clarify the nature of \"Pocket Money\" expenses",
+    "fullText": "- Category Clarity: \"Pocket Money\" is a 300 expense; Counsel: Clarify the nature of \"Pocket Money\" expenses."
+  },
+  {
+    "habitLabel": "Lending Tracking",
+    "evidence": "100 was spent as \"Lent Money\"",
+    "counsel": "Monitor lent funds for potential repayment tracking",
+    "fullText": "- Lending Tracking: 100 was spent as \"Lent Money\"; Counsel: Monitor lent funds for potential repayment tracking."
+  },
+  {
+    "habitLabel": "Intentional Spending",
+    "evidence": "All 15 transactions are categorized as \"necessity\"",
+    "counsel": "Keep reviewing if all 'necessity' spending aligns with your values",
+    "fullText": "- Intentional Spending: All 15 transactions are categorized as \"necessity\"; Counsel: Keep reviewing if all 'necessity' spending aligns with your values."
+  }
+]

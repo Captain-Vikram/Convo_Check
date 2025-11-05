@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Total income is 0, yet \"Salary\" expenses total 538,250.12",
+    "counsel": "Verify income categorization to reflect true financial inflows",
+    "fullText": "- Income Tracking: Total income is 0, yet \"Salary\" expenses total 538,250.12. Counsel: Verify income categorization to reflect true financial inflows."
+  },
+  {
+    "habitLabel": "Category Granularity",
+    "evidence": "\"Financial - High Confidence\" accounts for 853 transactions and 3,570,329.79 spend",
+    "counsel": "Review and refine generic \"Financial\" categories for clearer insights",
+    "fullText": "- Category Granularity: \"Financial - High Confidence\" accounts for 853 transactions and 3,570,329.79 spend. Counsel: Review and refine generic \"Financial\" categories for clearer insights."
+  },
+  {
+    "habitLabel": "Data Refresh",
+    "evidence": "Last 30 days show 0 transactions, 0 spend, and 0 income",
+    "counsel": "Ensure all accounts are linked and transactions are updating regularly",
+    "fullText": "- Data Refresh: Last 30 days show 0 transactions, 0 spend, and 0 income. Counsel: Ensure all accounts are linked and transactions are updating regularly."
+  },
+  {
+    "habitLabel": "Expense Awareness",
+    "evidence": "Average transaction amount across all history is 4,357.98",
+    "counsel": "Be mindful of individual transaction sizes and their cumulative impact",
+    "fullText": "- Expense Awareness: Average transaction amount across all history is 4,357.98. Counsel: Be mindful of individual transaction sizes and their cumulative impact."
+  },
+  {
+    "habitLabel": "Spending Prioritization",
+    "evidence": "All 1015 transactions are currently categorized as \"necessity\"",
+    "counsel": "Re-evaluate spending to distinguish between true necessities and discretionary items",
+    "fullText": "- Spending Prioritization: All 1015 transactions are currently categorized as \"necessity\". Counsel: Re-evaluate spending to distinguish between true necessities and discretionary items."
+  },
+  {
+    "habitLabel": "Large Spend Review",
+    "evidence": "The largest expense recorded is 84,748.90, categorized as \"Salary.\"",
+    "counsel": "Periodically review significant transactions to understand their purpose",
+    "fullText": "- Large Spend Review: The largest expense recorded is 84,748.90, categorized as \"Salary.\" Counsel: Periodically review significant transactions to understand their purpose."
+  }
+]

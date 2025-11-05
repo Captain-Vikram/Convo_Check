@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "User has recorded `totalIncome: 0`",
+    "counsel": "Ensure all income sources are accurately tracked for a complete financial view",
+    "fullText": "- Income Tracking: User has recorded `totalIncome: 0`. Counsel: Ensure all income sources are accurately tracked for a complete financial view."
+  },
+  {
+    "habitLabel": "Expense-Only Profile",
+    "evidence": "All 15 recorded transactions are `direction: \"expense\"`, totaling `1472`",
+    "counsel": "Expand tracking to include any income for a balanced financial picture",
+    "fullText": "- Expense-Only Profile: All 15 recorded transactions are `direction: \"expense\"`, totaling `1472`. Counsel: Expand tracking to include any income for a balanced financial picture."
+  },
+  {
+    "habitLabel": "Dominant Financial Spending",
+    "evidence": "\"Financial - High Confidence\" accounts for `1072` of `1472` total expenses",
+    "counsel": "Review these transactions to understand core financial outflows",
+    "fullText": "- Dominant Financial Spending: \"Financial - High Confidence\" accounts for `1072` of `1472` total expenses. Counsel: Review these transactions to understand core financial outflows."
+  },
+  {
+    "habitLabel": "Recent Inactivity",
+    "evidence": "No transactions (`transactionCount: 0`) were recorded in the `last30d`",
+    "counsel": "Maintain consistent transaction logging to capture current spending habits",
+    "fullText": "- Recent Inactivity: No transactions (`transactionCount: 0`) were recorded in the `last30d`. Counsel: Maintain consistent transaction logging to capture current spending habits."
+  },
+  {
+    "habitLabel": "Significant Necessity",
+    "evidence": "Your largest single expense is a `666 Rs` mobile recharge",
+    "counsel": "Consider if this recurring necessity can be optimized or budgeted for regularly",
+    "fullText": "- Significant Necessity: Your largest single expense is a `666 Rs` mobile recharge. Counsel: Consider if this recurring necessity can be optimized or budgeted for regularly."
+  },
+  {
+    "habitLabel": "Lending Activity",
+    "evidence": "You have one expense recorded as \"Lent Money\" for `100 Rs`",
+    "counsel": "Keep track of lent funds to ensure timely repayment and manage your cash flow",
+    "fullText": "- Lending Activity: You have one expense recorded as \"Lent Money\" for `100 Rs`. Counsel: Keep track of lent funds to ensure timely repayment and manage your cash flow."
+  },
+  {
+    "habitLabel": "\"Pocket Money\" Expense",
+    "evidence": "An expense of `300 Rs` is categorized as \"Pocket Money\"",
+    "counsel": "Clarify if this represents spending from pocket money or an outgoing payment",
+    "fullText": "- \"Pocket Money\" Expense: An expense of `300 Rs` is categorized as \"Pocket Money\". Counsel: Clarify if this represents spending from pocket money or an outgoing payment."
+  }
+]

@@ -1,0 +1,84 @@
+{
+  "recentTransactions": [
+    {
+      "id": "c2089447-be47-4ee8-a652-4e2f654206bb",
+      "timestamp": "2025-11-04T04:45:00.000Z",
+      "amount": 15000,
+      "direction": "expense",
+      "targetParty": "Amazon"
+    },
+    {
+      "id": "0125976d-645a-47de-b729-9a154e040194",
+      "timestamp": "2025-11-04T04:45:00.000Z",
+      "amount": 15000,
+      "direction": "expense",
+      "targetParty": "Amazon"
+    },
+    {
+      "id": "15b32e23-7b9d-4d60-99b2-3dc14440d8a2",
+      "timestamp": "2025-11-04T12:52:00.000Z",
+      "amount": 42750,
+      "direction": "expense",
+      "targetParty": "SwiggyInstamart"
+    },
+    {
+      "id": "1bd5f9ee-f087-43d1-a2b6-c194b650efad",
+      "timestamp": "2025-11-04T12:54:00.000Z",
+      "amount": 1250,
+      "direction": "expense",
+      "targetParty": "VALUELABS-FOOD"
+    },
+    {
+      "id": "989050e8-b0ed-4206-839e-84fdd9dc1146",
+      "timestamp": "2025-11-04T12:55:00.000Z",
+      "amount": 1250,
+      "direction": "expense",
+      "targetParty": "VALUELABS-FOOD"
+    },
+    {
+      "id": "00a661ec-203a-42ed-b883-7edce79eb628",
+      "timestamp": "2025-10-13T00:00:00.000Z",
+      "amount": 38500,
+      "direction": "income",
+      "targetParty": "ZOMATO MEDIA PRIVATE"
+    },
+    {
+      "id": "598cbf6f-3f1a-4323-bc15-eb318bc97c4d",
+      "timestamp": "2025-11-04T14:35:00.000Z",
+      "amount": 5000,
+      "direction": "expense",
+      "targetParty": "SBI ATM BLR22"
+    },
+    {
+      "id": "af9c4c1c-2827-4f03-a37b-a1e1ffcd1f2b",
+      "timestamp": "2025-11-04T15:42:00.000Z",
+      "amount": 2450,
+      "direction": "income",
+      "targetParty": "uberindia@okaxis"
+    },
+    {
+      "id": "8db2fc71-e0c9-4c38-9770-ce7a3429e5e5",
+      "timestamp": "2025-11-04T03:48:00.000Z",
+      "amount": 480,
+      "direction": "expense",
+      "targetParty": "METRO CASH&CARRY"
+    },
+    {
+      "id": "cfe7feeb-4fba-4e50-93b8-f6111c3598c1",
+      "timestamp": "2025-11-04T03:48:00.000Z",
+      "amount": 480,
+      "direction": "expense",
+      "targetParty": "METRO CASH&CARRY"
+    },
+    {
+      "id": "98ea29a2-2317-4f97-82b2-e6b75e03702d",
+      "timestamp": "2025-11-05T00:00:00.000Z",
+      "amount": 300,
+      "direction": "Credit"
+    }
+  ],
+  "incomeSamples": [
+    38500,
+    2450
+  ]
+}

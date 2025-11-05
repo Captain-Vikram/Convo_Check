@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Category Review",
+    "evidence": "\"Financial - High Confidence\" comprises 80.7% of total expenses (3,570,329.79 of 4,423,349.68)",
+    "counsel": "Investigate this dominant category for clarity on funds allocation",
+    "fullText": "- Category Review: \"Financial - High Confidence\" comprises 80.7% of total expenses (3,570,329.79 of 4,423,349.68). Counsel: Investigate this dominant category for clarity on funds allocation."
+  },
+  {
+    "habitLabel": "Current Activity Status",
+    "evidence": "No transactions, spend, or income recorded in the last 30 days",
+    "counsel": "Confirm if this period of financial inactivity is intentional or a data gap",
+    "fullText": "- Current Activity Status: No transactions, spend, or income recorded in the last 30 days. Counsel: Confirm if this period of financial inactivity is intentional or a data gap."
+  },
+  {
+    "habitLabel": "Income Tracking Gap",
+    "evidence": "Total recorded income across your lifetime is 0",
+    "counsel": "Ensure all income sources are accurately captured for a complete financial overview",
+    "fullText": "- Income Tracking Gap: Total recorded income across your lifetime is 0. Counsel: Ensure all income sources are accurately captured for a complete financial overview."
+  },
+  {
+    "habitLabel": "Expense-Only Ledger",
+    "evidence": "All 1015 recorded transactions are expenses, totaling 4,423,349.68",
+    "counsel": "Verify if this reflects all financial activity or if income data is missing",
+    "fullText": "- Expense-Only Ledger: All 1015 recorded transactions are expenses, totaling 4,423,349.68. Counsel: Verify if this reflects all financial activity or if income data is missing."
+  },
+  {
+    "habitLabel": "High Average Ticket",
+    "evidence": "Your average transaction amount is 4357.98",
+    "counsel": "Monitor larger individual transactions to understand their impact on your finances",
+    "fullText": "- High Average Ticket: Your average transaction amount is 4357.98. Counsel: Monitor larger individual transactions to understand their impact on your finances."
+  },
+  {
+    "habitLabel": "\"Salary\" Categorization",
+    "evidence": "\"Salary\" is listed as an expense category with 10 transactions totaling 538250.12",
+    "counsel": "Review these \"Salary\" entries to confirm their true financial nature",
+    "fullText": "- \"Salary\" Categorization: \"Salary\" is listed as an expense category with 10 transactions totaling 538250.12. Counsel: Review these \"Salary\" entries to confirm their true financial nature."
+  },
+  {
+    "habitLabel": "Spending Flavor",
+    "evidence": "All 1015 transactions are currently categorized with the \"necessity\" flavor",
+    "counsel": "Consider if some expenses could be reclassified for a more nuanced view",
+    "fullText": "- Spending Flavor: All 1015 transactions are currently categorized with the \"necessity\" flavor. Counsel: Consider if some expenses could be reclassified for a more nuanced view."
+  }
+]

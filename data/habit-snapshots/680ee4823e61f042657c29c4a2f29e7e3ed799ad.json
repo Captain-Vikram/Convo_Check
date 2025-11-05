@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Expense Clarity",
+    "evidence": "Total expenses of 4,423,349.68 Rs with total income of 0 Rs",
+    "counsel": "Ensure all income sources are tracked for an accurate financial picture",
+    "fullText": "- Expense Clarity: Total expenses of 4,423,349.68 Rs with total income of 0 Rs; Counsel: Ensure all income sources are tracked for an accurate financial picture."
+  },
+  {
+    "habitLabel": "Category Refinement",
+    "evidence": "\"Financial - High Confidence\" is 3,570,329.79 Rs across 853 transactions",
+    "counsel": "Break down this large category for better insight into spending habits",
+    "fullText": "- Category Refinement: \"Financial - High Confidence\" is 3,570,329.79 Rs across 853 transactions; Counsel: Break down this large category for better insight into spending habits."
+  },
+  {
+    "habitLabel": "Consistent Tracking",
+    "evidence": "Last 30 days show 0 transactions, 0 spend, and 0 income",
+    "counsel": "Maintain regular transaction logging to capture up-to-date spending habits",
+    "fullText": "- Consistent Tracking: Last 30 days show 0 transactions, 0 spend, and 0 income; Counsel: Maintain regular transaction logging to capture up-to-date spending habits."
+  },
+  {
+    "habitLabel": "Large Purchases Awareness",
+    "evidence": "Average transaction amount is 4,357.98 Rs",
+    "counsel": "Review large transactions to identify significant spending patterns or savings opportunities",
+    "fullText": "- Large Purchases Awareness: Average transaction amount is 4,357.98 Rs; Counsel: Review large transactions to identify significant spending patterns or savings opportunities."
+  },
+  {
+    "habitLabel": "Data Accuracy Check",
+    "evidence": "\"Salary\" category shows 538,250.12 Rs total spend across 10 transactions",
+    "counsel": "Verify if \"Salary\" transactions are correctly categorized as expenses or if they represent income",
+    "fullText": "- Data Accuracy Check: \"Salary\" category shows 538,250.12 Rs total spend across 10 transactions; Counsel: Verify if \"Salary\" transactions are correctly categorized as expenses or if they represent income."
+  },
+  {
+    "habitLabel": "Spending Motivation Review",
+    "evidence": "All 1015 transactions are categorized under the \"necessity\" flavor",
+    "counsel": "Re-evaluate spending to differentiate between true necessities and discretionary items",
+    "fullText": "- Spending Motivation Review: All 1015 transactions are categorized under the \"necessity\" flavor; Counsel: Re-evaluate spending to differentiate between true necessities and discretionary items."
+  },
+  {
+    "habitLabel": "Time-based Tracking",
+    "evidence": "All 1015 transactions are logged under \"Unknown\" weekday",
+    "counsel": "Ensure transaction dates are fully captured to understand spending patterns across the week",
+    "fullText": "- Time-based Tracking: All 1015 transactions are logged under \"Unknown\" weekday; Counsel: Ensure transaction dates are fully captured to understand spending patterns across the week."
+  }
+]

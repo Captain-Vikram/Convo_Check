@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Core Financial Activity",
+    "evidence": "\"Financial - High Confidence\" accounts for 3,570,329.79 of 4,423,349.68 total expense",
+    "counsel": "Review transactions in this large category for clearer understanding",
+    "fullText": "- Core Financial Activity: \"Financial - High Confidence\" accounts for 3,570,329.79 of 4,423,349.68 total expense; Counsel: Review transactions in this large category for clearer understanding."
+  },
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Total income is 0, yet \"Salary\" is an expense category with 538,250.12 total spend",
+    "counsel": "Clarify if \"Salary\" represents transfers or actual income, and log all income sources",
+    "fullText": "- Income Tracking: Total income is 0, yet \"Salary\" is an expense category with 538,250.12 total spend; Counsel: Clarify if \"Salary\" represents transfers or actual income, and log all income sources."
+  },
+  {
+    "habitLabel": "Consistent Tracking",
+    "evidence": "No transactions, spend, or income recorded in the last 30 days",
+    "counsel": "Ensure regular data import or manual entry to keep insights current",
+    "fullText": "- Consistent Tracking: No transactions, spend, or income recorded in the last 30 days; Counsel: Ensure regular data import or manual entry to keep insights current."
+  },
+  {
+    "habitLabel": "Holistic View",
+    "evidence": "All 1015 transactions are expenses, totaling 4,423,349.68, with 0 income",
+    "counsel": "Actively track all incoming funds to balance your financial picture",
+    "fullText": "- Holistic View: All 1015 transactions are expenses, totaling 4,423,349.68, with 0 income; Counsel: Actively track all incoming funds to balance your financial picture."
+  },
+  {
+    "habitLabel": "Large Expense Management",
+    "evidence": "Average transaction amount is 4357.98, with top expenses over 80,000",
+    "counsel": "Pay close attention to high-value transactions for budgeting and control",
+    "fullText": "- Large Expense Management: Average transaction amount is 4357.98, with top expenses over 80,000; Counsel: Pay close attention to high-value transactions for budgeting and control."
+  },
+  {
+    "habitLabel": "Spending Categorization",
+    "evidence": "All 1015 transactions are labeled as \"necessity\"",
+    "counsel": "Refine categorization to distinguish between true necessities and discretionary spending",
+    "fullText": "- Spending Categorization: All 1015 transactions are labeled as \"necessity\"; Counsel: Refine categorization to distinguish between true necessities and discretionary spending."
+  },
+  {
+    "habitLabel": "Data Completeness",
+    "evidence": "All weekday data is categorized as \"Unknown\" for all 1015 transactions",
+    "counsel": "Improve data input for transaction dates to reveal spending patterns over time",
+    "fullText": "- Data Completeness: All weekday data is categorized as \"Unknown\" for all 1015 transactions; Counsel: Improve data input for transaction dates to reveal spending patterns over time."
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Awareness",
+    "evidence": "Total income is 0 from 15 transactions",
+    "counsel": "Track all income sources to ensure a complete financial picture",
+    "fullText": "- Income Awareness: Total income is 0 from 15 transactions; Counsel: Track all income sources to ensure a complete financial picture."
+  },
+  {
+    "habitLabel": "Spending Focus",
+    "evidence": "All 15 transactions totaling 1472 are expenses",
+    "counsel": "Review spending patterns given the absence of recorded income",
+    "fullText": "- Spending Focus: All 15 transactions totaling 1472 are expenses; Counsel: Review spending patterns given the absence of recorded income."
+  },
+  {
+    "habitLabel": "Financial Downtime",
+    "evidence": "Last 30 days show 0 transactions, 0 spend, 0 income",
+    "counsel": "Assess if this reflects a true pause or a gap in transaction capture",
+    "fullText": "- Financial Downtime: Last 30 days show 0 transactions, 0 spend, 0 income; Counsel: Assess if this reflects a true pause or a gap in transaction capture."
+  },
+  {
+    "habitLabel": "Core Financial Outlays",
+    "evidence": "\"Financial - High Confidence\" totals 1072 across 13 expenses",
+    "counsel": "Understand the nature of these dominant \"Financial\" expenses",
+    "fullText": "- Core Financial Outlays: \"Financial - High Confidence\" totals 1072 across 13 expenses; Counsel: Understand the nature of these dominant \"Financial\" expenses."
+  },
+  {
+    "habitLabel": "Recharge Habits",
+    "evidence": "The largest single expense is 666 Rs for a Vi recharge",
+    "counsel": "Consider optimizing recurring large expenses like recharges",
+    "fullText": "- Recharge Habits: The largest single expense is 666 Rs for a Vi recharge; Counsel: Consider optimizing recurring large expenses like recharges."
+  },
+  {
+    "habitLabel": "Peer Lending",
+    "evidence": "100 Rs was spent under \"Lent Money\"",
+    "counsel": "Keep a clear record of money lent and expected repayment timelines",
+    "fullText": "- Peer Lending: 100 Rs was spent under \"Lent Money\"; Counsel: Keep a clear record of money lent and expected repayment timelines."
+  },
+  {
+    "habitLabel": "Categorization Clarity",
+    "evidence": "300 Rs categorized as \"Pocket Money\" expense with description \"from dad\"",
+    "counsel": "Confirm categorization for \"Pocket Money\" transactions for accurate insights",
+    "fullText": "- Categorization Clarity: 300 Rs categorized as \"Pocket Money\" expense with description \"from dad\"; Counsel: Confirm categorization for \"Pocket Money\" transactions for accurate insights."
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "No Income Recorded",
+    "evidence": "Total income is 0 across all recorded transactions",
+    "counsel": "Review income sources and ensure all earnings are logged for a complete financial picture",
+    "fullText": "- No Income Recorded: Evidence: Total income is 0 across all recorded transactions. Counsel: Review income sources and ensure all earnings are logged for a complete financial picture."
+  },
+  {
+    "habitLabel": "Inactive Spending",
+    "evidence": "Last 30 days show 0 transactions and 0 spend",
+    "counsel": "Verify if data capture is complete or if this truly reflects a period of no financial activity",
+    "fullText": "- Inactive Spending: Evidence: Last 30 days show 0 transactions and 0 spend. Counsel: Verify if data capture is complete or if this truly reflects a period of no financial activity."
+  },
+  {
+    "habitLabel": "Expense-Centric Tracking",
+    "evidence": "All 15 recorded transactions are expenses, totaling 1472",
+    "counsel": "Expand data capture to include income to understand net financial position",
+    "fullText": "- Expense-Centric Tracking: Evidence: All 15 recorded transactions are expenses, totaling 1472. Counsel: Expand data capture to include income to understand net financial position."
+  },
+  {
+    "habitLabel": "Dominant Financial Transactions",
+    "evidence": "\"Financial - High Confidence\" accounts for 1072 of 1472 total spend across 13 transactions",
+    "counsel": "Categorize these financial transactions more specifically to understand their true nature",
+    "fullText": "- Dominant Financial Transactions: Evidence: \"Financial - High Confidence\" accounts for 1072 of 1472 total spend across 13 transactions. Counsel: Categorize these financial transactions more specifically to understand their true nature."
+  },
+  {
+    "habitLabel": "Necessity-Focused Spending",
+    "evidence": "All 15 transactions are categorized with the \"necessity\" flavor",
+    "counsel": "Continue prioritizing essential spending, but consider tracking discretionary spending separately",
+    "fullText": "- Necessity-Focused Spending: Evidence: All 15 transactions are categorized with the \"necessity\" flavor. Counsel: Continue prioritizing essential spending, but consider tracking discretionary spending separately."
+  },
+  {
+    "habitLabel": "Reliance on External Funds",
+    "evidence": "One transaction of 300 is noted as \"Pocket money from dad\"",
+    "counsel": "Track all sources of funds to understand personal cash flow dynamics better",
+    "fullText": "- Reliance on External Funds: Evidence: One transaction of 300 is noted as \"Pocket money from dad\". Counsel: Track all sources of funds to understand personal cash flow dynamics better."
+  },
+  {
+    "habitLabel": "Lending Activity",
+    "evidence": "One transaction of 100 is recorded as \"Lent Money\"",
+    "counsel": "Keep a clear record of money lent and agreed repayment terms to manage outstanding balances",
+    "fullText": "- Lending Activity: Evidence: One transaction of 100 is recorded as \"Lent Money\". Counsel: Keep a clear record of money lent and agreed repayment terms to manage outstanding balances."
+  }
+]

@@ -1,0 +1,6 @@
+- [x] Scaffold Next.js app under `web` with TypeScript and app router.
+- [ ] Share Prisma client (reuse existing schema) and configure env loading.
+- [ ] Implement core API routes for transactions, sms messages, alerts using Prisma.
+- [ ] Expose sample UI pages to verify API connectivity.
+- [ ] Document follow-up steps for production readiness (env, caching, deployment).
+- [x] Add JWT auth utilities and middleware in Next.js app.

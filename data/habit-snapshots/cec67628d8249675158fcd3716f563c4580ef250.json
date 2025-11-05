@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Awareness",
+    "evidence": "Total income is 0, while total expenses are 1472",
+    "counsel": "Ensure all income sources are properly recorded for a full financial picture",
+    "fullText": "- Income Awareness: Total income is 0, while total expenses are 1472. Counsel: Ensure all income sources are properly recorded for a full financial picture."
+  },
+  {
+    "habitLabel": "Spending Focus",
+    "evidence": "'Financial - High Confidence' accounts for 1072 of 1472 total expenses",
+    "counsel": "Review transactions in this category to understand specific outflows",
+    "fullText": "- Spending Focus: 'Financial - High Confidence' accounts for 1072 of 1472 total expenses. Counsel: Review transactions in this category to understand specific outflows."
+  },
+  {
+    "habitLabel": "Recent Activity Review",
+    "evidence": "No transactions, spend, or income recorded in the last 30 days",
+    "counsel": "Confirm if your financial activities have paused or if data is missing",
+    "fullText": "- Recent Activity Review: No transactions, spend, or income recorded in the last 30 days. Counsel: Confirm if your financial activities have paused or if data is missing."
+  },
+  {
+    "habitLabel": "Lending Tracking",
+    "evidence": "100 was spent as 'Lent Money' in one transaction",
+    "counsel": "Keep a clear record of money lent and expected repayment dates",
+    "fullText": "- Lending Tracking: 100 was spent as 'Lent Money' in one transaction. Counsel: Keep a clear record of money lent and expected repayment dates."
+  },
+  {
+    "habitLabel": "Major Expense Identification",
+    "evidence": "Largest single expense was 666 for a mobile recharge",
+    "counsel": "Prioritize budgeting for essential recurring large payments like recharges",
+    "fullText": "- Major Expense Identification: Largest single expense was 666 for a mobile recharge. Counsel: Prioritize budgeting for essential recurring large payments like recharges."
+  },
+  {
+    "habitLabel": "Expense-Focused Spending",
+    "evidence": "All 15 recorded transactions are expenses, totaling 1472",
+    "counsel": "Regularly log all financial inflows to balance your financial overview",
+    "fullText": "- Expense-Focused Spending: All 15 recorded transactions are expenses, totaling 1472. Counsel: Regularly log all financial inflows to balance your financial overview."
+  },
+  {
+    "habitLabel": "Essential Spending Pattern",
+    "evidence": "All 15 transactions are categorized as 'necessity'",
+    "counsel": "Verify this classification to distinguish true needs from wants",
+    "fullText": "- Essential Spending Pattern: All 15 transactions are categorized as 'necessity'. Counsel: Verify this classification to distinguish true needs from wants."
+  }
+]

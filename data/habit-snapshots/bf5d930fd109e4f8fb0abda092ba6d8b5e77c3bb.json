@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Tracking Priority",
+    "evidence": "Lifetime income ₹0, expenses ₹799.75",
+    "counsel": "Track all income sources for a complete financial view",
+    "fullText": "- Income Tracking Priority: Evidence: Lifetime income ₹0, expenses ₹799.75; Counsel: Track all income sources for a complete financial view."
+  },
+  {
+    "habitLabel": "Core Expense Insight",
+    "evidence": "Main expenses: ₹499.75 'testing', ₹300 'Side Hustle'",
+    "counsel": "Continue categorizing spending to identify primary areas",
+    "fullText": "- Core Expense Insight: Evidence: Main expenses: ₹499.75 'testing', ₹300 'Side Hustle'; Counsel: Continue categorizing spending to identify primary areas."
+  },
+  {
+    "habitLabel": "Savings Initiation",
+    "evidence": "Last 30 days savings rate 0%",
+    "counsel": "Once income is consistent, consider setting a dedicated savings goal",
+    "fullText": "- Savings Initiation: Evidence: Last 30 days savings rate 0%; Counsel: Once income is consistent, consider setting a dedicated savings goal."
+  },
+  {
+    "habitLabel": "Midweek Spending",
+    "evidence": "All ₹799.75 expenses occurred on Wednesday",
+    "counsel": "Observe if future spending continues to cluster on specific days",
+    "fullText": "- Midweek Spending: Evidence: All ₹799.75 expenses occurred on Wednesday; Counsel: Observe if future spending continues to cluster on specific days."
+  },
+  {
+    "habitLabel": "Necessity Focus",
+    "evidence": "Both 2 transactions totaling ₹799.75 are flagged as \"necessity\"",
+    "counsel": "Keep identifying essential spending for baseline needs",
+    "fullText": "- Necessity Focus: Evidence: Both 2 transactions totaling ₹799.75 are flagged as \"necessity\"; Counsel: Keep identifying essential spending for baseline needs."
+  },
+  {
+    "habitLabel": "Comprehensive Tracking",
+    "evidence": "Only 2 transactions recorded in total",
+    "counsel": "Ensure all financial activities are captured for comprehensive analysis",
+    "fullText": "- Comprehensive Tracking: Evidence: Only 2 transactions recorded in total; Counsel: Ensure all financial activities are captured for comprehensive analysis."
+  },
+  {
+    "habitLabel": "Cashflow Awareness",
+    "evidence": "Last 30 days net cashflow -₹799.75",
+    "counsel": "Tracking income is key to moving towards a positive cash flow",
+    "fullText": "- Cashflow Awareness: Evidence: Last 30 days net cashflow -₹799.75; Counsel: Tracking income is key to moving towards a positive cash flow."
+  }
+]

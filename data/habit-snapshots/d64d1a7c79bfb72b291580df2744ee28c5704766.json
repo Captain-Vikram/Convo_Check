@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Tracking",
+    "evidence": "Total income 0 INR; Last 30 days income 0 INR",
+    "counsel": "Prioritize logging all income sources",
+    "fullText": "- Income Tracking: Evidence: Total income 0 INR; Last 30 days income 0 INR. Counsel: Prioritize logging all income sources."
+  },
+  {
+    "habitLabel": "Savings Opportunity",
+    "evidence": "Savings rate 0; Net cashflow -799.75 INR",
+    "counsel": "Explore setting a realistic savings target",
+    "fullText": "- Savings Opportunity: Evidence: Savings rate 0; Net cashflow -799.75 INR. Counsel: Explore setting a realistic savings target."
+  },
+  {
+    "habitLabel": "Wednesday Spending",
+    "evidence": "All 2 expenses (799.75 INR) occurred on Wednesday",
+    "counsel": "Review spending on Wednesdays for patterns",
+    "fullText": "- Wednesday Spending: Evidence: All 2 expenses (799.75 INR) occurred on Wednesday. Counsel: Review spending on Wednesdays for patterns."
+  },
+  {
+    "habitLabel": "Average Expense",
+    "evidence": "Average transaction amount 399.88 INR",
+    "counsel": "Be mindful of individual transaction sizes",
+    "fullText": "- Average Expense: Evidence: Average transaction amount 399.88 INR. Counsel: Be mindful of individual transaction sizes."
+  },
+  {
+    "habitLabel": "\"Testing\" Category",
+    "evidence": "\"testing\" is 499.75 INR of 799.75 INR total spend",
+    "counsel": "Verify the purpose of \"testing\" expenses",
+    "fullText": "- \"Testing\" Category: Evidence: \"testing\" is 499.75 INR of 799.75 INR total spend. Counsel: Verify the purpose of \"testing\" expenses."
+  },
+  {
+    "habitLabel": "Expense Focus",
+    "evidence": "2 total transactions, all expenses totaling 799.75 INR",
+    "counsel": "Balance expense tracking with income recording",
+    "fullText": "- Expense Focus: Evidence: 2 total transactions, all expenses totaling 799.75 INR. Counsel: Balance expense tracking with income recording."
+  },
+  {
+    "habitLabel": "Necessity Categorization",
+    "evidence": "All 2 transactions flagged as 'necessity'",
+    "counsel": "Confirm 'necessity' accurately reflects all expenses",
+    "fullText": "- Necessity Categorization: Evidence: All 2 transactions flagged as 'necessity'. Counsel: Confirm 'necessity' accurately reflects all expenses."
+  }
+]

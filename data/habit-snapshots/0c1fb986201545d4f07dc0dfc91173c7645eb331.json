@@ -1,0 +1,38 @@
+[
+  {
+    "habitLabel": "Financial Movement Focus",
+    "evidence": "\"Financial - High Confidence\" accounts for 3,570,329.79 across 853 transactions",
+    "counsel": "Review these transactions to understand the nature of these significant financial flows",
+    "fullText": "- Financial Movement Focus: Evidence: \"Financial - High Confidence\" accounts for 3,570,329.79 across 853 transactions. Counsel: Review these transactions to understand the nature of these significant financial flows."
+  },
+  {
+    "habitLabel": "Unusual Salary Categorization",
+    "evidence": "\"Salary\" is categorized as an expense, totaling 538,250.12 across 10 transactions",
+    "counsel": "Verify if this reflects income or specific salary-related outflows for accurate financial mapping",
+    "fullText": "- Unusual Salary Categorization: Evidence: \"Salary\" is categorized as an expense, totaling 538,250.12 across 10 transactions. Counsel: Verify if this reflects income or specific salary-related outflows for accurate financial mapping."
+  },
+  {
+    "habitLabel": "No Recent Activity",
+    "evidence": "No transactions or spending recorded in the last 30 days",
+    "counsel": "Ensure all financial accounts are linked and syncing correctly to capture current activity",
+    "fullText": "- No Recent Activity: Evidence: No transactions or spending recorded in the last 30 days. Counsel: Ensure all financial accounts are linked and syncing correctly to capture current activity."
+  },
+  {
+    "habitLabel": "Expense-Dominated Tracking",
+    "evidence": "Total recorded income is 0, while total expenses are 4,423,349.68 across 1015 transactions",
+    "counsel": "Actively record all income sources to gain a complete financial picture",
+    "fullText": "- Expense-Dominated Tracking: Evidence: Total recorded income is 0, while total expenses are 4,423,349.68 across 1015 transactions. Counsel: Actively record all income sources to gain a complete financial picture."
+  },
+  {
+    "habitLabel": "High Average Transaction Value",
+    "evidence": "Your average transaction amount is 4357.98 across 1015 transactions",
+    "counsel": "Examine large transactions for opportunities to optimize spending or identify major commitments",
+    "fullText": "- High Average Transaction Value: Evidence: Your average transaction amount is 4357.98 across 1015 transactions. Counsel: Examine large transactions for opportunities to optimize spending or identify major commitments."
+  },
+  {
+    "habitLabel": "Broad Necessity Labeling",
+    "evidence": "Evidence: All 1015 transactions are labeled as \"necessity.\"",
+    "counsel": "Consider using more granular categories to better distinguish between essential and discretionary spending",
+    "fullText": "- Broad Necessity Labeling: Evidence: All 1015 transactions are labeled as \"necessity.\" Counsel: Consider using more granular categories to better distinguish between essential and discretionary spending."
+  }
+]

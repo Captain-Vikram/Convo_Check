@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Income Categorization",
+    "evidence": "Total income is 0, but \"Salary\" is listed as an expense of 538250.12",
+    "counsel": "Review how income sources are categorized to ensure accuracy",
+    "fullText": "- Income Categorization: Total income is 0, but \"Salary\" is listed as an expense of 538250.12. Counsel: Review how income sources are categorized to ensure accuracy."
+  },
+  {
+    "habitLabel": "Detailed Tracking",
+    "evidence": "\"Financial - High Confidence\" accounts for 3570329.79 (80.7% of total spend) across 853 transactions",
+    "counsel": "Break down this large category for more specific spending insights",
+    "fullText": "- Detailed Tracking: \"Financial - High Confidence\" accounts for 3570329.79 (80.7% of total spend) across 853 transactions. Counsel: Break down this large category for more specific spending insights."
+  },
+  {
+    "habitLabel": "Data Freshness",
+    "evidence": "Last 30 days show 0 transactions, 0 spend, and 0 income",
+    "counsel": "Ensure consistent data syncing to capture your most recent financial activities",
+    "fullText": "- Data Freshness: Last 30 days show 0 transactions, 0 spend, and 0 income. Counsel: Ensure consistent data syncing to capture your most recent financial activities."
+  },
+  {
+    "habitLabel": "Transaction Magnitude",
+    "evidence": "You have 1015 total transactions with an average amount of 4357.98",
+    "counsel": "Regularly review your transaction log to track the frequency and size of your spending",
+    "fullText": "- Transaction Magnitude: You have 1015 total transactions with an average amount of 4357.98. Counsel: Regularly review your transaction log to track the frequency and size of your spending."
+  },
+  {
+    "habitLabel": "Refund Management",
+    "evidence": "\"Refund\" is listed as an expense category with a total spend of 28731.54",
+    "counsel": "Verify refunds are correctly logged as incoming funds, not outgoing expenses",
+    "fullText": "- Refund Management: \"Refund\" is listed as an expense category with a total spend of 28731.54. Counsel: Verify refunds are correctly logged as incoming funds, not outgoing expenses."
+  },
+  {
+    "habitLabel": "Spending Prioritization",
+    "evidence": "All 1015 transactions are categorized solely as 'necessity'",
+    "counsel": "Review this categorization to ensure it accurately reflects your spending priorities",
+    "fullText": "- Spending Prioritization: All 1015 transactions are categorized solely as 'necessity'. Counsel: Review this categorization to ensure it accurately reflects your spending priorities."
+  },
+  {
+    "habitLabel": "Overall Income View",
+    "evidence": "All recorded data indicates a total income of 0 across your lifetime transactions",
+    "counsel": "Confirm that all your income sources are being successfully recorded and reflected",
+    "fullText": "- Overall Income View: All recorded data indicates a total income of 0 across your lifetime transactions. Counsel: Confirm that all your income sources are being successfully recorded and reflected."
+  }
+]
