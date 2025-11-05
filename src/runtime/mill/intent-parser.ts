@@ -59,6 +59,20 @@ export function parseUserIntent(input: string): ParsedIntent {
     intent.querySummary = true;
   }
 
+  if (
+    !intent.querySummary &&
+    (
+      /^(?:what|show|view|get|see)\b.*\b(log|logged|recorded)\b/.test(normalized) ||
+      /\blog history\b/.test(normalized) ||
+      /\blogged so far\b/.test(normalized) ||
+      /\bhave i logged\b/.test(normalized) ||
+      /\bdid i log\b/.test(normalized) ||
+      /\bmy logs\b/.test(normalized)
+    )
+  ) {
+    intent.querySummary = true;
+  }
+
   const recentMatch = normalized.match(/(?:last|recent)\s+(\d+)\s+transaction/i);
   if (recentMatch) {
     intent.queryRecent = { count: parseInt(recentMatch[1]!, 10) };

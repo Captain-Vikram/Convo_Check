@@ -93,6 +93,7 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
   let paramRefreshPending = false;
   let paramRefreshInFlight = false;
   let lastParamRefreshReason = "startup";
+  const pendingToolResponses: string[] = [];
 
   function queueParamRefresh(reason: string): void {
     paramRefreshPending = true;
@@ -168,6 +169,9 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
           categorization,
           normalized: result.normalized,
         });
+        pendingToolResponses.push(
+          formatLogAck(enrichedPayload, result.normalized ?? null, categorization.flavor),
+        );
         renderToolLog(enrichedPayload, categorization.flavor, result.normalized);
       } catch (error) {
         console.error("[dev-agent] failed to persist transaction", error);
@@ -824,16 +828,28 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
 
         const assistantReply = result.text ?? "";
 
-        if (assistantReply.trim().length > 0) {
-          output.write(`mill> ${assistantReply.trim()}\n`);
+        let assistantMessageText = assistantReply.trim();
+
+        if (assistantMessageText.length === 0 && pendingToolResponses.length > 0) {
+          assistantMessageText = pendingToolResponses.join("\n");
+          output.write(`mill> ${assistantMessageText}\n`);
+        } else if (assistantMessageText.length > 0) {
+          output.write(`mill> ${assistantMessageText}\n`);
         }
 
         const assistantMessages = (result.response?.messages ?? []) as ModelMessage[];
+
+        if (assistantMessageText.length > 0 && assistantReply.trim().length === 0) {
+          assistantMessages.push(createAssistantMessage(assistantMessageText));
+        }
+
         const updatedHistory = [...conversationContext, userMessage, ...assistantMessages];
         writeHistory(history, updatedHistory, maxHistory);
+        pendingToolResponses.length = 0;
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-  output.write(`mill> Oops, my circuits fizzled: ${message}. Try again?\n`);
+        output.write(`mill> Oops, my circuits fizzled: ${message}. Try again?\n`);
+        pendingToolResponses.length = 0;
       }
     }
   } finally {
@@ -1178,6 +1194,36 @@ function shouldTerminate(inputText: string): boolean {
 
 function renderBanner(): void {
   output.write("Mill is ready! Type 'exit' to leave the chat.\n");
+}
+
+function formatLogAck(
+  payload: LogCashTransactionPayload,
+  normalized: NormalizedTransaction | null,
+  flavor: CategorizationResult["flavor"],
+): string {
+  const direction = payload.direction === "income" ? "income" : "expense";
+  const description = (normalized?.description ?? payload.description).trim();
+  const category = (normalized?.category ?? payload.category_suggestion).trim();
+  const eventDate = normalized?.eventDate?.trim();
+  const currency = (normalized?.currency ?? "INR").trim() || "INR";
+  const formattedAmount = formatCurrency(payload.amount, currency);
+  const vibe = payload.direction === "income" ? "💸" : flavor === "luxury" ? "🎉" : flavor === "treat" ? "😋" : "✅";
+  const directionPhrase = payload.direction === "income" ? "from" : "for";
+  const categorySnippet = category.length > 0 ? ` (${category})` : "";
+  const dateSnippet = eventDate ? ` on ${eventDate}` : "";
+  const descriptionSnippet = description.length > 0 ? `${directionPhrase} ${description}` : "";
+  const spacing = descriptionSnippet.length > 0 ? ` ${descriptionSnippet}` : "";
+
+  return `${vibe} Logged ${formattedAmount}${spacing}${categorySnippet}${dateSnippet}.`;
+}
+
+function formatCurrency(amount: number, currency: string): string {
+  const decimals = Math.abs(amount - Math.round(amount)) < 1e-9 ? 0 : 2;
+  const formatted = amount.toLocaleString("en-IN", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+  return `${currency} ${formatted}`;
 }
 
 function renderToolLog(
