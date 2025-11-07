@@ -388,7 +388,15 @@ function normalizeMetrics(candidate: unknown): AlertMetricsState {
     : [];
 
   const incomeSamples = Array.isArray(metrics.incomeSamples)
-    ? metrics.incomeSamples.filter((value) => typeof value === "number" && Number.isFinite(value))
+    ? metrics.incomeSamples.filter(
+        (value): value is number => typeof value === "number" && Number.isFinite(value),
+      )
+    : [];
+
+  const expenseSamples = Array.isArray(metrics.expenseSamples)
+    ? metrics.expenseSamples.filter(
+        (value): value is number => typeof value === "number" && Number.isFinite(value),
+      )
     : [];
 
   return {
@@ -403,6 +411,7 @@ function normalizeMetrics(candidate: unknown): AlertMetricsState {
       ...(entry.targetParty ? { targetParty: String(entry.targetParty) } : {}),
     })),
     incomeSamples,
+    expenseSamples,
   };
 }
 

@@ -457,8 +457,16 @@ model directus_users {
   directus_sessions                                                       directus_sessions[]
   directus_shares                                                         directus_shares[]
   directus_roles                                                          directus_roles?          @relation(fields: [role], references: [id], onUpdate: NoAction, map: "directus_users_role_foreign")
+  directus_users_sms_messages_user_createdTodirectus_users                sms_messages[]           @relation("sms_messages_user_createdTodirectus_users")
+  directus_users_sms_messages_user_updatedTodirectus_users                sms_messages[]           @relation("sms_messages_user_updatedTodirectus_users")
   directus_versions_directus_versions_user_createdTodirectus_users        directus_versions[]      @relation("directus_versions_user_createdTodirectus_users")
   directus_versions_directus_versions_user_updatedTodirectus_users        directus_versions[]      @relation("directus_versions_user_updatedTodirectus_users")
+  directus_users_habit_snapshots_user_createdTodirectus_users             habit_snapshots[]        @relation("habit_snapshots_user_createdTodirectus_users")
+  directus_users_habit_snapshots_user_updatedTodirectus_users             habit_snapshots[]        @relation("habit_snapshots_user_updatedTodirectus_users")
+  directus_users_habit_insights_user_createdTodirectus_users              habit_insights[]         @relation("habit_insights_user_createdTodirectus_users")
+  directus_users_habit_insights_user_updatedTodirectus_users              habit_insights[]         @relation("habit_insights_user_updatedTodirectus_users")
+  directus_users_coach_briefings_user_createdTodirectus_users             coach_briefings[]        @relation("coach_briefings_user_createdTodirectus_users")
+  directus_users_coach_briefings_user_updatedTodirectus_users             coach_briefings[]        @relation("coach_briefings_user_updatedTodirectus_users")
 }
 
 model directus_versions {
@@ -495,48 +503,141 @@ model directus_webhooks {
 }
 
 model sms_messages {
-  id                    Int            @id @default(autoincrement())
-  status                String         @default("draft") @db.VarChar(255)
-  date_created          DateTime?      @db.Timestamptz(6)
-  raw_text              String?
-  sender_name           String?        @db.VarChar(255)
-  time                  DateTime?      @db.Timestamptz(6)
-  receiver_phone_number String?        @db.VarChar(255)
-  owner                 Int?
-  users                 users?         @relation(fields: [owner], references: [id], onUpdate: NoAction, map: "sms_messages_owner_foreign")
-  tranasctions          tranasctions[]
+  id                                                       Int             @id @default(autoincrement())
+  status                                                   String          @default("draft") @db.VarChar(255)
+  sort                                                     Int?
+  date_created                                             DateTime?       @default(now()) @db.Timestamptz(6)
+  date_updated                                             DateTime?       @db.Timestamptz(6)
+  raw_text                                                 String?
+  sender_name                                              String?         @db.VarChar(255)
+  time                                                     DateTime?       @db.Timestamptz(6)
+  receiver_phone_number                                    String?         @db.VarChar(255)
+  owner                                                    Int?
+  processed_at                                             DateTime?       @db.Timestamptz(6)
+  processing_meta                                          Json?           @db.Json
+  processing_notes                                         String?         @db.VarChar(1024)
+  user_created                                             String?         @db.Uuid
+  user_updated                                             String?         @db.Uuid
+  users                                                    users?          @relation(fields: [owner], references: [id], onUpdate: NoAction, map: "sms_messages_owner_foreign")
+  directus_users_sms_messages_user_createdTodirectus_users directus_users? @relation("sms_messages_user_createdTodirectus_users", fields: [user_created], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "sms_messages_user_created_foreign")
+  directus_users_sms_messages_user_updatedTodirectus_users directus_users? @relation("sms_messages_user_updatedTodirectus_users", fields: [user_updated], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "sms_messages_user_updated_foreign")
+  tranasctions                                             tranasctions[]
+
+  @@index([owner, date_created])
 }
 
 model tranasctions {
-  id                  String        @id @db.Uuid
-  status              String        @default("draft") @db.VarChar(255)
-  date_created        DateTime?     @db.Timestamptz(6)
-  date_updated        DateTime?     @db.Timestamptz(6)
-  amount              Float?        @db.Real
-  type                String?       @db.VarChar(255)
-  target_party        String?       @db.VarChar(255)
-  currency            String?       @db.VarChar(255)
-  medium              String?       @db.VarChar(255)
+  id                  String           @id @db.Uuid
+  status              String           @default("draft") @db.VarChar(255)
+  date_created        DateTime?        @db.Timestamptz(6)
+  date_updated        DateTime?        @db.Timestamptz(6)
+  amount              Float?           @db.Real
+  type                String?          @db.VarChar(255)
+  target_party        String?          @db.VarChar(255)
+  currency            String?          @db.VarChar(255)
+  medium              String?          @db.VarChar(255)
   description         String?
   comments            String?
-  date_of_transaction DateTime?     @db.Timestamptz(6)
-  category            String?       @db.VarChar(255)
+  date_of_transaction DateTime?        @db.Timestamptz(6)
+  category            String?          @db.VarChar(255)
   owner               Int?
   original_sms        Int?
-  sms_messages        sms_messages? @relation(fields: [original_sms], references: [id], onUpdate: NoAction, map: "tranasctions_original_sms_foreign")
-  users               users?        @relation(fields: [owner], references: [id], onUpdate: NoAction, map: "tranasctions_owner_foreign")
+  habit_insights      habit_insights[]
+  sms_messages        sms_messages?    @relation(fields: [original_sms], references: [id], onUpdate: NoAction, map: "tranasctions_original_sms_foreign")
+  users               users?           @relation(fields: [owner], references: [id], onUpdate: NoAction, map: "tranasctions_owner_foreign")
 }
 
 model users {
-  id                  Int            @id @default(autoincrement())
-  status              String         @default("draft") @db.VarChar(255)
-  date_created        DateTime?      @db.Timestamptz(6)
-  date_updated        DateTime?      @db.Timestamptz(6)
-  whatsapp_number     String?        @db.VarChar(255)
-  name                String?        @db.VarChar(255)
+  id                  Int               @id @default(autoincrement())
+  status              String            @default("draft") @db.VarChar(255)
+  date_created        DateTime?         @db.Timestamptz(6)
+  date_updated        DateTime?         @db.Timestamptz(6)
+  whatsapp_number     String?           @db.VarChar(255)
+  name                String?           @db.VarChar(255)
   approx_age          Int?
-  approx_bank_balance Float?         @db.Real
-  sms_app_api_key     Json?          @db.Json
+  approx_bank_balance Float?            @db.Real
+  sms_app_api_key     Json?             @db.Json
+  coach_briefings     coach_briefings[]
+  habit_insights      habit_insights[]
+  habit_snapshots     habit_snapshots[]
   sms_messages        sms_messages[]
   tranasctions        tranasctions[]
+}
+
+model habit_insights {
+  habit_id                                                   String          @unique @db.VarChar(255)
+  owner                                                      Int
+  status                                                     String          @default("draft") @db.VarChar(255)
+  habit_label                                                String
+  evidence                                                   String
+  counsel                                                    String
+  full_text                                                  String
+  metrics                                                    Json?           @db.Json
+  recent_transactions                                        Json?           @db.Json
+  transaction_id                                             String?         @db.Uuid
+  recorded_at                                                DateTime        @default(now()) @db.Timestamptz(6)
+  previous_habit_id                                          String?         @db.VarChar(255)
+  sort                                                       Int?
+  date_created                                               DateTime?       @default(now()) @db.Timestamptz(6)
+  date_updated                                               DateTime?       @db.Timestamptz(6)
+  user_created                                               String?         @db.Uuid
+  user_updated                                               String?         @db.Uuid
+  id                                                         Int             @id @default(autoincrement())
+  users                                                      users           @relation(fields: [owner], references: [id], onDelete: Cascade, map: "habit_insights_owner_foreign")
+  tranasctions                                               tranasctions?   @relation(fields: [transaction_id], references: [id], map: "habit_insights_transaction_foreign")
+  directus_users_habit_insights_user_createdTodirectus_users directus_users? @relation("habit_insights_user_createdTodirectus_users", fields: [user_created], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "habit_insights_user_created_foreign")
+  directus_users_habit_insights_user_updatedTodirectus_users directus_users? @relation("habit_insights_user_updatedTodirectus_users", fields: [user_updated], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "habit_insights_user_updated_foreign")
+
+  @@index([owner, recorded_at])
+  @@index([transaction_id])
+  @@index([owner, date_created])
+}
+
+model habit_snapshots {
+  id                                                          Int               @id @default(autoincrement())
+  snapshot_id                                                 String            @unique @db.VarChar(255)
+  owner                                                       Int
+  context_data                                                Json              @db.Json
+  summary_data                                                Json              @db.Json
+  trigger                                                     String?           @db.VarChar(64)
+  status                                                      String            @default("draft") @db.VarChar(255)
+  sort                                                        Int?
+  date_created                                                DateTime          @default(now()) @db.Timestamptz(6)
+  date_updated                                                DateTime?         @db.Timestamptz(6)
+  user_created                                                String?           @db.Uuid
+  user_updated                                                String?           @db.Uuid
+  coach_briefings                                             coach_briefings[]
+  users                                                       users             @relation(fields: [owner], references: [id], onDelete: Cascade, map: "habit_snapshots_owner_foreign")
+  directus_users_habit_snapshots_user_createdTodirectus_users directus_users?   @relation("habit_snapshots_user_createdTodirectus_users", fields: [user_created], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "habit_snapshots_user_created_foreign")
+  directus_users_habit_snapshots_user_updatedTodirectus_users directus_users?   @relation("habit_snapshots_user_updatedTodirectus_users", fields: [user_updated], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "habit_snapshots_user_updated_foreign")
+
+  @@index([owner, date_created])
+}
+
+model coach_briefings {
+  id                                                          String           @id @db.Uuid
+  status                                                      String           @default("draft") @db.VarChar(255)
+  owner                                                       Int
+  sort                                                        Int?
+  headline                                                    String
+  counsel                                                     String
+  evidence                                                    String?
+  trigger                                                     String?          @db.VarChar(64)
+  delivered                                                   Boolean          @default(false)
+  delivered_at                                                DateTime?        @db.Timestamptz(6)
+  date_created                                                DateTime         @default(now()) @db.Timestamptz(6)
+  date_updated                                                DateTime?        @db.Timestamptz(6)
+  insight_hash                                                String           @db.VarChar(255)
+  metadata                                                    Json?            @db.Json
+  snapshot                                                    Int?
+  user_created                                                String?          @db.Uuid
+  user_updated                                                String?          @db.Uuid
+  users                                                       users            @relation(fields: [owner], references: [id], onDelete: Cascade, map: "coach_briefings_owner_foreign")
+  habit_snapshots                                             habit_snapshots? @relation(fields: [snapshot], references: [id], map: "coach_briefings_snapshot_foreign")
+  directus_users_coach_briefings_user_createdTodirectus_users directus_users?  @relation("coach_briefings_user_createdTodirectus_users", fields: [user_created], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "coach_briefings_user_created_foreign")
+  directus_users_coach_briefings_user_updatedTodirectus_users directus_users?  @relation("coach_briefings_user_updatedTodirectus_users", fields: [user_updated], references: [id], onDelete: SetNull, onUpdate: NoAction, map: "coach_briefings_user_updated_foreign")
+
+  @@index([owner, date_created])
+  @@index([owner, delivered])
+  @@index([insight_hash])
 }

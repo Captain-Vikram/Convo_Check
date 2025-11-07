@@ -27,6 +27,10 @@ function toIsoTimestamp(eventDate: string, eventTime?: string): string {
 function buildPayload(transaction: NormalizedTransaction) {
   const direction = transaction.direction === "income" ? "credit" : "debit";
   const eventDate = toIsoTimestamp(transaction.eventDate, transaction.eventTime);
+  const originalSmsId =
+    typeof transaction.meta.originalSmsId === "number" && Number.isFinite(transaction.meta.originalSmsId)
+      ? transaction.meta.originalSmsId
+      : undefined;
 
   return {
     amount: transaction.amount,
@@ -37,6 +41,7 @@ function buildPayload(transaction: NormalizedTransaction) {
     targetParty: transaction.meta.targetParty ?? undefined,
     eventDate,
     currency: transaction.currency ?? "INR",
+    ...(originalSmsId !== undefined ? { originalSmsId } : {}),
   };
 }
 

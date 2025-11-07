@@ -1,0 +1,11 @@
+$payload = @{
+  sender  = 'TEST-BANK'
+  message = 'Rs.250.00 Cr to your A/C X123 via UPI. Ref:991124333201.'
+  timestamp = [DateTime]::UtcNow.ToString('o')
+} | ConvertTo-Json -Depth 3
+
+Invoke-RestMethod -Uri 'http://localhost:3000/api/sms/ingest' `
+  -Method Post `
+  -ContentType 'application/json' `
+  -Headers @{ 'x-sms-api-key' = 'GoodGuy@123' } `
+  -Body $payload

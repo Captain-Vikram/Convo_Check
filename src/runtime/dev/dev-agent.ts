@@ -177,7 +177,8 @@ export async function runDevPipeline(
 
   if (options.alertManager) {
     try {
-      alerts = await options.alertManager.evaluateTransaction(normalized);
+      const evaluatedAlerts = await options.alertManager.evaluateTransaction(normalized);
+      alerts = evaluatedAlerts.filter(isHighImpactAlert);
       if (alerts.length > 0) {
         normalized.meta.alerts = alerts.map((record) => ({
           id: record.id,
@@ -199,6 +200,18 @@ export async function runDevPipeline(
   };
 }
 
+function isHighImpactAlert(alert: AlertRecord): boolean {
+  if (alert.severity === "high") {
+    return true;
+  }
+
+  if (alert.severity === "medium" && alert.confidence >= 0.78) {
+    return true;
+  }
+
+  return false;
+}
+
 export interface FileSystemDevToolOptions {
   baseDir?: string;
 }
@@ -212,6 +225,7 @@ export async function createDevAgentEnvironment(
   const knownTransactionIds = new Set<string>();
 
   const duplicateIndex = new Map<string, NormalizedTransaction>();
+  const duplicateGuards = new Map<string, Promise<void>>();
   const pendingDuplicates = new Map<
     string,
     { candidate: NormalizedTransaction; existing: NormalizedTransaction }
@@ -268,33 +282,40 @@ export async function createDevAgentEnvironment(
 
   const tools: DevTools = {
     async saveToDatabase(transaction) {
-      const duplicate = findDuplicate(transaction);
-
-      if (duplicate) {
-        const suppressionReason = shouldAutoSuppressDuplicate(transaction, duplicate);
-
-        if (suppressionReason) {
-          throw new SuppressedDuplicateError(transaction, duplicate, suppressionReason);
-        }
-
-        pendingDuplicates.set(transaction.id, { candidate: transaction, existing: duplicate });
-        await notifyDuplicateHandlers({
-          pendingId: transaction.id,
-          candidate: transaction,
-          existing: duplicate,
-        });
-        throw new DuplicateTransactionError(transaction.id, duplicate);
-      }
+      const guardKey = buildDuplicateKey(transaction);
+      const releaseGuard = await acquireDuplicateGuard(guardKey);
 
       try {
-        await syncTransactionToApi(transaction);
-        knownTransactionIds.add(transaction.id);
-        updateDuplicateIndex(transaction);
-        await notifyTransactionMonitors([transaction]);
-      } catch (apiError) {
-        const message = apiError instanceof Error ? apiError.message : String(apiError);
-        console.error("[api-sync] Failed to store transaction via API:", message);
-        throw apiError instanceof Error ? apiError : new Error(message);
+        const duplicate = findDuplicate(transaction);
+
+        if (duplicate) {
+          const suppressionReason = shouldAutoSuppressDuplicate(transaction, duplicate);
+
+          if (suppressionReason) {
+            throw new SuppressedDuplicateError(transaction, duplicate, suppressionReason);
+          }
+
+          pendingDuplicates.set(transaction.id, { candidate: transaction, existing: duplicate });
+          await notifyDuplicateHandlers({
+            pendingId: transaction.id,
+            candidate: transaction,
+            existing: duplicate,
+          });
+          throw new DuplicateTransactionError(transaction.id, duplicate);
+        }
+
+        try {
+          await syncTransactionToApi(transaction);
+          knownTransactionIds.add(transaction.id);
+          updateDuplicateIndex(transaction);
+          await notifyTransactionMonitors([transaction]);
+        } catch (apiError) {
+          const message = apiError instanceof Error ? apiError.message : String(apiError);
+          console.error("[api-sync] Failed to store transaction via API:", message);
+          throw apiError instanceof Error ? apiError : new Error(message);
+        }
+      } finally {
+        releaseGuard();
       }
     },
     async sendToAnalyst(metadata) {
@@ -336,6 +357,36 @@ export async function createDevAgentEnvironment(
         console.error("[dev-agent] Duplicate handler failed", error);
       }
     }
+  }
+
+  async function acquireDuplicateGuard(key: string): Promise<() => void> {
+    const existing = duplicateGuards.get(key);
+
+    if (existing) {
+      try {
+        await existing;
+      } catch {
+        // ignore; guard failure already logged elsewhere
+      }
+    }
+
+    let release: (() => void) | null = null;
+    const guardPromise = new Promise<void>((resolve) => {
+      release = () => resolve();
+    });
+
+    duplicateGuards.set(key, guardPromise);
+
+    return () => {
+      if (release) {
+        release();
+      }
+
+      const current = duplicateGuards.get(key);
+      if (current === guardPromise) {
+        duplicateGuards.delete(key);
+      }
+    };
   }
 
   async function resolveDuplicate(

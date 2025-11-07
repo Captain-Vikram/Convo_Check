@@ -1,0 +1,31 @@
+{
+  "recentTransactions": [
+    {
+      "id": "e9ad9b59-cfd5-47c3-8560-c058b52b7e79",
+      "timestamp": "2025-10-12T18:30:00.000Z",
+      "amount": 250,
+      "direction": "income",
+      "targetParty": "Unknown Sender"
+    },
+    {
+      "id": "1201c9c5-3b59-445b-8865-ab9a79ee0048",
+      "timestamp": "2025-10-12T18:30:00.000Z",
+      "amount": 250,
+      "direction": "income",
+      "targetParty": "Unknown sender"
+    },
+    {
+      "id": "2ee6762c-2e78-4a41-b925-ca4f7c064744",
+      "timestamp": "2025-10-12T18:30:00.000Z",
+      "amount": 250,
+      "direction": "income",
+      "targetParty": "Unknown"
+    }
+  ],
+  "incomeSamples": [
+    250,
+    250,
+    250
+  ],
+  "expenseSamples": []
+}

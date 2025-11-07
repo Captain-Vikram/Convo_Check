@@ -472,51 +472,20 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
 
     try {
       while (devAlerts.length > 0 && devAlertsActive) {
-        const alertRecord = devAlerts.shift();
+        const transaction = devAlerts.shift();
 
-        if (!alertRecord) {
+        if (!transaction) {
+          continue;
+        }
+        const assistantText = buildDevNotification(transaction);
+
+        if (assistantText.trim().length === 0) {
           continue;
         }
 
-        const conversationContext = trimHistory(history, maxHistory);
-        const summarySegments = [
-          "(Dev Agent) Detected a transaction added directly to the CSV outside Mill's tool flow.",
-          `Transaction ID: ${alertRecord.id}.`,
-          `${alertRecord.direction === "income" ? "Income" : "Expense"} ${alertRecord.currency} ${alertRecord.amount} on ${alertRecord.eventDate}${
-            alertRecord.eventTime ? ` ${alertRecord.eventTime}` : ""
-          }.`,
-          alertRecord.description.length > 0
-            ? `Description: ${alertRecord.description}.`
-            : "No description captured.",
-          "Ask the user whether this entry is expected or if corrections are needed.",
-        ];
-        const alertMessage = createUserMessage(summarySegments.join(" "));
-
-        try {
-          const messages: ModelMessage[] = [
-            createSystemMessage(chatbotAgent.systemPrompt),
-            ...conversationContext,
-            alertMessage,
-          ];
-
-          const result = await generateText({
-            model: languageModel,
-            messages,
-          });
-
-          const assistantReply = result.text ?? "";
-
-          if (assistantReply.trim().length > 0) {
-            output.write(`mill> ${assistantReply.trim()}\n`);
-          }
-
-          const assistantMessages = (result.response?.messages ?? []) as ModelMessage[];
-          const updatedHistory = [...conversationContext, alertMessage, ...assistantMessages];
-          writeHistory(history, updatedHistory, maxHistory);
-        } catch (error) {
-          const message = error instanceof Error ? error.message : String(error);
-          output.write(`mill> Dev spotted a CSV update but I couldn't ask about it: ${message}.\n`);
-        }
+        output.write(`mill> ${assistantText}\n`);
+        const updatedHistory = [...history, createAssistantMessage(assistantText)];
+        writeHistory(history, updatedHistory, maxHistory);
       }
     } finally {
       devAlertFlushing = false;
@@ -538,6 +507,14 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
           continue;
         }
 
+        if (alertRecord.severity === "low") {
+          continue;
+        }
+
+        if (alertRecord.severity === "medium" && alertRecord.confidence < 0.75) {
+          continue;
+        }
+
         const conversationContext = trimHistory(history, maxHistory);
         const transactionSummary = describeAlertTransaction(alertRecord);
         const behaviorNarrative = summarizeBehaviorContext(alertRecord);
@@ -550,41 +527,22 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
         const severityIcon = getSeverityIcon(alertRecord.severity);
         const ruleLabel = formatAlertRule(alertRecord.rule);
         const guidanceLine = composeAlertGuidance(alertRecord.severity, behaviorClassification);
-        const instructions = [
-          `${severityIcon} Dev Alert — ${ruleLabel} (Severity ${severityLabel}, Confidence ${confidencePercent}%)`,
+        const lines = [
+          `${severityIcon} ${alertRecord.severity === "high" ? "Priority alert" : "Heads-up"} — ${ruleLabel} (confidence ${confidencePercent}%)`,
           `Summary: ${alertRecord.summary}`,
-          transactionSummary ? `Transaction: ${transactionSummary}` : "Transaction details unavailable.",
-          behaviorSummary ? `Behavioral context: ${behaviorSummary}` : "Behavioral context limited.",
+          transactionSummary ? `Transaction: ${transactionSummary}` : undefined,
+          behaviorSummary ? `Context: ${behaviorSummary}` : undefined,
           guidanceLine,
-          "Respond clearly and professionally—avoid playful language or emojis."
-        ];
-        const alertMessage = createUserMessage(instructions.join(" "));
+        ].filter((line): line is string => Boolean(line && line.trim().length > 0));
 
-        try {
-          const messages: ModelMessage[] = [
-            createSystemMessage(chatbotAgent.systemPrompt),
-            ...conversationContext,
-            alertMessage,
-          ];
-
-          const result = await generateText({
-            model: languageModel,
-            messages,
-          });
-
-          const assistantReply = result.text ?? "";
-
-          if (assistantReply.trim().length > 0) {
-            output.write(`mill> ${assistantReply.trim()}\n`);
-          }
-
-          const assistantMessages = (result.response?.messages ?? []) as ModelMessage[];
-          const updatedHistory = [...conversationContext, alertMessage, ...assistantMessages];
-          writeHistory(history, updatedHistory, maxHistory);
-        } catch (error) {
-          const message = error instanceof Error ? error.message : String(error);
-          output.write(`mill> Alert triggered but I couldn't ask about it: ${message}.\n`);
+        if (lines.length === 0) {
+          continue;
         }
+
+        const messageText = lines.join("\n");
+        output.write(`mill> ${messageText}\n`);
+        const updatedHistory = [...conversationContext, createAssistantMessage(messageText)];
+        writeHistory(history, updatedHistory, maxHistory);
       }
     } finally {
       anomalyAlertFlushing = false;
@@ -1226,6 +1184,140 @@ function formatCurrency(amount: number, currency: string): string {
   return `${currency} ${formatted}`;
 }
 
+function buildDevNotification(transaction: NormalizedTransaction): string {
+  const currency = transaction.currency?.trim().length ? transaction.currency : "INR";
+  const amountLabel = formatCurrency(transaction.amount, currency);
+  const directionWord = transaction.direction === "income" ? "credit" : "expense";
+  const originSuffix = transaction.meta.source?.includes("sms") ? " from an SMS" : "";
+  const analysis = analyzeTransactionCompleteness(transaction);
+
+  const detailSegments: string[] = [];
+  if (analysis.description) {
+    detailSegments.push(`for ${analysis.description}`);
+  }
+  if (transaction.meta.targetParty) {
+    detailSegments.push(`with ${transaction.meta.targetParty}`);
+  }
+  if (transaction.meta.medium) {
+    detailSegments.push(`via ${transaction.meta.medium.toUpperCase()}`);
+  }
+  if (transaction.eventDate) {
+    detailSegments.push(`on ${transaction.eventDate}`);
+  }
+
+  const details = detailSegments.length > 0 ? ` ${detailSegments.join(" ")}` : "";
+
+  if (analysis.missingFields.length === 0) {
+    return `FYI: I auto-logged ${amountLabel} as an ${directionWord}${details}${originSuffix}. Let me know if anything needs a tweak.`;
+  }
+
+  const missingLabel = formatMissingFields(analysis.missingFields);
+  return `Heads up: I saw ${amountLabel} treated as an ${directionWord}${details}${originSuffix}, but I still need the ${missingLabel}. Could you fill that in?`;
+}
+
+function analyzeTransactionCompleteness(transaction: NormalizedTransaction): {
+  missingFields: string[];
+  description: string | null;
+} {
+  const missing = new Set<string>();
+  const description = transaction.description?.trim() ?? "";
+  const meaningfulDescription = hasMeaningfulDescription(description) ? description : null;
+
+  if (!meaningfulDescription) {
+    missing.add("description");
+  }
+
+  if (isFallbackCategory(transaction.category)) {
+    missing.add("category");
+  }
+
+  if (transaction.direction === "expense" && !transaction.meta.targetParty) {
+    missing.add("merchant");
+  }
+
+  if (!transaction.eventDate || transaction.eventDate.trim().length === 0) {
+    missing.add("date");
+  }
+
+  return {
+    missingFields: Array.from(missing),
+    description: meaningfulDescription,
+  };
+}
+
+const FALLBACK_CATEGORY_SET = new Set<string>([
+  "Other Expense",
+  "Other Income",
+  "General Expense",
+  "High-Value Expense",
+  "Everyday Expense",
+]);
+
+function isFallbackCategory(category: string): boolean {
+  if (!category) {
+    return true;
+  }
+  return FALLBACK_CATEGORY_SET.has(category);
+}
+
+const GENERIC_DESCRIPTION_TOKENS = new Set<string>([
+  "transaction",
+  "credit",
+  "credited",
+  "debit",
+  "debited",
+  "payment",
+  "upi payment",
+  "upi txn",
+  "upi transaction",
+  "card payment",
+  "purchase",
+]);
+
+function hasMeaningfulDescription(description: string): boolean {
+  const normalized = description.trim().toLowerCase();
+  if (normalized.length < 4) {
+    return false;
+  }
+
+  if (GENERIC_DESCRIPTION_TOKENS.has(normalized)) {
+    return false;
+  }
+
+  return true;
+}
+
+function formatMissingFields(fields: string[]): string {
+  if (fields.length === 0) {
+    return "details";
+  }
+
+  const labels = fields.map((field) => {
+    switch (field) {
+      case "description":
+        return "description";
+      case "category":
+        return "category";
+      case "merchant":
+        return "merchant name";
+      case "date":
+        return "date";
+      default:
+        return field;
+    }
+  });
+
+  if (labels.length === 1) {
+    return labels[0] ?? "detail";
+  }
+
+  if (labels.length === 2) {
+    return `${labels[0]} and ${labels[1]}`;
+  }
+
+  return `${labels.slice(0, -1).join(", ")}, and ${labels[labels.length - 1]}`;
+}
+
 function renderToolLog(
   payload: LogCashTransactionPayload,
   flavor: CategorizationResult["flavor"],
@@ -1308,18 +1400,18 @@ function composeAlertGuidance(
   classification: BehaviorMatch["classification"] | "unknown",
 ): string {
   if (severity === "high" || classification === "flagged") {
-    return "This looks high risk—confirm immediately with the user and advise contacting the bank if it is unfamiliar.";
+    return "Let's double-check this right away—if you don't recognize it, reach out to your bank immediately.";
   }
 
   if (severity === "medium" || classification === "unusual") {
-    return "Ask whether the transaction is expected. If it feels off, suggest the user double-check their statements and monitor for further activity.";
+    return "Can you confirm if this was expected? If anything feels off, keep an eye on your account and statements.";
   }
 
   if (classification === "expected" || classification === "borderline") {
-    return "Note that this aligns with typical behavior—offer a simple confirmation and be ready to update if the user spots an issue.";
+    return "This lines up with your usual pattern—just give it a quick glance to be sure.";
   }
 
-  return "Request a quick confirmation from the user to keep records accurate.";
+  return "Give it a quick confirmation so your records stay accurate.";
 }
 
 function describeAlertTransaction(alert: AlertRecord): string | undefined {

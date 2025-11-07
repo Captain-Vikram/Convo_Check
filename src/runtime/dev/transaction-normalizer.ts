@@ -24,6 +24,7 @@ export interface NormalizedTransaction {
     parsedTemporalPhrase?: string;
     targetParty?: string;
     medium?: string;
+    originalSmsId?: number;
     alerts?: Array<{
       id: string;
       rule: string;
@@ -42,6 +43,7 @@ export interface NormalizeTransactionOptions {
   meta?: {
     targetParty?: string;
     medium?: string;
+    originalSmsId?: number;
   };
   eventDateOverride?: string;
   eventTimeOverride?: string | null;
@@ -331,6 +333,10 @@ export function normalizeTransaction(
 
   if (options.meta?.medium) {
     meta.medium = options.meta.medium;
+  }
+
+  if (typeof options.meta?.originalSmsId === "number") {
+    meta.originalSmsId = options.meta.originalSmsId;
   }
 
   return {

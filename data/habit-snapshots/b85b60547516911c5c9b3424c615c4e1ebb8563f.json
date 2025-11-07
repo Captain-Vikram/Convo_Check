@@ -1,0 +1,44 @@
+[
+  {
+    "habitLabel": "Early Tracking Phase",
+    "evidence": "Only 6 transactions tracked lifetime",
+    "counsel": "Continue logging diligently to build a fuller financial history",
+    "fullText": "- Early Tracking Phase: Evidence: Only 6 transactions tracked lifetime; Counsel: Continue logging diligently to build a fuller financial history."
+  },
+  {
+    "habitLabel": "Consistent Savings",
+    "evidence": "Last 30 days showed a 26% savings rate",
+    "counsel": "Maintain this positive trend to strengthen your financial position",
+    "fullText": "- Consistent Savings: Evidence: Last 30 days showed a 26% savings rate; Counsel: Maintain this positive trend to strengthen your financial position."
+  },
+  {
+    "habitLabel": "Expense Categorization",
+    "evidence": "\"testing\" is 499.75 INR, your largest expense",
+    "counsel": "Clarify this category for better spending insights",
+    "fullText": "- Expense Categorization: Evidence: \"testing\" is 499.75 INR, your largest expense; Counsel: Clarify this category for better spending insights."
+  },
+  {
+    "habitLabel": "Weekly Financial Routine",
+    "evidence": "All 6 transactions occurred on Friday",
+    "counsel": "Utilize Fridays to review finances and plan for the week ahead",
+    "fullText": "- Weekly Financial Routine: Evidence: All 6 transactions occurred on Friday; Counsel: Utilize Fridays to review finances and plan for the week ahead."
+  },
+  {
+    "habitLabel": "Diverse Income Streams",
+    "evidence": "4 income transactions totaling 1080 INR from \"Other Income\"",
+    "counsel": "Continue nurturing these varied income contributions",
+    "fullText": "- Diverse Income Streams: Evidence: 4 income transactions totaling 1080 INR from \"Other Income\"; Counsel: Continue nurturing these varied income contributions."
+  },
+  {
+    "habitLabel": "High Value Transactions",
+    "evidence": "Average transaction amount is 313.29 INR",
+    "counsel": "Be aware of the impact of larger individual transactions",
+    "fullText": "- High Value Transactions: Evidence: Average transaction amount is 313.29 INR; Counsel: Be aware of the impact of larger individual transactions."
+  },
+  {
+    "habitLabel": "Essential Spending Focus",
+    "evidence": "All 6 transactions are categorized as \"necessity\"",
+    "counsel": "Review if all items tagged \"necessity\" truly are, for potential savings",
+    "fullText": "- Essential Spending Focus: Evidence: All 6 transactions are categorized as \"necessity\"; Counsel: Review if all items tagged \"necessity\" truly are, for potential savings."
+  }
+]

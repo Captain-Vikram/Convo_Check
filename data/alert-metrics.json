@@ -74,11 +74,27 @@
       "id": "98ea29a2-2317-4f97-82b2-e6b75e03702d",
       "timestamp": "2025-11-05T00:00:00.000Z",
       "amount": 300,
-      "direction": "Credit"
+      "direction": "expense"
+    },
+    {
+      "id": "ce53bdda-9654-4b6c-b75e-0dd0725d70ab",
+      "timestamp": "2025-11-05T00:00:00.000Z",
+      "amount": 330,
+      "direction": "income"
+    },
+    {
+      "id": "97fa2d65-a4c9-4770-9a86-aedd8649b6f9",
+      "timestamp": "2025-10-12T18:30:00.000Z",
+      "amount": 250,
+      "direction": "income",
+      "targetParty": "UPI Transfer"
     }
   ],
   "incomeSamples": [
     38500,
-    2450
-  ]
+    2450,
+    330,
+    250
+  ],
+  "expenseSamples": []
 }

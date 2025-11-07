@@ -201,7 +201,22 @@ export async function processSmsMessage(
 
   const eventDetails = resolveEventOverrides(extraction.date_of_transaction);
   const extraHeuristics = buildHeuristics(message, extraction);
+  if (typeof options.meta?.originalSmsId === "number") {
+    extraHeuristics.push(`original-sms:${options.meta.originalSmsId}`);
+  }
   const extraTags = buildTagsFromExtraction(extraction);
+
+  const pipelineMeta: NonNullable<NormalizeTransactionOptions["meta"]> = {
+    ...(options.meta ?? {}),
+  };
+
+  if (extraction.targetParty && extraction.targetParty.length > 0) {
+    pipelineMeta.targetParty = extraction.targetParty;
+  }
+
+  if (extraction.medium && extraction.medium.length > 0) {
+    pipelineMeta.medium = extraction.medium;
+  }
 
   const pipelineOptions: DevPipelineOptions = {
     tools,
@@ -210,10 +225,7 @@ export async function processSmsMessage(
     defaultCurrency: extraction.currency,
     extraHeuristics,
     extraTags,
-    meta: {
-      targetParty: extraction.targetParty,
-      medium: extraction.medium,
-    },
+    meta: pipelineMeta,
   };
 
   if (options.now) {

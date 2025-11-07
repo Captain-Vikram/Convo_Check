@@ -340,5 +340,41 @@
     "evidence": "Lifetime income ₹0, expenses ₹799.75; Only 2 transactions recorded in total.",
     "insightHash": "bf5d930fd109e4f8fb0abda092ba6d8b5e77c3bb",
     "trigger": "analyst"
+  },
+  {
+    "id": "5f99b0a1-c6ab-4cbc-af5f-611b83a46e84",
+    "createdAt": "2025-11-05T18:00:59.965Z",
+    "headline": "Complete Income Tracking Needed",
+    "counsel": "Prioritize logging all your income to get a complete financial picture and start building savings 💰 for your future goals 🎯.",
+    "evidence": "Total income 0, last 30 days income 0",
+    "insightHash": "4fc6a52f5460ac076cfafc1112fa43fc9adf6119",
+    "trigger": "analyst"
+  },
+  {
+    "id": "f0e144b7-cbb0-4aee-b97c-3fb3d01673c6",
+    "createdAt": "2025-11-05T18:03:44.294Z",
+    "headline": "Improve Tracking, Boost Cashflow",
+    "counsel": "To reverse your -₹469.75 cashflow 💰, prioritize logging ALL income & expenses, especially 'testing' (₹499.75), to gain clarity and make informed financial decisions. 🎯",
+    "evidence": "Last 30 days net cashflow -₹469.75; only 3 transactions logged, 1 income (₹330), and 'testing' (₹499.75) is 62% of expenses.",
+    "insightHash": "9a32b93d11abbda97c384851c41cd11150f5380b",
+    "trigger": "analyst"
+  },
+  {
+    "id": "26b6d908-42a6-4ad7-8937-c137390cd78b",
+    "createdAt": "2025-11-07T17:21:41.788Z",
+    "headline": "Clarify Spending, Log More Data",
+    "counsel": "Review ₹499.75 'testing' & ₹300 'Side Hustle' expenses. Clarify ₹830 'Other Income' sources. Log more to boost your 🎯4% savings!",
+    "evidence": "Expense Focus: 'testing' expense of 499.75 INR",
+    "insightHash": "3f4ead14923544b5f025c9c8b89eb403950b60fe",
+    "trigger": "analyst"
+  },
+  {
+    "id": "e895482f-e3e1-4ba1-b324-5ab6e01d433c",
+    "createdAt": "2025-11-07T17:50:13.461Z",
+    "headline": "Clarify 'Testing' Expense 💰",
+    "counsel": "Improve insights by fully detailing 'testing' and reviewing all 'necessity' categories. This strengthens your 26% savings! 🎯",
+    "evidence": "Your largest expense 'testing' is 499.75 INR, and all 6 transactions are marked 'necessity'.",
+    "insightHash": "b85b60547516911c5c9b3424c615c4e1ebb8563f",
+    "trigger": "analyst"
   }
 ]
