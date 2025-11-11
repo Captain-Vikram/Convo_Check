@@ -9,6 +9,8 @@ import type { Prisma } from "../../../data/generated/prisma";
 
 import { prisma } from "@/lib/prisma";
 
+console.log("[sms-processor] Module initialized at", new Date().toISOString());
+
 interface SmsProcessingJob {
   smsMessageId: number;
   userId: number;
@@ -154,6 +156,91 @@ async function resumeQueuedJobs(): Promise<void> {
 
 void resumeQueuedJobs();
 
+/**
+ * Process a single queued SMS message (used by cron job).
+ * Returns outcome information for logging.
+ */
+export async function processQueuedSmsMessage(
+  job: SmsProcessingJob,
+  environment: DevEnvironment,
+  smsLog: SmsLog | undefined,
+): Promise<{ status: string; details?: any }> {
+  const acquired = await markJobAsProcessing(job);
+
+  if (!acquired) {
+    console.warn("[sms-processor] Skipping job; already processed or reassigned", job);
+    return { status: "skipped", details: "already_processed" };
+  }
+
+  const smsPayload: SmsMessage = {
+    sender: job.sender,
+    senderName: job.senderName,
+    message: job.message,
+    timestamp: job.timestampIso,
+    date: job.datePart,
+    time: job.timePart,
+    ...(job.isFinancialFlag ? { is_financial: job.isFinancialFlag } : {}),
+  };
+
+  let outcome: ProcessSmsMessageOutcome;
+
+  try {
+    outcome = await processSmsMessage(smsPayload, {
+      devEnvironment: environment,
+      smsLog: smsLog ?? undefined,
+      meta: { originalSmsId: job.smsMessageId },
+    });
+  } catch (error: unknown) {
+    await updateSmsStatusSafe(job.smsMessageId, "error", {
+      processedAt: null,
+      notes: "Processing failed: pipeline execution error",
+      meta: {
+        outcome: "error",
+        error: "pipeline_failure",
+        lastErrorAt: new Date().toISOString(),
+      },
+    });
+    console.error("[sms-processor] Failed to process SMS", error);
+    throw error;
+  }
+
+  const outcomeUpdate = buildOutcomeUpdate(outcome);
+  await updateSmsStatusSafe(job.smsMessageId, outcomeUpdate.status, {
+    processedAt: outcomeUpdate.processedAt,
+    notes: outcomeUpdate.notes,
+    meta: outcomeUpdate.meta,
+  });
+
+  if (outcome.status === "processed") {
+    console.log("[sms-processor] SMS processed", {
+      smsMessageId: job.smsMessageId,
+      transactionId: outcome.result.normalized.id,
+    });
+    return {
+      status: "processed",
+      details: { transactionId: outcome.result.normalized.id },
+    };
+  } else if (outcome.status === "duplicate") {
+    console.log("[sms-processor] SMS duplicate", {
+      smsMessageId: job.smsMessageId,
+      pendingId: outcome.pendingId,
+    });
+    return { status: "duplicate", details: { pendingId: outcome.pendingId } };
+  } else if (outcome.status === "suppressed") {
+    console.log("[sms-processor] SMS suppressed", {
+      smsMessageId: job.smsMessageId,
+      reason: outcome.reason,
+    });
+    return { status: "suppressed", details: { reason: outcome.reason } };
+  } else {
+    console.log("[sms-processor] SMS skipped", {
+      smsMessageId: job.smsMessageId,
+      reason: outcome.reason,
+    });
+    return { status: "skipped", details: { reason: outcome.reason } };
+  }
+}
+
 async function handleJob(job: SmsProcessingJob): Promise<void> {
   const acquired = await markJobAsProcessing(job);
 
@@ -288,7 +375,7 @@ async function markJobAsProcessing(job: SmsProcessingJob): Promise<boolean> {
   }
 }
 
-async function resolveEnvironment(): Promise<DevEnvironment> {
+export async function resolveEnvironment(): Promise<DevEnvironment> {
   const pending = environmentPromise ?? createDevAgentEnvironment();
   environmentPromise = pending;
 
@@ -300,7 +387,7 @@ async function resolveEnvironment(): Promise<DevEnvironment> {
   }
 }
 
-async function resolveSmsLog(): Promise<SmsLog | undefined> {
+export async function resolveSmsLog(): Promise<SmsLog | undefined> {
   if (!smsLogPromise) {
     smsLogPromise = createSmsLog().catch((error: unknown) => {
       console.error("[sms-processor] Failed to initialize SMS log", error);

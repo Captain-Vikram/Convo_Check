@@ -20,12 +20,45 @@
       "amount": 250,
       "direction": "income",
       "targetParty": "Unknown"
+    },
+    {
+      "id": "a5ee9ff4-9b4b-4d05-86f2-e808447728f3",
+      "timestamp": "2025-10-12T18:30:00.000Z",
+      "amount": 250,
+      "direction": "income",
+      "targetParty": "Unknown"
+    },
+    {
+      "id": "254277cd-e774-4d33-85e1-454187edf796",
+      "timestamp": "2025-10-12T18:30:00.000Z",
+      "amount": 500,
+      "direction": "income",
+      "targetParty": "Unknown UPI Sender"
+    },
+    {
+      "id": "f68f6da5-804b-4ffe-a413-e916ec25e350",
+      "timestamp": "2025-10-12T18:30:00.000Z",
+      "amount": 500,
+      "direction": "income",
+      "targetParty": "UPI Transfer"
+    },
+    {
+      "id": "e61861ae-a4e3-4c91-9493-8e126a9a366e",
+      "timestamp": "2025-10-11T03:18:00.000Z",
+      "amount": 1,
+      "direction": "expense",
+      "targetParty": "9324612161@kotak811"
     }
   ],
   "incomeSamples": [
     250,
     250,
-    250
+    250,
+    250,
+    500,
+    500
   ],
-  "expenseSamples": []
+  "expenseSamples": [
+    1
+  ]
 }

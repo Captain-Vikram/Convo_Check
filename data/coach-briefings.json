@@ -376,5 +376,113 @@
     "evidence": "Your largest expense 'testing' is 499.75 INR, and all 6 transactions are marked 'necessity'.",
     "insightHash": "b85b60547516911c5c9b3424c615c4e1ebb8563f",
     "trigger": "analyst"
+  },
+  {
+    "id": "180aa860-1294-4e44-aa5b-0e9455867164",
+    "createdAt": "2025-11-11T10:21:19.255Z",
+    "headline": "Kickstart Expense Tracking Journey",
+    "counsel": "Great start logging income! Now, track all expenses diligently to gain spending clarity & build a full financial picture for your long-term goals 🎯. This helps Chatur guide you better!",
+    "evidence": "Total income 500 INR, Total expense 0 INR, Last 30 days savings rate 1 (100%), 1 transaction recorded.",
+    "insightHash": "c9be6520f6ad6cb611153f6bf62e19f864110a38",
+    "trigger": "analyst"
+  },
+  {
+    "id": "5908185d-56d4-4d0d-b25a-44ea7b1ef872",
+    "createdAt": "2025-11-11T10:22:49.470Z",
+    "headline": "Start Logging Expenses",
+    "counsel": "To truly understand your finances and unlock tailored advice, start logging all daily expenses, even small ones 💰. This will reveal your actual savings rate and spending patterns 🎯.",
+    "evidence": "Latest Insights: Last 30 days expense total: 0 INR; Counsel: Start logging expenses to build a complete spending profile.",
+    "insightHash": "0c99f24b95152c4ea36f10f411821c7c00485c12",
+    "trigger": "analyst"
+  },
+  {
+    "id": "13d0e470-3e69-4bc1-ad37-ce93b507794c",
+    "createdAt": "2025-11-11T10:24:24.441Z",
+    "headline": "Start Logging All Expenses",
+    "counsel": "Begin diligently logging all your spending to build a complete financial profile and unlock deeper insights for your goals 🎯.",
+    "evidence": "Total expense: 0 INR; Last 30 days savings rate: 1.0; Total transactions: 1",
+    "insightHash": "0adb35e8e15df3d8d97a9a13e0a036555dc86d63",
+    "trigger": "analyst"
+  },
+  {
+    "id": "08037f90-f5a6-4b0d-8261-1c5a1be916a3",
+    "createdAt": "2025-11-11T10:25:29.589Z",
+    "headline": "Early Tracking: Expand to Expenses",
+    "counsel": "Your initial income tracking is good! To get a full financial picture & plan for goals, ensure you log all expenses too. 🎯",
+    "evidence": "Total transactions: 1; Total expense: 0 INR; Last 30 days expense total: 0 INR; 1 income transaction was logged.",
+    "insightHash": "0ff7259108ee83188f03e0fdc50a6c19f989f5bc",
+    "trigger": "analyst"
+  },
+  {
+    "id": "e696de63-3216-46dc-b55b-97049165d758",
+    "createdAt": "2025-11-11T10:40:00.019Z",
+    "headline": "Positive Start, Monitor Expenses",
+    "counsel": "You're building a strong base with positive cashflow 💰324.5 INR. Continue tracking all expenses, especially Food & Dining 🍴, to expand your financial picture. 🎯",
+    "evidence": "Net cashflow for the last 30 days is 324.5 INR; Total expense is 175.5 INR, all in 'Food & Dining'.",
+    "insightHash": "a750eb0f4415ca60079ced2abd3075e2964a7b6f",
+    "trigger": "analyst"
+  },
+  {
+    "id": "f1c485b7-ef5b-47ee-bc15-be63a306c206",
+    "createdAt": "2025-11-11T10:41:17.092Z",
+    "headline": "Great Start, Track More Data",
+    "counsel": "Your high savings (0.65 rate) & positive cashflow (₹324.5) are excellent! 🎯 Keep tracking *all* income & expenses to build a complete financial picture 💰. This supports future goals.",
+    "evidence": "Last 30 days savings rate 0.65; Net cashflow INR 324.5; Only 2 total transactions, single income source 'Other Income'.",
+    "insightHash": "6a1209fd783b1ac576b7252b82053b7599bf5800",
+    "trigger": "analyst"
+  },
+  {
+    "id": "6a8abd2d-e777-4b24-a40d-4d1c6974f8f6",
+    "createdAt": "2025-11-11T10:49:25.843Z",
+    "headline": "Strong Savings, Focused Spending",
+    "counsel": "Maintain your strong savings and positive cashflow. As activity grows, monitor spending in Food & Dining & ensure all transactions align with your goals. 🎯💰",
+    "evidence": "Last 30 days savings rate is 0.65, net cashflow is INR 324.5, with all expenses (INR 175.5) in 'Food & Dining'.",
+    "insightHash": "95a021727ae72431bfa4c1fe12262278c15ff82e",
+    "trigger": "analyst"
+  },
+  {
+    "id": "794074fd-0023-4982-824e-d4d9578ab889",
+    "createdAt": "2025-11-11T10:55:53.508Z",
+    "headline": "Log More for Deeper Insights",
+    "counsel": "To unlock personalized advice for your financial journey and goals 🎯, consistently log all your income and expenses. Your current insights, though positive, are based on only 3 transactions.",
+    "evidence": "Only 3 transactions recorded in total; prior counsel highlighted 'Insufficient History' with 0 logged transactions. This limits robust analysis of habits like 'Strong Saving Habit' (savings rate of 0.75).",
+    "insightHash": "02533c6ae7f2ba8fbd2c15c69a1d6f9d1e4b4597",
+    "trigger": "analyst"
+  },
+  {
+    "id": "0f54792f-a568-41df-aba6-befae3e1a7c2",
+    "createdAt": "2025-11-11T10:57:10.630Z",
+    "headline": "Strong Savings, Monitor New Spending",
+    "counsel": "Great job maintaining strong savings 🎯 (0.46 rate)! To keep your finances healthy, closely track 'Other Expense' 💰 (₹200), now your top spending area.",
+    "evidence": "Latest insights: Last 30 days savings rate 0.46. Top expenses: 'Other Expense' INR 200, 'Food & Dining' INR 175.5. Previously, Food & Dining was the sole expense category.",
+    "insightHash": "f274ef8b3bd836a98917193d3bdae6dc068122e1",
+    "trigger": "analyst"
+  },
+  {
+    "id": "acafcffa-00f2-4dff-aa48-19807738cfde",
+    "createdAt": "2025-11-11T11:00:44.678Z",
+    "headline": "Strong Savings, Sharpen Focus",
+    "counsel": "Your excellent savings 💰 (rate 0.46) and positive cashflow (₹324.5) are commendable! Keep this momentum. For even clearer financial insights and goal tracking 🎯, consider re-categorizing the ₹200 'Other Expense'.",
+    "evidence": "Last 30 days savings rate 0.46; net cashflow ₹324.5; 'Other Expense' totals ₹200.",
+    "insightHash": "17c0da467e3832577488ee8d2d97b241734b8dbb",
+    "trigger": "analyst"
+  },
+  {
+    "id": "059a68e3-1380-4dfd-944a-44b0b8e06a55",
+    "createdAt": "2025-11-11T11:56:39.722Z",
+    "headline": "Strong Savings, Review 'Testing'",
+    "counsel": "Your finances are healthy! 🎯 Keep up the 0.49 savings rate. Review ₹499.75 'testing' expense to optimize spending. 💰",
+    "evidence": "Last 30 days savings rate 0.49; 'testing' expense 499.75 INR",
+    "insightHash": "289f515ebf5b9f408efb0ed908b3f7cd6abe9cb1",
+    "trigger": "analyst"
+  },
+  {
+    "id": "aec5b244-e2c7-4333-b03b-f6d25babe902",
+    "createdAt": "2025-11-11T11:59:13.527Z",
+    "headline": "Strong Savings, Optimize Key Spending",
+    "counsel": "Excellent 43% savings! Review 'testing' (₹499.75) & track 'Side Hustle' ROI (₹300). Explore new income streams to boost financial resilience. 🚀💰🎯",
+    "evidence": "Last 30 days savings rate is 0.43 (43%); 'testing' is your largest expense at 499.75 INR; You spent 300 INR for 'Side Hustle' project help; Total income is 1580 INR from 6 transactions.",
+    "insightHash": "49544c59fc5b8ed0edfe6a51db49f49a2b88c3ad",
+    "trigger": "analyst"
   }
 ]

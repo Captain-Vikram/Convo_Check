@@ -1,1 +1,73 @@
-[]
+[
+  {
+    "id": "06d3a7f0-0c8d-4e7a-a6f7-790fb6cfd38d",
+    "transactionId": "254277cd-e774-4d33-85e1-454187edf796",
+    "createdAt": "2025-11-11T08:31:15.805Z",
+    "rule": "rapid_burst",
+    "severity": "medium",
+    "confidence": 0.85,
+    "summary": "₹1,500 across 5 credits within 5 minutes. Latest: ₹500.",
+    "details": {
+      "burstCount": 5,
+      "windowMinutes": 5,
+      "totalAmount": 1500,
+      "behaviorContext": {
+        "matches": []
+      },
+      "transaction": {
+        "amount": 500,
+        "currency": "INR",
+        "direction": "income",
+        "targetParty": "Unknown UPI Sender"
+      }
+    },
+    "status": "open"
+  },
+  {
+    "id": "2a5af1ec-0492-4d65-9148-1e966f535c08",
+    "transactionId": "254277cd-e774-4d33-85e1-454187edf796",
+    "createdAt": "2025-11-11T08:31:15.805Z",
+    "rule": "unusual_credit",
+    "severity": "medium",
+    "confidence": 0.9,
+    "summary": "Credit of ₹500 looks larger than normal.",
+    "details": {
+      "baseline": 250,
+      "threshold": 437.5,
+      "behaviorContext": {
+        "matches": []
+      },
+      "transaction": {
+        "amount": 500,
+        "currency": "INR",
+        "direction": "income",
+        "targetParty": "Unknown UPI Sender"
+      }
+    },
+    "status": "open"
+  },
+  {
+    "id": "bbe246a3-9e66-4912-92c5-3938545d24f5",
+    "transactionId": "f68f6da5-804b-4ffe-a413-e916ec25e350",
+    "createdAt": "2025-11-11T08:31:15.927Z",
+    "rule": "rapid_burst",
+    "severity": "medium",
+    "confidence": 0.9,
+    "summary": "₹2,000 across 6 credits within 5 minutes. Latest: ₹500.",
+    "details": {
+      "burstCount": 6,
+      "windowMinutes": 5,
+      "totalAmount": 2000,
+      "behaviorContext": {
+        "matches": []
+      },
+      "transaction": {
+        "amount": 500,
+        "currency": "INR",
+        "direction": "income",
+        "targetParty": "UPI Transfer"
+      }
+    },
+    "status": "open"
+  }
+]

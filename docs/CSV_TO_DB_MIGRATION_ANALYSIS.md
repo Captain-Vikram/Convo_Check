@@ -9,7 +9,7 @@ Current system uses CSV files for transaction logging and AI agent coordination.
 - User: Vighnesh (id from `users` table)
 - Phone: 919619183585 (whatsapp_number)
 - Age: 19, Bank Balance: 500
-- API Key: GoodGuy@123 (sms_app_api_key)
+- API Key: [REDACTED] (sms_app_api_key)
 
 ---
 
@@ -1119,7 +1119,7 @@ Schema has `tranasctions` (typo). Either:
 Current schema stores `sms_app_api_key` as JSON. For Vighnesh:
 
 ```json
-{ "key": "GoodGuy@123" }
+{ "key": "[REDACTED]" }
 ```
 
 API must parse this JSON field or migrate to `String` type.

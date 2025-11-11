@@ -103,6 +103,7 @@ export interface PendingDuplicateSummary {
 export interface DevAgentEnvironment {
   tools: DevTools;
   alertManager: TransactionAlertManager;
+  /** @deprecated CSV monitoring is legacy - transactions now come from database via API */
   startCsvMonitor(
     onNewRecords: (records: NormalizedTransaction[]) => Promise<void> | void,
   ): Promise<() => Promise<void>>;

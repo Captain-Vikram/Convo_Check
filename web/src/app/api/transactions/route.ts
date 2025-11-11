@@ -2,21 +2,15 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 
 import { prisma } from "@/lib/prisma";
-import { getUserContext } from "@/lib/request-context";
+import { getUserContext } from "@/lib/auth-middleware";
 
 const MAX_PAGE_SIZE = 100;
 const ALLOWED_TRANSACTION_TYPES = new Set(["credit", "debit", "refund", "other"]);
 
 export async function GET(request: Request) {
-  if (process.env.NODE_ENV !== "production") {
-    console.log("[transactions] incoming headers", Array.from(request.headers.entries()));
-  }
-  const userContext = await getUserContext(request);
+  const userContext = getUserContext(request);
 
   if (!userContext) {
-    if (process.env.NODE_ENV !== "production") {
-      console.log("[transactions] user context missing");
-    }
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -114,15 +108,9 @@ interface CreateTransactionPayload {
 }
 
 export async function POST(request: Request) {
-  if (process.env.NODE_ENV !== "production") {
-    console.log("[transactions] POST headers", Array.from(request.headers.entries()));
-  }
-  const userContext = await getUserContext(request);
+  const userContext = getUserContext(request);
 
   if (!userContext) {
-    if (process.env.NODE_ENV !== "production") {
-      console.log("[transactions] user context missing on POST");
-    }
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

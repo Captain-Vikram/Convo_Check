@@ -274,7 +274,12 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
     },
   );
 
-  const rl = createInterface({ input, output, terminal: true });
+  const rl = createInterface({ 
+    input, 
+    output, 
+    terminal: false,  // Disable terminal mode to fix PowerShell double-input issue
+    prompt: ''
+  });
   const history: ConversationHistory = [];
   const maxHistory = options.maxHistory ?? DEFAULT_MAX_HISTORY;
 
@@ -695,7 +700,8 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
       await flushAnomalyAlerts();
       await flushDevAlerts();
 
-      const rawInput = await rl.question("you> ");
+      output.write("you> ");  // Manual prompt since terminal=false
+      const rawInput = await rl.question("");
       const normalizedInput = rawInput.trim();
 
       if (normalizedInput.length === 0) {

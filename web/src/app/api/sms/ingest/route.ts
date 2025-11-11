@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
 
 import { prisma } from "@/lib/prisma";
-import { getUserContext } from "@/lib/request-context";
+import { getUserContext } from "@/lib/auth-middleware";
 import { enqueueSmsProcessingJob } from "@/lib/sms-processor";
 
 interface SmsIngestRequestBody {
@@ -20,7 +20,7 @@ interface SmsIngestRequestBody {
 }
 
 export async function POST(request: Request) {
-  const userContext = await getUserContext(request);
+  const userContext = getUserContext(request);
 
   if (!userContext) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

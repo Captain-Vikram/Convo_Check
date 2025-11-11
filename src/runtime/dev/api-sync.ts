@@ -8,7 +8,7 @@ type NormalizedAlert = NonNullable<NormalizedTransaction["meta"]["alerts"]>[numb
 const DEFAULT_BASE_URL = "http://localhost:3000";
 let syncTokenMissingWarned = false;
 let fetchTokenMissingWarned = false;
-const DEFAULT_FETCH_LIMIT = 200;
+const DEFAULT_FETCH_LIMIT = 50;
 
 function isAuthDisabled(): boolean {
   const flag = process.env.DISABLE_AUTH;
@@ -61,12 +61,6 @@ export async function syncTransactionToApi(transaction: NormalizedTransaction): 
   const endpoint = new URL("/api/transactions", baseUrl).toString();
   const payload = buildPayload(transaction);
 
-  if (authDisabled) {
-    console.log("[api-sync] POST", endpoint, "(auth disabled)");
-  } else if (token) {
-    console.log("[api-sync] POST", endpoint, "Authorization=", `Bearer ${token.slice(0, 4)}...`);
-  }
-
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {
@@ -98,12 +92,6 @@ export async function fetchTransactionsFromApi(): Promise<NormalizedTransaction[
   const limit = Number.parseInt(process.env.MILL_API_SEED_LIMIT ?? "", 10);
   const fetchLimit = Number.isFinite(limit) && limit > 0 ? limit : DEFAULT_FETCH_LIMIT;
   const endpointUrl = new URL(`/api/transactions?limit=${fetchLimit}`, baseUrl).toString();
-
-  if (authDisabled) {
-    console.log("[api-sync] GET", endpointUrl, "(auth disabled)");
-  } else if (token) {
-    console.log("[api-sync] GET", endpointUrl, "Authorization=", `Bearer ${token.slice(0, 4)}...`);
-  }
 
   const response = await fetch(endpointUrl, {
     method: "GET",

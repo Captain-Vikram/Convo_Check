@@ -1,3 +1,5 @@
+import { categorizationCache } from "./categorization-cache.js";
+
 export type SpendingFlavor = "necessity" | "treat" | "luxury";
 
 export interface CategorizationResult {
@@ -16,7 +18,15 @@ type CategorizationRule = {
 };
 
 const RULES: CategorizationRule[] = [
-  { matches: /(salary|pay|pocket\s*money|allowance|stipend)/i, category: "Income", flavor: "necessity" },
+  // Income sources - all treated as necessity flavor
+  { matches: /(salary|pay|pocket\s*money|allowance|stipend)/i, category: "Salary Income", flavor: "necessity" },
+  { matches: /(side\s*project|side\s*hustle|freelance|freelancing|gig|contract|consulting)/i, category: "Side Hustle Income", flavor: "necessity" },
+  { matches: /(gift|received\s+from|got\s+from|money\s+from\s+(father|mother|parent|friend|family))/i, category: "Gifts & Donations", flavor: "necessity" },
+  { matches: /(refund|reimbursement|cashback|return)/i, category: "Refunds & Reimbursements", flavor: "necessity" },
+  { matches: /(interest|dividend|investment\s+return|profit|earning)/i, category: "Interest & Dividends", flavor: "necessity" },
+  { matches: /(part\s*time|part-time|extra\s+income|additional\s+income)/i, category: "Side Hustle Income", flavor: "necessity" },
+  
+  // Expenses
   { matches: /(rent|utilities|electricity|water|internet|gas)/i, category: "Essentials", flavor: "necessity" },
   { matches: /(grocery|groceries|vegetable|vegetables|fruit|milk|bread|supermarket)/i, category: "Food & Groceries", flavor: "necessity" },
   {
@@ -42,35 +52,49 @@ const HIGH_VALUE_THRESHOLD = 2000;
 const LOW_VALUE_THRESHOLD = 100;
 
 export function categorizeTransaction(description: string, amount: number): CategorizationResult {
+  // Check cache first
+  const cached = categorizationCache.get(description, amount);
+  if (cached) {
+    return cached;
+  }
+
   const normalized = description.trim().toLowerCase();
 
   for (const rule of RULES) {
     if (rule.matches.test(normalized)) {
       if (rule.treatUpgradeThreshold && amount >= rule.treatUpgradeThreshold) {
-        return {
-          flavor: "luxury",
+        const result = {
+          flavor: "luxury" as const,
           inferredCategory: rule.treatUpgradeCategory ?? "Premium Treat",
         };
+        categorizationCache.set(description, amount, result);
+        return result;
       }
 
       if (rule.luxuryThreshold && amount >= rule.luxuryThreshold) {
-        return {
-          flavor: "luxury",
+        const result = {
+          flavor: "luxury" as const,
           inferredCategory: rule.luxuryCategory ?? "Luxury Expense",
         };
+        categorizationCache.set(description, amount, result);
+        return result;
       }
 
-      return { flavor: rule.flavor, inferredCategory: rule.category };
+      const result = { flavor: rule.flavor, inferredCategory: rule.category };
+      categorizationCache.set(description, amount, result);
+      return result;
     }
   }
 
+  let result: CategorizationResult;
   if (amount >= HIGH_VALUE_THRESHOLD) {
-    return { flavor: "luxury", inferredCategory: "High-Value Expense" };
+    result = { flavor: "luxury", inferredCategory: "High-Value Expense" };
+  } else if (amount <= LOW_VALUE_THRESHOLD) {
+    result = { flavor: "necessity", inferredCategory: "Everyday Expense" };
+  } else {
+    result = { flavor: "treat", inferredCategory: "General Expense" };
   }
 
-  if (amount <= LOW_VALUE_THRESHOLD) {
-    return { flavor: "necessity", inferredCategory: "Everyday Expense" };
-  }
-
-  return { flavor: "treat", inferredCategory: "General Expense" };
+  categorizationCache.set(description, amount, result);
+  return result;
 }

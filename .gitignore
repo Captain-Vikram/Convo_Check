@@ -10,3 +10,37 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# Reference/Test Data (keep locally, don't push)
+test.json
+sms_export_*.json
+sms_export_*.csv
+git.txt
+test-data-manual/
+data/
+data/dummy_transactions.csv
+data/transactions.csv
+data/sms-ingest-log.csv
+data/analyst-metadata.csv
+data/alert-metrics.json
+data/alerts.json
+data/coach-briefings.json
+web/data/
+
+# Prisma generated files (regenerated from schema)
+data/generated/
+
+# Development snapshots
+data/habit-snapshots/
+
+# Build artifacts
+scripts/*.js
+scripts/*.js.map
+scripts/*.d.ts
+scripts/*.d.ts.map
+*.tsbuildinfo
+
+# Test files
+test-*.js
+test-*.mjs
+test-*.ts

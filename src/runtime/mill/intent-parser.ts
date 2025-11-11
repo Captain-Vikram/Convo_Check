@@ -35,8 +35,9 @@ export function parseUserIntent(input: string): ParsedIntent {
 
   // Income logging patterns
   const incomePatterns = [
-    /(?:received|earned|got|income)\s+(?:inr|rs\.?|₹)?\s*(\d+(?:\.\d+)?)\s+(?:from|for)\s+(.+?)(?:\.|$)/i,
-    /(\d+(?:\.\d+)?)\s+(?:inr|rs\.?|₹)\s+(?:received|earned|got|income)\s+(?:from|for)\s+(.+?)(?:\.|$)/i,
+    /(?:received|earned|got|income)\s+(?:inr|rs\.?|₹)?\s*(\d+(?:\.\d+)?)\s+(?:rupees?|inr|rs\.?|₹)?\s*(?:from|for)\s+(.+?)(?:\.|$)/i,
+    /(\d+(?:\.\d+)?)\s+(?:rupees?|inr|rs\.?|₹)\s+(?:received|earned|got|income)\s+(?:from|for)\s+(.+?)(?:\.|$)/i,
+    /(?:received|earned|got|income)\s+(\d+(?:\.\d+)?)\s+(?:rupees?|inr|rs\.?|₹)?\s*(?:from|for)\s+(.+?)(?:\.|$)/i,
   ];
 
   for (const pattern of incomePatterns) {
