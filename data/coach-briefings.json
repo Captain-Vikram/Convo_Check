@@ -484,5 +484,23 @@
     "evidence": "Last 30 days savings rate is 0.43 (43%); 'testing' is your largest expense at 499.75 INR; You spent 300 INR for 'Side Hustle' project help; Total income is 1580 INR from 6 transactions.",
     "insightHash": "49544c59fc5b8ed0edfe6a51db49f49a2b88c3ad",
     "trigger": "analyst"
+  },
+  {
+    "id": "086496fe-b295-4d82-853a-255a02d110ee",
+    "createdAt": "2025-11-11T15:27:03.208Z",
+    "headline": "Logging Crucial for Clear Picture",
+    "counsel": "Log all daily transactions, not just on Tuesdays, to clarify 'testing' expense & get accurate insights for your financial journey. 🎯",
+    "evidence": "All 11 transactions occurred on a Tuesday & marked 'necessity'; 'testing' category 55% of expenses (₹499.75 of ₹900.75 total).",
+    "insightHash": "87355b8afd6acafa21d38d89304615a70eee50dc",
+    "trigger": "analyst"
+  },
+  {
+    "id": "0ace5e63-ef50-481a-9533-eea021c9c844",
+    "createdAt": "2025-11-11T15:27:14.541Z",
+    "headline": "Log More, Clarify Spending 💰",
+    "counsel": "Increase logging frequency for all transactions (only 11 recorded) & clarify the ₹499.75 'testing' expense. This unlocks better insights for your goals 🎯.",
+    "evidence": "A total of 11 transactions recorded; 'testing' is INR 499.75, largest expense category.",
+    "insightHash": "ceb5ada7affc4e5ea17bf5baf4959f9952e1c95d",
+    "trigger": "analyst"
   }
 ]

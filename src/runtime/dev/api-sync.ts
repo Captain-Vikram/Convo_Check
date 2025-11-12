@@ -46,26 +46,28 @@ function buildPayload(transaction: NormalizedTransaction) {
 }
 
 export async function syncTransactionToApi(transaction: NormalizedTransaction): Promise<void> {
-  const token = process.env.MILL_API_TOKEN;
+  const serviceToken = process.env.SERVICE_API_TOKEN;
   const authDisabled = isAuthDisabled();
 
-  if (!token && !authDisabled) {
+  if (!serviceToken && !authDisabled) {
     if (!syncTokenMissingWarned) {
-      console.error("[api-sync] Cannot persist transactions; MILL_API_TOKEN missing.");
+      console.error("[api-sync] Cannot persist transactions; SERVICE_API_TOKEN is required.");
       syncTokenMissingWarned = true;
     }
-    throw new Error("MILL_API_TOKEN missing");
+    throw new Error("SERVICE_API_TOKEN is required for agent authentication");
   }
 
   const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
   const endpoint = new URL("/api/transactions", baseUrl).toString();
   const payload = buildPayload(transaction);
 
+  const authTokenToUse = authDisabled ? null : serviceToken;
+
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      ...(authDisabled || !token ? {} : { Authorization: `Bearer ${token}` }),
+      ...(authTokenToUse ? { Authorization: `Bearer ${authTokenToUse}` } : {}),
     },
     body: JSON.stringify(payload),
   });
@@ -77,27 +79,39 @@ export async function syncTransactionToApi(transaction: NormalizedTransaction): 
 }
 
 export async function fetchTransactionsFromApi(): Promise<NormalizedTransaction[]> {
-  const token = process.env.MILL_API_TOKEN;
+  const serviceToken = process.env.SERVICE_API_TOKEN;
   const authDisabled = isAuthDisabled();
 
-  if (!token && !authDisabled) {
+  console.log("[api-sync] Fetching transactions with:", {
+    hasToken: !!serviceToken,
+    tokenPrefix: serviceToken ? serviceToken.substring(0, 10) : "none",
+    authDisabled,
+  });
+
+  if (!serviceToken && !authDisabled) {
     if (!fetchTokenMissingWarned) {
-      console.error("[api-sync] Cannot fetch transactions; MILL_API_TOKEN missing.");
+      console.error("[api-sync] Cannot fetch transactions; SERVICE_API_TOKEN is required.");
       fetchTokenMissingWarned = true;
     }
-    throw new Error("MILL_API_TOKEN missing");
+    throw new Error("SERVICE_API_TOKEN is required for agent authentication");
   }
 
   const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
   const limit = Number.parseInt(process.env.MILL_API_SEED_LIMIT ?? "", 10);
   const fetchLimit = Number.isFinite(limit) && limit > 0 ? limit : DEFAULT_FETCH_LIMIT;
-  const endpointUrl = new URL(`/api/transactions?limit=${fetchLimit}`, baseUrl).toString();
+
+  // If a seed owner is provided, request transactions for that owner.
+  const seedOwner = process.env.MILL_API_SEED_OWNER ?? process.env.DEV_USER_ID;
+  const ownerQuery = seedOwner ? `&owner=${encodeURIComponent(String(seedOwner))}` : "";
+  const endpointUrl = new URL(`/api/transactions?limit=${fetchLimit}${ownerQuery}`, baseUrl).toString();
+
+  const authTokenToUse = authDisabled ? null : serviceToken;
 
   const response = await fetch(endpointUrl, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      ...(authDisabled || !token ? {} : { Authorization: `Bearer ${token}` }),
+      ...(authTokenToUse ? { Authorization: `Bearer ${authTokenToUse}` } : {}),
     },
   });
 

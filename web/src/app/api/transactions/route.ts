@@ -8,13 +8,28 @@ const MAX_PAGE_SIZE = 100;
 const ALLOWED_TRANSACTION_TYPES = new Set(["credit", "debit", "refund", "other"]);
 
 export async function GET(request: Request) {
-  const userContext = getUserContext(request);
+  const userContext = await getUserContext(request);
 
   if (!userContext) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  // Determine which owner's transactions to fetch. Services must specify `owner` query param.
   const url = new URL(request.url);
+  let ownerFilter: number | undefined = undefined;
+  if (userContext.isService) {
+    const ownerParam = url.searchParams.get("owner");
+    if (!ownerParam) {
+      return NextResponse.json({ error: "Missing 'owner' query param for service requests" }, { status: 400 });
+    }
+    const parsed = Number.parseInt(ownerParam, 10);
+    if (!Number.isFinite(parsed)) {
+      return NextResponse.json({ error: "Invalid 'owner' query param" }, { status: 400 });
+    }
+    ownerFilter = parsed;
+  } else {
+    ownerFilter = userContext.userId as number;
+  }
   const takeParam = Number.parseInt(url.searchParams.get("limit") ?? "25", 10);
   const cursor = url.searchParams.get("cursor");
   const take = Number.isFinite(takeParam) ? Math.min(Math.max(takeParam, 1), MAX_PAGE_SIZE) : 25;
@@ -52,14 +67,14 @@ export async function GET(request: Request) {
       select: { owner: true },
     });
 
-    if (!cursorOwner || cursorOwner.owner !== userContext.userId) {
+    if (!cursorOwner || cursorOwner.owner !== ownerFilter) {
       return NextResponse.json({ error: "Invalid cursor" }, { status: 400 });
     }
   }
 
   const transactions = await prisma.tranasctions.findMany({
     where: {
-      owner: userContext.userId,
+      owner: ownerFilter,
       ...(Object.keys(dateFilter).length > 0
         ? { date_of_transaction: dateFilter }
         : {}),
@@ -102,17 +117,20 @@ interface CreateTransactionPayload {
   description?: string;
   medium?: string;
   originalSmsId?: number;
+  owner?: number; // optional - only allowed when authenticated as service
   currency?: string;
   targetParty?: string;
   eventDate?: string;
 }
 
 export async function POST(request: Request) {
-  const userContext = getUserContext(request);
+  const userContext = await getUserContext(request);
 
   if (!userContext) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  // effectiveOwner will be resolved after parsing the body below (allows service to provide owner or infer from originalSmsId)
 
   const body = (await request.json().catch(() => null)) as CreateTransactionPayload | null;
 
@@ -152,13 +170,31 @@ export async function POST(request: Request) {
 
   let smsMessageId: number | null = null;
 
+  // Resolve effective owner. If authenticated as a service, allow owner in body or infer from originalSmsId.
+  let effectiveOwner: number;
+  if (userContext.isService) {
+    if (typeof body.owner === "number" && Number.isFinite(body.owner)) {
+      effectiveOwner = Number(body.owner);
+    } else if (typeof body.originalSmsId === "number") {
+      const ownerRecord = await prisma.sms_messages.findUnique({ where: { id: body.originalSmsId }, select: { owner: true } });
+      if (!ownerRecord) {
+        return NextResponse.json({ error: "Invalid SMS reference" }, { status: 400 });
+      }
+  effectiveOwner = Number(ownerRecord.owner);
+    } else {
+      return NextResponse.json({ error: "Service requests must include numeric 'owner' in body or originalSmsId to infer owner" }, { status: 400 });
+    }
+  } else {
+    effectiveOwner = userContext.userId as number;
+  }
+
   if (typeof body.originalSmsId === "number") {
     const smsRecord = await prisma.sms_messages.findUnique({
       where: { id: body.originalSmsId },
       select: { owner: true },
     });
 
-    if (!smsRecord || smsRecord.owner !== userContext.userId) {
+    if (!smsRecord || smsRecord.owner !== effectiveOwner) {
       return NextResponse.json({ error: "Invalid SMS reference" }, { status: 400 });
     }
 
@@ -174,7 +210,7 @@ export async function POST(request: Request) {
       category: normalizedCategory.length > 0 ? normalizedCategory : null,
       description: normalizedDescription.length > 0 ? normalizedDescription : null,
       medium: normalizedMedium.length > 0 ? normalizedMedium : null,
-      owner: userContext.userId,
+      owner: effectiveOwner,
       currency: normalizedCurrency,
       target_party: normalizedTargetParty.length > 0 ? normalizedTargetParty : null,
       date_created: now,

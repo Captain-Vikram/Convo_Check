@@ -21,16 +21,7 @@ export async function middleware(request: NextRequest) {
     }
     const requestHeaders = new Headers(request.headers);
     const fallbackUserId = process.env.DEV_USER_ID ?? "2";
-
     requestHeaders.set("x-user-id", fallbackUserId);
-
-    if (process.env.DEV_USER_ROLE) {
-      requestHeaders.set("x-user-role", process.env.DEV_USER_ROLE);
-    }
-
-    if (process.env.DEV_USER_PHONE) {
-      requestHeaders.set("x-user-phone", process.env.DEV_USER_PHONE);
-    }
 
     return NextResponse.next({ request: { headers: requestHeaders } });
   }

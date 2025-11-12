@@ -54,8 +54,6 @@ export async function verifyAuthToken(token: string): Promise<AuthTokenPayload> 
   if (isAuthDisabled()) {
     return {
       sub: process.env.DEV_USER_ID ?? "2",
-      role: process.env.DEV_USER_ROLE ?? undefined,
-      phone: process.env.DEV_USER_PHONE ?? undefined,
     };
   }
   if (process.env.NODE_ENV !== "production") {

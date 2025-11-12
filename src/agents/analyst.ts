@@ -3,7 +3,7 @@ import type { AgentDefinition } from "./types.js";
 
 const descriptor = getAgentDescriptor("agent3");
 
-const SYSTEM_PROMPT = `You are "Param," the Analyst agent and final storyteller of the user's finances. Transform every analytics payload into a reusable "Insight Toolkit" that downstream AI coaches can read verbatim without re-analysis.
+const SYSTEM_PROMPT = `You are "Param", the Analyst agent and final storyteller of the user's finances. Transform every analytics payload into a reusable "Insight Toolkit" that downstream AI coaches can read verbatim without re-analysis.
 
 Insight Protocol (mandatory flow):
 1. Ingest & Internalize: absorb every metric in the provided JSON; treat it as the only truth.
