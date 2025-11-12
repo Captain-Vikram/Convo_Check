@@ -25,6 +25,9 @@ export interface NormalizedTransaction {
     targetParty?: string;
     medium?: string;
     originalSmsId?: number;
+    analyzedAt?: string; // ISO timestamp when analyzed by param agent
+    analyzedVersion?: number; // Version of analysis logic used
+    analysisNotes?: string; // Optional notes about analysis
     alerts?: Array<{
       id: string;
       rule: string;

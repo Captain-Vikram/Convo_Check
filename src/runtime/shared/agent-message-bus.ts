@@ -1,6 +1,6 @@
 import { EventEmitter } from "node:events";
-import { writeFile } from "node:fs/promises";
-import { join } from "node:path";
+
+import { logger } from "./logger.js";
 
 export type AgentId = "mill" | "dev" | "param" | "chatur";
 
@@ -26,11 +26,10 @@ export class AgentMessageBus extends EventEmitter {
   private messageLog: AgentMessage[] = [];
   private handlers = new Map<AgentId, Map<string, MessageHandler>>();
   private conversationContexts = new Map<string, AgentMessage[]>();
-  private logFilePath: string;
 
   constructor(logDir?: string) {
     super();
-    this.logFilePath = join(logDir ?? join(process.cwd(), "data"), "agent-messages.log");
+    // No longer using file logging - keeping logs in memory only
   }
 
   /**
@@ -67,10 +66,8 @@ export class AgentMessageBus extends EventEmitter {
     this.emit("message", fullMessage);
     this.emit(`message:${fullMessage.to}`, fullMessage);
 
-    // Log to file (fire-and-forget)
-    this.logMessage(fullMessage).catch((error) => {
-      console.error("[message-bus] Failed to log message", error);
-    });
+    // Log to console instead of file
+    logger.debug("message-bus", `Message ${fullMessage.id} from ${fullMessage.from} to ${fullMessage.to}`);
 
     // If targeted to specific agent, invoke handler
     if (fullMessage.to !== "broadcast") {
@@ -90,7 +87,7 @@ export class AgentMessageBus extends EventEmitter {
               });
             }
           } catch (error) {
-            console.error(`[message-bus] Handler failed for ${fullMessage.to}`, error);
+            logger.error("message-bus", `Handler failed for ${fullMessage.to}`, error);
           }
         }
       }
@@ -133,11 +130,6 @@ export class AgentMessageBus extends EventEmitter {
 
   private generateMessageId(): string {
     return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }
-
-  private async logMessage(message: AgentMessage): Promise<void> {
-    const logLine = JSON.stringify(message) + "\n";
-    await writeFile(this.logFilePath, logLine, { flag: "a", encoding: "utf8" });
   }
 }
 

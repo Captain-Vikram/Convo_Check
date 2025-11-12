@@ -1,7 +1,7 @@
 /**
  * Chatur Context Builder
  * 
- * Loads and prepares comprehensive user context from Param's vector database
+ * Loads and prepares comprehensive user context from database
  * for intelligent coaching conversations.
  * 
  * Provides:
@@ -12,14 +12,10 @@
  * - Smart recommendations based on full context
  */
 
-import { readdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
 import type { HabitSnapshot } from "../param/habit-tracker.js";
 import type { HabitInsight } from "../param/analyst-agent.js";
 import type { NormalizedTransaction } from "../dev/transaction-normalizer.js";
-
-const DATA_DIR = join(process.cwd(), "data");
-const SNAPSHOTS_DIR = join(DATA_DIR, "habit-snapshots");
+import { fetchHabitSnapshotsFromApi } from "../dev/api-sync.js";
 
 /**
  * Comprehensive user context for Chatur coaching
@@ -188,59 +184,63 @@ export async function buildChaturUserContext(
 }
 
 /**
- * Loads habit snapshots from vector database
+ * Loads habit snapshots from database API
  */
 async function loadHabitSnapshots(
   userId: string,
   maxSnapshots: number,
 ): Promise<HabitSnapshot[]> {
   try {
-    const files = await readdir(SNAPSHOTS_DIR);
-    const jsonFiles = files.filter(f => f.endsWith(".json"));
+    const snapshots = await fetchHabitSnapshotsFromApi(Number(userId));
     
-    // Sort by modification time (most recent first)
-    const snapshots: HabitSnapshot[] = [];
-    
-    for (const file of jsonFiles.slice(0, maxSnapshots)) {
-      const content = await readFile(join(SNAPSHOTS_DIR, file), "utf8");
-      const snapshot = JSON.parse(content) as HabitSnapshot;
+    // Convert database format to HabitSnapshot format
+    const converted: HabitSnapshot[] = snapshots.slice(0, maxSnapshots).map((snap: any) => {
+      const contextData = snap.context_data || {};
+      const summaryData = snap.summary_data || {};
       
-      // Filter by userId if needed
-      if (!userId || snapshot.ownerPhone === userId) {
-        snapshots.push(snapshot);
-      }
-    }
+      return {
+        snapshotId: snap.snapshot_id,
+        createdAt: contextData.createdAt || snap.date_created || new Date().toISOString(),
+        transactionId: contextData.transactionId || "",
+        ownerPhone: String(snap.owner),
+        contextTransactions: contextData.transactions || [],
+        contextHabits: contextData.habits || [],
+        totalDebits: summaryData.totalDebits || 0,
+        totalCredits: summaryData.totalCredits || 0,
+        netBalance: summaryData.netBalance || 0,
+        transactionCount: summaryData.transactionCount || 0,
+        topCategories: contextData.topCategories || [],
+        frequentMerchants: contextData.frequentMerchants || [],
+        spendingByMedium: contextData.spendingByMedium || [],
+        averageTransactionSize: summaryData.averageTransactionSize || 0,
+        largestTransaction: summaryData.largestTransaction || 0,
+        smallestTransaction: summaryData.smallestTransaction || 0,
+        mostActiveTime: contextData.mostActiveTime || "afternoon",
+        mostActiveDay: contextData.mostActiveDay || "Monday",
+        isOverspending: contextData.isOverspending || false,
+        hasRecurringPayments: contextData.hasRecurringPayments || false,
+        showsImpulseBuying: contextData.showsImpulseBuying || false,
+        needsBudgetAlert: contextData.needsBudgetAlert || false,
+        behaviorSummary: contextData.behaviorSummary || "",
+        recommendations: contextData.recommendations || [],
+      };
+    });
     
-    // Sort by creation time
-    snapshots.sort((a, b) => 
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
-    
-    return snapshots;
+    return converted;
   } catch (error) {
-    console.warn("[chatur-context] Failed to load snapshots:", error);
+    console.warn("[chatur-context] Failed to load snapshots from database:", error);
     return [];
   }
 }
 
 /**
- * Loads habit insights from Param's analysis
+ * Loads habit insights from database via API
  */
 async function loadHabitInsights(): Promise<HabitInsight[]> {
   try {
-    const habitsPath = join(DATA_DIR, "habits.csv");
-    const content = await readFile(habitsPath, "utf8");
-    const lines = content.trim().split("\n");
-    
-    if (lines.length <= 1) return [];
-    
-    // Parse CSV (skip header)
-    const insights: HabitInsight[] = [];
-    
-    // For now, return empty array - proper CSV parsing needed
-    // TODO: Parse habits.csv properly
-    
-    return insights;
+    // TODO: Implement fetchHabitsFromApi() call
+    // For now return empty array
+    return [];
   } catch (error) {
     console.warn("[chatur-context] Failed to load insights:", error);
     return [];

@@ -5,9 +5,7 @@
  * Example queries: "what were my transactions yesterday?", "show me last month's expenses"
  */
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText } from "ai";
-import { getAgentConfig } from "../../config.js";
+import { callLLM } from "../shared/llm-client.js";
 import {
   readTransactionsFromCSV,
   queryTransactions,
@@ -118,12 +116,7 @@ RESPONSE FORMAT (JSON):
 Respond ONLY with valid JSON. Use "unclear" type if you can't understand the query.`;
 
   try {
-    const { apiKey, model } = getAgentConfig("agent1");
-    const provider = createGoogleGenerativeAI({ apiKey });
-    const languageModel = provider(model);
-
-    const result = await generateText({
-      model: languageModel,
+    const result = await callLLM("agent1", {
       messages: [
         { role: "system", content: systemPrompt },
         {

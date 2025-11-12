@@ -1,3 +1,4 @@
+import { logger } from "../shared/logger.js";
 import type { NormalizedTransaction } from "../dev/transaction-normalizer.js";
 import { fetchTransactionsFromApi } from "../dev/api-sync.js";
 
@@ -15,7 +16,7 @@ export async function loadTransactions(
     return records.sort((a, b) => Date.parse(b.recordedAt) - Date.parse(a.recordedAt));
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error("[transactions-loader] Failed to fetch transactions from API", message);
+    logger.error("transactions-loader", "Failed to fetch transactions from API", error);
     return [];
   }
 }

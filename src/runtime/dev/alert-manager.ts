@@ -1,7 +1,6 @@
-import { randomUUID } from "node:crypto";
-import { access, mkdir, readFile, writeFile } from "node:fs/promises";
-import { constants } from "node:fs";
-import { dirname, join } from "node:path";
+import { randomUUID, createHash } from "node:crypto";
+
+import { alertLogger } from "../shared/logger.js";
 
 import {
   createEmptyMetrics,
@@ -17,6 +16,12 @@ import {
   type BehaviorAssessment,
 } from "./behavior-profile.js";
 import type { NormalizedTransaction } from "./transaction-normalizer.js";
+import {
+  syncAlertToApi,
+  fetchAlertsFromApi,
+  updateAlertStatus as updateAlertStatusApi,
+  type AlertPayload,
+} from "./api-sync.js";
 
 export type AlertStatus = "open" | "acknowledged" | "dismissed";
 
@@ -41,10 +46,8 @@ export interface AlertListFilter {
 }
 
 export interface AlertManagerOptions {
-  baseDir?: string;
-  alertsFileName?: string;
-  metricsFileName?: string;
-  habitsFileName?: string;
+  // No longer using file-based storage
+  // Metrics stored in-memory only
 }
 
 export interface TransactionAlertManager {
@@ -65,34 +68,36 @@ interface PersistedState {
   metrics: AlertMetricsState;
 }
 
-const DEFAULT_ALERTS_FILE = "alerts.json";
-const DEFAULT_METRICS_FILE = "alert-metrics.json";
-
 export async function createAlertManager(
   options: AlertManagerOptions = {},
 ): Promise<TransactionAlertManager> {
-  const manager = new FileAlertManager(options);
+  const manager = new MemoryAlertManager(options);
   await manager.initialize();
   return manager;
 }
 
-class FileAlertManager implements TransactionAlertManager {
-  private readonly alertsFile: string;
-  private readonly metricsFile: string;
+class MemoryAlertManager implements TransactionAlertManager {
   private alerts: AlertRecord[] = [];
   private metrics: AlertMetricsState = createEmptyMetrics();
   private readonly listeners = new Set<AlertListener>();
   private initialized = false;
   private readonly behaviorCache: BehaviorProfileCache;
+  private readonly userId: number; // User ID for API calls
+  private readonly alertSignatureCache = new Map<string, { timestamp: number; count: number }>(); // Signature-based deduplication
+  private readonly ALERT_SUPPRESSION_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
 
   constructor(options: AlertManagerOptions) {
-    const baseDir = options.baseDir ?? join(process.cwd(), "data");
-    this.alertsFile = join(baseDir, options.alertsFileName ?? DEFAULT_ALERTS_FILE);
-    this.metricsFile = join(baseDir, options.metricsFileName ?? DEFAULT_METRICS_FILE);
-    const behaviorOptions = options.habitsFileName
-      ? { baseDir, habitsFileName: options.habitsFileName }
-      : { baseDir };
-    this.behaviorCache = new BehaviorProfileCache(behaviorOptions);
+    this.behaviorCache = new BehaviorProfileCache({ baseDir: process.cwd() });
+    
+    // Get user ID from environment (required for API calls)
+    const userIdEnv = process.env.DEV_USER_ID;
+    if (!userIdEnv) {
+      throw new Error("DEV_USER_ID environment variable is required for alert manager");
+    }
+    this.userId = Number.parseInt(userIdEnv, 10);
+    if (!Number.isFinite(this.userId)) {
+      throw new Error(`Invalid DEV_USER_ID: ${userIdEnv}`);
+    }
   }
 
   async initialize(): Promise<void> {
@@ -100,30 +105,17 @@ class FileAlertManager implements TransactionAlertManager {
       return;
     }
 
-    await this.ensureFile(this.alertsFile, "[]");
-    await this.ensureFile(this.metricsFile, JSON.stringify(createEmptyMetrics(), null, 2));
+    // Initialize with empty metrics (in-memory only, no file storage)
+    this.metrics = createEmptyMetrics();
 
-    const [alertsContent, metricsContent] = await Promise.all([
-      readFile(this.alertsFile, "utf8"),
-      readFile(this.metricsFile, "utf8"),
-    ]);
-
+    // Load alerts from API instead of JSON file
     try {
-      const parsedAlerts = JSON.parse(alertsContent) as unknown;
-      if (Array.isArray(parsedAlerts)) {
-        this.alerts = parsedAlerts as AlertRecord[];
-      }
+      const apiAlerts = await fetchAlertsFromApi(this.userId);
+      this.alerts = apiAlerts.map(this.convertApiAlertToRecord);
+      alertLogger.info("Loaded alerts from API", { count: this.alerts.length });
     } catch (error) {
-      console.error("[alert-manager] Failed to parse alerts file", error);
+      alertLogger.error("Failed to load alerts from API, starting with empty list", { error });
       this.alerts = [];
-    }
-
-    try {
-      const parsedMetrics = JSON.parse(metricsContent) as unknown;
-      this.metrics = normalizeMetrics(parsedMetrics);
-    } catch (error) {
-      console.error("[alert-manager] Failed to parse metrics file", error);
-      this.metrics = createEmptyMetrics();
     }
 
     this.initialized = true;
@@ -148,18 +140,48 @@ class FileAlertManager implements TransactionAlertManager {
     const events: AlertRecord[] = [];
 
     if (contextualAlerts.length > 0) {
+      const now = Date.now();
+      
       for (const alert of contextualAlerts) {
+        // Generate signature for deduplication
+        const signature = this.generateAlertSignature(alert, transaction, timestamp);
+        
+        // Check if similar alert was recently fired
+        if (this.shouldSuppressAlert(signature, now)) {
+          alertLogger.info("Suppressed duplicate alert", { 
+            rule: alert.rule, 
+            signaturePrefix: signature.substring(0, 16) 
+          });
+          continue;
+        }
+        
         const record = this.buildAlertRecord(transaction, alert);
-        this.alerts.push(record);
-        events.push(record);
+        
+        // Persist to API instead of local JSON
+        try {
+          await this.persistAlertToApi(record, transaction);
+          this.alerts.push(record); // Keep in memory for listAlerts
+          events.push(record);
+          
+          // Record signature after successful persistence
+          this.recordAlertSignature(signature, now);
+          
+          alertLogger.info("Alert persisted to API", { 
+            rule: record.rule, 
+            severity: record.severity 
+          });
+        } catch (error) {
+          alertLogger.error("Failed to persist alert to API", { error });
+          // Still add to memory and notify, but log the error
+          this.alerts.push(record);
+          events.push(record);
+        }
       }
-
-      await this.persistAlerts();
     }
 
     if (timestamp !== undefined) {
       updateMetrics(this.metrics, transaction, timestamp);
-      await this.persistMetrics();
+      // Metrics now kept in-memory only (no file persistence)
     }
 
     if (events.length > 0) {
@@ -212,16 +234,24 @@ class FileAlertManager implements TransactionAlertManager {
       }
     }
 
-    await this.persistAlerts();
+    // Update via API
+    try {
+      const alertIdNum = Number.parseInt(target.id, 10);
+      if (Number.isFinite(alertIdNum)) {
+        await updateAlertStatusApi(alertIdNum, status, actor);
+      }
+    } catch (error) {
+      alertLogger.error("Failed to update alert status via API", { error });
+      throw error;
+    }
+
     return target;
   }
 
   private async persistAlerts(): Promise<void> {
-    await this.writeJson(this.alertsFile, this.alerts);
-  }
-
-  private async persistMetrics(): Promise<void> {
-    await this.writeJson(this.metricsFile, this.metrics);
+    // Alerts are now persisted to API in evaluateTransaction
+    // This method kept for backward compatibility but does nothing
+    alertLogger.info("persistAlerts called - using API persistence");
   }
 
   private buildAlertRecord(
@@ -254,22 +284,9 @@ class FileAlertManager implements TransactionAlertManager {
       try {
         await listener(alerts);
       } catch (error) {
-        console.error("[alert-manager] Listener failed", error);
+        alertLogger.error("Listener failed", { error });
       }
     }
-  }
-
-  private async ensureFile(filePath: string, defaultContents: string): Promise<void> {
-    try {
-      await access(filePath, constants.F_OK);
-    } catch {
-      await mkdir(dirname(filePath), { recursive: true });
-      await writeFile(filePath, `${defaultContents}\n`, "utf8");
-    }
-  }
-
-  private async writeJson(filePath: string, data: unknown): Promise<void> {
-    await writeFile(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
   }
 
   private async resolveBehaviorAssessment(
@@ -278,7 +295,7 @@ class FileAlertManager implements TransactionAlertManager {
     try {
       return await this.behaviorCache.assess(transaction);
     } catch (error) {
-      console.error("[alert-manager] Failed to derive behavior context", error);
+      alertLogger.error("Failed to derive behavior context", { error });
       return null;
     }
   }
@@ -351,6 +368,138 @@ class FileAlertManager implements TransactionAlertManager {
       summary,
       details,
     };
+  }
+
+  /**
+   * Convert API alert response to AlertRecord format
+   */
+  private convertApiAlertToRecord(apiAlert: any): AlertRecord {
+    return {
+      id: String(apiAlert.id),
+      transactionId: apiAlert.transaction_id || "",
+      createdAt: apiAlert.date_created || new Date().toISOString(),
+      rule: apiAlert.rule_id as AlertRuleId,
+      severity: apiAlert.severity as AlertSeverity,
+      confidence: apiAlert.confidence || 0,
+      summary: apiAlert.message,
+      details: apiAlert.details || {},
+      status: apiAlert.alert_status as AlertStatus,
+      acknowledgedAt: apiAlert.acknowledged_at,
+      acknowledgedBy: apiAlert.acknowledged_by,
+    };
+  }
+
+  /**
+   * Persist alert to API
+   */
+  private async persistAlertToApi(
+    record: AlertRecord,
+    transaction: NormalizedTransaction
+  ): Promise<void> {
+    const threshold = record.details?.threshold;
+    const actual = record.details?.actual;
+    const deviation = record.details?.deviation;
+
+    const payload: AlertPayload = {
+      owner: this.userId,
+      alert_type: this.mapRuleToType(record.rule),
+      severity: record.severity,
+      rule_id: record.rule,
+      message: record.summary,
+      confidence: record.confidence,
+      ...(typeof threshold === "number" ? { threshold_value: threshold } : {}),
+      ...(typeof actual === "number" ? { actual_value: actual } : {}),
+      ...(typeof deviation === "number" ? { deviation_percentage: deviation } : {}),
+      ...(transaction.category ? { category: transaction.category } : {}),
+      ...(transaction.meta.targetParty ? { merchant: transaction.meta.targetParty } : {}),
+      ...(transaction.id ? { transaction_id: transaction.id } : {}),
+      ...(record.details ? { details: record.details } : {}),
+    };
+
+    await syncAlertToApi(payload);
+  }
+
+  /**
+   * Map alert rule ID to alert type for API
+   */
+  private mapRuleToType(
+    rule: AlertRuleId
+  ): "anomaly" | "threshold" | "pattern" | "budget" {
+    if (rule.includes("anomaly") || rule.includes("unusual")) {
+      return "anomaly";
+    }
+    if (rule.includes("threshold") || rule.includes("limit")) {
+      return "threshold";
+    }
+    if (rule.includes("pattern") || rule.includes("velocity")) {
+      return "pattern";
+    }
+    return "budget";
+  }
+
+  /**
+   * Generate signature for alert deduplication (includes owner ID)
+   */
+  private generateAlertSignature(
+    alert: DetectedAlert,
+    transaction: NormalizedTransaction,
+    timestamp: number | undefined,
+  ): string {
+    const timeWindow = timestamp ? Math.floor(timestamp / this.ALERT_SUPPRESSION_WINDOW_MS) : 0;
+    const targetParty = transaction.meta.targetParty?.slice(0, 30).toLowerCase() || 'unknown';
+    
+    const components = [
+      this.userId.toString(), // Isolate alerts per user
+      alert.rule,
+      targetParty,
+      timeWindow.toString(),
+    ].join(':');
+    
+    return createHash('sha256')
+      .update(components)
+      .digest('hex')
+      .slice(0, 16); // 8 bytes
+  }
+
+  /**
+   * Check if alert should be suppressed based on recent signature
+   */
+  private shouldSuppressAlert(signature: string, now: number): boolean {
+    const cached = this.alertSignatureCache.get(signature);
+    
+    if (!cached) {
+      return false;
+    }
+    
+    // Check if within suppression window
+    const age = now - cached.timestamp;
+    if (age > this.ALERT_SUPPRESSION_WINDOW_MS) {
+      // Expired, remove from cache
+      this.alertSignatureCache.delete(signature);
+      return false;
+    }
+    
+    return true;
+  }
+
+  /**
+   * Record alert signature after successful persistence
+   */
+  private recordAlertSignature(signature: string, timestamp: number): void {
+    this.alertSignatureCache.set(signature, {
+      timestamp,
+      count: (this.alertSignatureCache.get(signature)?.count || 0) + 1,
+    });
+    
+    // Cleanup old entries (keep cache size bounded)
+    if (this.alertSignatureCache.size > 1000) {
+      const cutoff = timestamp - this.ALERT_SUPPRESSION_WINDOW_MS;
+      for (const [sig, data] of this.alertSignatureCache.entries()) {
+        if (data.timestamp < cutoff) {
+          this.alertSignatureCache.delete(sig);
+        }
+      }
+    }
   }
 }
 

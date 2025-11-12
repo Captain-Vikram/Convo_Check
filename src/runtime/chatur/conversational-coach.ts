@@ -1,43 +1,43 @@
 import { randomUUID } from "node:crypto";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText } from "ai";
 import { coachAgent } from "../../agents/coach.js";
-import { getAgentConfig } from "../../config.js";
 import type { HabitInsight } from "../param/analyst-agent.js";
-import { getCircuitBreaker, withRetry, LLMError } from "../shared/error-handling.js";
+import { getCircuitBreaker, withRetry } from "../shared/error-handling.js";
+import { BaseConversationalAgent, type ConversationSession, type ConversationOptions } from "../shared/base-agent.js";
 
 /**
  * Conversational session with Coach for interactive guidance
  */
-export interface CoachConversation {
-  sessionId: string;
-  startedAt: string;
+export interface CoachConversation extends ConversationSession<Record<string, unknown>> {
   insights: HabitInsight[];
-  messages: Array<{ role: "user" | "assistant"; content: string; timestamp: string }>;
-  state: "active" | "completed" | "abandoned";
   currentQuestion?: string;
-  collectedInfo: Record<string, unknown>;
 }
 
-export interface CoachConversationOptions {
+export interface CoachConversationOptions extends ConversationOptions {
   insights: HabitInsight[];
   initialQuestion?: string;
-  maxTurns?: number;
 }
 
-export class ConversationalCoach {
-  private activeSessions = new Map<string, CoachConversation>();
+export class ConversationalCoach extends BaseConversationalAgent<CoachConversation> {
   private circuitBreaker = getCircuitBreaker("coach-llm", {
     failureThreshold: 3,
     timeout: 20_000,
   });
 
+  constructor() {
+    super({
+      agentId: "agent4",
+      systemPrompt: coachAgent.systemPrompt,
+      temperature: 0.8,
+      maxTokens: 1500,
+      maxSessionAgeMs: 3600_000,
+    });
+  }
+
   /**
-   * Start a new conversational session with the coach
+   * Create a new coach conversation session
    */
-  startConversation(options: CoachConversationOptions): CoachConversation {
-    const sessionId = randomUUID();
-    const conversation: CoachConversation = {
+  protected createSession(sessionId: string, options: CoachConversationOptions): CoachConversation {
+    const session: CoachConversation = {
       sessionId,
       startedAt: new Date().toISOString(),
       insights: options.insights,
@@ -45,20 +45,34 @@ export class ConversationalCoach {
       state: "active",
       collectedInfo: {},
     };
+    
+    if (options.initialQuestion) {
+      session.currentQuestion = options.initialQuestion;
+    }
+    
+    return session;
+  }
 
-    this.activeSessions.set(sessionId, conversation);
-
+  /**
+   * Start a new conversational session with the coach
+   */
+  startConversation(options: CoachConversationOptions): CoachConversation {
+    const session = super.startConversation(options);
+    
     // Start with initial question if provided
     if (options.initialQuestion) {
-      conversation.currentQuestion = options.initialQuestion;
-      conversation.messages.push({
-        role: "assistant",
-        content: options.initialQuestion,
-        timestamp: new Date().toISOString(),
-      });
+      session.currentQuestion = options.initialQuestion;
+      // Message is already added by parent if initialMessage is set
+      if (!options.initialMessage) {
+        session.messages.push({
+          role: "assistant",
+          content: options.initialQuestion,
+          timestamp: new Date().toISOString(),
+        });
+      }
     }
 
-    return conversation;
+    return session;
   }
 
   /**
@@ -132,36 +146,6 @@ export class ConversationalCoach {
   }
 
   /**
-   * Get active conversation
-   */
-  getConversation(sessionId: string): CoachConversation | undefined {
-    return this.activeSessions.get(sessionId);
-  }
-
-  /**
-   * End a conversation
-   */
-  endConversation(sessionId: string, state: "completed" | "abandoned" = "abandoned"): void {
-    const session = this.activeSessions.get(sessionId);
-    if (session) {
-      session.state = state;
-    }
-  }
-
-  /**
-   * Clean up old sessions (memory management)
-   */
-  cleanupOldSessions(maxAgeMs = 3600_000): void {
-    const now = Date.now();
-    for (const [sessionId, session] of this.activeSessions.entries()) {
-      const age = now - Date.parse(session.startedAt);
-      if (age > maxAgeMs && session.state !== "active") {
-        this.activeSessions.delete(sessionId);
-      }
-    }
-  }
-
-  /**
    * Generate coach response using LLM with error handling
    */
   private async generateCoachResponse(
@@ -180,12 +164,7 @@ export class ConversationalCoach {
         async () => {
           return withRetry(
             async () => {
-              const { apiKey, model } = getAgentConfig("agent4");
-              const provider = createGoogleGenerativeAI({ apiKey });
-              const languageModel = provider(model);
-
-              const result = await generateText({
-                model: languageModel,
+              const result = await this.callLLM({
                 messages: [
                   { role: "system", content: this.getConversationalSystemPrompt() },
                   { role: "user", content: prompt },
@@ -196,10 +175,6 @@ export class ConversationalCoach {
               return this.parseConversationalResponse(text);
             },
             { maxAttempts: 3 },
-            (error: unknown) => {
-              // Only retry on network/timeout errors
-              return !(error instanceof LLMError);
-            },
           );
         },
         async () => {

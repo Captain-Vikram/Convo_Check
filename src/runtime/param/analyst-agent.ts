@@ -1,16 +1,10 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { join } from "node:path";
-
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText } from "ai";
-
+import { logger } from "../shared/logger.js";
 import { analystAgent } from "../../agents/analyst.js";
-import { getAgentConfig } from "../../config.js";
 import { loadTransactions } from "./transactions-loader.js";
 import type { NormalizedTransaction } from "../dev/transaction-normalizer.js";
 import { runCoach } from "../chatur/coach-agent.js";
-
-const OUTPUT_FILE_NAME = "habits.csv";
+import { callLLM } from "../shared/llm-client.js";
+import { syncHabitToApi, fetchHabitsFromApi, type HabitInsightPayload } from "../dev/api-sync.js";
 
 interface CategoryStat {
   category: string;
@@ -91,7 +85,32 @@ export interface HabitInsight {
   fullText: string;
 }
 
-export async function runAnalyst(): Promise<void> {
+export interface RunAnalystOptions {
+  /** If true, re-analyze all transactions regardless of analyzed_at status */
+  reanalyzeAll?: boolean;
+  /** If true, only return count without actually running analysis */
+  dryRun?: boolean;
+  /** Optional user ID for multi-user filtering (defaults to DEV_USER_ID) */
+  ownerId?: number;
+}
+
+export interface AnalystRunResult {
+  status: "success" | "skipped" | "error";
+  totalTransactions: number;
+  analyzedTransactions: number;
+  insightsGenerated: number;
+  message: string;
+  error?: Error;
+}
+
+/** Current version of analysis logic - increment when model/logic changes */
+const ANALYSIS_VERSION = 1;
+
+export async function runAnalyst(options: RunAnalystOptions = {}): Promise<AnalystRunResult> {
+  const { reanalyzeAll = false, dryRun = false } = options;
+  
+  logger.info("analyst-agent", "Starting analyst run", { reanalyzeAll, dryRun });
+
   const transactions = await loadTransactions();
 
   if (transactions.length === 0) {
@@ -102,33 +121,141 @@ export async function runAnalyst(): Promise<void> {
       fullText:
         "- Habit Label: Insufficient History; Evidence: 0 logged transactions; Counsel: Log more activity to unlock insights.",
     };
-    await persistReport([placeholder]);
-    console.warn(
-      `[analyst] No transactions found. Wrote placeholder report to data/${OUTPUT_FILE_NAME}.`,
-    );
-    return;
+    
+    if (!dryRun) {
+      await persistHabitsToApi([placeholder]);
+      logger.warn("analyst-agent", "No transactions found. Wrote placeholder habit insight to DB");
+    }
+    
+    return {
+      status: "skipped",
+      totalTransactions: 0,
+      analyzedTransactions: 0,
+      insightsGenerated: 0,
+      message: "No transactions available for analysis",
+    };
   }
 
-  const previousInsights = await loadExistingInsights();
-  const stats = buildAnalysisStats(transactions);
-  const prompt = buildAnalystPrompt(stats);
-  const rawOutput = await callLanguageModel(prompt);
-  const bulletLines = normalizeBulletLines(rawOutput);
-  let insights: HabitInsight[];
+  // Filter transactions based on analysis tracking
+  const transactionsToAnalyze = reanalyzeAll 
+    ? transactions 
+    : transactions.filter(tx => !tx.meta?.analyzedAt || tx.meta?.analyzedVersion !== ANALYSIS_VERSION);
 
-  try {
-    insights = bulletLines.map(parseHabitInsight);
-  } catch (error) {
-    console.error("[analyst] Failed to parse bullet lines", bulletLines);
-    throw error;
+  if (transactionsToAnalyze.length === 0) {
+    logger.info("analyst-agent", "All transactions already analyzed", {
+      total: transactions.length,
+      version: ANALYSIS_VERSION,
+    });
+    
+    return {
+      status: "skipped",
+      totalTransactions: transactions.length,
+      analyzedTransactions: 0,
+      insightsGenerated: 0,
+      message: `All ${transactions.length} transactions already analyzed (v${ANALYSIS_VERSION})`,
+    };
   }
-  await persistReport(insights);
-  console.log(`[analyst] Updated habits narrative with ${insights.length} insights.`);
+
+  logger.info("analyst-agent", "Analyzing transactions", {
+    total: transactions.length,
+    toAnalyze: transactionsToAnalyze.length,
+    reanalyzeAll,
+    version: ANALYSIS_VERSION,
+  });
+
+  if (dryRun) {
+    return {
+      status: "success",
+      totalTransactions: transactions.length,
+      analyzedTransactions: transactionsToAnalyze.length,
+      insightsGenerated: 0,
+      message: `Dry run: Would analyze ${transactionsToAnalyze.length} of ${transactions.length} transactions`,
+    };
+  }
 
   try {
-    await runCoach({ latestInsights: insights, previousInsights, trigger: "analyst" });
+    const previousInsights = await loadExistingInsights();
+    const stats = buildAnalysisStats(transactionsToAnalyze);
+    const prompt = buildAnalystPrompt(stats);
+    const rawOutput = await callLanguageModel(prompt);
+    const bulletLines = normalizeBulletLines(rawOutput);
+    let insights: HabitInsight[];
+
+    try {
+      insights = bulletLines.map(parseHabitInsight);
+    } catch (error) {
+      logger.error("analyst-agent", "Failed to parse bullet lines", error, { bulletLines });
+      throw error;
+    }
+    
+    await persistHabitsToApi(insights);
+    logger.info("analyst-agent", `Updated habits narrative with ${insights.length} insights`);
+
+    // Mark transactions as analyzed
+    await markTransactionsAsAnalyzed(transactionsToAnalyze, ANALYSIS_VERSION);
+    logger.info("analyst-agent", `Marked ${transactionsToAnalyze.length} transactions as analyzed (v${ANALYSIS_VERSION})`);
+
+    try {
+      await runCoach({ latestInsights: insights, previousInsights, trigger: "analyst" });
+    } catch (error) {
+      logger.error("analyst-agent", "Failed to hand off insights to Coach", error);
+    }
+
+    return {
+      status: "success",
+      totalTransactions: transactions.length,
+      analyzedTransactions: transactionsToAnalyze.length,
+      insightsGenerated: insights.length,
+      message: `Analyzed ${transactionsToAnalyze.length} transactions, generated ${insights.length} insights`,
+    };
   } catch (error) {
-    console.error("[analyst] Failed to hand off insights to Coach", error);
+    logger.error("analyst-agent", "Analysis failed", error);
+    return {
+      status: "error",
+      totalTransactions: transactions.length,
+      analyzedTransactions: 0,
+      insightsGenerated: 0,
+      message: `Analysis failed: ${error instanceof Error ? error.message : String(error)}`,
+      error: error instanceof Error ? error : new Error(String(error)),
+    };
+  }
+}
+
+/**
+ * Mark transactions as analyzed by updating their metadata via API
+ */
+async function markTransactionsAsAnalyzed(
+  transactions: NormalizedTransaction[],
+  version: number,
+): Promise<void> {
+  const serviceToken = process.env.SERVICE_API_TOKEN;
+  const baseUrl = process.env.MILL_API_BASE_URL ?? "http://localhost:3000";
+  const analyzedAt = new Date().toISOString();
+
+  for (const tx of transactions) {
+    try {
+      const response = await fetch(`${baseUrl}/api/transactions/${tx.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          ...(serviceToken ? { Authorization: `Bearer ${serviceToken}` } : {}),
+        },
+        body: JSON.stringify({
+          analyzed_at: analyzedAt,
+          analyzed_version: version,
+          analysis_notes: `Analyzed by param agent v${version}`,
+        }),
+      });
+
+      if (!response.ok) {
+        logger.warn("analyst-agent", `Failed to mark transaction ${tx.id} as analyzed`, {
+          status: response.status,
+          statusText: response.statusText,
+        });
+      }
+    } catch (error) {
+      logger.error("analyst-agent", `Error marking transaction ${tx.id} as analyzed`, error);
+    }
   }
 }
 
@@ -355,14 +482,9 @@ function buildPromptPayload(stats: AnalysisStats) {
 }
 
 async function callLanguageModel(prompt: string): Promise<string> {
-  const { apiKey, model } = getAgentConfig("agent3");
-  const provider = createGoogleGenerativeAI({ apiKey });
-  const languageModel = provider(model);
-
-  const result = await generateText({
-    model: languageModel,
+  const result = await callLLM("agent3", {
+    system: analystAgent.systemPrompt,
     messages: [
-      { role: "system", content: analystAgent.systemPrompt },
       { role: "user", content: prompt },
     ],
   });
@@ -370,77 +492,48 @@ async function callLanguageModel(prompt: string): Promise<string> {
   return (result.text ?? "").trim();
 }
 
-async function persistReport(insights: HabitInsight[]): Promise<void> {
-  const dataDir = join(process.cwd(), "data");
-  await mkdir(dataDir, { recursive: true });
-  const header = "habit_label,evidence,counsel,full_text";
-  const rows = insights.map(
-    (insight) =>
-      [
-        escapeForCsv(insight.habitLabel),
-        escapeForCsv(insight.evidence),
-        escapeForCsv(insight.counsel),
-        escapeForCsv(insight.fullText),
-      ].join(","),
-  );
-  const output = [header, ...rows].join("\n");
-  await writeFile(join(dataDir, OUTPUT_FILE_NAME), `${output}\n`, "utf8");
+/**
+ * Persist habit insights to API (database)
+ */
+async function persistHabitsToApi(insights: HabitInsight[]): Promise<void> {
+  const ownerId = process.env.DEV_USER_ID ? parseInt(process.env.DEV_USER_ID, 10) : undefined;
+  
+  for (const insight of insights) {
+    const payload: HabitInsightPayload = {
+      habitLabel: insight.habitLabel,
+      evidence: insight.evidence,
+      counsel: insight.counsel,
+      fullText: insight.fullText,
+      ...(ownerId && { owner: ownerId }),
+    };
+    
+    try {
+      await syncHabitToApi(payload);
+    } catch (error) {
+      logger.error("analyst-agent", "Failed to sync habit to API", error, { habitLabel: insight.habitLabel });
+      // Continue with other insights even if one fails
+    }
+  }
 }
 
+/**
+ * Load existing insights from API (database)
+ */
 async function loadExistingInsights(): Promise<HabitInsight[]> {
   try {
-    const content = await readFile(join(process.cwd(), "data", OUTPUT_FILE_NAME), "utf8");
-  const lines = content.split(/\r?\n/).filter((line: string) => line.trim().length > 0);
-
-    if (lines.length <= 1) {
-      return [];
-    }
-
-    const records: HabitInsight[] = [];
-    for (let index = 1; index < lines.length; index += 1) {
-      const values = parseCsvLine(lines[index]!);
-      if (values.length < 4) {
-        continue;
-      }
-
-      records.push({
-        habitLabel: values[0] ?? "",
-        evidence: values[1] ?? "",
-        counsel: values[2] ?? "",
-        fullText: values[3] ?? "",
-      });
-    }
-
-    return records;
-  } catch {
+    const ownerId = process.env.DEV_USER_ID ? parseInt(process.env.DEV_USER_ID, 10) : undefined;
+    const habits = await fetchHabitsFromApi(ownerId);
+    
+    return habits.map((habit: any) => ({
+      habitLabel: habit.habit_label || habit.habitLabel || "",
+      evidence: habit.evidence || "",
+      counsel: habit.counsel || "",
+      fullText: habit.full_text || habit.fullText || "",
+    }));
+  } catch (error) {
+    logger.error("analyst-agent", "Failed to load habits from API", error);
     return [];
   }
-}
-
-function parseCsvLine(line: string): string[] {
-  const result: string[] = [];
-  let current = "";
-  let insideQuotes = false;
-
-  for (let i = 0; i < line.length; i += 1) {
-    const char = line[i]!;
-    if (char === '"') {
-      if (insideQuotes && line[i + 1] === '"') {
-        current += '"';
-        i += 1;
-      } else {
-        insideQuotes = !insideQuotes;
-      }
-    } else if (char === "," && !insideQuotes) {
-      result.push(current);
-      current = "";
-    } else {
-      current += char;
-    }
-  }
-
-  result.push(current);
-  return result;
 }
 
 function normalizeBulletLines(output: string): string[] {
@@ -713,13 +806,6 @@ function limitArray<T>(entries: T[], limit: number): T[] {
 
 function roundNumber(value: number): number {
   return Number.isFinite(value) ? Number(value.toFixed(2)) : 0;
-}
-
-function escapeForCsv(value: string): string {
-  if (value.includes(",") || value.includes("\"") || value.includes("\n")) {
-    return `"${value.replace(/"/g, '""')}"`;
-  }
-  return value;
 }
 
 runAnalyst().catch((error) => {

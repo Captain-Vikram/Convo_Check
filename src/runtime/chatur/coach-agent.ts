@@ -1,18 +1,15 @@
 import { createHash, randomUUID } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { join } from "node:path";
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText } from "ai";
-
+import { callLLM } from "../shared/llm-client.js";
+import { 
+  syncCoachBriefingToApi, 
+  fetchCoachBriefingsFromApi, 
+  fetchHabitsFromApi,
+  type CoachBriefingPayload 
+} from "../dev/api-sync.js";
+import { logger } from "../shared/logger.js";
 import { coachAgent } from "../../agents/coach.js";
-import { getAgentConfig } from "../../config.js";
 import type { HabitInsight } from "../param/analyst-agent.js";
-
-const DATA_DIR = join(process.cwd(), "data");
-const HABITS_FILE = join(DATA_DIR, "habits.csv");
-const BRIEFINGS_FILE = join(DATA_DIR, "coach-briefings.json");
-const SNAPSHOT_DIR = join(DATA_DIR, "habit-snapshots");
 
 export interface CoachRunOptions {
   latestInsights?: HabitInsight[];
@@ -32,7 +29,7 @@ export interface CoachBriefing {
 }
 
 export async function runCoach(options: CoachRunOptions = {}): Promise<CoachBriefing | null> {
-  const latest = options.latestInsights ?? (await loadHabitInsights(HABITS_FILE));
+  const latest = options.latestInsights ?? (await loadHabitInsights());
 
   if (!latest || latest.length === 0) {
     console.warn("[coach] Skipping run: no analyst insights available.");
@@ -83,12 +80,7 @@ interface CoachModelPayload {
 
 async function callCoachModel(prompt: string): Promise<CoachModelPayload | null> {
   try {
-    const { apiKey, model } = getAgentConfig("agent4");
-    const provider = createGoogleGenerativeAI({ apiKey });
-    const languageModel = provider(model);
-
-    const result = await generateText({
-      model: languageModel,
+    const result = await callLLM("agent4", {
       messages: [
         { role: "system", content: coachAgent.systemPrompt },
         { role: "user", content: prompt },
@@ -170,61 +162,70 @@ function buildCoachPrompt(
   return lines.join("\n");
 }
 
-async function loadHabitInsights(filePath: string): Promise<HabitInsight[]> {
+/**
+ * Load habit insights from API (database)
+ */
+async function loadHabitInsights(): Promise<HabitInsight[]> {
   try {
-    const content = await readFile(filePath, "utf8");
-    const lines = content.split(/\r?\n/).filter((line) => line.trim().length > 0);
-
-    if (lines.length <= 1) {
-      return [];
-    }
-
-    const insights: HabitInsight[] = [];
-    for (let index = 1; index < lines.length; index += 1) {
-      const values = parseCsvLine(lines[index]!);
-      if (values.length < 4) {
-        continue;
-      }
-
-      insights.push({
-        habitLabel: values[0] ?? "",
-        evidence: values[1] ?? "",
-        counsel: values[2] ?? "",
-        fullText: values[3] ?? "",
-      });
-    }
-
-    return insights;
+    const ownerId = process.env.DEV_USER_ID ? parseInt(process.env.DEV_USER_ID, 10) : undefined;
+    const habits = await fetchHabitsFromApi(ownerId);
+    
+    return habits.map((habit: any) => ({
+      habitLabel: habit.habit_label || habit.habitLabel || "",
+      evidence: habit.evidence || "",
+      counsel: habit.counsel || "",
+      fullText: habit.full_text || habit.fullText || "",
+    }));
   } catch (error) {
-    console.error("[coach] Failed to load habits.csv", error);
+    logger.error("coach-agent", "Failed to load habits from API", error);
     return [];
   }
 }
 
 async function persistBriefing(briefing: CoachBriefing): Promise<void> {
-  await mkdir(DATA_DIR, { recursive: true });
-  const existing = await loadBriefings();
-  existing.push(briefing);
-  await writeFile(BRIEFINGS_FILE, `${JSON.stringify(existing, null, 2)}\n`, "utf8");
+  // Persist to database via API
+  try {
+    const ownerId = process.env.DEV_USER_ID ? parseInt(process.env.DEV_USER_ID, 10) : undefined;
+    
+    const briefingPayload: CoachBriefingPayload = {
+      headline: briefing.headline,
+      counsel: briefing.counsel,
+      evidence: briefing.evidence,
+      insightHash: briefing.insightHash,
+      ...(briefing.trigger && { trigger: briefing.trigger }),
+      ...(ownerId && { owner: ownerId }),
+      metadata: {
+        originalId: briefing.id,
+        createdAt: briefing.createdAt,
+      },
+    };
+    
+    await syncCoachBriefingToApi(briefingPayload);
+  } catch (error) {
+    logger.error("coach-agent", "Failed to sync briefing to API", error);
+    throw error; // Re-throw to signal persistence failure
+  }
 }
 
+/**
+ * Load coach briefings from API (database)
+ */
 async function loadBriefings(): Promise<CoachBriefing[]> {
   try {
-    const content = await readFile(BRIEFINGS_FILE, "utf8");
-    const parsed = JSON.parse(content) as unknown;
-    if (!Array.isArray(parsed)) {
-      return [];
-    }
-
-    return parsed.filter((entry): entry is CoachBriefing => {
-      return (
-        entry &&
-        typeof entry === "object" &&
-        typeof (entry as CoachBriefing).id === "string" &&
-        typeof (entry as CoachBriefing).headline === "string"
-      );
-    });
-  } catch {
+    const ownerId = process.env.DEV_USER_ID ? parseInt(process.env.DEV_USER_ID, 10) : undefined;
+    const briefings = await fetchCoachBriefingsFromApi(ownerId);
+    
+    return briefings.map((b: any) => ({
+      id: b.id || b.originalId || "",
+      createdAt: b.date_created || b.createdAt || new Date().toISOString(),
+      headline: b.headline || "",
+      counsel: b.counsel || "",
+      evidence: b.evidence || "",
+      insightHash: b.insight_hash || b.insightHash || "",
+      trigger: b.trigger || "manual",
+    }));
+  } catch (error) {
+    logger.error("coach-agent", "Failed to load briefings from API", error);
     return [];
   }
 }
@@ -245,18 +246,9 @@ async function loadMostRecentBriefingInsights(): Promise<HabitInsight[] | null> 
     return null;
   }
 
-  return readInsightSnapshot(recent.insightHash);
-}
-
-async function readInsightSnapshot(hash: string): Promise<HabitInsight[] | null> {
-  try {
-    const snapshotFile = join(SNAPSHOT_DIR, `${hash}.json`);
-    const content = await readFile(snapshotFile, "utf8");
-    const parsed = JSON.parse(content) as HabitInsight[];
-    return parsed;
-  } catch {
-    return null;
-  }
+  // Since we no longer have snapshots, just load all current habits
+  // The hash comparison will still work to detect changes
+  return loadHabitInsights();
 }
 
 function hashInsights(insights: HabitInsight[]): string {
@@ -272,15 +264,14 @@ function hashInsights(insights: HabitInsight[]): string {
   return hash.digest("hex");
 }
 
-async function persistInsightSnapshot(hash: string, insights: HabitInsight[]): Promise<void> {
-  try {
-    await mkdir(SNAPSHOT_DIR, { recursive: true });
-    const snapshotFile = join(SNAPSHOT_DIR, `${hash}.json`);
-    await writeFile(snapshotFile, `${JSON.stringify(insights, null, 2)}\n`, "utf8");
-  } catch (error) {
-    console.error("[coach] Failed to persist insight snapshot", error);
-  }
+/**
+ * No longer persisting snapshots - using live DB data instead
+ */
+async function persistInsightSnapshot(_hash: string, _insights: HabitInsight[]): Promise<void> {
+  // No-op: Snapshots are no longer stored locally
+  // The hash comparison still works to detect if insights have changed
 }
+
 
 function parseCsvLine(line: string): string[] {
   const values: string[] = [];

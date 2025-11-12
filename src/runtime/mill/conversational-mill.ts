@@ -1,9 +1,7 @@
 import { randomUUID } from "node:crypto";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText } from "ai";
 import { chatbotAgent } from "../../agents/chatbot.js";
-import { getAgentConfig } from "../../config.js";
-import { getCircuitBreaker, withRetry, LLMError } from "../shared/error-handling.js";
+import { getCircuitBreaker, withRetry } from "../shared/error-handling.js";
+import { BaseConversationalAgent, type ConversationSession, type ConversationOptions } from "../shared/base-agent.js";
 import type { LogCashTransactionPayload } from "../../tools/log-cash-transaction.js";
 import type { SpendingSummaryResult } from "../../tools/query-spending-summary.js";
 
@@ -11,42 +9,43 @@ import type { SpendingSummaryResult } from "../../tools/query-spending-summary.j
  * Mill's conversational session for transaction logging and financial queries
  * Mill specializes in: transaction logging, data retrieval, coordinating other agents
  */
-export interface MillConversation {
-  sessionId: string;
-  startedAt: string;
-  messages: Array<{ role: "user" | "assistant"; content: string; timestamp: string }>;
-  state: "active" | "completed" | "abandoned";
+export interface MillConversation extends ConversationSession<{
+  transactionAmount?: number;
+  transactionDescription?: string;
+  transactionCategory?: string;
+  transactionDirection?: "expense" | "income";
+  queryType?: "summary" | "recent" | "category" | "specific";
+}> {
   intent: "logging" | "query" | "general" | "unclear";
-  collectedInfo: {
-    transactionAmount?: number;
-    transactionDescription?: string;
-    transactionCategory?: string;
-    transactionDirection?: "expense" | "income";
-    queryType?: "summary" | "recent" | "category" | "specific";
-  };
   pendingAction?: "log_transaction" | "query_data" | "escalate_to_coach";
 }
 
-export interface MillConversationOptions {
-  initialMessage?: string;
-  maxTurns?: number;
+export interface MillConversationOptions extends ConversationOptions {
   onTransactionReady?: (payload: LogCashTransactionPayload) => Promise<void>;
   onQueryReady?: () => Promise<SpendingSummaryResult>;
 }
 
-export class ConversationalMill {
-  private activeSessions = new Map<string, MillConversation>();
+export class ConversationalMill extends BaseConversationalAgent<MillConversation> {
   private circuitBreaker = getCircuitBreaker("mill-llm", {
     failureThreshold: 3,
     timeout: 20_000,
   });
 
+  constructor() {
+    super({
+      agentId: "agent1",
+      systemPrompt: chatbotAgent.systemPrompt,
+      temperature: 0.7,
+      maxTokens: 2000,
+      maxSessionAgeMs: 3600_000,
+    });
+  }
+
   /**
-   * Start a conversation with Mill for transaction/query handling
+   * Create a new Mill conversation session
    */
-  startConversation(options: MillConversationOptions = {}): MillConversation {
-    const sessionId = randomUUID();
-    const conversation: MillConversation = {
+  protected createSession(sessionId: string, options: ConversationOptions): MillConversation {
+    return {
       sessionId,
       startedAt: new Date().toISOString(),
       messages: [],
@@ -54,18 +53,6 @@ export class ConversationalMill {
       intent: "unclear",
       collectedInfo: {},
     };
-
-    this.activeSessions.set(sessionId, conversation);
-
-    if (options.initialMessage) {
-      conversation.messages.push({
-        role: "assistant",
-        content: options.initialMessage,
-        timestamp: new Date().toISOString(),
-      });
-    }
-
-    return conversation;
   }
 
   /**
@@ -164,36 +151,6 @@ export class ConversationalMill {
   }
 
   /**
-   * Get active conversation
-   */
-  getConversation(sessionId: string): MillConversation | undefined {
-    return this.activeSessions.get(sessionId);
-  }
-
-  /**
-   * End conversation
-   */
-  endConversation(sessionId: string, state: "completed" | "abandoned" = "abandoned"): void {
-    const session = this.activeSessions.get(sessionId);
-    if (session) {
-      session.state = state;
-    }
-  }
-
-  /**
-   * Clean up old sessions
-   */
-  cleanupOldSessions(maxAgeMs = 3600_000): void {
-    const now = Date.now();
-    for (const [sessionId, session] of this.activeSessions.entries()) {
-      const age = now - Date.parse(session.startedAt);
-      if (age > maxAgeMs && session.state !== "active") {
-        this.activeSessions.delete(sessionId);
-      }
-    }
-  }
-
-  /**
    * Generate Mill's response using LLM with specialized understanding
    */
   private async generateMillResponse(
@@ -212,12 +169,7 @@ export class ConversationalMill {
         async () => {
           return withRetry(
             async () => {
-              const { apiKey, model } = getAgentConfig("agent1");
-              const provider = createGoogleGenerativeAI({ apiKey });
-              const languageModel = provider(model);
-
-              const result = await generateText({
-                model: languageModel,
+              const result = await this.callLLM({
                 messages: [
                   { role: "system", content: this.getMillSystemPrompt() },
                   { role: "user", content: prompt },

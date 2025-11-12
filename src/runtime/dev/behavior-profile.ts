@@ -1,7 +1,5 @@
-import { readFile, stat } from "node:fs/promises";
-import { join } from "node:path";
-
 import type { NormalizedTransaction } from "./transaction-normalizer.js";
+import { fetchHabitsFromApi } from "./api-sync.js";
 
 export type BehaviorRiskLevel = "low" | "moderate" | "high";
 export type BehaviorClassification =
@@ -56,23 +54,17 @@ export interface BehaviorAssessment {
 }
 
 export interface BehaviorProfileCacheOptions {
-  baseDir: string;
-  habitsFileName?: string;
+  // No longer uses file-based storage
+  // Fetches from API instead
 }
 
-const DEFAULT_HABITS_FILE = "habits.csv";
-const EMPTY_PROFILES: BehaviorProfiles = {
-  categories: new Map<string, BehaviorAggregate>(),
-  targets: new Map<string, BehaviorAggregate>(),
-};
-
 export class BehaviorProfileCache {
-  private readonly habitsFile: string;
   private cache: BehaviorProfiles | null = null;
-  private cacheMtime = 0;
+  private cacheTimestamp = 0;
+  private readonly CACHE_TTL_MS = 60000; // 1 minute cache
 
   constructor(options: BehaviorProfileCacheOptions) {
-    this.habitsFile = join(options.baseDir, options.habitsFileName ?? DEFAULT_HABITS_FILE);
+    // No file path needed - uses API
   }
 
   async assess(transaction: NormalizedTransaction): Promise<BehaviorAssessment | null> {
@@ -134,26 +126,53 @@ export class BehaviorProfileCache {
   }
 
   private async loadProfiles(): Promise<BehaviorProfiles> {
+    const EMPTY_PROFILES: BehaviorProfiles = {
+      categories: new Map<string, BehaviorAggregate>(),
+      targets: new Map<string, BehaviorAggregate>(),
+    };
+
     try {
-      const stats = await stat(this.habitsFile);
-      if (this.cache && this.cacheMtime === stats.mtimeMs) {
+      const now = Date.now();
+      
+      // Check cache validity
+      if (this.cache && (now - this.cacheTimestamp) < this.CACHE_TTL_MS) {
         return this.cache;
       }
 
-      const content = await readFile(this.habitsFile, "utf8");
-      const parsed = parseHabitsCsv(content);
-      this.cache = parsed;
-      this.cacheMtime = stats.mtimeMs;
-      return parsed;
-    } catch (error) {
-      const nodeError = error as NodeJS.ErrnoException;
-      if (nodeError?.code === "ENOENT") {
+      // Fetch habits from API
+      const habits = await fetchHabitsFromApi();
+      
+      if (!habits || habits.length === 0) {
         this.cache = EMPTY_PROFILES;
-        this.cacheMtime = 0;
+        this.cacheTimestamp = now;
         return EMPTY_PROFILES;
       }
 
-      console.error("[behavior-profile] Failed to load habits data", error);
+      // Build profiles from API data
+      const profiles: BehaviorProfiles = {
+        categories: new Map<string, BehaviorAggregate>(),
+        targets: new Map<string, BehaviorAggregate>(),
+      };
+
+      for (const habit of habits) {
+        const metadata = habit.metadata || {};
+        const category = metadata.category || habit.habit_label || "";
+        const targetParty = metadata.targetParty || "";
+        
+        if (category) {
+          updateAggregateFromApiHabit(profiles.categories, category.toLowerCase(), habit);
+        }
+        
+        if (targetParty) {
+          updateAggregateFromApiHabit(profiles.targets, targetParty.toLowerCase(), habit);
+        }
+      }
+
+      this.cache = profiles;
+      this.cacheTimestamp = now;
+      return profiles;
+    } catch (error) {
+      console.error("[behavior-profile] Failed to load habits from API", error);
       if (this.cache) {
         return this.cache;
       }
@@ -162,104 +181,62 @@ export class BehaviorProfileCache {
   }
 }
 
-function parseHabitsCsv(content: string): BehaviorProfiles {
-  const profiles: BehaviorProfiles = {
-    categories: new Map<string, BehaviorAggregate>(),
-    targets: new Map<string, BehaviorAggregate>(),
-  };
-
-  const lines = content.split(/\r?\n/).filter((line) => line.trim().length > 0);
-  if (lines.length <= 1) {
-    return profiles;
-  }
-
-  for (let index = 1; index < lines.length; index += 1) {
-    const values = parseCsvLine(lines[index]!);
-    if (values.length < 15) {
-      continue;
-    }
-
-    const recordedAt = (values[1] ?? "").trim();
-    const amountValue = pickAmount(values[4], values[10]);
-    const targetPartyRaw = values[6]?.trim() ?? "";
-    const categoryRaw = values[7]?.trim() ?? "";
-    const frequencyRaw = values[9]?.trim() ?? "";
-    const habitTypeRaw = values[13]?.trim() ?? "";
-    const riskLevelRaw = values[14]?.trim() ?? "";
-
-    const riskLevel = normalizeRiskLevel(riskLevelRaw);
-
-    if (categoryRaw.length > 0) {
-      const key = categoryRaw.toLowerCase();
-      const aggregate = profiles.categories.get(key) ?? createAggregate();
-      updateAggregate(aggregate, amountValue, recordedAt, riskLevel, habitTypeRaw, frequencyRaw);
-      profiles.categories.set(key, aggregate);
-    }
-
-    if (targetPartyRaw.length > 0) {
-      const key = targetPartyRaw.toLowerCase();
-      const aggregate = profiles.targets.get(key) ?? createAggregate();
-      updateAggregate(aggregate, amountValue, recordedAt, riskLevel, habitTypeRaw, frequencyRaw);
-      profiles.targets.set(key, aggregate);
-    }
-  }
-
-  return profiles;
-}
-
-function createAggregate(): BehaviorAggregate {
-  return {
-    entryCount: 0,
-    amountCount: 0,
-    amountMean: 0,
-    amountM2: 0,
-    amountMin: Number.POSITIVE_INFINITY,
-    amountMax: Number.NEGATIVE_INFINITY,
-    riskScoreSum: 0,
-    highestRiskScore: 0,
-    highestRiskLevel: "low",
-    habitCounts: new Map<string, number>(),
-    frequencyCounts: new Map<string, number>(),
-  };
-}
-
-function updateAggregate(
-  aggregate: BehaviorAggregate,
-  amountValue: number | null,
-  recordedAt: string,
-  riskLevel: BehaviorRiskLevel,
-  habitTypeRaw: string,
-  frequencyRaw: string,
+function updateAggregateFromApiHabit(
+  map: Map<string, BehaviorAggregate>,
+  key: string,
+  habit: any
 ): void {
-  aggregate.entryCount += 1;
-  aggregate.riskScoreSum += riskLevelToScore(riskLevel);
+  let aggregate = map.get(key);
+  
+  if (!aggregate) {
+    aggregate = {
+      entryCount: 0,
+      amountCount: 0,
+      amountMean: 0,
+      amountM2: 0,
+      amountMin: Number.POSITIVE_INFINITY,
+      amountMax: Number.NEGATIVE_INFINITY,
+      riskScoreSum: 0,
+      highestRiskScore: 0,
+      highestRiskLevel: "low" as BehaviorRiskLevel,
+      habitCounts: new Map<string, number>(),
+      frequencyCounts: new Map<string, number>(),
+    };
+    map.set(key, aggregate);
+  }
 
-  const riskScore = riskLevelToScore(riskLevel);
+  aggregate.entryCount++;
+  
+  const amount = habit.average_amount;
+  if (typeof amount === "number" && Number.isFinite(amount)) {
+    aggregate.amountCount++;
+    const delta = amount - aggregate.amountMean;
+    aggregate.amountMean += delta / aggregate.amountCount;
+    aggregate.amountM2 += delta * (amount - aggregate.amountMean);
+    aggregate.amountMin = Math.min(aggregate.amountMin, amount);
+    aggregate.amountMax = Math.max(aggregate.amountMax, amount);
+  }
+
+  const riskLevel = habit.risk_level || "low";
+  const riskScore = riskLevel === "high" ? 3 : riskLevel === "moderate" ? 2 : 1;
+  aggregate.riskScoreSum += riskScore;
   if (riskScore > aggregate.highestRiskScore) {
     aggregate.highestRiskScore = riskScore;
     aggregate.highestRiskLevel = riskLevel;
   }
 
-  if (amountValue !== null) {
-    aggregate.amountCount += 1;
-    const delta = amountValue - aggregate.amountMean;
-    aggregate.amountMean += delta / aggregate.amountCount;
-    aggregate.amountM2 += delta * (amountValue - aggregate.amountMean);
-    aggregate.amountMin = Math.min(aggregate.amountMin, amountValue);
-    aggregate.amountMax = Math.max(aggregate.amountMax, amountValue);
+  const habitType = habit.habit_type || habit.metrics?.habitType || "";
+  if (habitType) {
+    aggregate.habitCounts.set(habitType, (aggregate.habitCounts.get(habitType) || 0) + 1);
   }
 
-  if (habitTypeRaw.trim().length > 0) {
-    const key = habitTypeRaw.toLowerCase();
-    aggregate.habitCounts.set(key, (aggregate.habitCounts.get(key) ?? 0) + 1);
+  const frequency = habit.frequency || habit.metrics?.frequency || "";
+  if (frequency) {
+    aggregate.frequencyCounts.set(frequency, (aggregate.frequencyCounts.get(frequency) || 0) + 1);
   }
 
-  if (frequencyRaw.trim().length > 0) {
-    const key = frequencyRaw.toLowerCase();
-    aggregate.frequencyCounts.set(key, (aggregate.frequencyCounts.get(key) ?? 0) + 1);
-  }
-
-  if (recordedAt && (aggregate.lastRecordedAt === undefined || recordedAt > aggregate.lastRecordedAt)) {
+  const recordedAt = habit.created_at || new Date().toISOString();
+  if (!aggregate.lastRecordedAt || recordedAt > aggregate.lastRecordedAt) {
     aggregate.lastRecordedAt = recordedAt;
   }
 }
@@ -419,63 +396,6 @@ function formatBehaviorMessage(params: {
     default:
       return `Behavior context limited for ${matchLabel}.`;
   }
-}
-
-function pickAmount(primary: string | undefined, fallback: string | undefined): number | null {
-  const primaryParsed = parseAmount(primary);
-  if (primaryParsed !== null) {
-    return primaryParsed;
-  }
-  return parseAmount(fallback);
-}
-
-function parseAmount(raw: string | undefined): number | null {
-  if (!raw) {
-    return null;
-  }
-
-  const normalized = raw.replace(/[^0-9.\-]/g, "");
-  if (normalized.length === 0) {
-    return null;
-  }
-
-  const value = Number.parseFloat(normalized);
-  if (!Number.isFinite(value)) {
-    return null;
-  }
-
-  return value;
-}
-
-function parseCsvLine(line: string): string[] {
-  const result: string[] = [];
-  let current = "";
-  let inQuotes = false;
-
-  for (let index = 0; index < line.length; index += 1) {
-    const char = line[index]!;
-    if (char === '"') {
-      const next = line[index + 1];
-      if (inQuotes && next === '"') {
-        current += '"';
-        index += 1;
-        continue;
-      }
-      inQuotes = !inQuotes;
-      continue;
-    }
-
-    if (char === "," && !inQuotes) {
-      result.push(current);
-      current = "";
-      continue;
-    }
-
-    current += char;
-  }
-
-  result.push(current);
-  return result.map((entry) => entry.trim());
 }
 
 function normalizeRiskLevel(raw: string): BehaviorRiskLevel {

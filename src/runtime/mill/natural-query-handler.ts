@@ -8,9 +8,7 @@
  * 4. Return chat-friendly response
  */
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText } from "ai";
-import { getAgentConfig } from "../../config.js";
+import { callLLM } from "../shared/llm-client.js";
 import { processUserQuery, type IntegratedQueryResult } from "./integrated-query-handler.js";
 import type { TransactionSummary } from "./transaction-reader.js";
 
@@ -136,12 +134,7 @@ Create a natural, conversational response that:
 Keep it under 200 words.`;
 
   try {
-    const { apiKey, model } = getAgentConfig("agent1");
-    const provider = createGoogleGenerativeAI({ apiKey });
-    const languageModel = provider(model);
-
-    const result = await generateText({
-      model: languageModel,
+    const result = await callLLM("agent1", {
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
@@ -181,12 +174,7 @@ System response: "${technicalResponse}"
 Rewrite this as a friendly chat message from Mill (max 100 words).`;
 
   try {
-    const { apiKey, model } = getAgentConfig("agent1");
-    const provider = createGoogleGenerativeAI({ apiKey });
-    const languageModel = provider(model);
-
-    const result = await generateText({
-      model: languageModel,
+    const result = await callLLM("agent1", {
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },

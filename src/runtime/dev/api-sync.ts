@@ -1,5 +1,6 @@
 import { fetch } from "undici";
 
+import { fetchWithRetry } from "../shared/api-client.js";
 import type { CategorizationResult } from "../shared/categorize.js";
 import type { NormalizedTransaction } from "./transaction-normalizer.js";
 
@@ -365,4 +366,405 @@ function coerceStringArray(value: unknown): string[] {
   }
 
   return [];
+}
+
+// ========== Habit Insights API ==========
+
+export interface HabitInsightPayload {
+  habitLabel: string;
+  evidence: string;
+  counsel: string;
+  fullText: string;
+  metrics?: Record<string, unknown>;
+  recentTransactions?: Record<string, unknown>;
+  transactionId?: string;
+  owner?: number;
+}
+
+/**
+ * Sync habit insight to API (for Param agent)
+ */
+export async function syncHabitToApi(habit: HabitInsightPayload): Promise<void> {
+  const serviceToken = process.env.SERVICE_API_TOKEN;
+  const authDisabled = isAuthDisabled();
+
+  if (!serviceToken && !authDisabled) {
+    console.error("[api-sync] Cannot persist habits; SERVICE_API_TOKEN is required.");
+    throw new Error("SERVICE_API_TOKEN is required for agent authentication");
+  }
+
+  const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
+  const endpoint = new URL("/api/habits", baseUrl).toString();
+  const authTokenToUse = authDisabled ? null : serviceToken;
+
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(authTokenToUse ? { Authorization: `Bearer ${authTokenToUse}` } : {}),
+    },
+    body: JSON.stringify(habit),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => "<no body>");
+    console.error(`[api-sync] Habits API error (${response.status}):`, errorBody);
+    throw new Error(`Habits API rejected payload (${response.status}): ${errorBody}`);
+  }
+}
+
+/**
+ * Fetch habit insights from API
+ */
+export async function fetchHabitsFromApi(ownerId?: number): Promise<any[]> {
+  const serviceToken = process.env.SERVICE_API_TOKEN;
+  const authDisabled = isAuthDisabled();
+
+  if (!serviceToken && !authDisabled) {
+    console.error("[api-sync] Cannot fetch habits; SERVICE_API_TOKEN is required.");
+    throw new Error("SERVICE_API_TOKEN is required for agent authentication");
+  }
+
+  const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
+  const owner = ownerId ?? (process.env.DEV_USER_ID ? Number(process.env.DEV_USER_ID) : undefined);
+  const ownerQuery = owner ? `?owner=${encodeURIComponent(String(owner))}` : "";
+  const endpointUrl = new URL(`/api/habits${ownerQuery}`, baseUrl).toString();
+  const authTokenToUse = authDisabled ? null : serviceToken;
+
+  const response = await fetch(endpointUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      ...(authTokenToUse ? { Authorization: `Bearer ${authTokenToUse}` } : {}),
+    },
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => "<no body>");
+    throw new Error(`Habits API fetch failed (${response.status}): ${errorBody}`);
+  }
+
+  const payload = await response.json().catch(() => null);
+  if (!payload || !(payload as any).data) {
+    return [];
+  }
+
+  return Array.isArray((payload as any).data) ? (payload as any).data : [];
+}
+
+/**
+ * Sync habit snapshot to API (for Param agent)
+ */
+export interface HabitSnapshotPayload {
+  snapshotId: string;
+  contextData: Record<string, unknown>;
+  summaryData: Record<string, unknown>;
+  owner: number;
+}
+
+export async function syncHabitSnapshotToApi(snapshot: HabitSnapshotPayload): Promise<void> {
+  const serviceToken = process.env.SERVICE_API_TOKEN;
+  const authDisabled = isAuthDisabled();
+
+  if (!serviceToken && !authDisabled) {
+    console.error("[api-sync] Cannot persist habit snapshots; SERVICE_API_TOKEN is required.");
+    throw new Error("SERVICE_API_TOKEN is required for agent authentication");
+  }
+
+  const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
+  const endpoint = new URL("/api/habit-snapshots", baseUrl).toString();
+  const authTokenToUse = authDisabled ? null : serviceToken;
+
+  // Log payload for debugging
+  console.log("[api-sync] Syncing habit snapshot:", {
+    snapshotId: snapshot.snapshotId,
+    owner: snapshot.owner,
+    contextDataKeys: Object.keys(snapshot.contextData || {}),
+    summaryDataKeys: Object.keys(snapshot.summaryData || {}),
+    contextDataSize: JSON.stringify(snapshot.contextData || {}).length,
+    summaryDataSize: JSON.stringify(snapshot.summaryData || {}).length,
+  });
+
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(authTokenToUse ? { Authorization: `Bearer ${authTokenToUse}` } : {}),
+    },
+    body: JSON.stringify(snapshot),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => "<no body>");
+    console.error(`[api-sync] Habit Snapshots API error (${response.status}):`, errorBody);
+    throw new Error(`Habit Snapshots API rejected payload (${response.status}): ${errorBody}`);
+  }
+  
+  console.log("[api-sync] ✅ Habit snapshot synced successfully");
+}
+
+/**
+ * Fetch habit snapshots from API
+ */
+export async function fetchHabitSnapshotsFromApi(ownerId?: number): Promise<any[]> {
+  const serviceToken = process.env.SERVICE_API_TOKEN;
+  const authDisabled = isAuthDisabled();
+
+  if (!serviceToken && !authDisabled) {
+    console.error("[api-sync] Cannot fetch habit snapshots; SERVICE_API_TOKEN is required.");
+    throw new Error("SERVICE_API_TOKEN is required for agent authentication");
+  }
+
+  const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
+  const owner = ownerId ?? (process.env.DEV_USER_ID ? Number(process.env.DEV_USER_ID) : undefined);
+  const ownerQuery = owner ? `?owner=${encodeURIComponent(String(owner))}` : "";
+  const endpointUrl = new URL(`/api/habit-snapshots${ownerQuery}`, baseUrl).toString();
+  const authTokenToUse = authDisabled ? null : serviceToken;
+
+  const response = await fetch(endpointUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      ...(authTokenToUse ? { Authorization: `Bearer ${authTokenToUse}` } : {}),
+    },
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => "<no body>");
+    throw new Error(`Habit snapshots API fetch failed (${response.status}): ${errorBody}`);
+  }
+
+  const payload = await response.json().catch(() => null);
+  if (!payload || !(payload as any).data) {
+    return [];
+  }
+
+  return Array.isArray((payload as any).data) ? (payload as any).data : [];
+}
+
+// ========== Coach Briefings API ==========
+
+export interface CoachBriefingPayload {
+  headline: string;
+  counsel: string;
+  evidence: string;
+  insightHash: string;
+  trigger?: string;
+  metadata?: Record<string, unknown>;
+  snapshotId?: number;
+  owner?: number;
+}
+
+/**
+ * Sync coach briefing to API (for Chatur agent)
+ */
+export async function syncCoachBriefingToApi(briefing: CoachBriefingPayload): Promise<void> {
+  const serviceToken = process.env.SERVICE_API_TOKEN;
+  const authDisabled = isAuthDisabled();
+
+  if (!serviceToken && !authDisabled) {
+    console.error("[api-sync] Cannot persist coach briefings; SERVICE_API_TOKEN is required.");
+    throw new Error("SERVICE_API_TOKEN is required for agent authentication");
+  }
+
+  const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
+  const endpoint = new URL("/api/coach-briefings", baseUrl).toString();
+  const authTokenToUse = authDisabled ? null : serviceToken;
+
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(authTokenToUse ? { Authorization: `Bearer ${authTokenToUse}` } : {}),
+    },
+    body: JSON.stringify(briefing),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => "<no body>");
+    throw new Error(`Coach Briefings API rejected payload (${response.status}): ${errorBody}`);
+  }
+}
+
+/**
+ * Fetch coach briefings from API
+ */
+export async function fetchCoachBriefingsFromApi(ownerId?: number): Promise<any[]> {
+  const serviceToken = process.env.SERVICE_API_TOKEN;
+  const authDisabled = isAuthDisabled();
+
+  if (!serviceToken && !authDisabled) {
+    console.error("[api-sync] Cannot fetch coach briefings; SERVICE_API_TOKEN is required.");
+    throw new Error("SERVICE_API_TOKEN is required for agent authentication");
+  }
+
+  const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
+  const owner = ownerId ?? (process.env.DEV_USER_ID ? Number(process.env.DEV_USER_ID) : undefined);
+  const ownerQuery = owner ? `?owner=${encodeURIComponent(String(owner))}` : "";
+  const endpointUrl = new URL(`/api/coach-briefings${ownerQuery}`, baseUrl).toString();
+  const authTokenToUse = authDisabled ? null : serviceToken;
+
+  const response = await fetch(endpointUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      ...(authTokenToUse ? { Authorization: `Bearer ${authTokenToUse}` } : {}),
+    },
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => "<no body>");
+    throw new Error(`Coach Briefings API fetch failed (${response.status}): ${errorBody}`);
+  }
+
+  const payload = await response.json().catch(() => null);
+  if (!payload || !(payload as any).data) {
+    return [];
+  }
+
+  return Array.isArray((payload as any).data) ? (payload as any).data : [];
+}
+
+// ========== Alerts API ==========
+
+export interface AlertPayload {
+  owner: number;
+  alert_type: 'anomaly' | 'threshold' | 'pattern' | 'budget';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  rule_id: string;
+  message: string;
+  confidence?: number;
+  threshold_value?: number;
+  actual_value?: number;
+  deviation_percentage?: number;
+  category?: string;
+  merchant?: string;
+  transaction_id?: string;
+  details?: Record<string, unknown>;
+}
+
+export async function syncAlertToApi(alert: AlertPayload): Promise<void> {
+  const serviceToken = process.env.SERVICE_API_TOKEN;
+  const authDisabled = isAuthDisabled();
+
+  if (!serviceToken && !authDisabled) {
+    console.error('[api-sync] Cannot persist alerts; SERVICE_API_TOKEN is required.');
+    throw new Error('SERVICE_API_TOKEN is required for agent authentication');
+  }
+
+  const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
+  const endpoint = new URL('/api/alerts', baseUrl).toString();
+  const authTokenToUse = authDisabled ? null : serviceToken;
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(authTokenToUse ? { Authorization: `Bearer ${authTokenToUse}` } : {}),
+    },
+    body: JSON.stringify(alert),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => '<no body>');
+    console.error(`[api-sync] Alerts API rejected payload (${response.status}):`, errorBody);
+    throw new Error(`Alerts API rejected payload (${response.status}): ${errorBody}`);
+  }
+}
+
+export interface AlertFilters {
+  alert_status?: 'open' | 'acknowledged' | 'dismissed';
+  severity?: 'low' | 'medium' | 'high' | 'critical';
+  alert_type?: 'anomaly' | 'threshold' | 'pattern' | 'budget';
+  limit?: number;
+}
+
+export async function fetchAlertsFromApi(ownerId: number, filters?: AlertFilters): Promise<any[]> {
+  const serviceToken = process.env.SERVICE_API_TOKEN;
+  const authDisabled = isAuthDisabled();
+
+  if (!serviceToken && !authDisabled) {
+    console.error('[api-sync] Cannot fetch alerts; SERVICE_API_TOKEN is required.');
+    throw new Error('SERVICE_API_TOKEN is required for agent authentication');
+  }
+
+  const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
+  const queryParams = new URLSearchParams();
+  
+  queryParams.set('owner', String(ownerId));
+  
+  if (filters?.alert_status) {
+    queryParams.set('alert_status', filters.alert_status);
+  }
+  if (filters?.severity) {
+    queryParams.set('severity', filters.severity);
+  }
+  if (filters?.alert_type) {
+    queryParams.set('alert_type', filters.alert_type);
+  }
+  if (filters?.limit) {
+    queryParams.set('limit', String(filters.limit));
+  }
+
+  const endpointUrl = new URL(`/api/alerts?${queryParams.toString()}`, baseUrl).toString();
+  const authTokenToUse = authDisabled ? null : serviceToken;
+
+  const response = await fetch(endpointUrl, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(authTokenToUse ? { Authorization: `Bearer ${authTokenToUse}` } : {}),
+    },
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => '<no body>');
+    console.error(`[api-sync] Alerts API fetch failed (${response.status}):`, errorBody);
+    throw new Error(`Alerts API fetch failed (${response.status}): ${errorBody}`);
+  }
+
+  const payload = await response.json().catch(() => null);
+  if (!payload || !(payload as any).data) {
+    return [];
+  }
+
+  return Array.isArray((payload as any).data) ? (payload as any).data : [];
+}
+
+export async function updateAlertStatus(
+  alertId: number,
+  status: 'open' | 'acknowledged' | 'dismissed',
+  acknowledgedBy?: string
+): Promise<void> {
+  const serviceToken = process.env.SERVICE_API_TOKEN;
+  const authDisabled = isAuthDisabled();
+
+  if (!serviceToken && !authDisabled) {
+    console.error('[api-sync] Cannot update alerts; SERVICE_API_TOKEN is required.');
+    throw new Error('SERVICE_API_TOKEN is required for agent authentication');
+  }
+
+  const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
+  const endpoint = new URL(`/api/alerts?id=${alertId}`, baseUrl).toString();
+  const authTokenToUse = authDisabled ? null : serviceToken;
+
+  const payload: any = { alert_status: status };
+  if (acknowledgedBy) {
+    payload.acknowledged_by = acknowledgedBy;
+  }
+
+  const response = await fetch(endpoint, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(authTokenToUse ? { Authorization: `Bearer ${authTokenToUse}` } : {}),
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => '<no body>');
+    console.error(`[api-sync] Alerts API update failed (${response.status}):`, errorBody);
+    throw new Error(`Alerts API update failed (${response.status}): ${errorBody}`);
+  }
 }

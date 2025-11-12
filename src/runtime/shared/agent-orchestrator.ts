@@ -1,6 +1,5 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText } from "ai";
-import { getAgentConfig } from "../../config.js";
+import { logger } from "./logger.js";
+import { callLLM } from "./llm-client.js";
 import type { AgentId } from "./agent-message-bus.js";
 
 export interface RoutingDecision {
@@ -148,7 +147,7 @@ export class AgentOrchestrator {
 
       return decision;
     } catch (error) {
-      console.error("[orchestrator] LLM routing failed, using fallback", error);
+      logger.error("orchestrator", "LLM routing failed, using fallback", error);
       return this.fallbackRoute(userRequest);
     }
   }
@@ -157,16 +156,11 @@ export class AgentOrchestrator {
    * Use LLM to make intelligent routing decisions
    */
   private async routeWithLlm(userRequest: string, context?: string): Promise<RoutingDecision> {
-    const { apiKey, model } = getAgentConfig("agent1"); // Use Mill's config
-    const provider = createGoogleGenerativeAI({ apiKey });
-    const languageModel = provider(model);
-
     const prompt = context
       ? `User request: "${userRequest}"\n\nContext: ${context}\n\nRoute this request.`
       : `User request: "${userRequest}"\n\nRoute this request.`;
 
-    const result = await generateText({
-      model: languageModel,
+    const result = await callLLM("agent1", {
       messages: [
         { role: "system", content: ROUTING_SYSTEM_PROMPT },
         { role: "user", content: prompt },
@@ -262,7 +256,7 @@ export class AgentOrchestrator {
 
       return parsed;
     } catch (error) {
-      console.error("[orchestrator] Failed to parse routing response:", response, error);
+      logger.error("orchestrator", "Failed to parse routing response", error, { response });
       throw error;
     }
   }

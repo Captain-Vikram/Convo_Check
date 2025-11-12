@@ -20,7 +20,7 @@ interface SmsIngestRequestBody {
 }
 
 export async function POST(request: Request) {
-  const userContext = getUserContext(request);
+  const userContext = await getUserContext(request);
 
   if (!userContext) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -104,7 +104,7 @@ export async function POST(request: Request) {
 
   await enqueueSmsProcessingJob({
     smsMessageId: smsRecord.id,
-    userId: userContext.userId,
+    userId: userContext.userId as number, // Safe: userContext is non-null and has userId
     sender,
     senderName: explicitSenderName ?? sender,
     message,

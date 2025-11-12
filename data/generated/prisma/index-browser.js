@@ -120,6 +120,26 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.Coach_briefingsScalarFieldEnum = {
+  id: 'id',
+  owner: 'owner',
+  headline: 'headline',
+  counsel: 'counsel',
+  evidence: 'evidence',
+  trigger: 'trigger',
+  delivered: 'delivered',
+  delivered_at: 'delivered_at',
+  date_created: 'date_created',
+  insight_hash: 'insight_hash',
+  metadata: 'metadata',
+  snapshot: 'snapshot',
+  status: 'status',
+  date_updated: 'date_updated',
+  sort: 'sort',
+  user_created: 'user_created',
+  user_updated: 'user_updated'
+};
+
 exports.Prisma.Directus_accessScalarFieldEnum = {
   id: 'id',
   role: 'role',
@@ -520,12 +540,63 @@ exports.Prisma.Directus_webhooksScalarFieldEnum = {
   migrated_flow: 'migrated_flow'
 };
 
+exports.Prisma.Habit_insightsScalarFieldEnum = {
+  habit_id: 'habit_id',
+  owner: 'owner',
+  habit_label: 'habit_label',
+  evidence: 'evidence',
+  counsel: 'counsel',
+  full_text: 'full_text',
+  metrics: 'metrics',
+  recent_transactions: 'recent_transactions',
+  transaction_id: 'transaction_id',
+  recorded_at: 'recorded_at',
+  previous_habit_id: 'previous_habit_id',
+  id: 'id',
+  status: 'status',
+  date_created: 'date_created',
+  date_updated: 'date_updated',
+  sort: 'sort',
+  user_created: 'user_created',
+  user_updated: 'user_updated'
+};
+
+exports.Prisma.Habit_snapshotsScalarFieldEnum = {
+  id: 'id',
+  snapshot_id: 'snapshot_id',
+  owner: 'owner',
+  context_data: 'context_data',
+  summary_data: 'summary_data',
+  trigger: 'trigger',
+  date_created: 'date_created',
+  date_updated: 'date_updated',
+  sort: 'sort',
+  status: 'status',
+  generated_at: 'generated_at',
+  transaction_id: 'transaction_id',
+  top_categories: 'top_categories',
+  frequent_merchants: 'frequent_merchants',
+  spending_by_medium: 'spending_by_medium',
+  flags: 'flags',
+  insights_count: 'insights_count',
+  insight_labels: 'insight_labels',
+  snapshot_hash: 'snapshot_hash',
+  user_created: 'user_created',
+  user_updated: 'user_updated'
+};
+
+exports.Prisma.Habit_snapshot_insightsScalarFieldEnum = {
+  id: 'id',
+  snapshot: 'snapshot',
+  insight: 'insight',
+  confidence: 'confidence',
+  created_at: 'created_at'
+};
+
 exports.Prisma.Sms_messagesScalarFieldEnum = {
   id: 'id',
   status: 'status',
-  sort: 'sort',
   date_created: 'date_created',
-  date_updated: 'date_updated',
   raw_text: 'raw_text',
   sender_name: 'sender_name',
   time: 'time',
@@ -534,6 +605,8 @@ exports.Prisma.Sms_messagesScalarFieldEnum = {
   processed_at: 'processed_at',
   processing_meta: 'processing_meta',
   processing_notes: 'processing_notes',
+  date_updated: 'date_updated',
+  sort: 'sort',
   user_created: 'user_created',
   user_updated: 'user_updated'
 };
@@ -553,7 +626,10 @@ exports.Prisma.TranasctionsScalarFieldEnum = {
   date_of_transaction: 'date_of_transaction',
   category: 'category',
   owner: 'owner',
-  original_sms: 'original_sms'
+  original_sms: 'original_sms',
+  analyzed_at: 'analyzed_at',
+  analyzed_version: 'analyzed_version',
+  analysis_notes: 'analysis_notes'
 };
 
 exports.Prisma.UsersScalarFieldEnum = {
@@ -568,60 +644,30 @@ exports.Prisma.UsersScalarFieldEnum = {
   sms_app_api_key: 'sms_app_api_key'
 };
 
-exports.Prisma.Habit_insightsScalarFieldEnum = {
-  habit_id: 'habit_id',
-  owner: 'owner',
+exports.Prisma.AlertsScalarFieldEnum = {
+  id: 'id',
   status: 'status',
-  habit_label: 'habit_label',
-  evidence: 'evidence',
-  counsel: 'counsel',
-  full_text: 'full_text',
-  metrics: 'metrics',
-  recent_transactions: 'recent_transactions',
-  transaction_id: 'transaction_id',
-  recorded_at: 'recorded_at',
-  previous_habit_id: 'previous_habit_id',
   sort: 'sort',
   date_created: 'date_created',
   date_updated: 'date_updated',
   user_created: 'user_created',
   user_updated: 'user_updated',
-  id: 'id'
-};
-
-exports.Prisma.Habit_snapshotsScalarFieldEnum = {
-  id: 'id',
-  snapshot_id: 'snapshot_id',
   owner: 'owner',
-  context_data: 'context_data',
-  summary_data: 'summary_data',
-  trigger: 'trigger',
-  status: 'status',
-  sort: 'sort',
-  date_created: 'date_created',
-  date_updated: 'date_updated',
-  user_created: 'user_created',
-  user_updated: 'user_updated'
-};
-
-exports.Prisma.Coach_briefingsScalarFieldEnum = {
-  id: 'id',
-  status: 'status',
-  owner: 'owner',
-  sort: 'sort',
-  headline: 'headline',
-  counsel: 'counsel',
-  evidence: 'evidence',
-  trigger: 'trigger',
-  delivered: 'delivered',
-  delivered_at: 'delivered_at',
-  date_created: 'date_created',
-  date_updated: 'date_updated',
-  insight_hash: 'insight_hash',
-  metadata: 'metadata',
-  snapshot: 'snapshot',
-  user_created: 'user_created',
-  user_updated: 'user_updated'
+  transaction_id: 'transaction_id',
+  alert_type: 'alert_type',
+  severity: 'severity',
+  rule_id: 'rule_id',
+  alert_status: 'alert_status',
+  acknowledged_at: 'acknowledged_at',
+  acknowledged_by: 'acknowledged_by',
+  message: 'message',
+  confidence: 'confidence',
+  threshold_value: 'threshold_value',
+  actual_value: 'actual_value',
+  deviation_percentage: 'deviation_percentage',
+  category: 'category',
+  merchant: 'merchant',
+  details: 'details'
 };
 
 exports.Prisma.SortOrder = {
@@ -643,19 +689,20 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 
 exports.Prisma.ModelName = {
+  coach_briefings: 'coach_briefings',
   directus_access: 'directus_access',
   directus_activity: 'directus_activity',
   directus_collections: 'directus_collections',
@@ -683,12 +730,13 @@ exports.Prisma.ModelName = {
   directus_users: 'directus_users',
   directus_versions: 'directus_versions',
   directus_webhooks: 'directus_webhooks',
+  habit_insights: 'habit_insights',
+  habit_snapshots: 'habit_snapshots',
+  habit_snapshot_insights: 'habit_snapshot_insights',
   sms_messages: 'sms_messages',
   tranasctions: 'tranasctions',
   users: 'users',
-  habit_insights: 'habit_insights',
-  habit_snapshots: 'habit_snapshots',
-  coach_briefings: 'coach_briefings'
+  alerts: 'alerts'
 };
 
 /**

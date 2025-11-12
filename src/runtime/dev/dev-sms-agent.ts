@@ -3,6 +3,8 @@ import { readFile } from "node:fs/promises";
 import type { LogCashTransactionPayload } from "../../tools/log-cash-transaction.js";
 import { categorizeTransaction } from "../shared/categorize.js";
 import type { CategorizationResult } from "../shared/categorize.js";
+import { createConcurrencyLimiter } from "../shared/concurrency-limiter.js";
+import { PIIMasker } from "../shared/pii-masker.js";
 import {
   createDevAgentEnvironment,
   runDevPipeline,
@@ -120,39 +122,80 @@ export async function ingestSmsExport(
     throw new Error("Dev tools unavailable for SMS ingestion");
   }
 
-  for (const message of parsed.messages ?? []) {
-    try {
-      if (!isFinancial(message)) {
-        summary.skipped += 1;
-        continue;
-      }
+  const messages = parsed.messages ?? [];
+  const concurrencyLimit = 6; // Process up to 6 messages in parallel
+  const limiter = createConcurrencyLimiter(concurrencyLimit);
 
-      const environment = localEnvironment ?? options.devEnvironment;
-      const outcome = await processSmsMessage(message, {
-        ...(environment ? { devEnvironment: environment } : {}),
-        devTools: tools,
-        ...(options.now ? { now: options.now } : {}),
-        ...(options.defaultCurrency ? { defaultCurrency: options.defaultCurrency } : {}),
-        ...(smsLog ? { smsLog } : {}),
-      });
+  console.log(`[dev-sms] Starting ingestion of ${messages.length} messages with concurrency ${concurrencyLimit}`);
 
-      if (outcome.status === "processed") {
-        summary.processed += 1;
-        if (options.onProcessed) {
-          await options.onProcessed(outcome.result, message);
+  // Process messages with controlled concurrency
+  const results = await Promise.all(
+    messages.map((message) =>
+      limiter(async () => {
+        try {
+          if (!isFinancial(message)) {
+            return { type: "skipped" as const };
+          }
+
+          const environment = localEnvironment ?? options.devEnvironment;
+          const outcome = await processSmsMessage(message, {
+            ...(environment ? { devEnvironment: environment } : {}),
+            devTools: tools,
+            ...(options.now ? { now: options.now } : {}),
+            ...(options.defaultCurrency ? { defaultCurrency: options.defaultCurrency } : {}),
+            ...(smsLog ? { smsLog } : {}),
+          });
+
+          if (outcome.status === "processed") {
+            if (options.onProcessed) {
+              await options.onProcessed(outcome.result, message);
+            }
+            return { type: "processed" as const };
+          } else if (outcome.status === "suppressed") {
+            return { type: "suppressed" as const };
+          } else if (outcome.status === "duplicate") {
+            return { type: "duplicate" as const };
+          } else {
+            return { type: "skipped" as const };
+          }
+        } catch (error) {
+          console.error("[dev-sms] Failed to ingest SMS", { 
+            sender: PIIMasker.maskPhone(message.sender || ''),
+            senderName: message.senderName,
+            messagePreview: PIIMasker.maskSMS(message.message?.slice(0, 100) || ''),
+            error: error instanceof Error ? error.message : String(error)
+          });
+          return { type: "error" as const };
         }
-      } else if (outcome.status === "suppressed") {
+      })
+    )
+  );
+
+  // Aggregate results
+  for (const result of results) {
+    switch (result.type) {
+      case "processed":
+        summary.processed += 1;
+        break;
+      case "suppressed":
         summary.suppressed += 1;
-      } else if (outcome.status === "duplicate") {
+        break;
+      case "duplicate":
         summary.duplicates += 1;
-      } else {
+        break;
+      case "skipped":
         summary.skipped += 1;
-      }
-    } catch (error) {
-      summary.errors += 1;
-      console.error("[dev-sms] Failed to ingest SMS", { message, error });
+        break;
+      case "error":
+        summary.errors += 1;
+        break;
     }
   }
+
+  console.log(
+    `[dev-sms] Ingestion complete: ${summary.processed} processed, ${summary.skipped} skipped, ` +
+    `${summary.duplicates} duplicates, ${summary.suppressed} suppressed, ${summary.errors} errors`
+  );
 
   return summary;
 }
@@ -165,8 +208,8 @@ export async function processSmsMessage(
     return { status: "skipped", reason: "non-financial" };
   }
 
-  const extraction = await extractTransactionFromSms(message);
-  if (!extraction) {
+  const extractions = await extractTransactionFromSms(message);
+  if (!extractions || extractions.length === 0) {
     return { status: "skipped", reason: "non-financial" };
   }
 
@@ -181,6 +224,13 @@ export async function processSmsMessage(
 
   if (!tools) {
     throw new Error("Dev tools unavailable for SMS processing");
+  }
+
+  // Process first extraction for backward compatibility
+  // TODO: Support multiple extractions with aggregated outcome
+  const extraction = extractions[0];
+  if (!extraction) {
+    return { status: "skipped", reason: "invalid" };
   }
 
   const direction: LogCashTransactionPayload["direction"] =

@@ -26,6 +26,26 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 
+  // Check for service token first (for agent-to-agent communication)
+  const serviceToken = process.env.SERVICE_API_TOKEN;
+  const authHeader = request.headers.get("authorization");
+  
+  if (serviceToken && authHeader?.startsWith("Bearer ")) {
+    const providedToken = authHeader.slice(7).trim();
+    if (providedToken === serviceToken) {
+      // Valid service token - allow with default user ID
+      const requestHeaders = new Headers(request.headers);
+      const fallbackUserId = process.env.DEV_USER_ID ?? "2";
+      requestHeaders.set("x-user-id", fallbackUserId);
+      
+      if (process.env.NODE_ENV !== "production") {
+        console.log("[middleware] service token authenticated for", request.nextUrl.pathname);
+      }
+      
+      return NextResponse.next({ request: { headers: requestHeaders } });
+    }
+  }
+
   const token = getTokenFromRequest(request);
 
   if (!token) {

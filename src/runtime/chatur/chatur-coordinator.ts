@@ -8,9 +8,7 @@
  * Enhanced with factual answer lookup for educational coaching.
  */
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText } from "ai";
-import { getAgentConfig } from "../../config.js";
+import { callLLM } from "../shared/llm-client.js";
 import { buildChaturUserContext, type ChaturUserContext } from "./context-builder.js";
 import { CHATUR_SYSTEM_PROMPT, isChaturQuery, isMillQuery, type ChaturResponse } from "./chatur-personality.js";
 import type { QueryRouting } from "../mill/query-router.js";
@@ -418,10 +416,6 @@ async function generateCoachingResponse(
   expenseAnalysis?: ExpenseAnalysis,
   purchaseAssessment?: PurchaseAssessment,
 ): Promise<string> {
-  const { apiKey, model } = getAgentConfig("agent4"); // Chatur uses agent4 (Coach)
-  const provider = createGoogleGenerativeAI({ apiKey });
-  const languageModel = provider(model);
-  
   // Enhanced system prompt with factual answer guidance
   const enhancedSystemPrompt = CHATUR_SYSTEM_PROMPT + `
 
@@ -447,8 +441,7 @@ Your coaching should ALWAYS feel personalized and insightful, whether you have f
   const userPrompt = buildCoachingPrompt(userQuery, session, transactionData, factualAnswers, calculationResult, expenseAnalysis, purchaseAssessment);
   
   try {
-    const result = await generateText({
-      model: languageModel,
+    const result = await callLLM("agent4", {
       messages: [
         { role: "system", content: enhancedSystemPrompt },
         ...session.conversationHistory.map(msg => ({

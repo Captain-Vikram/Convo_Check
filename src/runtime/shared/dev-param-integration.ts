@@ -30,59 +30,19 @@ export async function enableDevParamIntegration(
 ): Promise<() => Promise<void>> {
   const { devEnvironment, habitTrackerOptions, onHabitAnalyzed } = options;
 
-  console.log("🔗 Enabling Dev-Param integration...");
-  console.log("   Dev will automatically trigger Param for habit analysis");
+  console.log("🔗 Dev-Param integration enabled (database-driven)");
+  console.log("   Habit analysis triggered automatically by analyst agent after transaction processing");
 
-  // Monitor new transactions
-  const stopMonitor = await devEnvironment.startCsvMonitor(async (records) => {
-    console.log(`📊 Processing ${records.length} new transaction(s) for habit analysis...`);
+  // Legacy CSV monitoring removed - transactions are now processed through database API
+  // The analyst agent (in dev-agent.ts) automatically calls analyzeTransactionHabit
+  // after each transaction is saved to the database
 
-    for (const record of records) {
-      try {
-        // Convert NormalizedTransaction to Transaction format
-        const transaction: Transaction = {
-          ownerPhone: record.meta.source || "",
-          transactionId: record.id,
-          datetime: record.eventTime 
-            ? `${record.eventDate}T${record.eventTime}`
-            : `${record.eventDate}T00:00:00`,
-          date: record.eventDate,
-          time: record.eventTime || "00:00:00",
-          amount: record.amount,
-          currency: record.currency,
-          type: record.direction,
-          targetParty: record.meta.targetParty || "",
-          description: record.description,
-          category: record.category,
-          isFinancial: true,
-          medium: record.meta.medium || "",
-        };
+  console.log("✅ Dev-Param integration active (no-op - handled by analyst agent)\n");
 
-        // Analyze habit
-        const { habitEntry, snapshot } = await analyzeTransactionHabit(
-          transaction,
-          habitTrackerOptions || {},
-        );
-
-        console.log(`   ✓ Habit analyzed: ${habitEntry.habitType} (${habitEntry.frequency})`);
-
-        // Notify callback
-        if (onHabitAnalyzed) {
-          await onHabitAnalyzed({
-            transaction,
-            habitId: habitEntry.habitId,
-            snapshotId: snapshot.snapshotId,
-          });
-        }
-      } catch (error) {
-        console.error(`   ✗ Failed to analyze habit for ${record.id}:`, error);
-      }
-    }
-  });
-
-  console.log("✅ Dev-Param integration active\n");
-
-  return stopMonitor;
+  // Return a no-op stop function
+  return async () => {
+    console.log("🔗 Dev-Param integration stopped");
+  };
 }
 
 /**

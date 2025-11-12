@@ -87,6 +87,15 @@ async function run(): Promise<void> {
         sort INTEGER,
         date_created TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         date_updated TIMESTAMPTZ,
+        generated_at TIMESTAMPTZ,
+        transaction_id UUID,
+        top_categories JSONB,
+        frequent_merchants JSONB,
+        spending_by_medium JSONB,
+        flags JSONB,
+        insights_count INTEGER,
+        insight_labels JSONB,
+        snapshot_hash VARCHAR(255),
         user_created UUID REFERENCES directus_users(id) ON DELETE SET NULL,
         user_updated UUID REFERENCES directus_users(id) ON DELETE SET NULL,
         trigger VARCHAR(64),
@@ -107,7 +116,16 @@ async function run(): Promise<void> {
         ADD COLUMN IF NOT EXISTS user_updated UUID REFERENCES directus_users(id) ON DELETE SET NULL,
         ADD COLUMN IF NOT EXISTS trigger VARCHAR(64),
         ADD COLUMN IF NOT EXISTS context_data JSONB,
-        ADD COLUMN IF NOT EXISTS summary_data JSONB
+        ADD COLUMN IF NOT EXISTS summary_data JSONB,
+        ADD COLUMN IF NOT EXISTS generated_at TIMESTAMPTZ,
+        ADD COLUMN IF NOT EXISTS transaction_id UUID,
+        ADD COLUMN IF NOT EXISTS top_categories JSONB,
+        ADD COLUMN IF NOT EXISTS frequent_merchants JSONB,
+        ADD COLUMN IF NOT EXISTS spending_by_medium JSONB,
+        ADD COLUMN IF NOT EXISTS flags JSONB,
+        ADD COLUMN IF NOT EXISTS insights_count INTEGER,
+        ADD COLUMN IF NOT EXISTS insight_labels JSONB,
+        ADD COLUMN IF NOT EXISTS snapshot_hash VARCHAR(255)
     `);
 
     await client.query(`
@@ -123,6 +141,31 @@ async function run(): Promise<void> {
     await client.query(`
       CREATE INDEX IF NOT EXISTS habit_snapshots_owner_date_created_idx
         ON habit_snapshots(owner, date_created DESC)
+    `);
+
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS habit_snapshots_owner_generated_at_idx
+        ON habit_snapshots(owner, generated_at DESC)
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS habit_snapshot_insights (
+        id SERIAL PRIMARY KEY,
+        snapshot INTEGER NOT NULL REFERENCES habit_snapshots(id) ON DELETE CASCADE,
+        insight INTEGER NOT NULL REFERENCES habit_insights(id) ON DELETE CASCADE,
+        confidence NUMERIC(5,4),
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      )
+    `);
+
+    await client.query(`
+      CREATE UNIQUE INDEX IF NOT EXISTS habit_snapshot_insights_snapshot_insight_unique
+        ON habit_snapshot_insights(snapshot, insight)
+    `);
+
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS habit_snapshot_insights_insight_idx
+        ON habit_snapshot_insights(insight)
     `);
 
     await client.query(`

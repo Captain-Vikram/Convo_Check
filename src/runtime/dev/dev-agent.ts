@@ -8,7 +8,11 @@
  */
 
 import { join } from "node:path";
+import { createHash } from "node:crypto";
 
+import { devLogger } from "../shared/logger.js";
+import { createMutex } from "../shared/mutex.js";
+import { createTransactionAdapter } from "./transaction-adapter.js";
 import type { LogCashTransactionPayload } from "../../tools/log-cash-transaction.js";
 import type { CategorizationResult } from "../shared/categorize.js";
 import {
@@ -103,10 +107,6 @@ export interface PendingDuplicateSummary {
 export interface DevAgentEnvironment {
   tools: DevTools;
   alertManager: TransactionAlertManager;
-  /** @deprecated CSV monitoring is legacy - transactions now come from database via API */
-  startCsvMonitor(
-    onNewRecords: (records: NormalizedTransaction[]) => Promise<void> | void,
-  ): Promise<() => Promise<void>>;
   onDuplicate(
     handler: (event: DuplicateTransactionEvent) => Promise<void> | void,
   ): Promise<() => Promise<void>>;
@@ -147,7 +147,7 @@ export async function runDevPipeline(
 ): Promise<DevPipelineResult> {
   const { tools, ...normalizerOptions } = options;
   const normalized = normalizeTransaction(payload, categorization, normalizerOptions);
-  const metadata = buildAnalystMetadata(normalized);
+  const metadata = createTransactionAdapter(normalized).toAnalystMetadata();
 
   try {
     await tools.saveToDatabase(normalized);
@@ -189,7 +189,7 @@ export async function runDevPipeline(
         }));
       }
     } catch (alertError) {
-      console.error("[dev-agent] Alert evaluation failed", alertError);
+      devLogger.error("Alert evaluation failed", { error: alertError });
     }
   }
 
@@ -226,16 +226,13 @@ export async function createDevAgentEnvironment(
   const knownTransactionIds = new Set<string>();
 
   const duplicateIndex = new Map<string, NormalizedTransaction>();
-  const duplicateGuards = new Map<string, Promise<void>>();
+  const duplicateMutex = createMutex(); // Replace promise-based guards with mutex
   const pendingDuplicates = new Map<
     string,
     { candidate: NormalizedTransaction; existing: NormalizedTransaction }
   >();
   const duplicateHandlers = new Set<
     (event: DuplicateTransactionEvent) => Promise<void> | void
-  >();
-  const monitorHandlers = new Set<
-    (records: NormalizedTransaction[]) => Promise<void> | void
   >();
 
   seededTransactions.forEach((record: NormalizedTransaction) => {
@@ -265,28 +262,12 @@ export async function createDevAgentEnvironment(
     duplicateIndex.set(key, transaction);
   }
 
-  async function notifyTransactionMonitors(
-    records: NormalizedTransaction[],
-  ): Promise<void> {
-    if (records.length === 0) {
-      return;
-    }
-
-    for (const handler of monitorHandlers) {
-      try {
-        await handler(records);
-      } catch (error) {
-        console.error("[dev-agent] Transaction monitor handler failed", error);
-      }
-    }
-  }
-
   const tools: DevTools = {
     async saveToDatabase(transaction) {
       const guardKey = buildDuplicateKey(transaction);
-      const releaseGuard = await acquireDuplicateGuard(guardKey);
-
-      try {
+      
+      // Use mutex for proper race-free duplicate detection
+      return await duplicateMutex.runExclusive(guardKey, async () => {
         const duplicate = findDuplicate(transaction);
 
         if (duplicate) {
@@ -309,35 +290,58 @@ export async function createDevAgentEnvironment(
           await syncTransactionToApi(transaction);
           knownTransactionIds.add(transaction.id);
           updateDuplicateIndex(transaction);
-          await notifyTransactionMonitors([transaction]);
         } catch (apiError) {
           const message = apiError instanceof Error ? apiError.message : String(apiError);
-          console.error("[api-sync] Failed to store transaction via API:", message);
+          devLogger.error("Failed to store transaction via API", { message });
           throw apiError instanceof Error ? apiError : new Error(message);
         }
-      } finally {
-        releaseGuard();
-      }
+      });
     },
     async sendToAnalyst(metadata) {
-      console.info(
-        `[dev-agent] Analyst metadata recorded for transaction ${metadata.transactionId}`,
-      );
+      try {
+        // Import habit tracker dynamically to avoid circular dependencies
+        const { analyzeTransactionHabit } = await import("../param/habit-tracker.js");
+        
+        // Note: This receives AnalystMetadata, we need the original transaction
+        // In a real scenario, we'd pass the normalized transaction or store it
+        // For now, this is a workaround - ideally refactor to pass full transaction
+        const transaction = {
+          ownerPhone: metadata.currency, // Placeholder - should be from user context
+          transactionId: metadata.transactionId,
+          datetime: metadata.eventTime 
+            ? `${metadata.eventDate}T${metadata.eventTime}`
+            : `${metadata.eventDate}T00:00:00`,
+          date: metadata.eventDate,
+          time: metadata.eventTime || "00:00:00",
+          amount: metadata.amount,
+          currency: metadata.currency,
+          type: metadata.direction,
+          targetParty: "", // Will be populated from normalized transaction meta
+          description: metadata.description,
+          category: metadata.category,
+          isFinancial: true,
+          medium: "", // Will be populated from normalized transaction meta
+        };
+
+        const ownerId = process.env.DEV_USER_ID ? Number(process.env.DEV_USER_ID) : 1;
+        
+        await analyzeTransactionHabit(transaction, {
+          ownerId,
+        });
+
+        devLogger.info("Analyst triggered for transaction", { 
+          transactionId: metadata.transactionId 
+        });
+      } catch (error) {
+        devLogger.error("Failed to send to analyst", {
+          transactionId: metadata.transactionId,
+          error: error instanceof Error ? error.message : String(error),
+        });
+        // Don't throw - analyst failures shouldn't block transaction persistence
+      }
     },
   };
 
-  async function startCsvMonitor(
-    onNewRecords: (records: NormalizedTransaction[]) => Promise<void> | void,
-  ): Promise<() => Promise<void>> {
-    // Legacy name preserved for compatibility; monitor now streams API-backed inserts.
-    monitorHandlers.add(onNewRecords);
-
-    const stop = async () => {
-      monitorHandlers.delete(onNewRecords);
-    };
-
-    return stop;
-  }
   async function onDuplicate(
     handler: (event: DuplicateTransactionEvent) => Promise<void> | void,
   ): Promise<() => Promise<void>> {
@@ -355,39 +359,9 @@ export async function createDevAgentEnvironment(
       try {
         await handler(event);
       } catch (error) {
-        console.error("[dev-agent] Duplicate handler failed", error);
+        devLogger.error("Duplicate handler failed", { error });
       }
     }
-  }
-
-  async function acquireDuplicateGuard(key: string): Promise<() => void> {
-    const existing = duplicateGuards.get(key);
-
-    if (existing) {
-      try {
-        await existing;
-      } catch {
-        // ignore; guard failure already logged elsewhere
-      }
-    }
-
-    let release: (() => void) | null = null;
-    const guardPromise = new Promise<void>((resolve) => {
-      release = () => resolve();
-    });
-
-    duplicateGuards.set(key, guardPromise);
-
-    return () => {
-      if (release) {
-        release();
-      }
-
-      const current = duplicateGuards.get(key);
-      if (current === guardPromise) {
-        duplicateGuards.delete(key);
-      }
-    };
   }
 
   async function resolveDuplicate(
@@ -415,15 +389,14 @@ export async function createDevAgentEnvironment(
       await syncTransactionToApi(pending.candidate);
       knownTransactionIds.add(pending.candidate.id);
       updateDuplicateIndex(pending.candidate);
-      await notifyTransactionMonitors([pending.candidate]);
     } catch (apiError) {
       const message = apiError instanceof Error ? apiError.message : String(apiError);
-      console.error("[api-sync] Failed to store resolved duplicate via API:", message);
+      devLogger.error("Failed to store resolved duplicate via API", { message });
       pendingDuplicates.set(pendingId, pending);
       throw apiError instanceof Error ? apiError : new Error(message);
     }
 
-    const metadata = buildAnalystMetadata(pending.candidate);
+    const metadata = createTransactionAdapter(pending.candidate).toAnalystMetadata();
 
     return {
       status: "recorded",
@@ -445,7 +418,6 @@ export async function createDevAgentEnvironment(
   return {
     tools,
     alertManager,
-    startCsvMonitor,
     onDuplicate,
     resolveDuplicate,
     listPendingDuplicates,
@@ -459,47 +431,27 @@ export async function createFileSystemDevTools(
   return environment.tools;
 }
 
-function buildAnalystMetadata(transaction: NormalizedTransaction): AnalystMetadata {
-  const metadata: AnalystMetadata = {
-    transactionId: transaction.id,
-    recordedAt: transaction.recordedAt,
-    amount: transaction.amount,
-    currency: transaction.currency,
-    direction: transaction.direction,
-    category: transaction.category,
-    flavor: transaction.flavor,
-    tags: transaction.tags,
-    description: transaction.description,
-    eventDate: transaction.eventDate,
-  };
-
-  if (transaction.eventTime) {
-    metadata.eventTime = transaction.eventTime;
-  }
-
-  return metadata;
-}
-
+/**
+ * Build duplicate key using SHA-256 hash for fast comparison
+ * Uses normalized transaction fields to detect duplicates
+ */
 function buildDuplicateKey(transaction: NormalizedTransaction): string {
-  const normalizedDescription = transaction.description.trim().toLowerCase();
-  const normalizedTarget = transaction.meta.targetParty?.trim().toLowerCase() ?? "";
-  const normalizedCurrency = transaction.currency.trim().toUpperCase();
-  const normalizedDirection = transaction.direction;
-  const normalizedAmount = Number.isFinite(transaction.amount)
-    ? transaction.amount.toFixed(2)
-    : "0.00";
-  const normalizedEventDate = transaction.eventDate;
-  const normalizedEventTime = transaction.eventTime ?? "";
-
-  return [
-    normalizedDirection,
-    normalizedAmount,
-    normalizedCurrency,
-    normalizedEventDate,
-    normalizedEventTime,
-    normalizedDescription,
-    normalizedTarget,
+  const adapter = createTransactionAdapter(transaction);
+  const components = adapter.getDuplicateKeyComponents();
+  
+  // Concatenate components
+  const keyString = [
+    components.direction,
+    components.amount,
+    components.currency,
+    components.eventDate,
+    components.eventTime,
+    components.description,
+    components.targetParty,
   ].join("|");
+  
+  // Hash for fast comparison and consistent length
+  return createHash("sha256").update(keyString).digest("hex");
 }
 
 function shouldAutoSuppressDuplicate(
@@ -576,7 +528,7 @@ async function loadSeedTransactionsFromApi(): Promise<NormalizedTransaction[]> {
     return records;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error("[dev-agent] Failed to load seed transactions from API", message);
+    devLogger.error("Failed to load seed transactions from API", { message });
     return [];
   }
 }

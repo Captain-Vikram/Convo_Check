@@ -1,12 +1,9 @@
-import { readFile } from "node:fs/promises";
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
-import { join } from "node:path";
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText } from "ai";
+import { callLLM, createLLMClient } from "../shared/llm-client.js";
+import type { CoreMessage } from "ai";
 
-import { getAgentConfig } from "../../config.js";
 import { chatbotAgent, createChatbotToolset } from "../../agents/chatbot.js";
 import { categorizeTransaction } from "../shared/categorize.js";
 import type { LogCashTransactionPayload } from "../../tools/log-cash-transaction.js";
@@ -27,10 +24,9 @@ import { loadTransactions } from "../param/transactions-loader.js";
 import { parseUserIntent, hasIntent, type ParsedIntent } from "./intent-parser.js";
 import { searchWeb, formatSearchResults } from "../../tools/web-search.js";
 import { handleNaturalQuery } from "./natural-query-handler.js";
+import { fetchHabitsFromApi, fetchCoachBriefingsFromApi } from "../dev/api-sync.js";
 
 const DEFAULT_MAX_HISTORY = 20;
-const HABITS_FILE_PATH = join(process.cwd(), "data", "habits.csv");
-const COACH_BRIEFINGS_PATH = join(process.cwd(), "data", "coach-briefings.json");
 
 interface HabitRecord {
   habitLabel: string;
@@ -44,6 +40,9 @@ interface CoachBriefing {
   createdAt: string;
   headline: string;
   counsel: string;
+  evidence: string;
+  insightHash: string;
+  trigger: "analyst" | "manual";
 }
 
 let lastAnnouncedCoachBriefingId: string | undefined;
@@ -53,19 +52,12 @@ export interface ChatbotSessionOptions {
   maxHistory?: number;
 }
 
-type GenerateTextOptions = Parameters<typeof generateText>[0];
-type ModelMessage = Extract<GenerateTextOptions, { messages: unknown[] }> extends {
-  messages: Array<infer MessageType>;
-}
-  ? MessageType
-  : never;
+type ModelMessage = CoreMessage;
 
 type ConversationHistory = ModelMessage[];
 
 export async function runChatbotSession(options: ChatbotSessionOptions = {}): Promise<void> {
-  const { apiKey, model } = getAgentConfig("agent1");
-  const provider = createGoogleGenerativeAI({ apiKey });
-  const languageModel = provider(model);
+  const languageModel = createLLMClient("agent1");
 
   const loggedTransactions: Array<{
     entry: LogCashTransactionPayload;
@@ -87,7 +79,6 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
   let devAlertsActive = true;
   let anomalyAlertsActive = true;
   let duplicateAlertsActive = true;
-  let stopDevMonitor: (() => Promise<void>) | undefined;
   let stopDuplicateListener: (() => Promise<void>) | undefined;
   let stopAnomalyListener: (() => void) | undefined;
   let paramRefreshPending = false;
@@ -444,8 +435,7 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
             alertMessage,
           ];
 
-          const result = await generateText({
-            model: languageModel,
+          const result = await callLLM("agent1", {
             messages,
           });
 
@@ -646,24 +636,8 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
     console.error("[dev-agent] Alert listener unavailable", error);
   }
 
-  try {
-    stopDevMonitor = await devEnvironment.startCsvMonitor(async (records: NormalizedTransaction[]) => {
-      if (records.length === 0) {
-        return;
-      }
-
-      queueParamRefresh("new-transaction");
-
-      if (!devAlertsActive) {
-        return;
-      }
-
-      devAlerts.push(...records);
-      void flushDevAlerts();
-    });
-  } catch (error) {
-    console.error("[dev-agent] CSV monitor unavailable", error);
-  }
+  // CSV monitor removed - transactions now come from database API
+  // Param refresh is triggered by the analyst agent after transaction processing
 
   try {
     stopDuplicateListener = await devEnvironment.onDuplicate(async (event: DuplicateTransactionEvent) => {
@@ -784,8 +758,7 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
       ];
 
       try {
-        const result = await generateText({
-          model: languageModel,
+        const result = await callLLM("agent1", {
           messages,
           tools,
         });
@@ -820,13 +793,6 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
     devAlertsActive = false;
     anomalyAlertsActive = false;
     duplicateAlertsActive = false;
-    if (stopDevMonitor) {
-      try {
-        await stopDevMonitor();
-      } catch (error) {
-        console.error("[dev-agent] Failed to stop CSV monitor", error);
-      }
-    }
 
     if (stopAnomalyListener) {
       try {
@@ -984,79 +950,59 @@ function shouldTriggerCoach(input: string): boolean {
   return false;
 }
 
+/**
+ * Load habit records from API (database)
+ */
 async function loadHabitRecords(): Promise<HabitRecord[]> {
-  let content: string;
-
   try {
-    content = await readFile(HABITS_FILE_PATH, "utf8");
+    const ownerId = process.env.DEV_USER_ID ? parseInt(process.env.DEV_USER_ID, 10) : undefined;
+    const habits = await fetchHabitsFromApi(ownerId);
+    
+    return habits.map((habit: any) => ({
+      habitLabel: habit.habit_label || habit.habitLabel || "",
+      evidence: habit.evidence || "",
+      counsel: habit.counsel || "",
+      fullText: habit.full_text || habit.fullText || "",
+    }));
   } catch (error) {
-    if ((error as NodeJS.ErrnoException)?.code === "ENOENT") {
-      return [];
-    }
-    throw error;
-  }
-  const lines = content.split(/\r?\n/).filter((line) => line.trim().length > 0);
-
-  if (lines.length <= 1) {
+    console.error("[chatbot] Failed to load habits from API:", error);
     return [];
   }
-
-  const records: HabitRecord[] = [];
-  for (let index = 1; index < lines.length; index += 1) {
-    const values = parseCsvLine(lines[index]!);
-    if (values.length < 4) {
-      continue;
-    }
-
-    records.push({
-      habitLabel: values[0] ?? "",
-      evidence: values[1] ?? "",
-      counsel: values[2] ?? "",
-      fullText: values[3] ?? "",
-    });
-  }
-
-  return records;
 }
 
+/**
+ * Load latest coach briefing from API (database)
+ */
 async function loadLatestCoachBriefing(): Promise<CoachBriefing | null> {
-  let content: string;
-
   try {
-    content = await readFile(COACH_BRIEFINGS_PATH, "utf8");
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException)?.code === "ENOENT") {
+    const ownerId = process.env.DEV_USER_ID ? parseInt(process.env.DEV_USER_ID, 10) : undefined;
+    const briefings = await fetchCoachBriefingsFromApi(ownerId);
+    
+    if (!briefings || briefings.length === 0) {
       return null;
     }
-    throw error;
-  }
-  const parsed = JSON.parse(content) as unknown;
-
-  if (!Array.isArray(parsed) || parsed.length === 0) {
+    
+    // Sort by date and get the most recent
+    const sorted = briefings.sort((a: any, b: any) => {
+      const dateA = new Date(a.date_created || a.createdAt || 0).getTime();
+      const dateB = new Date(b.date_created || b.createdAt || 0).getTime();
+      return dateB - dateA;
+    });
+    
+    const latest = sorted[0];
+    return {
+      id: latest.id || "",
+      createdAt: latest.date_created || latest.createdAt || new Date().toISOString(),
+      headline: latest.headline || "",
+      counsel: latest.counsel || "",
+      evidence: latest.evidence || "",
+      insightHash: latest.insight_hash || latest.insightHash || "",
+      trigger: latest.trigger || "manual",
+    };
+  } catch (error) {
+    console.error("[chatbot] Failed to load coach briefing from API:", error);
     return null;
   }
-
-  const entries = parsed.filter((entry): entry is CoachBriefing => {
-    return (
-      entry &&
-      typeof entry === "object" &&
-      typeof (entry as CoachBriefing).id === "string" &&
-      typeof (entry as CoachBriefing).headline === "string" &&
-      typeof (entry as CoachBriefing).counsel === "string"
-    );
-  });
-
-  if (entries.length === 0) {
-    return null;
-  }
-
-  entries.sort((a, b) => {
-    const left = Date.parse(a.createdAt ?? "");
-    const right = Date.parse(b.createdAt ?? "");
-    return right - left;
-  });
-
-  return entries[0] ?? null;
 }
 
 async function announceLatestCoachBriefing(): Promise<void> {
@@ -1088,37 +1034,6 @@ async function announceLatestCoachBriefing(): Promise<void> {
   } catch (error) {
     // Stay quiet if the file isn't ready yet.
   }
-}
-
-function parseCsvLine(line: string): string[] {
-  const result: string[] = [];
-  let current = "";
-  let inQuotes = false;
-
-  for (let index = 0; index < line.length; index += 1) {
-    const char = line[index]!;
-    if (char === '"') {
-      const next = line[index + 1];
-      if (inQuotes && next === '"') {
-        current += '"';
-        index += 1;
-      } else {
-        inQuotes = !inQuotes;
-      }
-      continue;
-    }
-
-    if (char === "," && !inQuotes) {
-      result.push(current);
-      current = "";
-      continue;
-    }
-
-    current += char;
-  }
-
-  result.push(current);
-  return result.map((entry) => entry.trim());
 }
 
 function createSystemMessage(content: string): ModelMessage {

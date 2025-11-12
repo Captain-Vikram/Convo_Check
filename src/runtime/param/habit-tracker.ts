@@ -11,12 +11,19 @@
  * - Progressive pattern detection
  */
 
-import { readFile, appendFile, writeFile, access } from "node:fs/promises";
-import { constants } from "node:fs";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
 import { generateText } from "ai";
 import { google } from "@ai-sdk/google";
+
+import {
+  fetchTransactionsFromApi,
+  fetchHabitsFromApi,
+  syncHabitToApi,
+  syncHabitSnapshotToApi,
+  type HabitInsightPayload,
+  type HabitSnapshotPayload,
+} from "../dev/api-sync.js";
 
 export interface Transaction {
   ownerPhone: string;
@@ -115,12 +122,9 @@ export interface HabitSnapshot {
 }
 
 export interface HabitTrackerOptions {
-  baseDir?: string;
-  transactionsFile?: string;
-  habitsFile?: string;
-  snapshotsDir?: string;
   lookbackCount?: number; // How many previous transactions to analyze
   model?: string;
+  ownerId?: number; // Database owner ID for API calls
 }
 
 const HABITS_HEADER = [
@@ -151,19 +155,17 @@ export async function analyzeTransactionHabit(
   transaction: Transaction,
   options: HabitTrackerOptions = {},
 ): Promise<{ habitEntry: HabitEntry; snapshot: HabitSnapshot }> {
-  const baseDir = options.baseDir ?? join(process.cwd(), "data");
-  const transactionsFile = join(baseDir, options.transactionsFile ?? "transactions.csv");
-  const habitsFile = join(baseDir, options.habitsFile ?? "habits.csv");
-  const snapshotsDir = join(baseDir, options.snapshotsDir ?? "habit-snapshots");
   const lookbackCount = options.lookbackCount ?? 5;
   const model = options.model ?? "gemini-2.0-flash-exp";
+  const ownerId = options.ownerId ?? (process.env.DEV_USER_ID ? Number(process.env.DEV_USER_ID) : undefined);
 
-  // Ensure habits CSV exists
-  await ensureHabitsFile(habitsFile);
+  if (!ownerId) {
+    throw new Error("ownerId is required for habit analysis");
+  }
 
-  // Load context: recent transactions + previous habits
-  const recentTransactions = await loadRecentTransactions(transactionsFile, lookbackCount);
-  const previousHabits = await loadRecentHabits(habitsFile, 3);
+  // Load context from database: recent transactions + previous habits
+  const recentTransactions = await loadRecentTransactions(lookbackCount, ownerId);
+  const previousHabits = await loadRecentHabits(3, ownerId);
   
   // Analyze with LLM
   const analysis = await analyzeWithLLM(
@@ -181,40 +183,116 @@ export async function analyzeTransactionHabit(
     transaction,
     recentTransactions,
     habitEntry,
-    snapshotsDir,
     previousHabits,
+    ownerId,
   );
 
-  // Append to habits CSV
-  await appendFile(habitsFile, `${serializeHabitEntry(habitEntry)}\n`, "utf8");
+  // Sync habit to database via API
+  const habitPayload: HabitInsightPayload = {
+    habitLabel: `${habitEntry.category} - ${habitEntry.habitType}`,
+    evidence: `Transaction: ${habitEntry.transactionId}, Amount: ${habitEntry.transactionAmount}, Type: ${habitEntry.habitType}`,
+    counsel: habitEntry.suggestions,
+    fullText: `${habitEntry.spendingPattern}. Frequency: ${habitEntry.frequency}. Risk: ${habitEntry.riskLevel}`,
+    metrics: {
+      habitType: habitEntry.habitType,
+      spendingPattern: habitEntry.spendingPattern,
+      frequency: habitEntry.frequency,
+      riskLevel: habitEntry.riskLevel,
+      averageAmount: habitEntry.averageAmount,
+      totalSpent: habitEntry.totalSpent,
+      transactionCount: habitEntry.transactionCount,
+    },
+    recentTransactions: {
+      habitId: habitEntry.habitId,
+      targetParty: habitEntry.targetParty,
+      category: habitEntry.category,
+      recentTransactions: habitEntry.recentTransactions,
+      previousHabitId: habitEntry.previousHabitId,
+    },
+    transactionId: habitEntry.transactionId,
+    owner: ownerId,
+  };
+
+  await syncHabitToApi(habitPayload);
+
+  // Sync snapshot to database via API
+  const snapshotPayload: HabitSnapshotPayload = {
+    snapshotId: snapshot.snapshotId,
+    contextData: {
+      transactionId: snapshot.transactionId,
+      ownerPhone: snapshot.ownerPhone,
+      contextTransactions: snapshot.contextTransactions,
+      contextHabits: snapshot.contextHabits,
+    },
+    summaryData: {
+      totalDebits: snapshot.totalDebits,
+      totalCredits: snapshot.totalCredits,
+      netBalance: snapshot.netBalance,
+      transactionCount: snapshot.transactionCount,
+      topCategories: snapshot.topCategories,
+      frequentMerchants: snapshot.frequentMerchants,
+      spendingByMedium: snapshot.spendingByMedium,
+      averageTransactionSize: snapshot.averageTransactionSize,
+      largestTransaction: snapshot.largestTransaction,
+      smallestTransaction: snapshot.smallestTransaction,
+      mostActiveTime: snapshot.mostActiveTime,
+      mostActiveDay: snapshot.mostActiveDay,
+      isOverspending: snapshot.isOverspending,
+      hasRecurringPayments: snapshot.hasRecurringPayments,
+      showsImpulseBuying: snapshot.showsImpulseBuying,
+      needsBudgetAlert: snapshot.needsBudgetAlert,
+      behaviorSummary: snapshot.behaviorSummary,
+      recommendations: snapshot.recommendations,
+    },
+    owner: ownerId,
+  };
+
+  await syncHabitSnapshotToApi(snapshotPayload);
 
   return { habitEntry, snapshot };
 }
 
 /**
  * Initializes habit tracking from existing transactions
+ * Fetches transactions from database and processes them
  */
 export async function initializeHabitsFromTransactions(
   options: HabitTrackerOptions = {},
 ): Promise<number> {
-  const baseDir = options.baseDir ?? join(process.cwd(), "data");
-  const transactionsFile = join(baseDir, options.transactionsFile ?? "transactions.csv");
-  const habitsFile = join(baseDir, options.habitsFile ?? "habits.csv");
+  const ownerId = options.ownerId ?? (process.env.DEV_USER_ID ? Number(process.env.DEV_USER_ID) : undefined);
+
+  if (!ownerId) {
+    throw new Error("ownerId is required for habit initialization");
+  }
 
   console.log("🔄 Initializing habits from existing transactions...");
 
-  // Load all transactions
-  const transactions = await loadAllTransactions(transactionsFile);
+  // Fetch all transactions from database
+  const normalizedTransactions = await fetchTransactionsFromApi();
   
-  if (transactions.length === 0) {
+  if (normalizedTransactions.length === 0) {
     console.log("⚠️  No transactions found");
     return 0;
   }
 
-  console.log(`📊 Processing ${transactions.length} transactions...`);
+  // Convert normalized transactions to Transaction format
+  const transactions: Transaction[] = normalizedTransactions.map(tx => ({
+    ownerPhone: "",  // Not stored in API
+    transactionId: tx.id || "",
+    datetime: tx.recordedAt,
+    date: tx.eventDate,
+    time: tx.eventTime || "00:00:00",
+    amount: tx.amount,
+    currency: tx.currency || "INR",
+    type: tx.direction === "income" ? "credit" : "debit",
+    targetParty: tx.meta.targetParty || "",
+    description: tx.description,
+    category: tx.category,
+    isFinancial: true,
+    medium: tx.meta.medium || "",
+  }));
 
-  // Clear existing habits file
-  await writeFile(habitsFile, `${HABITS_HEADER}\n`, "utf8");
+  console.log(`📊 Processing ${transactions.length} transactions...`);
 
   let processed = 0;
   
@@ -460,8 +538,8 @@ async function buildHabitSnapshot(
   transaction: Transaction,
   recentTransactions: Transaction[],
   habitEntry: HabitEntry,
-  snapshotsDir: string,
-  previousHabits: HabitEntry[] = [],
+  previousHabits: HabitEntry[],
+  ownerId: number,
 ): Promise<HabitSnapshot> {
   const allTransactions = [...recentTransactions, transaction];
   
@@ -535,7 +613,7 @@ async function buildHabitSnapshot(
     avgHour < 18 ? "afternoon" : "evening";
 
   const snapshot: HabitSnapshot = {
-    snapshotId: generateHabitId(transaction),
+    snapshotId: generateSnapshotId(transaction),
     createdAt: new Date().toISOString(),
     transactionId: transaction.transactionId,
     ownerPhone: transaction.ownerPhone,
@@ -564,24 +642,84 @@ async function buildHabitSnapshot(
     recommendations: [habitEntry.suggestions],
   };
 
-  // Save snapshot
-  await saveSnapshot(snapshot, snapshotsDir);
-
+  // Snapshot will be synced to database by caller (no file operations)
   return snapshot;
 }
 
 /**
- * Saves snapshot to file
+/**
+ * Loads recent transactions from database API
  */
-async function saveSnapshot(snapshot: HabitSnapshot, snapshotsDir: string): Promise<void> {
+async function loadRecentTransactions(
+  count: number,
+  ownerId: number,
+): Promise<Transaction[]> {
   try {
-    const { mkdir } = await import("node:fs/promises");
-    await mkdir(snapshotsDir, { recursive: true });
+    const normalizedTransactions = await fetchTransactionsFromApi();
     
-    const filePath = join(snapshotsDir, `${snapshot.snapshotId}.json`);
-    await writeFile(filePath, JSON.stringify(snapshot, null, 2), "utf8");
+    // Convert to Transaction format and take most recent
+    const transactions: Transaction[] = normalizedTransactions
+      .slice(-count)  // Take last N transactions
+      .map(tx => ({
+        ownerPhone: "",
+        transactionId: tx.id || "",
+        datetime: tx.recordedAt,
+        date: tx.eventDate,
+        time: tx.eventTime || "00:00:00",
+        amount: tx.amount,
+        currency: tx.currency || "INR",
+        type: (tx.direction === "income" ? "credit" : "debit") as "credit" | "debit" | "income" | "expense",
+        targetParty: tx.meta.targetParty || "",
+        description: tx.description,
+        category: tx.category,
+        isFinancial: true,
+        medium: tx.meta.medium || "",
+      }))
+      .reverse(); // Most recent first
+    
+    return transactions;
   } catch (error) {
-    console.error("[habit-tracker] Failed to save snapshot:", error);
+    console.error("[habit-tracker] Failed to load transactions:", error);
+    return [];
+  }
+}
+
+/**
+ * Loads recent habit entries from database API
+ */
+async function loadRecentHabits(count: number, ownerId: number): Promise<HabitEntry[]> {
+  try {
+    const habits = await fetchHabitsFromApi(ownerId);
+    
+    // Convert API format to HabitEntry and take most recent
+    const habitEntries: HabitEntry[] = habits
+      .slice(-count)
+      .map((habit: any) => ({
+        habitId: habit.metadata?.habitId || habit.id?.toString() || "",
+        recordedAt: habit.created_at || new Date().toISOString(),
+        transactionId: habit.transaction_id?.toString() || "",
+        transactionDate: habit.created_at || "",
+        transactionAmount: habit.average_amount || 0,
+        transactionType: "debit",
+        targetParty: habit.metadata?.targetParty || "",
+        category: habit.metadata?.category || "",
+        spendingPattern: habit.spending_pattern || "",
+        frequency: habit.frequency || "",
+        averageAmount: habit.average_amount || 0,
+        totalSpent: habit.total_spent || 0,
+        transactionCount: habit.transaction_count || 0,
+        habitType: habit.habit_type || "",
+        riskLevel: habit.risk_level || "",
+        suggestions: habit.suggestions || "",
+        recentTransactions: habit.metadata?.recentTransactions || "",
+        previousHabitId: habit.metadata?.previousHabitId || "",
+      }))
+      .reverse();
+    
+    return habitEntries;
+  } catch (error) {
+    console.error("[habit-tracker] Failed to load habits:", error);
+    return [];
   }
 }
 
@@ -594,205 +732,15 @@ function generateHabitId(transaction: Transaction): string {
 }
 
 /**
- * Ensures habits CSV file exists
+ * Generates snapshot ID
  */
-async function ensureHabitsFile(filePath: string): Promise<void> {
-  try {
-    await access(filePath, constants.F_OK);
-  } catch {
-    const { mkdir } = await import("node:fs/promises");
-    const { dirname } = await import("node:path");
-    await mkdir(dirname(filePath), { recursive: true });
-    await writeFile(filePath, `${HABITS_HEADER}\n`, "utf8");
-  }
+function generateSnapshotId(transaction: Transaction): string {
+  const data = `snapshot-${transaction.transactionId}-${transaction.date}-${Date.now()}`;
+  return createHash("sha1").update(data).digest("hex");
 }
 
 /**
- * Loads recent transactions
- */
-async function loadRecentTransactions(
-  filePath: string,
-  count: number,
-): Promise<Transaction[]> {
-  try {
-    const content = await readFile(filePath, "utf8");
-    const lines = content.split(/\r?\n/).filter(l => l.trim());
-    
-    if (lines.length <= 1) return [];
-    
-    const transactions: Transaction[] = [];
-    
-    // Read from end (most recent)
-    for (let i = Math.max(1, lines.length - count); i < lines.length; i++) {
-      try {
-        const line = lines[i];
-        if (!line) continue;
-        const transaction = parseTransactionLine(line);
-        if (transaction) transactions.push(transaction);
-      } catch (error) {
-        // Skip invalid lines
-      }
-    }
-    
-    return transactions.reverse(); // Most recent first
-  } catch (error) {
-    return [];
-  }
-}
-
-/**
- * Loads all transactions
- */
-async function loadAllTransactions(filePath: string): Promise<Transaction[]> {
-  try {
-    const content = await readFile(filePath, "utf8");
-    const lines = content.split(/\r?\n/).filter(l => l.trim());
-    
-    if (lines.length <= 1) return [];
-    
-    const transactions: Transaction[] = [];
-    
-    for (let i = 1; i < lines.length; i++) {
-      try {
-        const line = lines[i];
-        if (!line) continue;
-        const transaction = parseTransactionLine(line);
-        if (transaction) transactions.push(transaction);
-      } catch (error) {
-        console.error(`Failed to parse line ${i}:`, error);
-      }
-    }
-    
-    return transactions;
-  } catch (error) {
-    console.error("[habit-tracker] Failed to load transactions:", error);
-    return [];
-  }
-}
-
-/**
- * Parses transaction CSV line
- */
-function parseTransactionLine(line: string): Transaction | null {
-  const values = parseCsvLine(line);
-  
-  if (values.length < 13) return null;
-  
-  return {
-    ownerPhone: values[0] || "",
-    transactionId: values[1] || "",
-    datetime: values[2] || "",
-    date: values[3] || "",
-    time: values[4] || "00:00:00",
-    amount: parseFloat(values[5] || "0") || 0,
-    currency: values[6] || "",
-    type: (values[7] || "expense") as any,
-    targetParty: values[8] || "",
-    description: values[9] || "",
-    category: values[10] || "",
-    isFinancial: values[11] === "true",
-    medium: values[12] || "",
-  };
-}
-
-/**
- * Parses CSV line
- */
-function parseCsvLine(line: string): string[] {
-  const values: string[] = [];
-  let current = "";
-  let inQuotes = false;
-
-  for (let i = 0; i < line.length; i++) {
-    const char = line[i];
-
-    if (char === '"') {
-      const nextChar = line[i + 1];
-      if (inQuotes && nextChar === '"') {
-        current += '"';
-        i++;
-      } else {
-        inQuotes = !inQuotes;
-      }
-      continue;
-    }
-
-    if (char === "," && !inQuotes) {
-      values.push(current.trim());
-      current = "";
-      continue;
-    }
-
-    current += char;
-  }
-
-  values.push(current.trim());
-  return values;
-}
-
-/**
- * Loads recent habit entries
- */
-async function loadRecentHabits(filePath: string, count: number): Promise<HabitEntry[]> {
-  try {
-    await access(filePath, constants.F_OK);
-    
-    const content = await readFile(filePath, "utf8");
-    const lines = content.split(/\r?\n/).filter(l => l.trim());
-    
-    if (lines.length <= 1) return [];
-    
-    const habits: HabitEntry[] = [];
-    
-    for (let i = Math.max(1, lines.length - count); i < lines.length; i++) {
-      try {
-        const line = lines[i];
-        if (!line) continue;
-        const habit = parseHabitLine(line);
-        if (habit) habits.push(habit);
-      } catch (error) {
-        // Skip invalid lines
-      }
-    }
-    
-    return habits.reverse();
-  } catch (error) {
-    return [];
-  }
-}
-
-/**
- * Parses habit CSV line
- */
-function parseHabitLine(line: string): HabitEntry | null {
-  const values = parseCsvLine(line);
-  
-  if (values.length < 18) return null;
-  
-  return {
-    habitId: values[0] || "",
-    recordedAt: values[1] || "",
-    transactionId: values[2] || "",
-    transactionDate: values[3] || "",
-    transactionAmount: parseFloat(values[4] || "0") || 0,
-    transactionType: values[5] || "",
-    targetParty: values[6] || "",
-    category: values[7] || "",
-    spendingPattern: values[8] || "",
-    frequency: values[9] || "",
-    averageAmount: parseFloat(values[10] || "0") || 0,
-    totalSpent: parseFloat(values[11] || "0") || 0,
-    transactionCount: parseInt(values[12] || "0", 10) || 0,
-    habitType: values[13] || "",
-    riskLevel: values[14] || "",
-    suggestions: values[15] || "",
-    recentTransactions: values[16] || "",
-    previousHabitId: values[17] || "",
-  };
-}
-
-/**
- * Serializes habit entry to CSV
+ * Serializes habit entry to CSV (not used anymore, kept for compatibility)
  */
 function serializeHabitEntry(entry: HabitEntry): string {
   return [
