@@ -88,6 +88,24 @@ const AGENT_CAPABILITIES: AgentCapability[] = [
       "Motivational support",
     ],
   },
+  {
+    agentId: "sera",
+    name: "Sera (Shopping Assistant)",
+    capabilities: [
+      "Search products across Indian e-commerce",
+      "Compare prices and features",
+      "Track wishlist and price alerts",
+      "Provide shopping recommendations",
+      "Find best deals and offers",
+    ],
+    bestFor: [
+      "Product search and shopping queries",
+      "Price comparison requests",
+      "Finding best deals",
+      "Wishlist management",
+      "Shopping recommendations",
+    ],
+  },
 ];
 
 const ROUTING_SYSTEM_PROMPT = `You are an intelligent agent router for a financial management system. Analyze user requests and decide which agent(s) should handle them.
@@ -108,7 +126,7 @@ Your task:
 
 Respond ONLY with valid JSON in this format:
 {
-  "primaryAgent": "mill" | "dev" | "param" | "chatur",
+  "primaryAgent": "mill" | "dev" | "param" | "chatur" | "sera",
   "secondaryAgents": ["agent1", "agent2"],
   "reasoning": "Brief explanation of why these agents",
   "requiresUserInput": true/false,
@@ -180,6 +198,23 @@ export class AgentOrchestrator {
     const lower = userRequest.toLowerCase();
 
     // Pattern matching for common requests
+    const hasShoppingSignal = /buy|shop|shopping|wishlist|compare|deal|product|amazon|flipkart|croma|where to buy|looking for|need to buy|best price|cheapest/.test(
+      lower,
+    );
+    const hasTransactionVerb = /spent|spend|pay|paid|income|salary|log|record|earned|received/.test(
+      lower,
+    );
+
+    if (hasShoppingSignal && !hasTransactionVerb) {
+      return {
+        primaryAgent: "sera",
+        secondaryAgents: [],
+        reasoning: "Detected shopping or product discovery intent (fallback rule)",
+        requiresUserInput: false,
+        suggestedWorkflow: ["1: Sera plans the search", "2: Sera compares deals"],
+      };
+    }
+
     if (
       lower.includes("spent") ||
       lower.includes("spending") ||

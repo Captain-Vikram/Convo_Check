@@ -112,7 +112,7 @@ class MemoryAlertManager implements TransactionAlertManager {
     try {
       const apiAlerts = await fetchAlertsFromApi(this.userId);
       this.alerts = apiAlerts.map(this.convertApiAlertToRecord);
-      alertLogger.info("Loaded alerts from API", { count: this.alerts.length });
+      alertLogger.debug("Loaded alerts from API", { count: this.alerts.length });
     } catch (error) {
       alertLogger.error("Failed to load alerts from API, starting with empty list", { error });
       this.alerts = [];

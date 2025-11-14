@@ -3,6 +3,7 @@ import { chatbotAgent } from "./chatbot.js";
 import { analystAgent } from "./analyst.js";
 import { coachAgent } from "./coach.js";
 import { devAgent } from "./dev.js";
+import { seraAgent } from "./sera.js";
 import type { AgentDefinition } from "./types.js";
 
 const agentRegistry: Record<AgentId, AgentDefinition | undefined> = {
@@ -10,6 +11,7 @@ const agentRegistry: Record<AgentId, AgentDefinition | undefined> = {
   agent2: devAgent,
   agent3: analystAgent,
   agent4: coachAgent,
+  agent5: seraAgent,
 };
 
 export function getAgentDefinition(agentId: AgentId): AgentDefinition {

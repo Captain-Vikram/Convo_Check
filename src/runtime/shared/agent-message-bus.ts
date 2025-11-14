@@ -2,7 +2,7 @@ import { EventEmitter } from "node:events";
 
 import { logger } from "./logger.js";
 
-export type AgentId = "mill" | "dev" | "param" | "chatur";
+export type AgentId = "mill" | "dev" | "param" | "chatur" | "sera";
 
 export interface AgentMessage {
   id: string;

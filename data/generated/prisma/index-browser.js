@@ -140,6 +140,20 @@ exports.Prisma.Coach_briefingsScalarFieldEnum = {
   user_updated: 'user_updated'
 };
 
+exports.Prisma.Shopping_wishlistScalarFieldEnum = {
+  id: 'id',
+  owner: 'owner',
+  name: 'name',
+  link: 'link',
+  current_price: 'current_price',
+  desired_price: 'desired_price',
+  rating: 'rating',
+  source: 'source',
+  date_added: 'date_added',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.Directus_accessScalarFieldEnum = {
   id: 'id',
   role: 'role',
@@ -703,6 +717,7 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   coach_briefings: 'coach_briefings',
+  shopping_wishlist: 'shopping_wishlist',
   directus_access: 'directus_access',
   directus_activity: 'directus_activity',
   directus_collections: 'directus_collections',

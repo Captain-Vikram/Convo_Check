@@ -5,8 +5,8 @@ loadEnv();
 const DEFAULT_MODEL_FALLBACK = "gemini-2.0-pro-exp";
 const DEFAULT_MODEL_ENV = "GEMINI_DEFAULT_MODEL";
 
-export type AgentId = "agent1" | "agent2" | "agent3" | "agent4";
-export type AgentRole = "chatbot" | "accountant" | "analyst" | "coach";
+export type AgentId = "agent1" | "agent2" | "agent3" | "agent4" | "agent5";
+export type AgentRole = "chatbot" | "accountant" | "analyst" | "coach" | "shopping";
 
 interface AgentSetting {
   id: AgentId;
@@ -49,6 +49,14 @@ const AGENT_SETTINGS = [
     codename: "Coach",
     apiKeyEnv: "COACH_GEMINI_API_KEY",
     modelEnv: "COACH_GEMINI_MODEL",
+  },
+  {
+    id: "agent5",
+    role: "shopping",
+    title: "Shopping Assistant",
+    codename: "Sera",
+    apiKeyEnv: "SERA_GEMINI_API_KEY",
+    modelEnv: "SERA_GEMINI_MODEL",
   },
 ] as const satisfies readonly AgentSetting[];
 

@@ -7,7 +7,6 @@ import {
   listAgentDescriptors,
 } from "./config.js";
 import { getAgentDefinition } from "./agents/index.js";
-import { runChatbotSession } from "./runtime/mill/chatbot-session.js";
 
 const HELP_TEXT = `
 Usage: agent-cli <command>
@@ -51,6 +50,11 @@ async function run(): Promise<void> {
 
     case "chat": {
       try {
+        if (!process.env.MILL_LOG_MODE) {
+          process.env.MILL_LOG_MODE = "compact";
+        }
+
+        const { runChatbotSession } = await import("./runtime/mill/chatbot-session.js");
         await runChatbotSession({ maxHistory: 20 });
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);

@@ -271,7 +271,7 @@ export async function processSmsMessage(
   const pipelineOptions: DevPipelineOptions = {
     tools,
     ...(environment?.alertManager ? { alertManager: environment.alertManager } : {}),
-    source: "sms-webhook",
+  source: "web-sms-ingest",
     defaultCurrency: extraction.currency,
     extraHeuristics,
     extraTags,

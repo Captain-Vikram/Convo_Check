@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type coach_briefings = $Result.DefaultSelection<Prisma.$coach_briefingsPayload>
 /**
+ * Model shopping_wishlist
+ * 
+ */
+export type shopping_wishlist = $Result.DefaultSelection<Prisma.$shopping_wishlistPayload>
+/**
  * Model directus_access
  * 
  */
@@ -318,6 +323,16 @@ export class PrismaClient<
     * ```
     */
   get coach_briefings(): Prisma.coach_briefingsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shopping_wishlist`: Exposes CRUD operations for the **shopping_wishlist** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Shopping_wishlists
+    * const shopping_wishlists = await prisma.shopping_wishlist.findMany()
+    * ```
+    */
+  get shopping_wishlist(): Prisma.shopping_wishlistDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.directus_access`: Exposes CRUD operations for the **directus_access** model.
@@ -1100,6 +1115,7 @@ export namespace Prisma {
 
   export const ModelName: {
     coach_briefings: 'coach_briefings',
+    shopping_wishlist: 'shopping_wishlist',
     directus_access: 'directus_access',
     directus_activity: 'directus_activity',
     directus_collections: 'directus_collections',
@@ -1152,7 +1168,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "coach_briefings" | "directus_access" | "directus_activity" | "directus_collections" | "directus_comments" | "directus_dashboards" | "directus_extensions" | "directus_fields" | "directus_files" | "directus_flows" | "directus_folders" | "directus_migrations" | "directus_notifications" | "directus_operations" | "directus_panels" | "directus_permissions" | "directus_policies" | "directus_presets" | "directus_relations" | "directus_revisions" | "directus_roles" | "directus_sessions" | "directus_settings" | "directus_shares" | "directus_translations" | "directus_users" | "directus_versions" | "directus_webhooks" | "habit_insights" | "habit_snapshots" | "habit_snapshot_insights" | "sms_messages" | "tranasctions" | "users" | "alerts"
+      modelProps: "coach_briefings" | "shopping_wishlist" | "directus_access" | "directus_activity" | "directus_collections" | "directus_comments" | "directus_dashboards" | "directus_extensions" | "directus_fields" | "directus_files" | "directus_flows" | "directus_folders" | "directus_migrations" | "directus_notifications" | "directus_operations" | "directus_panels" | "directus_permissions" | "directus_policies" | "directus_presets" | "directus_relations" | "directus_revisions" | "directus_roles" | "directus_sessions" | "directus_settings" | "directus_shares" | "directus_translations" | "directus_users" | "directus_versions" | "directus_webhooks" | "habit_insights" | "habit_snapshots" | "habit_snapshot_insights" | "sms_messages" | "tranasctions" | "users" | "alerts"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1227,6 +1243,80 @@ export namespace Prisma {
           count: {
             args: Prisma.coach_briefingsCountArgs<ExtArgs>
             result: $Utils.Optional<Coach_briefingsCountAggregateOutputType> | number
+          }
+        }
+      }
+      shopping_wishlist: {
+        payload: Prisma.$shopping_wishlistPayload<ExtArgs>
+        fields: Prisma.shopping_wishlistFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.shopping_wishlistFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$shopping_wishlistPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.shopping_wishlistFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$shopping_wishlistPayload>
+          }
+          findFirst: {
+            args: Prisma.shopping_wishlistFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$shopping_wishlistPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.shopping_wishlistFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$shopping_wishlistPayload>
+          }
+          findMany: {
+            args: Prisma.shopping_wishlistFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$shopping_wishlistPayload>[]
+          }
+          create: {
+            args: Prisma.shopping_wishlistCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$shopping_wishlistPayload>
+          }
+          createMany: {
+            args: Prisma.shopping_wishlistCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.shopping_wishlistCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$shopping_wishlistPayload>[]
+          }
+          delete: {
+            args: Prisma.shopping_wishlistDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$shopping_wishlistPayload>
+          }
+          update: {
+            args: Prisma.shopping_wishlistUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$shopping_wishlistPayload>
+          }
+          deleteMany: {
+            args: Prisma.shopping_wishlistDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.shopping_wishlistUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.shopping_wishlistUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$shopping_wishlistPayload>[]
+          }
+          upsert: {
+            args: Prisma.shopping_wishlistUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$shopping_wishlistPayload>
+          }
+          aggregate: {
+            args: Prisma.Shopping_wishlistAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShopping_wishlist>
+          }
+          groupBy: {
+            args: Prisma.shopping_wishlistGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Shopping_wishlistGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.shopping_wishlistCountArgs<ExtArgs>
+            result: $Utils.Optional<Shopping_wishlistCountAggregateOutputType> | number
           }
         }
       }
@@ -3843,6 +3933,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     coach_briefings?: coach_briefingsOmit
+    shopping_wishlist?: shopping_wishlistOmit
     directus_access?: directus_accessOmit
     directus_activity?: directus_activityOmit
     directus_collections?: directus_collectionsOmit
@@ -6227,6 +6318,1113 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: coach_briefingsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model shopping_wishlist
+   */
+
+  export type AggregateShopping_wishlist = {
+    _count: Shopping_wishlistCountAggregateOutputType | null
+    _avg: Shopping_wishlistAvgAggregateOutputType | null
+    _sum: Shopping_wishlistSumAggregateOutputType | null
+    _min: Shopping_wishlistMinAggregateOutputType | null
+    _max: Shopping_wishlistMaxAggregateOutputType | null
+  }
+
+  export type Shopping_wishlistAvgAggregateOutputType = {
+    owner: number | null
+  }
+
+  export type Shopping_wishlistSumAggregateOutputType = {
+    owner: number | null
+  }
+
+  export type Shopping_wishlistMinAggregateOutputType = {
+    id: string | null
+    owner: number | null
+    name: string | null
+    link: string | null
+    current_price: string | null
+    desired_price: string | null
+    rating: string | null
+    source: string | null
+    date_added: Date | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Shopping_wishlistMaxAggregateOutputType = {
+    id: string | null
+    owner: number | null
+    name: string | null
+    link: string | null
+    current_price: string | null
+    desired_price: string | null
+    rating: string | null
+    source: string | null
+    date_added: Date | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Shopping_wishlistCountAggregateOutputType = {
+    id: number
+    owner: number
+    name: number
+    link: number
+    current_price: number
+    desired_price: number
+    rating: number
+    source: number
+    date_added: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Shopping_wishlistAvgAggregateInputType = {
+    owner?: true
+  }
+
+  export type Shopping_wishlistSumAggregateInputType = {
+    owner?: true
+  }
+
+  export type Shopping_wishlistMinAggregateInputType = {
+    id?: true
+    owner?: true
+    name?: true
+    link?: true
+    current_price?: true
+    desired_price?: true
+    rating?: true
+    source?: true
+    date_added?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Shopping_wishlistMaxAggregateInputType = {
+    id?: true
+    owner?: true
+    name?: true
+    link?: true
+    current_price?: true
+    desired_price?: true
+    rating?: true
+    source?: true
+    date_added?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Shopping_wishlistCountAggregateInputType = {
+    id?: true
+    owner?: true
+    name?: true
+    link?: true
+    current_price?: true
+    desired_price?: true
+    rating?: true
+    source?: true
+    date_added?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Shopping_wishlistAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which shopping_wishlist to aggregate.
+     */
+    where?: shopping_wishlistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of shopping_wishlists to fetch.
+     */
+    orderBy?: shopping_wishlistOrderByWithRelationInput | shopping_wishlistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: shopping_wishlistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` shopping_wishlists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` shopping_wishlists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned shopping_wishlists
+    **/
+    _count?: true | Shopping_wishlistCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Shopping_wishlistAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Shopping_wishlistSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Shopping_wishlistMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Shopping_wishlistMaxAggregateInputType
+  }
+
+  export type GetShopping_wishlistAggregateType<T extends Shopping_wishlistAggregateArgs> = {
+        [P in keyof T & keyof AggregateShopping_wishlist]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShopping_wishlist[P]>
+      : GetScalarType<T[P], AggregateShopping_wishlist[P]>
+  }
+
+
+
+
+  export type shopping_wishlistGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: shopping_wishlistWhereInput
+    orderBy?: shopping_wishlistOrderByWithAggregationInput | shopping_wishlistOrderByWithAggregationInput[]
+    by: Shopping_wishlistScalarFieldEnum[] | Shopping_wishlistScalarFieldEnum
+    having?: shopping_wishlistScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Shopping_wishlistCountAggregateInputType | true
+    _avg?: Shopping_wishlistAvgAggregateInputType
+    _sum?: Shopping_wishlistSumAggregateInputType
+    _min?: Shopping_wishlistMinAggregateInputType
+    _max?: Shopping_wishlistMaxAggregateInputType
+  }
+
+  export type Shopping_wishlistGroupByOutputType = {
+    id: string
+    owner: number
+    name: string
+    link: string
+    current_price: string
+    desired_price: string
+    rating: string | null
+    source: string
+    date_added: Date
+    created_at: Date
+    updated_at: Date
+    _count: Shopping_wishlistCountAggregateOutputType | null
+    _avg: Shopping_wishlistAvgAggregateOutputType | null
+    _sum: Shopping_wishlistSumAggregateOutputType | null
+    _min: Shopping_wishlistMinAggregateOutputType | null
+    _max: Shopping_wishlistMaxAggregateOutputType | null
+  }
+
+  type GetShopping_wishlistGroupByPayload<T extends shopping_wishlistGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Shopping_wishlistGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Shopping_wishlistGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Shopping_wishlistGroupByOutputType[P]>
+            : GetScalarType<T[P], Shopping_wishlistGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type shopping_wishlistSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    owner?: boolean
+    name?: boolean
+    link?: boolean
+    current_price?: boolean
+    desired_price?: boolean
+    rating?: boolean
+    source?: boolean
+    date_added?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["shopping_wishlist"]>
+
+  export type shopping_wishlistSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    owner?: boolean
+    name?: boolean
+    link?: boolean
+    current_price?: boolean
+    desired_price?: boolean
+    rating?: boolean
+    source?: boolean
+    date_added?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["shopping_wishlist"]>
+
+  export type shopping_wishlistSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    owner?: boolean
+    name?: boolean
+    link?: boolean
+    current_price?: boolean
+    desired_price?: boolean
+    rating?: boolean
+    source?: boolean
+    date_added?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["shopping_wishlist"]>
+
+  export type shopping_wishlistSelectScalar = {
+    id?: boolean
+    owner?: boolean
+    name?: boolean
+    link?: boolean
+    current_price?: boolean
+    desired_price?: boolean
+    rating?: boolean
+    source?: boolean
+    date_added?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type shopping_wishlistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "owner" | "name" | "link" | "current_price" | "desired_price" | "rating" | "source" | "date_added" | "created_at" | "updated_at", ExtArgs["result"]["shopping_wishlist"]>
+
+  export type $shopping_wishlistPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "shopping_wishlist"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      owner: number
+      name: string
+      link: string
+      current_price: string
+      desired_price: string
+      rating: string | null
+      source: string
+      date_added: Date
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["shopping_wishlist"]>
+    composites: {}
+  }
+
+  type shopping_wishlistGetPayload<S extends boolean | null | undefined | shopping_wishlistDefaultArgs> = $Result.GetResult<Prisma.$shopping_wishlistPayload, S>
+
+  type shopping_wishlistCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<shopping_wishlistFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Shopping_wishlistCountAggregateInputType | true
+    }
+
+  export interface shopping_wishlistDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['shopping_wishlist'], meta: { name: 'shopping_wishlist' } }
+    /**
+     * Find zero or one Shopping_wishlist that matches the filter.
+     * @param {shopping_wishlistFindUniqueArgs} args - Arguments to find a Shopping_wishlist
+     * @example
+     * // Get one Shopping_wishlist
+     * const shopping_wishlist = await prisma.shopping_wishlist.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends shopping_wishlistFindUniqueArgs>(args: SelectSubset<T, shopping_wishlistFindUniqueArgs<ExtArgs>>): Prisma__shopping_wishlistClient<$Result.GetResult<Prisma.$shopping_wishlistPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Shopping_wishlist that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {shopping_wishlistFindUniqueOrThrowArgs} args - Arguments to find a Shopping_wishlist
+     * @example
+     * // Get one Shopping_wishlist
+     * const shopping_wishlist = await prisma.shopping_wishlist.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends shopping_wishlistFindUniqueOrThrowArgs>(args: SelectSubset<T, shopping_wishlistFindUniqueOrThrowArgs<ExtArgs>>): Prisma__shopping_wishlistClient<$Result.GetResult<Prisma.$shopping_wishlistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Shopping_wishlist that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {shopping_wishlistFindFirstArgs} args - Arguments to find a Shopping_wishlist
+     * @example
+     * // Get one Shopping_wishlist
+     * const shopping_wishlist = await prisma.shopping_wishlist.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends shopping_wishlistFindFirstArgs>(args?: SelectSubset<T, shopping_wishlistFindFirstArgs<ExtArgs>>): Prisma__shopping_wishlistClient<$Result.GetResult<Prisma.$shopping_wishlistPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Shopping_wishlist that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {shopping_wishlistFindFirstOrThrowArgs} args - Arguments to find a Shopping_wishlist
+     * @example
+     * // Get one Shopping_wishlist
+     * const shopping_wishlist = await prisma.shopping_wishlist.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends shopping_wishlistFindFirstOrThrowArgs>(args?: SelectSubset<T, shopping_wishlistFindFirstOrThrowArgs<ExtArgs>>): Prisma__shopping_wishlistClient<$Result.GetResult<Prisma.$shopping_wishlistPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Shopping_wishlists that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {shopping_wishlistFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Shopping_wishlists
+     * const shopping_wishlists = await prisma.shopping_wishlist.findMany()
+     * 
+     * // Get first 10 Shopping_wishlists
+     * const shopping_wishlists = await prisma.shopping_wishlist.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shopping_wishlistWithIdOnly = await prisma.shopping_wishlist.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends shopping_wishlistFindManyArgs>(args?: SelectSubset<T, shopping_wishlistFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$shopping_wishlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Shopping_wishlist.
+     * @param {shopping_wishlistCreateArgs} args - Arguments to create a Shopping_wishlist.
+     * @example
+     * // Create one Shopping_wishlist
+     * const Shopping_wishlist = await prisma.shopping_wishlist.create({
+     *   data: {
+     *     // ... data to create a Shopping_wishlist
+     *   }
+     * })
+     * 
+     */
+    create<T extends shopping_wishlistCreateArgs>(args: SelectSubset<T, shopping_wishlistCreateArgs<ExtArgs>>): Prisma__shopping_wishlistClient<$Result.GetResult<Prisma.$shopping_wishlistPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Shopping_wishlists.
+     * @param {shopping_wishlistCreateManyArgs} args - Arguments to create many Shopping_wishlists.
+     * @example
+     * // Create many Shopping_wishlists
+     * const shopping_wishlist = await prisma.shopping_wishlist.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends shopping_wishlistCreateManyArgs>(args?: SelectSubset<T, shopping_wishlistCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Shopping_wishlists and returns the data saved in the database.
+     * @param {shopping_wishlistCreateManyAndReturnArgs} args - Arguments to create many Shopping_wishlists.
+     * @example
+     * // Create many Shopping_wishlists
+     * const shopping_wishlist = await prisma.shopping_wishlist.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Shopping_wishlists and only return the `id`
+     * const shopping_wishlistWithIdOnly = await prisma.shopping_wishlist.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends shopping_wishlistCreateManyAndReturnArgs>(args?: SelectSubset<T, shopping_wishlistCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$shopping_wishlistPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Shopping_wishlist.
+     * @param {shopping_wishlistDeleteArgs} args - Arguments to delete one Shopping_wishlist.
+     * @example
+     * // Delete one Shopping_wishlist
+     * const Shopping_wishlist = await prisma.shopping_wishlist.delete({
+     *   where: {
+     *     // ... filter to delete one Shopping_wishlist
+     *   }
+     * })
+     * 
+     */
+    delete<T extends shopping_wishlistDeleteArgs>(args: SelectSubset<T, shopping_wishlistDeleteArgs<ExtArgs>>): Prisma__shopping_wishlistClient<$Result.GetResult<Prisma.$shopping_wishlistPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Shopping_wishlist.
+     * @param {shopping_wishlistUpdateArgs} args - Arguments to update one Shopping_wishlist.
+     * @example
+     * // Update one Shopping_wishlist
+     * const shopping_wishlist = await prisma.shopping_wishlist.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends shopping_wishlistUpdateArgs>(args: SelectSubset<T, shopping_wishlistUpdateArgs<ExtArgs>>): Prisma__shopping_wishlistClient<$Result.GetResult<Prisma.$shopping_wishlistPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Shopping_wishlists.
+     * @param {shopping_wishlistDeleteManyArgs} args - Arguments to filter Shopping_wishlists to delete.
+     * @example
+     * // Delete a few Shopping_wishlists
+     * const { count } = await prisma.shopping_wishlist.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends shopping_wishlistDeleteManyArgs>(args?: SelectSubset<T, shopping_wishlistDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Shopping_wishlists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {shopping_wishlistUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Shopping_wishlists
+     * const shopping_wishlist = await prisma.shopping_wishlist.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends shopping_wishlistUpdateManyArgs>(args: SelectSubset<T, shopping_wishlistUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Shopping_wishlists and returns the data updated in the database.
+     * @param {shopping_wishlistUpdateManyAndReturnArgs} args - Arguments to update many Shopping_wishlists.
+     * @example
+     * // Update many Shopping_wishlists
+     * const shopping_wishlist = await prisma.shopping_wishlist.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Shopping_wishlists and only return the `id`
+     * const shopping_wishlistWithIdOnly = await prisma.shopping_wishlist.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends shopping_wishlistUpdateManyAndReturnArgs>(args: SelectSubset<T, shopping_wishlistUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$shopping_wishlistPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Shopping_wishlist.
+     * @param {shopping_wishlistUpsertArgs} args - Arguments to update or create a Shopping_wishlist.
+     * @example
+     * // Update or create a Shopping_wishlist
+     * const shopping_wishlist = await prisma.shopping_wishlist.upsert({
+     *   create: {
+     *     // ... data to create a Shopping_wishlist
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Shopping_wishlist we want to update
+     *   }
+     * })
+     */
+    upsert<T extends shopping_wishlistUpsertArgs>(args: SelectSubset<T, shopping_wishlistUpsertArgs<ExtArgs>>): Prisma__shopping_wishlistClient<$Result.GetResult<Prisma.$shopping_wishlistPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Shopping_wishlists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {shopping_wishlistCountArgs} args - Arguments to filter Shopping_wishlists to count.
+     * @example
+     * // Count the number of Shopping_wishlists
+     * const count = await prisma.shopping_wishlist.count({
+     *   where: {
+     *     // ... the filter for the Shopping_wishlists we want to count
+     *   }
+     * })
+    **/
+    count<T extends shopping_wishlistCountArgs>(
+      args?: Subset<T, shopping_wishlistCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Shopping_wishlistCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Shopping_wishlist.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Shopping_wishlistAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Shopping_wishlistAggregateArgs>(args: Subset<T, Shopping_wishlistAggregateArgs>): Prisma.PrismaPromise<GetShopping_wishlistAggregateType<T>>
+
+    /**
+     * Group by Shopping_wishlist.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {shopping_wishlistGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends shopping_wishlistGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: shopping_wishlistGroupByArgs['orderBy'] }
+        : { orderBy?: shopping_wishlistGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, shopping_wishlistGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopping_wishlistGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the shopping_wishlist model
+   */
+  readonly fields: shopping_wishlistFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for shopping_wishlist.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__shopping_wishlistClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the shopping_wishlist model
+   */
+  interface shopping_wishlistFieldRefs {
+    readonly id: FieldRef<"shopping_wishlist", 'String'>
+    readonly owner: FieldRef<"shopping_wishlist", 'Int'>
+    readonly name: FieldRef<"shopping_wishlist", 'String'>
+    readonly link: FieldRef<"shopping_wishlist", 'String'>
+    readonly current_price: FieldRef<"shopping_wishlist", 'String'>
+    readonly desired_price: FieldRef<"shopping_wishlist", 'String'>
+    readonly rating: FieldRef<"shopping_wishlist", 'String'>
+    readonly source: FieldRef<"shopping_wishlist", 'String'>
+    readonly date_added: FieldRef<"shopping_wishlist", 'DateTime'>
+    readonly created_at: FieldRef<"shopping_wishlist", 'DateTime'>
+    readonly updated_at: FieldRef<"shopping_wishlist", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * shopping_wishlist findUnique
+   */
+  export type shopping_wishlistFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
+    /**
+     * Filter, which shopping_wishlist to fetch.
+     */
+    where: shopping_wishlistWhereUniqueInput
+  }
+
+  /**
+   * shopping_wishlist findUniqueOrThrow
+   */
+  export type shopping_wishlistFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
+    /**
+     * Filter, which shopping_wishlist to fetch.
+     */
+    where: shopping_wishlistWhereUniqueInput
+  }
+
+  /**
+   * shopping_wishlist findFirst
+   */
+  export type shopping_wishlistFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
+    /**
+     * Filter, which shopping_wishlist to fetch.
+     */
+    where?: shopping_wishlistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of shopping_wishlists to fetch.
+     */
+    orderBy?: shopping_wishlistOrderByWithRelationInput | shopping_wishlistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for shopping_wishlists.
+     */
+    cursor?: shopping_wishlistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` shopping_wishlists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` shopping_wishlists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of shopping_wishlists.
+     */
+    distinct?: Shopping_wishlistScalarFieldEnum | Shopping_wishlistScalarFieldEnum[]
+  }
+
+  /**
+   * shopping_wishlist findFirstOrThrow
+   */
+  export type shopping_wishlistFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
+    /**
+     * Filter, which shopping_wishlist to fetch.
+     */
+    where?: shopping_wishlistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of shopping_wishlists to fetch.
+     */
+    orderBy?: shopping_wishlistOrderByWithRelationInput | shopping_wishlistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for shopping_wishlists.
+     */
+    cursor?: shopping_wishlistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` shopping_wishlists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` shopping_wishlists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of shopping_wishlists.
+     */
+    distinct?: Shopping_wishlistScalarFieldEnum | Shopping_wishlistScalarFieldEnum[]
+  }
+
+  /**
+   * shopping_wishlist findMany
+   */
+  export type shopping_wishlistFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
+    /**
+     * Filter, which shopping_wishlists to fetch.
+     */
+    where?: shopping_wishlistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of shopping_wishlists to fetch.
+     */
+    orderBy?: shopping_wishlistOrderByWithRelationInput | shopping_wishlistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing shopping_wishlists.
+     */
+    cursor?: shopping_wishlistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` shopping_wishlists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` shopping_wishlists.
+     */
+    skip?: number
+    distinct?: Shopping_wishlistScalarFieldEnum | Shopping_wishlistScalarFieldEnum[]
+  }
+
+  /**
+   * shopping_wishlist create
+   */
+  export type shopping_wishlistCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
+    /**
+     * The data needed to create a shopping_wishlist.
+     */
+    data: XOR<shopping_wishlistCreateInput, shopping_wishlistUncheckedCreateInput>
+  }
+
+  /**
+   * shopping_wishlist createMany
+   */
+  export type shopping_wishlistCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many shopping_wishlists.
+     */
+    data: shopping_wishlistCreateManyInput | shopping_wishlistCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * shopping_wishlist createManyAndReturn
+   */
+  export type shopping_wishlistCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
+    /**
+     * The data used to create many shopping_wishlists.
+     */
+    data: shopping_wishlistCreateManyInput | shopping_wishlistCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * shopping_wishlist update
+   */
+  export type shopping_wishlistUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
+    /**
+     * The data needed to update a shopping_wishlist.
+     */
+    data: XOR<shopping_wishlistUpdateInput, shopping_wishlistUncheckedUpdateInput>
+    /**
+     * Choose, which shopping_wishlist to update.
+     */
+    where: shopping_wishlistWhereUniqueInput
+  }
+
+  /**
+   * shopping_wishlist updateMany
+   */
+  export type shopping_wishlistUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update shopping_wishlists.
+     */
+    data: XOR<shopping_wishlistUpdateManyMutationInput, shopping_wishlistUncheckedUpdateManyInput>
+    /**
+     * Filter which shopping_wishlists to update
+     */
+    where?: shopping_wishlistWhereInput
+    /**
+     * Limit how many shopping_wishlists to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * shopping_wishlist updateManyAndReturn
+   */
+  export type shopping_wishlistUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
+    /**
+     * The data used to update shopping_wishlists.
+     */
+    data: XOR<shopping_wishlistUpdateManyMutationInput, shopping_wishlistUncheckedUpdateManyInput>
+    /**
+     * Filter which shopping_wishlists to update
+     */
+    where?: shopping_wishlistWhereInput
+    /**
+     * Limit how many shopping_wishlists to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * shopping_wishlist upsert
+   */
+  export type shopping_wishlistUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
+    /**
+     * The filter to search for the shopping_wishlist to update in case it exists.
+     */
+    where: shopping_wishlistWhereUniqueInput
+    /**
+     * In case the shopping_wishlist found by the `where` argument doesn't exist, create a new shopping_wishlist with this data.
+     */
+    create: XOR<shopping_wishlistCreateInput, shopping_wishlistUncheckedCreateInput>
+    /**
+     * In case the shopping_wishlist was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<shopping_wishlistUpdateInput, shopping_wishlistUncheckedUpdateInput>
+  }
+
+  /**
+   * shopping_wishlist delete
+   */
+  export type shopping_wishlistDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
+    /**
+     * Filter which shopping_wishlist to delete.
+     */
+    where: shopping_wishlistWhereUniqueInput
+  }
+
+  /**
+   * shopping_wishlist deleteMany
+   */
+  export type shopping_wishlistDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which shopping_wishlists to delete
+     */
+    where?: shopping_wishlistWhereInput
+    /**
+     * Limit how many shopping_wishlists to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * shopping_wishlist without action
+   */
+  export type shopping_wishlistDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the shopping_wishlist
+     */
+    select?: shopping_wishlistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the shopping_wishlist
+     */
+    omit?: shopping_wishlistOmit<ExtArgs> | null
   }
 
 
@@ -48968,6 +50166,23 @@ export namespace Prisma {
   export type Coach_briefingsScalarFieldEnum = (typeof Coach_briefingsScalarFieldEnum)[keyof typeof Coach_briefingsScalarFieldEnum]
 
 
+  export const Shopping_wishlistScalarFieldEnum: {
+    id: 'id',
+    owner: 'owner',
+    name: 'name',
+    link: 'link',
+    current_price: 'current_price',
+    desired_price: 'desired_price',
+    rating: 'rating',
+    source: 'source',
+    date_added: 'date_added',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Shopping_wishlistScalarFieldEnum = (typeof Shopping_wishlistScalarFieldEnum)[keyof typeof Shopping_wishlistScalarFieldEnum]
+
+
   export const Directus_accessScalarFieldEnum: {
     id: 'id',
     role: 'role',
@@ -49885,6 +51100,90 @@ export namespace Prisma {
     sort?: IntNullableWithAggregatesFilter<"coach_briefings"> | number | null
     user_created?: UuidNullableWithAggregatesFilter<"coach_briefings"> | string | null
     user_updated?: UuidNullableWithAggregatesFilter<"coach_briefings"> | string | null
+  }
+
+  export type shopping_wishlistWhereInput = {
+    AND?: shopping_wishlistWhereInput | shopping_wishlistWhereInput[]
+    OR?: shopping_wishlistWhereInput[]
+    NOT?: shopping_wishlistWhereInput | shopping_wishlistWhereInput[]
+    id?: UuidFilter<"shopping_wishlist"> | string
+    owner?: IntFilter<"shopping_wishlist"> | number
+    name?: StringFilter<"shopping_wishlist"> | string
+    link?: StringFilter<"shopping_wishlist"> | string
+    current_price?: StringFilter<"shopping_wishlist"> | string
+    desired_price?: StringFilter<"shopping_wishlist"> | string
+    rating?: StringNullableFilter<"shopping_wishlist"> | string | null
+    source?: StringFilter<"shopping_wishlist"> | string
+    date_added?: DateTimeFilter<"shopping_wishlist"> | Date | string
+    created_at?: DateTimeFilter<"shopping_wishlist"> | Date | string
+    updated_at?: DateTimeFilter<"shopping_wishlist"> | Date | string
+  }
+
+  export type shopping_wishlistOrderByWithRelationInput = {
+    id?: SortOrder
+    owner?: SortOrder
+    name?: SortOrder
+    link?: SortOrder
+    current_price?: SortOrder
+    desired_price?: SortOrder
+    rating?: SortOrderInput | SortOrder
+    source?: SortOrder
+    date_added?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type shopping_wishlistWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: shopping_wishlistWhereInput | shopping_wishlistWhereInput[]
+    OR?: shopping_wishlistWhereInput[]
+    NOT?: shopping_wishlistWhereInput | shopping_wishlistWhereInput[]
+    owner?: IntFilter<"shopping_wishlist"> | number
+    name?: StringFilter<"shopping_wishlist"> | string
+    link?: StringFilter<"shopping_wishlist"> | string
+    current_price?: StringFilter<"shopping_wishlist"> | string
+    desired_price?: StringFilter<"shopping_wishlist"> | string
+    rating?: StringNullableFilter<"shopping_wishlist"> | string | null
+    source?: StringFilter<"shopping_wishlist"> | string
+    date_added?: DateTimeFilter<"shopping_wishlist"> | Date | string
+    created_at?: DateTimeFilter<"shopping_wishlist"> | Date | string
+    updated_at?: DateTimeFilter<"shopping_wishlist"> | Date | string
+  }, "id">
+
+  export type shopping_wishlistOrderByWithAggregationInput = {
+    id?: SortOrder
+    owner?: SortOrder
+    name?: SortOrder
+    link?: SortOrder
+    current_price?: SortOrder
+    desired_price?: SortOrder
+    rating?: SortOrderInput | SortOrder
+    source?: SortOrder
+    date_added?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: shopping_wishlistCountOrderByAggregateInput
+    _avg?: shopping_wishlistAvgOrderByAggregateInput
+    _max?: shopping_wishlistMaxOrderByAggregateInput
+    _min?: shopping_wishlistMinOrderByAggregateInput
+    _sum?: shopping_wishlistSumOrderByAggregateInput
+  }
+
+  export type shopping_wishlistScalarWhereWithAggregatesInput = {
+    AND?: shopping_wishlistScalarWhereWithAggregatesInput | shopping_wishlistScalarWhereWithAggregatesInput[]
+    OR?: shopping_wishlistScalarWhereWithAggregatesInput[]
+    NOT?: shopping_wishlistScalarWhereWithAggregatesInput | shopping_wishlistScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"shopping_wishlist"> | string
+    owner?: IntWithAggregatesFilter<"shopping_wishlist"> | number
+    name?: StringWithAggregatesFilter<"shopping_wishlist"> | string
+    link?: StringWithAggregatesFilter<"shopping_wishlist"> | string
+    current_price?: StringWithAggregatesFilter<"shopping_wishlist"> | string
+    desired_price?: StringWithAggregatesFilter<"shopping_wishlist"> | string
+    rating?: StringNullableWithAggregatesFilter<"shopping_wishlist"> | string | null
+    source?: StringWithAggregatesFilter<"shopping_wishlist"> | string
+    date_added?: DateTimeWithAggregatesFilter<"shopping_wishlist"> | Date | string
+    created_at?: DateTimeWithAggregatesFilter<"shopping_wishlist"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"shopping_wishlist"> | Date | string
   }
 
   export type directus_accessWhereInput = {
@@ -53502,6 +54801,104 @@ export namespace Prisma {
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type shopping_wishlistCreateInput = {
+    id: string
+    owner: number
+    name: string
+    link: string
+    current_price: string
+    desired_price: string
+    rating?: string | null
+    source: string
+    date_added?: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type shopping_wishlistUncheckedCreateInput = {
+    id: string
+    owner: number
+    name: string
+    link: string
+    current_price: string
+    desired_price: string
+    rating?: string | null
+    source: string
+    date_added?: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type shopping_wishlistUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    owner?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    current_price?: StringFieldUpdateOperationsInput | string
+    desired_price?: StringFieldUpdateOperationsInput | string
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    date_added?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type shopping_wishlistUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    owner?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    current_price?: StringFieldUpdateOperationsInput | string
+    desired_price?: StringFieldUpdateOperationsInput | string
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    date_added?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type shopping_wishlistCreateManyInput = {
+    id: string
+    owner: number
+    name: string
+    link: string
+    current_price: string
+    desired_price: string
+    rating?: string | null
+    source: string
+    date_added?: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type shopping_wishlistUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    owner?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    current_price?: StringFieldUpdateOperationsInput | string
+    desired_price?: StringFieldUpdateOperationsInput | string
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    date_added?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type shopping_wishlistUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    owner?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    current_price?: StringFieldUpdateOperationsInput | string
+    desired_price?: StringFieldUpdateOperationsInput | string
+    rating?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    date_added?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type directus_accessCreateInput = {
@@ -57742,6 +59139,56 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type shopping_wishlistCountOrderByAggregateInput = {
+    id?: SortOrder
+    owner?: SortOrder
+    name?: SortOrder
+    link?: SortOrder
+    current_price?: SortOrder
+    desired_price?: SortOrder
+    rating?: SortOrder
+    source?: SortOrder
+    date_added?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type shopping_wishlistAvgOrderByAggregateInput = {
+    owner?: SortOrder
+  }
+
+  export type shopping_wishlistMaxOrderByAggregateInput = {
+    id?: SortOrder
+    owner?: SortOrder
+    name?: SortOrder
+    link?: SortOrder
+    current_price?: SortOrder
+    desired_price?: SortOrder
+    rating?: SortOrder
+    source?: SortOrder
+    date_added?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type shopping_wishlistMinOrderByAggregateInput = {
+    id?: SortOrder
+    owner?: SortOrder
+    name?: SortOrder
+    link?: SortOrder
+    current_price?: SortOrder
+    desired_price?: SortOrder
+    rating?: SortOrder
+    source?: SortOrder
+    date_added?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type shopping_wishlistSumOrderByAggregateInput = {
+    owner?: SortOrder
   }
 
   export type Directus_policiesScalarRelationFilter = {

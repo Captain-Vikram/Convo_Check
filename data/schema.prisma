@@ -36,6 +36,22 @@ model coach_briefings {
   @@index([owner, delivered])
 }
 
+model shopping_wishlist {
+  id            String   @id @db.Uuid
+  owner         Int
+  name          String   @db.VarChar(255)
+  link          String   @db.VarChar(2048)
+  current_price String   @db.VarChar(64)
+  desired_price String   @db.VarChar(64)
+  rating        String?  @db.VarChar(64)
+  source        String   @db.VarChar(128)
+  date_added    DateTime @default(now()) @db.Timestamptz(6)
+  created_at    DateTime @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  @@index([owner], map: "shopping_wishlist_owner_idx")
+}
+
 model directus_access {
   id                String            @id @db.Uuid
   role              String?           @db.Uuid

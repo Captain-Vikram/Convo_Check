@@ -174,7 +174,21 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
               const text = (result.text ?? "").trim();
               return this.parseConversationalResponse(text);
             },
-            { maxAttempts: 3 },
+            { 
+              maxAttempts: 3,
+              initialDelayMs: 2000,  // Start with 2s delay
+              maxDelayMs: 15000,     // Up to 15s for overload errors
+              backoffMultiplier: 2,
+            },
+            (error: unknown) => {
+              // Retry on overload errors specifically
+              const message = error instanceof Error ? error.message : String(error);
+              const isOverloaded = message.toLowerCase().includes('overload');
+              if (isOverloaded) {
+                console.log('[coach] Model overloaded, will retry with longer delay...');
+              }
+              return true; // Retry all errors within attempt limit
+            },
           );
         },
         async () => {

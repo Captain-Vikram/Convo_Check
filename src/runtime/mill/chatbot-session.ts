@@ -2,6 +2,7 @@ import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
 import { callLLM, createLLMClient } from "../shared/llm-client.js";
+import { SeraAgent } from "../sera/sera-agent.js";
 import type { CoreMessage } from "ai";
 
 import { chatbotAgent, createChatbotToolset } from "../../agents/chatbot.js";
@@ -85,6 +86,8 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
   let paramRefreshInFlight = false;
   let lastParamRefreshReason = "startup";
   const pendingToolResponses: string[] = [];
+  const seraAgent = new SeraAgent();
+  let seraSessionId: string | undefined;
 
   function queueParamRefresh(reason: string): void {
     paramRefreshPending = true;
@@ -400,6 +403,61 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
     }
   }
 
+  async function handleSeraConversation(rawInput: string, normalizedInput: string): Promise<boolean> {
+    const trimmed = normalizedInput.trim();
+    const hasSeraSession = Boolean(seraSessionId);
+
+    if (hasSeraSession && shouldExitSera(trimmed)) {
+      const sessionId = seraSessionId!;
+      seraAgent.endConversation(sessionId, "user-request");
+      seraSessionId = undefined;
+      output.write("mill> All right, back to money mode whenever you need me. 💼\n");
+      return true;
+    }
+
+    const wantsSera = shouldTriggerSera(trimmed);
+
+    if (!hasSeraSession && !wantsSera) {
+      return false;
+    }
+
+    try {
+      if (!hasSeraSession) {
+        output.write("mill> Looping in Sera—our shopping pro who scouts trusted deals. 🛍️\n");
+        const session = seraAgent.startConversation();
+        seraSessionId = session.sessionId;
+        const greetingMessage = session.messages[session.messages.length - 1] ?? session.messages[0];
+        const greeting = greetingMessage?.content?.trim() ?? "";
+        if (greeting.length > 0) {
+          output.write(`sera> ${greeting}\n`);
+        }
+      }
+
+      const sessionId = seraSessionId!;
+      const result = await seraAgent.continueConversation(sessionId, rawInput);
+
+      if (result.message.trim().length > 0) {
+        output.write(`sera> ${result.message.trim()}\n`);
+      }
+
+      if (result.completed) {
+        seraAgent.endConversation(sessionId, "completed");
+        seraSessionId = undefined;
+        output.write("mill> Hope that helped! I'm standing by for your next finance move. 💰\n");
+      }
+
+      return true;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      output.write(`mill> Sera hit a snag: ${message}. I'll take it from here.\n`);
+      if (seraSessionId) {
+        seraAgent.endConversation(seraSessionId, "error");
+        seraSessionId = undefined;
+      }
+      return false;
+    }
+  }
+
   async function flushDuplicateAlerts(): Promise<void> {
     if (duplicateAlertFlushing || duplicateAlerts.length === 0 || !duplicateAlertsActive) {
       return;
@@ -702,6 +760,10 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
         continue;
       }
 
+      if (await handleSeraConversation(rawInput, normalizedInput)) {
+        continue;
+      }
+
       // NEW: Smart Query Routing - Detect if Chatur should handle this
       try {
         const routing = await routeQuery(normalizedInput);
@@ -868,6 +930,86 @@ async function handleCoachCommand(command: string): Promise<boolean> {
   }
 
   return true;
+}
+
+const SERA_KEYWORDS = [
+  "search",
+  "find",
+  "buy",
+  "shop",
+  "shopping",
+  "product",
+  "price",
+  "compare",
+  "wishlist",
+  "deal",
+  "best deal",
+  "recommend",
+  "gadget",
+  "watch",
+  "laptop",
+  "phone",
+  "headphones",
+  "shoes",
+  "clothing",
+  "appliance",
+];
+
+const SERA_EXIT_PHRASES = [
+  "back to mill",
+  "back to finance",
+  "done shopping",
+  "stop shopping",
+  "return to mill",
+  "switch to mill",
+  "no more shopping",
+  "back to money",
+  "cancel shopping",
+];
+
+const SERA_STORE_REGEX = /amazon|flipkart|croma|myntra|ajio|tatacliq|reliance digital|nykaa|decathlon|ikea|chromawww|vijay sales|snapdeal|paytm mall/;
+const SERA_VERB_REGEX = /buy|shop|shopping|wishlist|compare|deal|product|price|purchase|order|best|recommend|search/;
+
+function shouldTriggerSera(input: string): boolean {
+  if (!input) {
+    return false;
+  }
+
+  const lower = input.toLowerCase();
+
+  if (lower.includes("sera")) {
+    return true;
+  }
+
+  const keywordHits = keywordScore(SERA_KEYWORDS, lower);
+  const hasStoreMention = SERA_STORE_REGEX.test(lower);
+  const hasShoppingVerb = SERA_VERB_REGEX.test(lower);
+  const transactionCue = looksLikeTransactionIntent(lower);
+
+  if (transactionCue && !hasStoreMention && !hasShoppingVerb) {
+    return false;
+  }
+
+  return hasStoreMention || hasShoppingVerb || keywordHits > 0;
+}
+
+function shouldExitSera(input: string): boolean {
+  if (!input) {
+    return false;
+  }
+
+  const lower = input.toLowerCase();
+  return SERA_EXIT_PHRASES.some((phrase) => lower.includes(phrase));
+}
+
+function keywordScore(keywords: readonly string[], lower: string): number {
+  return keywords.reduce((score, keyword) => (lower.includes(keyword) ? score + 1 : score), 0);
+}
+
+function looksLikeTransactionIntent(lower: string): boolean {
+  return /\b(spent|spend|pay|paid|log|record|salary|income|earned|received|deposit|withdraw|transfer|credited|debited)\b/.test(
+    lower,
+  );
 }
 
 const COACH_KEY_PHRASES = [

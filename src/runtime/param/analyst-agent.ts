@@ -109,7 +109,7 @@ const ANALYSIS_VERSION = 1;
 export async function runAnalyst(options: RunAnalystOptions = {}): Promise<AnalystRunResult> {
   const { reanalyzeAll = false, dryRun = false } = options;
   
-  logger.info("analyst-agent", "Starting analyst run", { reanalyzeAll, dryRun });
+  logger.debug("analyst-agent", "Starting analyst run", { reanalyzeAll, dryRun });
 
   const transactions = await loadTransactions();
 
@@ -156,7 +156,7 @@ export async function runAnalyst(options: RunAnalystOptions = {}): Promise<Analy
     };
   }
 
-  logger.info("analyst-agent", "Analyzing transactions", {
+  logger.debug("analyst-agent", "Analyzing transactions", {
     total: transactions.length,
     toAnalyze: transactionsToAnalyze.length,
     reanalyzeAll,
@@ -189,11 +189,11 @@ export async function runAnalyst(options: RunAnalystOptions = {}): Promise<Analy
     }
     
     await persistHabitsToApi(insights);
-    logger.info("analyst-agent", `Updated habits narrative with ${insights.length} insights`);
+    logger.debug("analyst-agent", `Updated habits narrative with ${insights.length} insights`);
 
     // Mark transactions as analyzed
     await markTransactionsAsAnalyzed(transactionsToAnalyze, ANALYSIS_VERSION);
-    logger.info("analyst-agent", `Marked ${transactionsToAnalyze.length} transactions as analyzed (v${ANALYSIS_VERSION})`);
+    logger.debug("analyst-agent", `Marked ${transactionsToAnalyze.length} transactions as analyzed (v${ANALYSIS_VERSION})`);
 
     try {
       await runCoach({ latestInsights: insights, previousInsights, trigger: "analyst" });
@@ -248,7 +248,7 @@ async function markTransactionsAsAnalyzed(
       });
 
       if (!response.ok) {
-        logger.warn("analyst-agent", `Failed to mark transaction ${tx.id} as analyzed`, {
+        logger.debug("analyst-agent", `Failed to mark transaction ${tx.id} as analyzed`, {
           status: response.status,
           statusText: response.statusText,
         });

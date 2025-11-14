@@ -191,7 +191,14 @@ async function loadHabitSnapshots(
   maxSnapshots: number,
 ): Promise<HabitSnapshot[]> {
   try {
-    const snapshots = await fetchHabitSnapshotsFromApi(Number(userId));
+    // Convert userId to number, handle invalid values
+    const ownerIdNum = parseInt(userId, 10);
+    if (isNaN(ownerIdNum) || ownerIdNum <= 0) {
+      console.log(`[chatur-context] Invalid userId "${userId}", cannot fetch habit snapshots`);
+      return [];
+    }
+    
+    const snapshots = await fetchHabitSnapshotsFromApi(ownerIdNum);
     
     // Convert database format to HabitSnapshot format
     const converted: HabitSnapshot[] = snapshots.slice(0, maxSnapshots).map((snap: any) => {

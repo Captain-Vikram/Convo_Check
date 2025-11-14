@@ -14,6 +14,8 @@ export enum LogLevel {
   ERROR = 'error',
 }
 
+type LogMode = "json" | "compact" | "silent";
+
 interface LogEntry {
   level: LogLevel;
   component: string;
@@ -30,10 +32,23 @@ interface LogEntry {
 class Logger {
   private readonly minLevel: LogLevel;
   private readonly maskPII: boolean;
+  private readonly logMode: LogMode;
 
   constructor() {
-    this.minLevel = this.parseLogLevel(process.env.LOG_LEVEL || 'info');
+    this.logMode = this.resolveLogMode(process.env.MILL_LOG_MODE);
+    const defaultLevel = this.logMode === 'compact' ? 'warn' : 'info';
+    this.minLevel = this.parseLogLevel(process.env.LOG_LEVEL || defaultLevel);
     this.maskPII = process.env.MASK_PII !== 'false'; // Default to true
+  }
+
+  private resolveLogMode(value: string | undefined): LogMode {
+    const normalized = value?.toLowerCase();
+
+    if (normalized === 'compact' || normalized === 'silent') {
+      return normalized;
+    }
+
+    return 'json';
   }
 
   private parseLogLevel(level: string): LogLevel {
@@ -45,6 +60,10 @@ class Logger {
   }
 
   private shouldLog(level: LogLevel): boolean {
+    if (this.logMode === 'silent') {
+      return false;
+    }
+
     const levels = [LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARN, LogLevel.ERROR];
     const currentIndex = levels.indexOf(level);
     const minIndex = levels.indexOf(this.minLevel);
@@ -52,6 +71,10 @@ class Logger {
   }
 
   private formatEntry(entry: LogEntry): string {
+    if (this.logMode === 'compact') {
+      return this.formatCompact(entry);
+    }
+
     const formatted: any = {
       level: entry.level,
       component: entry.component,
@@ -60,7 +83,7 @@ class Logger {
     };
 
     if (entry.meta) {
-      formatted.meta = this.maskPII ? PIIMasker.createSafeLogObject(entry.meta) : entry.meta;
+      formatted.meta = this.sanitizeMeta(entry.meta);
     }
 
     if (entry.error) {
@@ -68,6 +91,27 @@ class Logger {
     }
 
     return JSON.stringify(formatted);
+  }
+
+  private formatCompact(entry: LogEntry): string {
+    const parts: string[] = [`[${entry.component}]`, entry.message];
+
+    if (entry.error?.message) {
+      parts.push(`(${entry.error.message})`);
+    }
+
+    if (entry.meta) {
+      const sanitized = this.sanitizeMeta(entry.meta);
+      if (Object.keys(sanitized).length > 0) {
+        parts.push(JSON.stringify(sanitized));
+      }
+    }
+
+    return parts.join(' ');
+  }
+
+  private sanitizeMeta(meta: Record<string, any>): Record<string, any> {
+    return this.maskPII ? PIIMasker.createSafeLogObject(meta) : meta;
   }
 
   private write(entry: LogEntry): void {

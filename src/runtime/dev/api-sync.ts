@@ -517,7 +517,14 @@ export async function fetchHabitSnapshotsFromApi(ownerId?: number): Promise<any[
 
   const baseUrl = process.env.MILL_API_BASE_URL ?? DEFAULT_BASE_URL;
   const owner = ownerId ?? (process.env.DEV_USER_ID ? Number(process.env.DEV_USER_ID) : undefined);
-  const ownerQuery = owner ? `?owner=${encodeURIComponent(String(owner))}` : "";
+  
+  // Owner is required by the API
+  if (!owner) {
+    console.log('[api-sync] No owner ID provided for habit snapshots, returning empty array');
+    return [];
+  }
+  
+  const ownerQuery = `?owner=${encodeURIComponent(String(owner))}`;
   const endpointUrl = new URL(`/api/habit-snapshots${ownerQuery}`, baseUrl).toString();
   const authTokenToUse = authDisabled ? null : serviceToken;
 
