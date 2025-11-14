@@ -17,6 +17,7 @@ Convo Check is a comprehensive financial management system that helps users (esp
 ## 🚀 Features
 
 ### Core Capabilities
+
 - ✅ **Conversational Transaction Logging** - Natural language expense/income tracking with Mill
 - ✅ **Automated SMS Parsing** - Dev extracts transactions from bank SMS (UPI, cards, NEFT)
 - ✅ **Intelligent Pattern Detection** - Param identifies spending habits and behavioral flags
@@ -31,30 +32,35 @@ Convo Check is a comprehensive financial management system that helps users (esp
 ### Agent-Specific Features
 
 **Mill** 💰
+
 - Transaction logging with smart categorization
 - Spending history queries with Param insights
 - Financial concept explanations (web-powered)
 - Agent routing and coordination
 
 **Dev** 📱
+
 - Background SMS processing (cron-based)
 - Multi-bank format support (BOB, ICICI, HDFC, Paytm, etc.)
 - Data normalization and validation
 - Noise filtering (OTPs, marketing, balance alerts)
 
 **Param** 📊
+
 - 5-7 actionable habit insights per analysis
 - Evidence-based recommendations (<220 chars each)
 - Habit snapshot creation for historical tracking
 - Behavioral flag detection (overspending, impulse buying, etc.)
 
 **Chatur** 🎯
+
 - Purchase decision framework (affordability, timing, opportunity cost)
 - Goal planning with progress tracking
 - Loan/EMI calculations with multiple tenure options
 - 3-lever optimization (save more, earn more, extend timeline)
 
 **Sera** 🛍️
+
 - Google Shopping search across Indian e-commerce
 - Product comparison with ratings and specs
 - Wishlist management with target price tracking
@@ -113,6 +119,7 @@ The system uses PostgreSQL with Prisma ORM. Schema is Directus-compatible.
 ```
 
 **Database Tables**:
+
 - `transactions` - All financial transactions
 - `alerts` - Financial alerts and notifications
 - `habit_insights` - Individual habit patterns (from Param)
@@ -140,6 +147,7 @@ npm run dev
 ### Production Deployment
 
 **Option 1: Vercel (Recommended)**
+
 ```bash
 cd web
 vercel deploy
@@ -147,6 +155,7 @@ vercel deploy
 ```
 
 **Option 2: Node.js Server**
+
 ```bash
 npm run build
 cd web
@@ -158,6 +167,7 @@ npm start
 ### Interacting with Agents
 
 **Mill (Financial Sidekick)**:
+
 ```
 you> Hey Mill!
 Mill> Hey! 👋 What's up? I can help you log transactions or check your spending.
@@ -173,6 +183,7 @@ Mill> Ahh, compound interest! 🎯 It's money making money making MORE money...
 ```
 
 **Chatur (Financial Coach)**:
+
 ```
 you> Should I buy a ₹50,000 laptop?
 Chatur> Let's evaluate this together! What's your monthly income?
@@ -187,6 +198,7 @@ Chatur> {
 ```
 
 **Sera (Shopping Assistant)**:
+
 ```
 you> Find me gaming laptops under ₹80K
 Sera> Ooh, laptop shopping! 💻 Let me hunt down the best deals...
@@ -208,6 +220,7 @@ Sera> Saved to your wishlist! 💝 I'll remember this for you.
 See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for complete API reference.
 
 **Key Endpoints**:
+
 - `GET /api/transactions` - Fetch transactions
 - `POST /api/transactions` - Log new transaction
 - `GET /api/habits` - Get habit insights
@@ -366,6 +379,7 @@ User Input → Mill (Router) → [Chatur (Advice) | Sera (Shopping)]
 ### Environment Variables
 
 **Required for All Agents**:
+
 ```env
 # Database
 DATABASE_URL=postgresql://user:password@host:port/database
@@ -381,6 +395,7 @@ API_KEY=optional-additional-key
 ```
 
 **Agent-Specific Keys**:
+
 ```env
 # Mill (Chatbot)
 CHATBOT_GEMINI_API_KEY=your-gemini-key
@@ -400,6 +415,7 @@ SERPAPI_KEY=your-serpapi-key
 ```
 
 **Optional**:
+
 ```env
 # SMS Processing
 CRON_SECRET=your-cron-secret
@@ -411,6 +427,7 @@ DISABLE_AUTH=0  # Set to 1 for local dev
 ### Gemini Models
 
 All agents use Google Gemini via Vercel AI SDK:
+
 - **Mill**: Gemini 1.5 Flash (fast conversational responses)
 - **Dev**: Gemini 1.5 Flash (efficient SMS parsing)
 - **Param**: Gemini 1.5 Flash (analytical insights)
@@ -432,17 +449,20 @@ All agents use Google Gemini via Vercel AI SDK:
 ### Key Design Decisions
 
 1. **REST API Architecture**: Clean separation between web server and CLI agents
+
    - Web server hosts API endpoints
    - CLI agents call APIs (no direct database access)
    - Enables independent scaling and deployment
 
 2. **PostgreSQL over CSV**: Migrated from CSV to database for:
+
    - Better concurrency and performance
    - ACID transactions
    - Directus compatibility
    - Proper indexing and relationships
 
 3. **Multi-Agent System**: Each agent has single responsibility:
+
    - Mill = User interface & routing
    - Dev = Automated data collection
    - Param = Data analysis
@@ -475,6 +495,7 @@ All agents use Google Gemini via Vercel AI SDK:
 - **[Sera Agent](./docs/agents/SERA_AGENT.md)** - Shopping assistant
 
 Each agent doc includes:
+
 - Character essence and personality
 - Core capabilities and features
 - Tools and integration details
@@ -527,21 +548,25 @@ See [Agent System Overview](./docs/agents/INDEX.md) for detailed guide.
 ### Common Issues
 
 **Issue**: "Cannot connect to database"
+
 - **Fix**: Check DATABASE_URL in .env
 - **Fix**: Ensure PostgreSQL is running and accessible
 - **Fix**: Verify network/firewall settings
 
 **Issue**: "Gemini API quota exceeded"
+
 - **Fix**: Check API key validity
 - **Fix**: Monitor usage at ai.google.dev
 - **Fix**: Implement rate limiting
 
 **Issue**: "Tool execution failed"
+
 - **Fix**: Check API authentication (SERVICE_API_TOKEN)
 - **Fix**: Verify WEB_API_URL is correct
 - **Fix**: Ensure web server is running
 
 **Issue**: "SMS not processing"
+
 - **Fix**: Check CRON_SECRET matches in request header
 - **Fix**: Verify SMS format matches expected patterns
 - **Fix**: Check Dev agent system prompt for supported banks
@@ -552,6 +577,7 @@ See [Agent System Overview](./docs/agents/INDEX.md) for detailed guide.
 Financial assistance system for gig workers with irregular income patterns.
 
 **Key Requirements Met**:
+
 - ✅ Conversational transaction logging
 - ✅ SMS integration for automation
 - ✅ Pattern detection for irregular income
@@ -578,6 +604,7 @@ MIT
 ## 📞 Support
 
 For issues, questions, or contributions:
+
 1. Check documentation in `docs/` folder
 2. Review API documentation
 3. Check individual agent docs
