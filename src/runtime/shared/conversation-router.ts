@@ -398,7 +398,6 @@ export class ConversationRouter {
     this.chatur.cleanupOldSessions(maxAgeMs);
     this.sera.cleanupOldSessions(maxAgeMs);
   }
-
   /**
    * Intelligently route initial message to appropriate agent
    */
@@ -547,3 +546,5 @@ export function getConversationRouter(): ConversationRouter {
   }
   return routerInstance;
 }
+
+export const conversationRouter = getConversationRouter();

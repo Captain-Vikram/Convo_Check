@@ -524,6 +524,75 @@ x-cron-secret: <CRON_SECRET>
 
 ---
 
+## 8. Agent Conversation API (NEW)
+
+### POST /api/agent
+
+Single entry point that exposes the entire agentic system (Mill + router + supporting agents) directly through the web server. Every request automatically reuses the user’s context window, so Mill can maintain full conversational state.
+
+**Headers:**
+
+```
+Authorization: Bearer <SERVICE_API_TOKEN>
+Content-Type: application/json
+```
+
+**Body:**
+
+```json
+{
+  "userId": "phone-or-user-key",
+  "message": "What did I spend yesterday?",
+  "options": {
+    "onTransactionReady": true,
+    "onQueryReady": true
+  }
+}
+```
+
+- `userId` _(string, required)_ – Stable identifier per end user (phone hash/UUID). Determines which context window to load.
+- `message` _(string, required)_ – User’s utterance. The router infers intent and selects Mill/Chatur/Sera automatically.
+- `options` _(object, optional)_ – Pass-through flags for router hooks (e.g., enable transaction logging callbacks). Leave empty for default behavior.
+
+**Response:**
+
+```json
+{
+  "agent": "mill",
+  "message": "You spent ₹2,350 yesterday across 3 transactions.",
+  "completed": false,
+  "switched": false,
+  "sessionId": "a6b5...",
+  "context": {
+    "activeAgent": "mill",
+    "conversationHistory": [
+      { "agent": "mill", "userMessage": "Hi", "agentResponse": "Hello!" }
+    ]
+  }
+}
+```
+
+- `agent` – Which specialist responded (Mill/Chatur/Sera).
+- `message` – Text to return to the user.
+- `completed` – True when the agent finished an action (e.g., logging or escalation).
+- `switched`/`newAgent` – Present when router hands the conversation to another agent.
+- `sessionId` – Underlying Mill/agent session (useful for debugging).
+- `context` – Snapshot of the conversation window (active agent, history) as maintained in-memory.
+
+**Context window behavior:**
+
+- Each `userId` maps to its own `ConversationContext` and agent session, so subsequent POSTs automatically include prior turns.
+- Sessions live in memory by default; add Redis/Prisma backing if you need persistence across deploys (see WhatsApp integration guide).
+- Router automatically escalates to Chatur/Sera based on message content—no extra APIs required.
+
+**Typical uses:**
+
+- WhatsApp/SMS/webchat webhook handlers.
+- Internal dashboards needing “chat with Mill” features.
+- Programmatic workflows that want to reuse Mill’s orchestration logic without running the CLI.
+
+---
+
 ## Error Responses
 
 All endpoints return standard error format:
