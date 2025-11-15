@@ -10,6 +10,15 @@ import {
 import { logger } from "../shared/logger.js";
 import { coachAgent } from "../../agents/coach.js";
 import type { HabitInsight } from "../param/analyst-agent.js";
+import {
+  createGroundedSearchTool,
+  callGroundedSearchProvider,
+  groundedSearchToolDefinition,
+} from "../../tools/grounded-search.js";
+
+const coachTools = {
+  [groundedSearchToolDefinition.name]: createGroundedSearchTool(callGroundedSearchProvider),
+} as const;
 
 export interface CoachRunOptions {
   latestInsights?: HabitInsight[];
@@ -85,6 +94,7 @@ async function callCoachModel(prompt: string): Promise<CoachModelPayload | null>
         { role: "system", content: coachAgent.systemPrompt },
         { role: "user", content: prompt },
       ],
+      tools: coachTools,
     });
 
     const text = (result.text ?? "").trim();

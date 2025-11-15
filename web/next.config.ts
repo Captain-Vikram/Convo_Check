@@ -10,8 +10,10 @@ if (!process.env.DATABASE_URL && existsSync(rootEnvPath)) {
 }
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
+  experimental: {
+    externalDir: true,
+  },
 };
 
 export default nextConfig;

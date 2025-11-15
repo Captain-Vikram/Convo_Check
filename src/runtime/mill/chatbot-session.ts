@@ -26,6 +26,11 @@ import { parseUserIntent, hasIntent, type ParsedIntent } from "./intent-parser.j
 import { searchWeb, formatSearchResults } from "../../tools/web-search.js";
 import { handleNaturalQuery } from "./natural-query-handler.js";
 import { fetchHabitsFromApi, fetchCoachBriefingsFromApi } from "../dev/api-sync.js";
+import {
+  callGroundedSearchProvider,
+  formatGroundedSearchResults,
+} from "../../tools/grounded-search.js";
+import type { GroundedSearchInput } from "../../tools/grounded-search.js";
 
 const DEFAULT_MAX_HISTORY = 20;
 
@@ -265,6 +270,30 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
           totalResults: 0,
         };
       }
+    },
+  async (payload: GroundedSearchInput) => {
+      console.log(
+        `[mill] 📘 Grounded search requested: "${payload.query}" (intent=${payload.intent ?? "auto"})`,
+      );
+      const result = await callGroundedSearchProvider(payload).catch((error: unknown) => {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error("[mill] Grounded search failed:", message);
+        return {
+          query: payload.query,
+          sanitizedQuery: payload.query,
+          provider: process.env.GROUNDED_SEARCH_PROVIDER ?? "external",
+          latencyMs: 0,
+          snippets: [],
+          error: message,
+        };
+      });
+
+      if (result.snippets.length === 0) {
+        console.warn(`[mill] Grounded search returned no snippets for "${payload.query}"`);
+      }
+
+      pendingToolResponses.push(formatGroundedSearchResults(result));
+      return result;
     },
   );
 

@@ -15,15 +15,16 @@ export const dynamic = "force-dynamic";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { analyzed_at, analyzed_version, analysis_notes } = body;
 
     // Update the transaction
     await prisma.tranasctions.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         analyzed_at: analyzed_at ? new Date(analyzed_at) : null,
         analyzed_version: analyzed_version || null,
