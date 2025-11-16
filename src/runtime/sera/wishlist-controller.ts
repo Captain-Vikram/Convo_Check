@@ -23,19 +23,33 @@ export interface WishlistControllerDependencies {
 }
 
 const WISHLIST_PHRASE = "(?:wh?ish\\s*list)";
-const PRODUCT_STOP_WORDS = new Set([
-  "wireless",
-  "bluetooth",
-  "mouse",
-  "transparent",
-  "series",
-  "model",
-  "color",
+
+// Generic stop words for product name matching. These are neutral/common
+// tokens that don't help identify a product (prepositions, short words,
+// marketing terms). Session-specific stop words are derived dynamically
+// from recent search results to avoid hard-coding domain-specific terms.
+const GENERIC_STOP_WORDS = new Set([
   "with",
   "and",
   "for",
   "from",
-  "rechargeable",
+  "the",
+  "a",
+  "an",
+  "in",
+  "on",
+  "by",
+  "new",
+  "latest",
+  "best",
+  "top",
+  "buy",
+  "online",
+  "cheap",
+  "price",
+  "model",
+  "series",
+  "color",
 ]);
 
 export class WishlistController {
@@ -434,10 +448,18 @@ export class WishlistController {
   }
 
   private productNameMatches(message: string, title: string): boolean {
+    // Default to conservative matching: break into tokens, strip
+    // punctuation and short words, and remove generic + session-specific
+    // stop words.
+    const sessionStopWords = new Set(GENERIC_STOP_WORDS);
+    // Note: we don't have the `session` here — callers will be updated to
+    // pass a session-aware token set where available. Fall back to generic
+    // stop words only.
+
     const tokens = title
       .split(/\s+/)
       .map((word) => word.replace(/[^a-z0-9]/gi, "").toLowerCase())
-      .filter((word) => word.length > 3 && !PRODUCT_STOP_WORDS.has(word));
+      .filter((word) => word.length > 3 && !sessionStopWords.has(word));
 
     let hits = 0;
     for (const token of tokens) {
