@@ -23,6 +23,14 @@ Param is the **analytical brain** of the financial system. Param:
 
 Param is like a **financial detective** - examines every transaction, identifies patterns, and presents findings as clear, actionable bullets that coaches can use verbatim.
 
+## What's New in the Unified Runtime (Nov 2025)
+
+- **Versioned analysis runs** – `runAnalyst` (`src/runtime/param/analyst-agent.ts`) now tracks an `ANALYSIS_VERSION` per transaction and skips work when the stored `analyzed_version` already matches, so nightly jobs stay fast while still allowing forced replays.
+- **Direct API persistence** – Insights are written through `syncHabitToApi` and transactions are patched via `/api/transactions/:id`, meaning the docs + dashboards always reflect the latest evidence without manual exports.
+- **Automatic coach handoff** – After every successful analysis, the agent calls `runCoach` with the latest/previous insights, keeping Chatur’s playbook in sync without separate schedulers.
+
+**Why it’s better**: Param now produces “ready-to-serve” insights that stay versioned, deduped, and instantly available to Chatur/Mill.
+
 ---
 
 ## Core Capabilities

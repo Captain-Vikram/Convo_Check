@@ -32,6 +32,14 @@ Sera is your **AI shopping buddy** who LOVES helping people find amazing product
 
 Sera is like that friend who **knows all the best stores**, remembers your preferences, and gets more excited about your purchase than you do!
 
+## What's New in the Unified Runtime (Nov 2025)
+
+- **Modular search stack** – `SeraAgent` now delegates lookups to the typed `SeraSearchAdapter`/`search-planner`, which handle Google Shopping calls, contextual `getProductDetails`, and Amazon URL reverse-lookups before the LLM ever runs.
+- **Wishlist brain built-in** – The new `WishlistController` watches every utterance for “add/view” intents, supports pending actions when the user shares a bare Amazon link, and persists through `wishlist-api-client`, so wishlist edits feel instant.
+- **Router-ready sessions** – `hydrateSession`/`snapshotSession` let the shared `ConversationRouter` persist Sera conversations the same way as Mill/Chatur, meaning `/api/agent` can hop users into shopping mode without losing their last search results.
+
+**Why it’s better**: shopping requests are faster, wishlist flows need fewer clarifications, and Sera now plugs directly into the same entrypoint as every other agent.
+
 ---
 
 ## Core Capabilities

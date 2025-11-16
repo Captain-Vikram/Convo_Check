@@ -6,23 +6,24 @@ This guide explains how to wire WhatsApp (Twilio or Meta Business API) into the 
 
 1. WhatsApp provider sends a webhook POST to `/api/whatsapp/webhook` (Next.js route).
 2. Webhook validates signatures, normalizes the payload, and maps the phone number to a stable `userId` (HMAC or database ID).
-3. Webhook calls `POST /api/agent` (or the `processAgentMessage` helper) with `{ userId, message }`.
+3. Webhook calls `POST /api/agent` (or the `processAgentMessage` helper) with `{ userId, message, attachments? }` so the router can pick Mill/Chatur/Sera automatically.
 4. The agent system (Mill + router + tools) produces a reply using the users context window.
 5. Webhook sends the reply back to WhatsApp via provider REST API.
 
 ## Required files and their purpose
 
-| File                                                          | Purpose                                                                                                                                              |
-| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/runtime/shared/conversation-router.ts`                   | Core orchestrator that routes between Mill, Chatur, and Sera. Exported singleton keeps sessions in memory when web server is running.                |
-| `web/src/lib/mill/in-process-adapter.ts`                      | Thin wrapper that converts `{ userId, message }` into a router call and returns the agent response/context. Avoids duplicating conversational logic. |
-| `web/src/app/api/agent/route.ts`                              | Public API entry point. Validates input, calls the adapter, and returns JSON. All channels call this endpoint.                                       |
-| `web/src/app/api/mill-proxy/route.ts` _(optional)_            | For setups that still proxy to a separate Mill service. Skip when running in-process.                                                                |
-| `web/src/app/api/whatsapp/webhook/route.ts` _(to be created)_ | Provider-facing webhook. Normalizes payload, acquires per-user lock, calls `/api/agent`, and triggers WhatsApp reply.                                |
-| `web/src/lib/session/*` _(planned)_                           | Session store abstractions (in-memory for dev, Redis/Prisma for prod). Keep user context if web process restarts.                                    |
-| `web/src/lib/whatsapp/<provider>.ts`                          | Helper that sends outbound WhatsApp messages (Twilio REST client or Meta Graph API). Encapsulates auth and payload formatting.                       |
-| `docs/API_DOCUMENTATION.md`                                   | Documents `/api/agent` contract for other teams.                                                                                                     |
-| `docs/WHATSAPP_INTEGRATION.md` _(this file)_                  | Step-by-step guidance, file map, and considerations for WhatsApp rollout.                                                                            |
+| File                                                          | Purpose                                                                                                                                                           |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/runtime/shared/conversation-router.ts`                   | Core orchestrator that routes between Mill, Chatur, and Sera. Exported singleton keeps sessions in memory when web server is running.                             |
+| `web/src/lib/mill/in-process-adapter.ts`                      | Thin wrapper that converts `{ userId, message, attachments }` into a router call and returns the agent response/context. Avoids duplicating conversational logic. |
+| `web/src/lib/mill/conversation-store.ts`                      | Chooses Redis (when `REDIS_URL`/`UPSTASH_REDIS_URL` is set) or the bundled in-memory store to persist `ConversationContext` across WhatsApp/web requests.         |
+| `web/src/app/api/agent/route.ts`                              | Public API entry point. Validates input, calls the adapter, and returns JSON. All channels call this endpoint.                                                    |
+| `web/src/app/api/mill-proxy/route.ts` _(optional)_            | For setups that still proxy to a separate Mill service. Skip when running in-process.                                                                             |
+| `web/src/app/api/whatsapp/webhook/route.ts` _(to be created)_ | Provider-facing webhook. Normalizes payload, acquires per-user lock, calls `/api/agent`, and triggers WhatsApp reply.                                             |
+| `web/src/lib/session/*` _(planned)_                           | Session store abstractions (in-memory for dev, Redis/Prisma for prod). Keep user context if web process restarts.                                                 |
+| `web/src/lib/whatsapp/<provider>.ts`                          | Helper that sends outbound WhatsApp messages (Twilio REST client or Meta Graph API). Encapsulates auth and payload formatting.                                    |
+| `docs/API_DOCUMENTATION.md`                                   | Documents `/api/agent` contract for other teams.                                                                                                                  |
+| `docs/WHATSAPP_INTEGRATION.md` _(this file)_                  | Step-by-step guidance, file map, and considerations for WhatsApp rollout.                                                                                         |
 
 ## Implementation checklist
 
@@ -32,13 +33,14 @@ This guide explains how to wire WhatsApp (Twilio or Meta Business API) into the 
    - Normalize payload → `{ userId, phoneNumber, message, messageId, timestamp }`.
    - Map phone number to anonymized `userId` (e.g., HMAC with `SERVER_SECRET`).
    - Acquire per-user lock (Redis) to serialize messages.
-   - Call `await fetch("/api/agent", { method: "POST", body: {...} })` or invoke `processAgentMessage` directly.
+   - Call `await fetch("/api/agent", { method: "POST", body: {...} })` (include `attachments` when forwarding images/audio) or invoke `processAgentMessage` directly with the same payload.
    - Append reply to the session store and send via Twilio/Meta send helper.
 
 2. **Session store** (`web/src/lib/session/redis-store.ts` + fallback)
 
    - Persist message history + summaries so context survives restarts.
    - Provide helpers: `getSession(userId)`, `appendMessage(sessionId, message)`, `summarize(sessionId)`.
+   - The web adapter already exposes `web/src/lib/mill/conversation-store.ts`; set `REDIS_URL`/`UPSTASH_REDIS_URL` so `/api/agent` automatically uses Redis, otherwise it falls back to the in-memory TTL store.
 
 3. **Send helper** (`web/src/lib/whatsapp/twilio.ts` or `meta.ts`)
 

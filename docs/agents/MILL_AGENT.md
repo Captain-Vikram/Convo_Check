@@ -25,6 +25,14 @@ Mill is your **personal finance sidekick** who makes tracking money feel less li
 - Catchphrases: "Done and done!", "Got it logged!", "Financial glow-up unlocked!"
 - Meme vibes: "Logging this like the 'This is fine' dog but with spreadsheets 🔥📊"
 
+## What's New in the Unified Runtime (Nov 2025)
+
+- **Router-native entrypoint** – Mill now runs inside the shared `ConversationRouter` (`src/runtime/shared/conversation-router.ts`) and is invoked through `web/src/lib/mill/in-process-adapter.ts`. Every hit to `POST /api/agent` rehydrates the correct Mill/Chatur/Sera session automatically, so WhatsApp, web, or CLI channels all share the same conversation without extra glue code.
+- **State snapshots with Redis fallback** – Session state is serialized via `getConversationStore()` which prefers Redis when `REDIS_URL`/`UPSTASH_REDIS_URL` is present and falls back to the bundled `InMemoryConversationStore`. That makes Mill resilient to restarts while still working out-of-the-box for local dev.
+- **Structured actions & attachments** – `ConversationalMill` emits explicit `log_transaction`, `query_data`, or `escalate_to_coach` actions plus ready-to-save payloads (`buildTransactionPayload`), and it now ingests multimodal attachments through `AgentInput` so photos or audio memos can travel with the message.
+
+**Why it’s better**: there’s a single `/api/agent` door for all channels, richer context survives deploys, and downstream workers consume typed payloads instead of screen-scraping Mill’s jokes.
+
 ---
 
 ## Core Capabilities

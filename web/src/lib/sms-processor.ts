@@ -1,10 +1,10 @@
-import { createDevAgentEnvironment } from "../../../dist/src/runtime/dev/dev-agent.js";
+import { createDevAgentEnvironment } from "../../../src/runtime/dev/dev-agent";
 import {
   processSmsMessage,
   type ProcessSmsMessageOutcome,
   type SmsMessage,
-} from "../../../dist/src/runtime/dev/dev-sms-agent.js";
-import { createSmsLog, type SmsLog } from "../../../dist/src/runtime/dev/sms-log.js";
+} from "../../../src/runtime/dev/dev-sms-agent";
+import { createSmsLog, type SmsLog } from "../../../src/runtime/dev/sms-log";
 import type { Prisma } from "../../../data/generated/prisma";
 
 import { prisma } from "@/lib/prisma";

@@ -13,7 +13,6 @@ Usage: agent-cli <command>
 
 Commands:
   check                  Validate environment configuration
-  chat                   Start an interactive session with Mill
   describe <agent>       Show agent metadata and system prompt
   help                   Show this help message
 `;
@@ -40,22 +39,6 @@ async function run(): Promise<void> {
         process.stdout.write("Environment looks good. Ready to bootstrap agents.\n");
         process.stdout.write("Configured agents:\n");
         process.stdout.write(`${agentSummaries.join("\n")}\n`);
-      } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        process.stderr.write(`${message}\n`);
-        process.exitCode = 1;
-      }
-      break;
-    }
-
-    case "chat": {
-      try {
-        if (!process.env.MILL_LOG_MODE) {
-          process.env.MILL_LOG_MODE = "compact";
-        }
-
-        const { runChatbotSession } = await import("./runtime/mill/chatbot-session.js");
-        await runChatbotSession({ maxHistory: 20 });
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         process.stderr.write(`${message}\n`);

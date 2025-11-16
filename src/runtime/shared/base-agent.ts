@@ -145,6 +145,31 @@ export abstract class BaseConversationalAgent<
   }
 
   /**
+   * Hydrate conversation state from an external snapshot
+   */
+  hydrateSession(snapshot: TSession): void {
+    this.activeSessions.set(snapshot.sessionId, cloneStructured(snapshot));
+  }
+
+  /**
+   * Snapshot the current state of a conversation for persistence
+   */
+  snapshotSession(sessionId: string): TSession | undefined {
+    const session = this.activeSessions.get(sessionId);
+    if (!session) {
+      return undefined;
+    }
+    return cloneStructured(session);
+  }
+
+  /**
+   * Release a conversation from in-memory tracking (after snapshot)
+   */
+  releaseSession(sessionId: string): void {
+    this.activeSessions.delete(sessionId);
+  }
+
+  /**
    * End conversation
    */
   endConversation(sessionId: string, state: "completed" | "abandoned" = "abandoned"): void {
@@ -198,4 +223,12 @@ export function messageContentFromInput(input: AgentInput): { text: string; atta
   }
 
   return payload;
+}
+
+function cloneStructured<T>(value: T): T {
+  if (typeof structuredClone === "function") {
+    return structuredClone(value);
+  }
+
+  return JSON.parse(JSON.stringify(value)) as T;
 }

@@ -23,6 +23,14 @@ Chatur is the **financial coach and advisor** for gig workers and everyday users
 
 Chatur is like a **personal finance trainer** - helps you make smarter decisions, build better habits, and achieve your financial goals through practical coaching and accountability.
 
+## What's New in the Unified Runtime (Nov 2025)
+
+- **Router-seeded sessions** – `ConversationalCoach` (`src/runtime/chatur/conversational-coach.ts`) slots directly into the shared `ConversationRouter`, so `/api/agent` can cold start Chatur with Param’s latest insights and an initial greeting without any CLI glue.
+- **Structured guidance loop** – Responses are generated via a JSON schema that captures `nextQuestion`, extracted goal metadata, and `shouldEscalateToMill` flags, which lets the router bounce the user back to Mill automatically when they try to log expenses mid-coaching.
+- **Resilient LLM calls** – The coach pipeline uses circuit breakers plus exponential backoff (with overload-specific retries) and rule-based fallbacks, so even when Gemini throttles we still return actionable advice instead of silent failures.
+
+**Why it’s better**: Chatur now delivers shorter, data-backed plans, can hand users back to Mill without manual prompts, and survives API hiccups gracefully.
+
 ---
 
 ## Core Capabilities

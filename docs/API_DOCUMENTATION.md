@@ -183,6 +183,7 @@ Fetch financial habit insights.
 
 - `owner` (number, required for services) - User ID
 - `limit` (number, default: 50, max: 100)
+  Content-Type: application/json
 - `cursor` (string) - Pagination cursor
 
 **Response:**
@@ -191,16 +192,20 @@ Fetch financial habit insights.
 {
   "habits": [
     {
-      "id": 1,
-      "habitId": "hash",
-      "owner": 2,
-      "habitLabel": "Proactive Saving",
+  "attachments": [
+    {
+      "type": "image",
+      "mimeType": "image/png",
+      "data": "<base64 screenshot>"
+    }
+  ]
       "evidence": "Savings rate 0.49 last 30 days",
       "counsel": "Continue this strong practice",
       "fullText": "Proactive Saving: Evidence...",
       "metrics": {
         /* JSON object */
-      },
+- `attachments` _(array, optional)_ – List of images or audio clips in the [`AgentAttachment`](../src/runtime/shared/multimodal.ts) shape. Include either a `data` URI/base64 payload or a remotely hosted `url`.
+- `options` _(object, optional)_ – Reserved for server-side adapters (actual callbacks are functions). When calling over HTTP you should omit this property.
       "recordedAt": "2025-11-14T10:30:00Z",
       "transactionId": "uuid"
     }
@@ -582,7 +587,7 @@ Content-Type: application/json
 **Context window behavior:**
 
 - Each `userId` maps to its own `ConversationContext` and agent session, so subsequent POSTs automatically include prior turns.
-- Sessions live in memory by default; add Redis/Prisma backing if you need persistence across deploys (see WhatsApp integration guide).
+- Sessions live in memory by default and can persist via Redis by setting `REDIS_URL`/`UPSTASH_REDIS_URL` (see `web/src/lib/mill/conversation-store.ts`). That way `/api/agent` keeps history even when the Next.js server restarts.
 - Router automatically escalates to Chatur/Sera based on message content—no extra APIs required.
 
 **Typical uses:**

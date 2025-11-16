@@ -1,10 +1,13 @@
 import {
-  conversationRouter,
+  ConversationRouter,
   type ConversationRouterOptions,
   type ConversationContext,
   type ActiveAgent,
 } from "../../../../src/runtime/shared/conversation-router";
 import type { AgentAttachment, AgentInput } from "../../../../src/runtime/shared/multimodal";
+import { getConversationStore } from "./conversation-store";
+
+const conversationRouter = new ConversationRouter(getConversationStore());
 
 export interface AgentEntryRequest {
   userId: string;
@@ -62,7 +65,7 @@ export async function processAgentMessage(
     req.options,
   );
 
-  const context = conversationRouter.getContext(req.userId);
+  const context = await conversationRouter.getContext(req.userId);
   const sessionId =
     (response as { sessionId?: string }).sessionId ?? resolveSessionId(context, response.agent);
 

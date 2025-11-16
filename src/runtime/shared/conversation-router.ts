@@ -35,12 +35,16 @@ export interface ConversationContext {
   millSessionId?: string;
   chaturSessionId?: string;
   seraSessionId?: string;
+  millSession?: MillConversation;
+  chaturSession?: CoachConversation;
+  seraSession?: SeraConversation;
   conversationHistory: Array<{
     agent: ActiveAgent;
     userMessage: string;
     agentResponse: string;
     timestamp: string;
   }>;
+  updatedAt: string;
 }
 
 export interface ConversationRouterOptions {
@@ -49,11 +53,44 @@ export interface ConversationRouterOptions {
   onInsightsAvailable?: () => Promise<HabitInsight[]>;
 }
 
+export interface ConversationStore {
+  load(userId: string): Promise<ConversationContext | undefined>;
+  save(userId: string, context: ConversationContext): Promise<void>;
+  delete(userId: string): Promise<void>;
+  cleanup?(maxAgeMs: number): Promise<void>;
+}
+
+export class InMemoryConversationStore implements ConversationStore {
+  private contexts = new Map<string, ConversationContext>();
+
+  async load(userId: string): Promise<ConversationContext | undefined> {
+    const context = this.contexts.get(userId);
+    return context ? cloneContext(context) : undefined;
+  }
+
+  async save(userId: string, context: ConversationContext): Promise<void> {
+    this.contexts.set(userId, cloneContext(context));
+  }
+
+  async delete(userId: string): Promise<void> {
+    this.contexts.delete(userId);
+  }
+
+  async cleanup(maxAgeMs: number): Promise<void> {
+    const cutoff = Date.now() - maxAgeMs;
+    for (const [userId, context] of this.contexts.entries()) {
+      if (!context.updatedAt || Date.parse(context.updatedAt) < cutoff) {
+        this.contexts.delete(userId);
+      }
+    }
+  }
+}
+
 export class ConversationRouter {
   private mill: ConversationalMill;
   private chatur: ConversationalCoach;
   private sera: SeraAgent;
-  private contexts = new Map<string, ConversationContext>();
+  private readonly store: ConversationStore;
 
   private static readonly MILL_KEYWORDS = [
     "spent",
@@ -123,10 +160,79 @@ export class ConversationRouter {
     "clothing",
   ] as const;
 
-  constructor() {
+  constructor(store: ConversationStore = new InMemoryConversationStore()) {
+    this.store = store;
     this.mill = new ConversationalMill();
     this.chatur = new ConversationalCoach();
     this.sera = new SeraAgent();
+  }
+
+  private async restoreContext(userId: string): Promise<ConversationContext | undefined> {
+    const stored = await this.store.load(userId);
+    if (!stored) {
+      return undefined;
+    }
+
+    const context = cloneContext(stored);
+    this.hydrateAgentSessions(context);
+    return context;
+  }
+
+  private hydrateAgentSessions(context: ConversationContext): void {
+    if (context.millSession && context.millSessionId) {
+      this.mill.hydrateSession(context.millSession);
+    }
+
+    if (context.chaturSession && context.chaturSessionId) {
+      this.chatur.hydrateSession(context.chaturSession);
+    }
+
+    if (context.seraSession && context.seraSessionId) {
+      this.sera.hydrateSession(context.seraSession);
+    }
+  }
+
+  private async persistContext(userId: string, context: ConversationContext): Promise<void> {
+    const snapshot = cloneContext(context);
+    snapshot.updatedAt = new Date().toISOString();
+
+    if (snapshot.millSessionId) {
+      const session = this.mill.snapshotSession(snapshot.millSessionId);
+      if (session) {
+        snapshot.millSession = session;
+        this.mill.releaseSession(snapshot.millSessionId);
+      } else {
+        delete snapshot.millSession;
+      }
+    } else {
+      delete snapshot.millSession;
+    }
+
+    if (snapshot.chaturSessionId) {
+      const session = this.chatur.snapshotSession(snapshot.chaturSessionId);
+      if (session) {
+        snapshot.chaturSession = session;
+        this.chatur.releaseSession(snapshot.chaturSessionId);
+      } else {
+        delete snapshot.chaturSession;
+      }
+    } else {
+      delete snapshot.chaturSession;
+    }
+
+    if (snapshot.seraSessionId) {
+      const session = this.sera.snapshotSession(snapshot.seraSessionId);
+      if (session) {
+        snapshot.seraSession = session;
+        this.sera.releaseSession(snapshot.seraSessionId);
+      } else {
+        delete snapshot.seraSession;
+      }
+    } else {
+      delete snapshot.seraSession;
+    }
+
+    await this.store.save(userId, snapshot);
   }
 
   /**
@@ -145,6 +251,7 @@ export class ConversationRouter {
     const context: ConversationContext = {
       activeAgent: agent,
       conversationHistory: [],
+      updatedAt: new Date().toISOString(),
     };
 
     if (agent === "mill") {
@@ -159,8 +266,7 @@ export class ConversationRouter {
         agentResponse: millSession.messages[0]?.content || "",
         timestamp: new Date().toISOString(),
       });
-
-      this.contexts.set(userId, context);
+      await this.persistContext(userId, context);
 
       return {
         agent: "mill",
@@ -181,8 +287,7 @@ export class ConversationRouter {
         agentResponse: chaturSession.currentQuestion || "",
         timestamp: new Date().toISOString(),
       });
-
-      this.contexts.set(userId, context);
+      await this.persistContext(userId, context);
 
       return {
         agent: "chatur",
@@ -201,8 +306,7 @@ export class ConversationRouter {
         agentResponse: seraResult.message,
         timestamp: new Date().toISOString(),
       });
-
-      this.contexts.set(userId, context);
+      await this.persistContext(userId, context);
 
       return {
         agent: "sera",
@@ -212,6 +316,8 @@ export class ConversationRouter {
     }
 
     // Default: ask what they want to do
+    await this.persistContext(userId, context);
+
     return {
       agent: "none",
       message:
@@ -237,9 +343,8 @@ export class ConversationRouter {
   }> {
     const normalizedInput = normalizeAgentInput(userMessage);
     const textMessage = normalizedInput.text;
-    const context = this.contexts.get(userId);
+    const context = await this.restoreContext(userId);
     if (!context) {
-      // Start new conversation
       const startResult = await this.startConversation(userId, normalizedInput, options);
       return { ...startResult, completed: false };
     }
@@ -251,7 +356,9 @@ export class ConversationRouter {
       if (this.isShoppingIntent(textMessage)) {
         this.mill.endConversation(context.millSessionId, "completed");
         delete context.millSessionId;
-        return await this.handoffToSera(context, normalizedInput);
+        const handoffResult = await this.handoffToSera(context, normalizedInput);
+        await this.persistContext(userId, context);
+        return handoffResult;
       }
 
       const result = await this.mill.continueConversation(
@@ -272,6 +379,7 @@ export class ConversationRouter {
         context.activeAgent = "chatur";
         context.chaturSessionId = chaturSession.sessionId;
 
+        await this.persistContext(userId, context);
         return {
           agent: "chatur",
           message: chaturSession.currentQuestion || "",
@@ -288,6 +396,7 @@ export class ConversationRouter {
         timestamp: new Date().toISOString(),
       });
 
+      await this.persistContext(userId, context);
       return {
         agent: "mill",
         message: result.message,
@@ -301,7 +410,9 @@ export class ConversationRouter {
       if (this.isShoppingIntent(textMessage)) {
         this.chatur.endConversation(context.chaturSessionId, "completed");
         delete context.chaturSessionId;
-        return await this.handoffToSera(context, normalizedInput);
+        const handoffResult = await this.handoffToSera(context, normalizedInput);
+        await this.persistContext(userId, context);
+        return handoffResult;
       }
 
       const result = await this.chatur.continueConversation(context.chaturSessionId, normalizedInput);
@@ -314,6 +425,7 @@ export class ConversationRouter {
         context.activeAgent = "mill";
         context.millSessionId = millSession.sessionId;
 
+        await this.persistContext(userId, context);
         return {
           agent: "mill",
           message: millSession.messages[0]?.content || "",
@@ -330,6 +442,7 @@ export class ConversationRouter {
         timestamp: new Date().toISOString(),
       });
 
+      await this.persistContext(userId, context);
       return {
         agent: "chatur",
         message: result.message,
@@ -350,6 +463,7 @@ export class ConversationRouter {
         timestamp: new Date().toISOString(),
       });
 
+      await this.persistContext(userId, context);
       return {
         agent: "sera",
         message: result.message,
@@ -366,33 +480,42 @@ export class ConversationRouter {
   /**
    * Get current conversation context
    */
-  getContext(userId: string): ConversationContext | undefined {
-    return this.contexts.get(userId);
+  async getContext(userId: string): Promise<ConversationContext | undefined> {
+    const stored = await this.store.load(userId);
+    return stored ? cloneContext(stored) : undefined;
   }
 
   /**
    * End conversation and cleanup
    */
-  endConversation(userId: string): void {
-    const context = this.contexts.get(userId);
+  async endConversation(userId: string): Promise<void> {
+    const context = await this.restoreContext(userId);
     if (context) {
       if (context.millSessionId) {
         this.mill.endConversation(context.millSessionId, "completed");
+        this.mill.releaseSession(context.millSessionId);
       }
       if (context.chaturSessionId) {
         this.chatur.endConversation(context.chaturSessionId, "completed");
+        this.chatur.releaseSession(context.chaturSessionId);
       }
       if (context.seraSessionId) {
         this.sera.endConversation(context.seraSessionId, "completed");
+        this.sera.releaseSession(context.seraSessionId);
       }
-      this.contexts.delete(userId);
     }
+
+    await this.store.delete(userId);
   }
 
   /**
    * Cleanup old conversations
    */
-  cleanup(maxAgeMs = 3600_000): void {
+  async cleanup(maxAgeMs = 3600_000): Promise<void> {
+    if (typeof this.store.cleanup === "function") {
+      await this.store.cleanup(maxAgeMs);
+    }
+
     this.mill.cleanupOldSessions(maxAgeMs);
     this.chatur.cleanupOldSessions(maxAgeMs);
     this.sera.cleanupOldSessions(maxAgeMs);
@@ -516,8 +639,8 @@ export class ConversationRouter {
   /**
    * Get conversation summary for the user
    */
-  getConversationSummary(userId: string): string {
-    const context = this.contexts.get(userId);
+  async getConversationSummary(userId: string): Promise<string> {
+    const context = await this.store.load(userId);
     if (!context || context.conversationHistory.length === 0) {
       return "No conversation history.";
     }
@@ -526,27 +649,23 @@ export class ConversationRouter {
     lines.push(`Active Agent: ${context.activeAgent}`);
     lines.push(`\nConversation History (${context.conversationHistory.length} turns):\n`);
 
-    context.conversationHistory.slice(-5).forEach((turn, idx) => {
-      lines.push(`${idx + 1}. [${turn.agent.toUpperCase()}]`);
-      lines.push(`   You: ${turn.userMessage.slice(0, 60)}...`);
-      const agentName = turn.agent === "mill" ? "Mill" : turn.agent === "chatur" ? "Chatur" : "Sera";
-      lines.push(`   ${agentName}: ${turn.agentResponse.slice(0, 60)}...`);
-    });
+    context.conversationHistory
+      .slice(-5)
+      .forEach((turn: ConversationContext["conversationHistory"][number], idx: number) => {
+        lines.push(`${idx + 1}. [${turn.agent.toUpperCase()}]`);
+        lines.push(`   You: ${turn.userMessage.slice(0, 60)}...`);
+        const agentName = turn.agent === "mill" ? "Mill" : turn.agent === "chatur" ? "Chatur" : "Sera";
+        lines.push(`   ${agentName}: ${turn.agentResponse.slice(0, 60)}...`);
+      });
 
     return lines.join("\n");
   }
 }
 
-/**
- * Get singleton conversation router
- */
-let routerInstance: ConversationRouter | null = null;
-
-export function getConversationRouter(): ConversationRouter {
-  if (!routerInstance) {
-    routerInstance = new ConversationRouter();
+function cloneContext(context: ConversationContext): ConversationContext {
+  if (typeof structuredClone === "function") {
+    return structuredClone(context);
   }
-  return routerInstance;
-}
 
-export const conversationRouter = getConversationRouter();
+  return JSON.parse(JSON.stringify(context)) as ConversationContext;
+}

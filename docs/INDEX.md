@@ -6,12 +6,23 @@ This financial assistant system consists of **5 specialized AI agents** working 
 
 ---
 
+## What's New in the Unified Runtime
+
+- **Single `/api/agent` entrypoint** – All channels (web, WhatsApp, dashboards) now talk to the shared `ConversationRouter` via `web/src/app/api/agent/route.ts`, so intent routing + agent handoffs live in one place.
+- **Session persistence via `conversation-store`** – `web/src/lib/mill/conversation-store.ts` automatically prefers Redis when `REDIS_URL`/`UPSTASH_REDIS_URL` is set and falls back to the in-memory store for dev, keeping Mill/Chatur/Sera context alive across deploys.
+- **Richer tooling per agent** – Mill emits typed transaction/query actions, Dev’s SMS pipeline dedupes + masks PII by default, Param version-tracks insights, Chatur produces JSON guidance blocks, and Sera’s wishlist/search stack is now modular.
+- **No more CLI bifurcation** – The refactor removed the legacy CLI entrypoints, so every improvement ships once inside `src/runtime/**` and immediately shows up everywhere the agents run.
+
+---
+
 ## The Agent Team
 
 ### 1. Mill - The Financial Sidekick 💰
+
 **Role**: Transaction Logger & Chatbot  
 **Personality**: Witty, encouraging, meme-savvy friend  
 **Primary Functions**:
+
 - Logs cash transactions
 - Queries spending history
 - Explains financial concepts
@@ -24,9 +35,11 @@ This financial assistant system consists of **5 specialized AI agents** working 
 ---
 
 ### 2. Dev - The SMS Transaction Parser 📱
+
 **Role**: Automated Transaction Extractor  
 **Personality**: Silent, precise, data processor  
 **Primary Functions**:
+
 - Extracts transactions from banking SMS
 - Normalizes transaction data
 - Filters out spam/OTP messages
@@ -39,9 +52,11 @@ This financial assistant system consists of **5 specialized AI agents** working 
 ---
 
 ### 3. Param - The Financial Analyst 📊
+
 **Role**: Pattern Detection & Insights Generator  
 **Personality**: Data-driven, observant, precise  
 **Primary Functions**:
+
 - Identifies spending/saving patterns
 - Generates actionable insights
 - Creates habit snapshots
@@ -54,9 +69,11 @@ This financial assistant system consists of **5 specialized AI agents** working 
 ---
 
 ### 4. Chatur - The Financial Coach 🎯
+
 **Role**: Decision Advisor & Goal Planner  
 **Personality**: Supportive, strategic, mentor  
 **Primary Functions**:
+
 - Evaluates purchase decisions
 - Plans financial goals
 - Provides loan/EMI guidance
@@ -69,9 +86,11 @@ This financial assistant system consists of **5 specialized AI agents** working 
 ---
 
 ### 5. Sera - The Shopping Assistant 🛍️
+
 **Role**: Product Search & Deal Finder  
 **Personality**: Enthusiastic, deal-hunting friend  
 **Primary Functions**:
+
 - Searches products across Indian e-commerce
 - Compares prices and specs
 - Manages wishlist
@@ -115,6 +134,7 @@ This financial assistant system consists of **5 specialized AI agents** working 
 ```
 
 ### Data Flow Legend:
+
 - **Solid lines**: Direct user interaction or agent transfer
 - **Dashed lines**: Background data flow (no direct communication)
 
@@ -123,36 +143,43 @@ This financial assistant system consists of **5 specialized AI agents** working 
 ## Agent Relationships
 
 ### Mill ↔ Users
+
 - **Direction**: Bidirectional
 - **Type**: Primary conversational interface
 - **Flow**: User messages → Mill responses, tool calls, agent transfers
 
 ### Mill → Chatur
+
 - **Trigger**: User asks for advice, "should I buy...", goal setting
 - **Type**: Explicit transfer with context
 - **Example**: "Let me bring in Chatur, our financial coach..."
 
 ### Mill → Sera
+
 - **Trigger**: User wants to shop, "find me...", product search
 - **Type**: Explicit transfer with introduction
 - **Example**: "Sera is THE expert at finding great deals!"
 
 ### Param → Mill
+
 - **Direction**: Param provides, Mill displays
 - **Type**: Data inclusion in spending queries
 - **Flow**: Mill queries DB → includes Param's insights → shows to user
 
 ### Param → Chatur
+
 - **Direction**: Param provides foundation, Chatur builds coaching
 - **Type**: Insights consumption for personalized advice
 - **Flow**: Chatur fetches Param insights → builds recommendations
 
 ### Dev → Database → All Agents
+
 - **Direction**: Dev extracts → stores → agents consume
 - **Type**: Background data pipeline
 - **Flow**: SMS → Dev → Transactions DB → Available to Mill/Param/Chatur
 
 ### Sera ↔ Chatur
+
 - **Direction**: Bidirectional transfers
 - **Sera → Chatur**: "Should I buy this?" questions
 - **Chatur → Sera**: "Approved to shop, find options"
@@ -162,15 +189,17 @@ This financial assistant system consists of **5 specialized AI agents** working 
 ## Communication Patterns
 
 ### Direct User Interaction
-| Agent | User Interaction | Conversation Style |
-|-------|-----------------|-------------------|
-| **Mill** | ✅ Primary | Witty, friendly, casual |
-| **Dev** | ❌ None | Silent (background) |
-| **Param** | ❌ Indirect | Users see insights via Mill/Chatur |
-| **Chatur** | ✅ Coaching | Strategic, supportive, goal-focused |
-| **Sera** | ✅ Shopping | Enthusiastic, bubbly, deal-focused |
+
+| Agent      | User Interaction | Conversation Style                  |
+| ---------- | ---------------- | ----------------------------------- |
+| **Mill**   | ✅ Primary       | Witty, friendly, casual             |
+| **Dev**    | ❌ None          | Silent (background)                 |
+| **Param**  | ❌ Indirect      | Users see insights via Mill/Chatur  |
+| **Chatur** | ✅ Coaching      | Strategic, supportive, goal-focused |
+| **Sera**   | ✅ Shopping      | Enthusiastic, bubbly, deal-focused  |
 
 ### Inter-Agent Communication
+
 - **Message Bus**: `agent-message-bus.ts` for async communication
 - **Conversation Router**: `conversation-router.ts` for intelligent routing
 - **Agent Orchestrator**: `agent-orchestrator.ts` for session management
@@ -180,6 +209,7 @@ This financial assistant system consists of **5 specialized AI agents** working 
 ## Use Case Flows
 
 ### Flow 1: Manual Transaction Logging
+
 ```
 User: "Spent ₹500 on coffee"
   ↓
@@ -191,6 +221,7 @@ Mill: "Got it! ₹500 for coffee, logged and loaded. ☕️"
 ```
 
 ### Flow 2: Automated SMS Transaction
+
 ```
 Bank SMS: "₹1,250 debited to Swiggy via UPI"
   ↓
@@ -204,6 +235,7 @@ Mill: Includes Swiggy transaction in spending summary
 ```
 
 ### Flow 3: Spending Analysis
+
 ```
 User: "How's my spending this month?"
   ↓
@@ -215,6 +247,7 @@ Mill: Presents data + Param's insights to user
 ```
 
 ### Flow 4: Financial Coaching
+
 ```
 User: "Should I buy ₹15K phone?"
   ↓
@@ -228,6 +261,7 @@ User: Receives personalized coaching advice
 ```
 
 ### Flow 5: Shopping Assistance
+
 ```
 User: "Find me a laptop"
   ↓
@@ -245,6 +279,7 @@ Sera: Offers to add to wishlist or transfer to Chatur for budget check
 ```
 
 ### Flow 6: Complete Purchase Journey
+
 ```
 User: "I want to buy a phone"
   ↓
@@ -272,16 +307,19 @@ User: Confident purchase decision ✅
 ### System Components
 
 #### 1. Agent Definitions
+
 - Location: `src/agents/`
 - Files: `chatbot.ts`, `dev.ts`, `analyst.ts`, `coach.ts`, `sera.ts`
 - Purpose: Define agent identity, system prompts, available tools
 
 #### 2. Runtime Logic
+
 - Location: `src/runtime/`
 - Folders: `mill/`, `dev/`, `param/`, `chatur/`, `sera/`
 - Purpose: Implement agent behavior, session management, tool execution
 
 #### 3. Shared Infrastructure
+
 - Location: `src/runtime/shared/`
 - Components:
   - `agent-message-bus.ts` - Inter-agent communication
@@ -290,8 +328,9 @@ User: Confident purchase decision ✅
   - `logger.ts` - System logging
 
 #### 4. Tools
+
 - Location: `src/tools/`
-- Files: 
+- Files:
   - `log-cash-transaction.ts` - Transaction logging
   - `query-spending-summary.ts` - Data retrieval
   - `web-search.ts` - Financial definitions
@@ -300,6 +339,7 @@ User: Confident purchase decision ✅
   - `financial-calculator.ts` - Loan/EMI math
 
 #### 5. Database Layer
+
 - **Web API**: `web/src/app/api/` - REST endpoints
 - **Prisma ORM**: `data/schema.prisma` - Database schema
 - **Tables**: transactions, alerts, habit_insights, habit_snapshots, coach_briefings, shopping_wishlist, sms_messages, users
@@ -311,6 +351,7 @@ User: Confident purchase decision ✅
 ### Environment Variables
 
 #### Agent API Keys
+
 ```bash
 CHATBOT_GEMINI_API_KEY=<mill-key>
 ACCOUNTANT_GEMINI_API_KEY=<dev-key>
@@ -320,12 +361,14 @@ SERA_GEMINI_API_KEY=<sera-key>
 ```
 
 #### External Services
+
 ```bash
 SERPAPI_KEY=<shopping-search-key>
 DATABASE_URL=postgresql://...
 ```
 
 #### System Config
+
 ```bash
 WEB_API_URL=http://localhost:3000
 SERVICE_API_TOKEN=<service-token>
@@ -341,11 +384,13 @@ CRON_SECRET=<cron-secret>
 ### Production Setup
 
 1. **Web Server** (Vercel/Node.js)
+
    - Hosts REST API endpoints
    - Manages database connections
    - Handles authentication
 
 2. **CLI Agents** (Optional local deployment)
+
    - Mill, Chatur, Sera for WhatsApp/chat interface
    - Dev for SMS processing cron jobs
 
@@ -355,6 +400,7 @@ CRON_SECRET=<cron-secret>
    - Stores all agent data
 
 ### Architecture Benefits
+
 - **Separation**: Web API decoupled from CLI agents
 - **Scalability**: Each agent can scale independently
 - **Maintainability**: Clear responsibilities per agent
@@ -367,24 +413,30 @@ CRON_SECRET=<cron-secret>
 ### Adding a New Agent
 
 1. **Create Agent Definition** (`src/agents/new-agent.ts`)
+
    ```typescript
    export const newAgent: AgentDefinition = {
      ...descriptor,
      systemPrompt: "Your agent's personality and instructions",
-     tools: [/* tool definitions */]
+     tools: [
+       /* tool definitions */
+     ],
    };
    ```
 
 2. **Implement Runtime Logic** (`src/runtime/new-agent/`)
+
    - Agent behavior
    - Tool implementations
    - Session management
 
 3. **Register in Router** (`src/runtime/shared/conversation-router.ts`)
+
    - Add keywords for routing
    - Define transfer logic
 
 4. **Create Tools** (`src/tools/new-agent-tools.ts`)
+
    - Tool definitions
    - Executor functions
 
@@ -457,21 +509,25 @@ npm run build
 ### Common Issues
 
 **Issue**: Agent not responding
+
 - Check: Gemini API key valid, quota available
 - Check: System prompt not too long
 - Check: Tool definitions correct
 
 **Issue**: Agent transfers failing
+
 - Check: Conversation router keywords
 - Check: Message bus communication
 - Check: Session IDs preserved
 
 **Issue**: Tools failing
+
 - Check: Database connection
 - Check: API authentication
 - Check: Parameter validation
 
 **Issue**: Insights not showing
+
 - Check: Param ran successfully
 - Check: Database stores insights
 - Check: Mill queries include insights
@@ -481,21 +537,25 @@ npm run build
 ## Future Roadmap
 
 ### Phase 1: Enhanced Intelligence
+
 - Multi-turn context retention
 - Proactive suggestions (unsolicited advice)
 - Predictive analytics (future spending)
 
 ### Phase 2: Extended Capabilities
+
 - Voice interface integration
 - Receipt OCR (image transactions)
 - Bank API connections (auto-import)
 
 ### Phase 3: Social Features
+
 - Family financial planning (shared goals)
 - Peer benchmarking (anonymized)
 - Community challenges (savings competitions)
 
 ### Phase 4: Advanced Coaching
+
 - Investment basics education
 - Tax planning assistance
 - Retirement planning
@@ -506,11 +566,13 @@ npm run build
 ## Resources
 
 ### Documentation
+
 - [API Documentation](../API_DOCUMENTATION.md)
 - [Database Schema](../../data/schema.prisma)
 - [Setup Instructions](../../README.md)
 
 ### Individual Agent Docs
+
 - [Mill - Financial Sidekick](./MILL_AGENT.md)
 - [Dev - SMS Parser](./DEV_AGENT.md)
 - [Param - Analyst](./PARAM_AGENT.md)
@@ -518,6 +580,7 @@ npm run build
 - [Sera - Shopping Assistant](./SERA_AGENT.md)
 
 ### External Resources
+
 - [Gemini API Documentation](https://ai.google.dev/docs)
 - [SerpAPI Documentation](https://serpapi.com/docs)
 - [Vercel AI SDK](https://sdk.vercel.ai/docs)
@@ -528,6 +591,7 @@ npm run build
 ## Support & Contact
 
 For questions, issues, or contributions:
+
 - Review agent-specific documentation first
 - Check troubleshooting section
 - Examine code comments and examples
@@ -540,6 +604,7 @@ For questions, issues, or contributions:
 **Status**: Production Ready ✅
 
 **Agent Status**:
+
 - Mill: ✅ Operational
 - Dev: ✅ Operational (SMS processing)
 - Param: ✅ Operational (background analysis)
@@ -550,15 +615,15 @@ For questions, issues, or contributions:
 
 ## Quick Reference
 
-| Need | Agent | Action |
-|------|-------|--------|
-| Log transaction | Mill | "Spent ₹X on Y" |
-| Check spending | Mill | "Show my spending" |
-| Financial advice | Chatur | "Should I buy X?" |
-| Set goal | Chatur | "I want to save for X" |
-| Shop for product | Sera | "Find me X" |
-| Compare prices | Sera | "Compare X and Y" |
-| Save for later | Sera | "Add to wishlist" |
-| Learn concept | Mill | "What is X?" |
+| Need             | Agent  | Action                 |
+| ---------------- | ------ | ---------------------- |
+| Log transaction  | Mill   | "Spent ₹X on Y"        |
+| Check spending   | Mill   | "Show my spending"     |
+| Financial advice | Chatur | "Should I buy X?"      |
+| Set goal         | Chatur | "I want to save for X" |
+| Shop for product | Sera   | "Find me X"            |
+| Compare prices   | Sera   | "Compare X and Y"      |
+| Save for later   | Sera   | "Add to wishlist"      |
+| Learn concept    | Mill   | "What is X?"           |
 
 **Remember**: Start with Mill for everything, they'll route you to the right specialist! 🎯

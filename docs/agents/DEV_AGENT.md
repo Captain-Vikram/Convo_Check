@@ -23,6 +23,14 @@ Dev is the **silent worker** behind the scenes. Unlike other agents, Dev:
 
 Dev is like a **bouncer at a data nightclub** - only lets legitimate financial transactions through the door. No marketing, no OTPs, no balance inquiries. Just clean transaction data.
 
+## What's New in the Unified Runtime (Nov 2025)
+
+- **Concurrency-aware ingestion** – `ingestSmsExport` in `src/runtime/dev/dev-sms-agent.ts` now streams exports through a 6-way limiter plus `createDevAgentEnvironment()`, so bulk backfills keep steady throughput without overwhelming the LLM or API.
+- **Deduping + heuristics baked in** – Every parsed SMS flows through `runDevPipeline` with extra heuristics/tags (`source:sms-llm`, sender IDs, timestamps) and duplicate/suppression handling, giving Param/Chatur higher quality data automatically.
+- **PII-safe observability** – Operational logs route through `PIIMasker` and the optional `SmsLog`, masking phone numbers/content while still surfacing root causes.
+
+**Why it’s better**: SMS ingestion is faster, duplicate-aware, and privacy-safe without bespoke cron glue—just point exports at the new pipeline.
+
 ---
 
 ## Core Capabilities
