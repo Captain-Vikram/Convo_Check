@@ -6,6 +6,8 @@
 import { callLLM, streamLLM, type createLLMClient } from "../shared/llm-client.js";
 import type { AgentId } from "../../config.js";
 import type { CoreMessage } from "ai";
+import type { AgentAttachment, AgentInput } from "./multimodal.js";
+import { normalizeAgentInput, summarizeInputForHistory } from "./multimodal.js";
 
 export interface AgentOptions {
   agentId: AgentId;
@@ -84,10 +86,17 @@ export abstract class BaseAgent {
 
 import { randomUUID } from "node:crypto";
 
+export interface ConversationMessage {
+  role: "user" | "assistant";
+  content: string;
+  timestamp: string;
+  attachments?: AgentAttachment[];
+}
+
 export interface ConversationSession<TCollectedInfo = Record<string, unknown>> {
   sessionId: string;
   startedAt: string;
-  messages: Array<{ role: "user" | "assistant"; content: string; timestamp: string }>;
+  messages: ConversationMessage[];
   state: "active" | "completed" | "abandoned";
   collectedInfo: TCollectedInfo;
 }
@@ -170,7 +179,23 @@ export abstract class BaseConversationalAgent<
    */
   abstract continueConversation(
     sessionId: string,
-    userMessage: string,
+    userMessage: string | AgentInput,
     options?: ConversationOptions,
   ): Promise<any>;
+}
+
+export function prepareAgentInput(input: string | AgentInput | undefined): AgentInput {
+  return normalizeAgentInput(input);
+}
+
+export function messageContentFromInput(input: AgentInput): { text: string; attachments?: AgentAttachment[] } {
+  const payload: { text: string; attachments?: AgentAttachment[] } = {
+    text: summarizeInputForHistory(input),
+  };
+
+  if (input.attachments && input.attachments.length > 0) {
+    payload.attachments = input.attachments;
+  }
+
+  return payload;
 }

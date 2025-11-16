@@ -1,16 +1,15 @@
-import processAgentMessage from "../../../lib/mill/in-process-adapter";
-
-interface AgentApiRequestBody {
-  userId?: string;
-  message?: string;
-  options?: Record<string, unknown>;
-}
+import processAgentMessage, {
+  type AgentEntryRequest,
+} from "../../../lib/mill/in-process-adapter";
 
 export async function POST(req: Request): Promise<Response> {
   try {
-    const body = (await req.json()) as AgentApiRequestBody;
+    const body = (await req.json()) as Partial<AgentEntryRequest>;
     const userId = body.userId?.trim();
     const message = body.message ?? "";
+    const attachments = Array.isArray(body.attachments) && body.attachments.length > 0
+      ? body.attachments
+      : undefined;
 
     if (!userId) {
       return new Response(JSON.stringify({ error: "userId is required" }), {
@@ -19,8 +18,8 @@ export async function POST(req: Request): Promise<Response> {
       });
     }
 
-    if (!message.trim()) {
-      return new Response(JSON.stringify({ error: "message is required" }), {
+    if (!message.trim() && !attachments) {
+      return new Response(JSON.stringify({ error: "Provide a message or at least one attachment" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
@@ -29,6 +28,7 @@ export async function POST(req: Request): Promise<Response> {
     const result = await processAgentMessage({
       userId,
       message,
+      attachments,
       options: body.options,
     });
 

@@ -305,25 +305,39 @@ export const amazonProductLookupTool = createTool({
     console.log('\n🔍 Inspecting Amazon product link...');
 
     try {
-      const { results: amazonResults, query: derivedQuery } = await searchAmazonProduct(asinOrUrl);
-      summarizeAmazonResults(amazonResults);
+      let amazonResults: AmazonSearchResult[] = [];
+      let fallbackUsed = false;
 
-      const comparisonQuery = SearchResultPresenter.deriveAmazonComparisonQuery(
-        derivedQuery || asinOrUrl,
-        amazonResults,
-      );
-      console.log(`\n🔄 Comparing "${comparisonQuery}" across Indian retailers...\n`);
+      try {
+        const response = await searchAmazonProduct(asinOrUrl);
+        amazonResults = response.results;
+        summarizeAmazonResults(amazonResults);
+      } catch (amazonError) {
+        fallbackUsed = true;
+        const message = amazonError instanceof Error ? amazonError.message : String(amazonError);
+        logger.warn('sera', `Amazon lookup failed: ${message}`);
+      }
 
-      const comparison = await shoppingService.search(comparisonQuery, {});
-      logSearchResponse(comparison);
+      if (amazonResults.length === 0) {
+        console.log('\n⚠️ Could not parse the Amazon listing. Please double-check the URL or provide a description.');
+        return {
+          success: false,
+          fallbackUsed,
+          message: 'Amazon lookup failed. No listings available to display.',
+        };
+      }
+
+      const normalizedResults = SearchResultPresenter.mapAmazonResults(amazonResults.slice(0, 10));
+      console.log('\n🛒 Direct Amazon listings (no Google comparison):\n');
+      console.log(SearchResultPresenter.formatResultsTable(normalizedResults));
+      console.log('\nAsk me to compare with other stores separately if needed.\n');
 
       return {
         success: true,
+        fallbackUsed,
         amazonResults,
-        comparisonResults: comparison.results,
-        suggestions: comparison.suggestions,
-        insights: comparison.insights,
-        plannerSummary: comparison.plannerSummary,
+        normalizedResults,
+        message: 'Displayed Amazon listings without cross-store comparisons.',
       };
     } catch (error: any) {
       logger.error('sera', 'Amazon lookup failed', error);

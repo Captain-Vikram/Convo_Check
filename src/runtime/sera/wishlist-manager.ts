@@ -3,7 +3,8 @@
  * Saves and manages product wishlists using REST API
  */
 
-import { createWishlistApiClient, WishlistApiClient } from './wishlist-api-client.js';
+import { createWishlistApiClient } from './wishlist-api-client.js';
+import type { WishlistApiClient } from './wishlist-api-client.js';
 import { logger } from '../shared/logger.js';
 
 export interface WishlistItem {
@@ -23,12 +24,19 @@ let apiClient: WishlistApiClient | undefined;
 
 function getApiClient(): WishlistApiClient {
   if (!apiClient) {
-    const baseUrl = process.env.WEB_API_URL || 'http://localhost:3000';
-    const apiKey = process.env.API_KEY;
+    const baseUrl = process.env.WEB_API_URL || process.env.WEB_BASE_URL || 'http://localhost:3000';
+    const apiKey =
+      process.env.SERVICE_API_TOKEN || process.env.API_KEY || process.env.SERA_SERVICE_API_TOKEN;
     const userId = parseInt(process.env.DEV_USER_ID || process.env.DEFAULT_USER_ID || '2', 10);
     
     if (isNaN(userId) || userId <= 0) {
       throw new Error('Invalid user ID in environment variables');
+    }
+
+    if (!apiKey && process.env.DISABLE_AUTH !== '1') {
+      throw new Error(
+        'Wishlist API requires SERVICE_API_TOKEN (or API_KEY) when auth is enabled. Set SERVICE_API_TOKEN to match the web app.'
+      );
     }
     
     apiClient = createWishlistApiClient({

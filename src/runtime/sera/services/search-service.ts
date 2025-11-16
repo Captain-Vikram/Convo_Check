@@ -20,6 +20,7 @@ export interface ShoppingSearchOptions {
   location?: string;
   minPrice?: number;
   maxPrice?: number;
+  skipPlanner?: boolean;
 }
 
 export interface SearchResult {
@@ -519,7 +520,10 @@ export class ShoppingSearchService {
       };
     }
 
-    const { planner, usedFallback } = await this.createPlanner(query);
+    const usePlanner = this.shouldUsePlanner(query, options);
+    const { planner, usedFallback } = usePlanner
+      ? await this.createPlanner(query)
+      : this.createDirectPlanner(query);
 
     if (!planner.candidateQueries || planner.candidateQueries.length === 0) {
       planner.candidateQueries = [
@@ -588,6 +592,39 @@ export class ShoppingSearchService {
 
       return { planner, usedFallback: true };
     }
+  }
+
+  private createDirectPlanner(query: string): { planner: PlannerOutput; usedFallback: boolean } {
+    const planner: PlannerOutput = {
+      queryIntent: `Direct search for ${query}`,
+      priorities: [],
+      candidateQueries: [
+        {
+          query,
+          weight: 1,
+          rationale: 'Planner disabled – using direct query',
+        },
+      ],
+    };
+
+    return { planner, usedFallback: true };
+  }
+
+  private shouldUsePlanner(query: string, options: ShoppingSearchOptions): boolean {
+    if (options.skipPlanner === true) {
+      return false;
+    }
+
+    if (options.skipPlanner === false) {
+      return true;
+    }
+
+    if (!query) {
+      return false;
+    }
+
+    const plannerKeywordPattern = /\bplan(?:ner|ning)?\b/i;
+    return plannerKeywordPattern.test(query);
   }
 
   private buildSearchParams(planner: PlannerOutput, options: ShoppingSearchOptions): SearchParams {
@@ -661,6 +698,55 @@ export class ShoppingSearchService {
 }
 
 export class SearchResultPresenter {
+  static mapAmazonResults(amazonResults: AmazonSearchResult[]): SearchResult[] {
+    if (!Array.isArray(amazonResults) || amazonResults.length === 0) {
+      return [];
+    }
+
+    return amazonResults.map((result, index) => {
+      const normalized: SearchResult = {
+        title: result.title || `Amazon listing #${index + 1}`,
+        source: 'Amazon.in',
+        link: result.link || '',
+        merchantTier: 'major',
+        merchantBadge: '🏪 Amazon.in',
+        candidateQuery: 'Amazon direct listing',
+        candidateWeight: Math.max(0.1, 1 - index * 0.15),
+      };
+
+      if (result.price) {
+        normalized.price = result.price;
+      }
+      if (typeof result.priceNumeric === 'number') {
+        normalized.priceNumeric = result.priceNumeric;
+      }
+      if (result.rating) {
+        normalized.rating = result.rating;
+      }
+      if (typeof result.ratingNumeric === 'number') {
+        normalized.ratingNumeric = result.ratingNumeric;
+      }
+      if (result.reviews) {
+        normalized.reviews = result.reviews;
+      }
+      if (typeof result.reviewCount === 'number') {
+        normalized.reviewCount = result.reviewCount;
+      }
+      if (result.delivery) {
+        normalized.delivery = result.delivery;
+      }
+      if (result.thumbnail) {
+        normalized.thumbnail = result.thumbnail;
+      }
+
+      if (index === 0) {
+        normalized.badge = '🏆 Amazon pick';
+      }
+
+      return normalized;
+    });
+  }
+
   static formatResultsTable(results: SearchResult[]): string {
     return SearchResultUtils.formatResultsTable(results);
   }
@@ -672,21 +758,4 @@ export class SearchResultPresenter {
     });
   }
 
-  static deriveAmazonComparisonQuery(source: string, amazonResults: AmazonSearchResult[]): string {
-    const [firstResult] = amazonResults;
-    if (firstResult?.title) {
-      return firstResult.title;
-    }
-
-    const match = source.match(/amazon\.[a-z.]+\/([^/?]+)/i);
-    if (match && match[1]) {
-      return match[1]
-        .replace(/-/g, ' ')
-        .replace(/%20/g, ' ')
-        .replace(/\+/g, ' ')
-        .trim();
-    }
-
-    return source;
-  }
 }

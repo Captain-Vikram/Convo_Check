@@ -34,6 +34,16 @@ export class WishlistApiClient {
     this.userId = config.userId;
   }
 
+  private buildOwnerQuerySuffix(): string {
+    if (!this.userId) {
+      return '';
+    }
+
+    const params = new URLSearchParams();
+    params.set('owner', this.userId.toString());
+    return `?${params.toString()}`;
+  }
+
   private async request<T>(
     endpoint: string,
     options: RequestInit = {}
@@ -94,7 +104,8 @@ export class WishlistApiClient {
    * Get a single wishlist item by ID
    */
   async getWishlistItem(id: string): Promise<WishlistItem> {
-    return this.request(`/api/wishlist/${id}`);
+    const ownerSuffix = this.buildOwnerQuerySuffix();
+    return this.request(`/api/wishlist/${id}${ownerSuffix}`);
   }
 
   /**
@@ -130,7 +141,8 @@ export class WishlistApiClient {
     id: string,
     updates: Partial<Omit<WishlistItem, 'id' | 'owner' | 'dateAdded' | 'createdAt' | 'updatedAt'>>
   ): Promise<{ success: boolean; item: WishlistItem }> {
-    return this.request(`/api/wishlist/${id}`, {
+    const ownerSuffix = this.buildOwnerQuerySuffix();
+    return this.request(`/api/wishlist/${id}${ownerSuffix}`, {
       method: 'PATCH',
       body: JSON.stringify(updates),
     });
@@ -140,7 +152,9 @@ export class WishlistApiClient {
    * Remove item from wishlist
    */
   async removeWishlistItem(id: string): Promise<{ success: boolean; message: string }> {
-    return this.request(`/api/wishlist/${id}`, {
+    const ownerSuffix = this.buildOwnerQuerySuffix();
+
+    return this.request(`/api/wishlist/${id}${ownerSuffix}`, {
       method: 'DELETE',
     });
   }
@@ -149,14 +163,8 @@ export class WishlistApiClient {
    * Clear all wishlist items
    */
   async clearWishlist(): Promise<{ success: boolean; deletedCount: number; message: string }> {
-    const params = new URLSearchParams();
-    
-    if (this.userId) {
-      params.set('owner', this.userId.toString());
-    }
-
-    const query = params.toString();
-    return this.request(`/api/wishlist${query ? `?${query}` : ''}`, {
+    const ownerSuffix = this.buildOwnerQuerySuffix();
+    return this.request(`/api/wishlist${ownerSuffix}`, {
       method: 'DELETE',
     });
   }

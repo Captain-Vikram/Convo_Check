@@ -3,6 +3,9 @@ import { coachAgent } from "../../agents/coach.js";
 import type { HabitInsight } from "../param/analyst-agent.js";
 import { getCircuitBreaker, withRetry } from "../shared/error-handling.js";
 import { BaseConversationalAgent, type ConversationSession, type ConversationOptions } from "../shared/base-agent.js";
+import type { AgentInput } from "../shared/multimodal.js";
+import { normalizeAgentInput, summarizeInputForHistory, buildMultimodalContent } from "../shared/multimodal.js";
+import type { CoreMessage } from "ai";
 
 /**
  * Conversational session with Coach for interactive guidance
@@ -80,7 +83,7 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
    */
   async continueConversation(
     sessionId: string,
-    userResponse: string,
+    userResponse: string | AgentInput,
   ): Promise<{
     message: string;
     completed: boolean;
@@ -96,15 +99,21 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
       throw new Error(`Conversation ${sessionId} is ${session.state}`);
     }
 
-    // Add user message
-    session.messages.push({
+    const normalizedInput = normalizeAgentInput(userResponse);
+    const summarized = summarizeInputForHistory(normalizedInput);
+
+    const userEntry: CoachConversation["messages"][number] = {
       role: "user",
-      content: userResponse,
+      content: summarized,
       timestamp: new Date().toISOString(),
-    });
+    };
+    if (normalizedInput.attachments && normalizedInput.attachments.length > 0) {
+      userEntry.attachments = normalizedInput.attachments;
+    }
+    session.messages.push(userEntry);
 
     // Generate coach response using LLM
-    const result = await this.generateCoachResponse(session);
+    const result = await this.generateCoachResponse(session, normalizedInput);
 
     // Check if should escalate to Mill
     if (result.shouldEscalateToMill) {
@@ -150,6 +159,7 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
    */
   private async generateCoachResponse(
     session: CoachConversation,
+    latestInput?: AgentInput,
   ): Promise<{
     message: string;
     completed: boolean;
@@ -158,6 +168,17 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
     shouldEscalateToMill?: boolean;
   }> {
     const prompt = this.buildConversationalPrompt(session);
+    const messages: any[] = [
+      { role: "system", content: this.getConversationalSystemPrompt() },
+      { role: "user", content: prompt },
+    ];
+
+    if (latestInput) {
+      messages.push({
+        role: "user",
+        content: buildMultimodalContent(latestInput),
+      });
+    }
 
     try {
       return await this.circuitBreaker.execute(
@@ -165,10 +186,7 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
           return withRetry(
             async () => {
               const result = await this.callLLM({
-                messages: [
-                  { role: "system", content: this.getConversationalSystemPrompt() },
-                  { role: "user", content: prompt },
-                ],
+                messages: messages as CoreMessage[],
               });
 
               const text = (result.text ?? "").trim();

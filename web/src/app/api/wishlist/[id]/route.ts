@@ -1,7 +1,46 @@
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
-import { getUserContext } from "@/lib/auth-middleware";
+import { getUserContext, type UserContext } from "@/lib/auth-middleware";
+
+function resolveOwnerFilter(
+  request: Request,
+  userContext: UserContext
+): { ownerFilter?: number; errorResponse?: NextResponse } {
+  if (userContext.isService) {
+    const url = new URL(request.url);
+    const ownerParam = url.searchParams.get("owner");
+    if (!ownerParam) {
+      return {
+        errorResponse: NextResponse.json(
+          { error: "Missing 'owner' query param for service requests" },
+          { status: 400 }
+        ),
+      };
+    }
+
+    const parsed = Number.parseInt(ownerParam, 10);
+    if (!Number.isFinite(parsed) || parsed <= 0) {
+      return {
+        errorResponse: NextResponse.json(
+          { error: "Invalid 'owner' query param" },
+          { status: 400 }
+        ),
+      };
+    }
+
+    return { ownerFilter: parsed };
+  }
+
+  const derivedId = userContext.userId;
+  if (!Number.isFinite(derivedId)) {
+    return {
+      errorResponse: NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+    };
+  }
+
+  return { ownerFilter: derivedId as number };
+}
 
 /**
  * GET /api/wishlist/[id]
@@ -15,6 +54,11 @@ export async function GET(
 
   if (!userContext) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { ownerFilter, errorResponse } = resolveOwnerFilter(request, userContext);
+  if (errorResponse) {
+    return errorResponse;
   }
 
   const { id } = params;
@@ -31,8 +75,7 @@ export async function GET(
       );
     }
 
-    // Authorization: Only owner or service accounts can access
-    if (!userContext.isService && item.owner !== userContext.userId) {
+    if (ownerFilter !== undefined && item.owner !== ownerFilter) {
       return NextResponse.json(
         { error: "Forbidden: You don't own this wishlist item" },
         { status: 403 }
@@ -85,6 +128,11 @@ export async function PATCH(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const { ownerFilter, errorResponse } = resolveOwnerFilter(request, userContext);
+  if (errorResponse) {
+    return errorResponse;
+  }
+
   const { id } = params;
 
   let body: {
@@ -115,8 +163,7 @@ export async function PATCH(
       );
     }
 
-    // Authorization
-    if (!userContext.isService && existing.owner !== userContext.userId) {
+    if (ownerFilter !== undefined && existing.owner !== ownerFilter) {
       return NextResponse.json(
         { error: "Forbidden: You don't own this wishlist item" },
         { status: 403 }
@@ -183,6 +230,11 @@ export async function DELETE(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const { ownerFilter, errorResponse } = resolveOwnerFilter(request, userContext);
+  if (errorResponse) {
+    return errorResponse;
+  }
+
   const { id } = params;
 
   try {
@@ -198,7 +250,7 @@ export async function DELETE(
     }
 
     // Authorization
-    if (!userContext.isService && existing.owner !== userContext.userId) {
+    if (ownerFilter !== undefined && existing.owner !== ownerFilter) {
       return NextResponse.json(
         { error: "Forbidden: You don't own this wishlist item" },
         { status: 403 }

@@ -2,6 +2,9 @@ import { randomUUID } from "node:crypto";
 import { chatbotAgent } from "../../agents/chatbot.js";
 import { getCircuitBreaker, withRetry } from "../shared/error-handling.js";
 import { BaseConversationalAgent, type ConversationSession, type ConversationOptions } from "../shared/base-agent.js";
+import type { CoreMessage } from "ai";
+import type { AgentInput } from "../shared/multimodal.js";
+import { normalizeAgentInput, summarizeInputForHistory, buildMultimodalContent } from "../shared/multimodal.js";
 import type { LogCashTransactionPayload } from "../../tools/log-cash-transaction.js";
 import type { SpendingSummaryResult } from "../../tools/query-spending-summary.js";
 
@@ -60,7 +63,7 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
    */
   async continueConversation(
     sessionId: string,
-    userMessage: string,
+    userMessage: string | AgentInput,
     options: MillConversationOptions = {},
   ): Promise<{
     message: string;
@@ -77,15 +80,23 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
       throw new Error(`Mill conversation ${sessionId} is ${session.state}`);
     }
 
-    // Add user message
-    session.messages.push({
+    const normalizedInput = normalizeAgentInput(userMessage);
+    const summarized = summarizeInputForHistory(normalizedInput);
+
+    const userEntry: MillConversation["messages"][number] = {
       role: "user",
-      content: userMessage,
+      content: summarized,
       timestamp: new Date().toISOString(),
-    });
+    };
+
+    if (normalizedInput.attachments && normalizedInput.attachments.length > 0) {
+      userEntry.attachments = normalizedInput.attachments;
+    }
+
+    session.messages.push(userEntry);
 
     // Generate Mill's response using LLM
-    const result = await this.generateMillResponse(session);
+    const result = await this.generateMillResponse(session, normalizedInput);
 
     // Add assistant message
     session.messages.push({
@@ -106,7 +117,7 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
 
     // Check if we should execute an action
     if (result.action === "log_transaction" && this.hasCompleteTransaction(session)) {
-      const payload = this.buildTransactionPayload(session, userMessage);
+  const payload = this.buildTransactionPayload(session, normalizedInput.text);
       if (options.onTransactionReady) {
         await options.onTransactionReady(payload);
       }
@@ -155,6 +166,7 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
    */
   private async generateMillResponse(
     session: MillConversation,
+    latestInput?: AgentInput,
   ): Promise<{
     message: string;
     intent?: "logging" | "query" | "general" | "unclear";
@@ -163,6 +175,17 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
     escalationReason?: string;
   }> {
     const prompt = this.buildMillPrompt(session);
+    const messages: any[] = [
+      { role: "system", content: this.getMillSystemPrompt() },
+      { role: "user", content: prompt },
+    ];
+
+    if (latestInput) {
+      messages.push({
+        role: "user",
+        content: buildMultimodalContent(latestInput),
+      });
+    }
 
     try {
       return await this.circuitBreaker.execute(
@@ -170,10 +193,7 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
           return withRetry(
             async () => {
               const result = await this.callLLM({
-                messages: [
-                  { role: "system", content: this.getMillSystemPrompt() },
-                  { role: "user", content: prompt },
-                ],
+                messages: messages as CoreMessage[],
               });
 
               const text = (result.text ?? "").trim();

@@ -4,6 +4,8 @@ import { SeraAgent, type SeraConversation } from "../sera/sera-agent.js";
 import type { HabitInsight } from "../param/analyst-agent.js";
 import type { LogCashTransactionPayload } from "../../tools/log-cash-transaction.js";
 import type { SpendingSummaryResult } from "../../tools/query-spending-summary.js";
+import type { AgentInput } from "./multimodal.js";
+import { normalizeAgentInput, summarizeInputForHistory } from "./multimodal.js";
 
 /**
  * Intelligent conversation router that understands when to use Mill vs Chatur vs Sera
@@ -132,9 +134,11 @@ export class ConversationRouter {
    */
   async startConversation(
     userId: string,
-    firstMessage: string,
+    firstInput: string | AgentInput,
     options: ConversationRouterOptions = {},
   ): Promise<{ agent: ActiveAgent; message: string; sessionId: string }> {
+    const normalizedInput = normalizeAgentInput(firstInput);
+    const firstMessage = normalizedInput.text;
     // Determine which agent should handle this
     const agent = this.routeInitialMessage(firstMessage);
 
@@ -151,7 +155,7 @@ export class ConversationRouter {
       context.millSessionId = millSession.sessionId;
       context.conversationHistory.push({
         agent: "mill",
-        userMessage: firstMessage,
+        userMessage: summarizeInputForHistory(normalizedInput),
         agentResponse: millSession.messages[0]?.content || "",
         timestamp: new Date().toISOString(),
       });
@@ -173,7 +177,7 @@ export class ConversationRouter {
       context.chaturSessionId = chaturSession.sessionId;
       context.conversationHistory.push({
         agent: "chatur",
-        userMessage: firstMessage,
+        userMessage: summarizeInputForHistory(normalizedInput),
         agentResponse: chaturSession.currentQuestion || "",
         timestamp: new Date().toISOString(),
       });
@@ -186,15 +190,15 @@ export class ConversationRouter {
         sessionId: chaturSession.sessionId,
       };
     } else if (agent === "sera") {
-      const seraSession = this.sera.startConversation({
-        initialGreeting:
-          "Hey! 🛍️ I'm Sera, your shopping buddy! I can help you find and compare products across Indian stores. What are you looking to buy?",
-      });
+      const seraSession = this.sera.startConversation({ suppressGreeting: true });
       context.seraSessionId = seraSession.sessionId;
+      const seraMessage = this.prepareSeraTextInput(normalizedInput);
+      const seraResult = await this.sera.continueConversation(seraSession.sessionId, seraMessage);
+
       context.conversationHistory.push({
         agent: "sera",
-        userMessage: firstMessage,
-        agentResponse: seraSession.messages[0]?.content || "",
+        userMessage: summarizeInputForHistory(normalizedInput),
+        agentResponse: seraResult.message,
         timestamp: new Date().toISOString(),
       });
 
@@ -202,7 +206,7 @@ export class ConversationRouter {
 
       return {
         agent: "sera",
-        message: seraSession.messages[0]?.content || "",
+        message: seraResult.message,
         sessionId: seraSession.sessionId,
       };
     }
@@ -221,7 +225,7 @@ export class ConversationRouter {
    */
   async continueConversation(
     userId: string,
-    userMessage: string,
+    userMessage: string | AgentInput,
     options: ConversationRouterOptions = {},
   ): Promise<{
     agent: ActiveAgent;
@@ -231,10 +235,12 @@ export class ConversationRouter {
     newAgent?: ActiveAgent;
     result?: unknown;
   }> {
+    const normalizedInput = normalizeAgentInput(userMessage);
+    const textMessage = normalizedInput.text;
     const context = this.contexts.get(userId);
     if (!context) {
       // Start new conversation
-      const startResult = await this.startConversation(userId, userMessage, options);
+      const startResult = await this.startConversation(userId, normalizedInput, options);
       return { ...startResult, completed: false };
     }
 
@@ -242,19 +248,15 @@ export class ConversationRouter {
 
     // Route to Mill
     if (activeAgent === "mill" && context.millSessionId) {
-      if (this.isShoppingIntent(userMessage)) {
+      if (this.isShoppingIntent(textMessage)) {
         this.mill.endConversation(context.millSessionId, "completed");
         delete context.millSessionId;
-        return await this.handoffToSera(
-          context,
-          userMessage,
-          "Mill here! I\'m looping in Sera—our shopping specialist who finds trusted Indian deals, compares prices, and manages wishlists. She\'ll take it from here. 🛍️",
-        );
+        return await this.handoffToSera(context, normalizedInput);
       }
 
       const result = await this.mill.continueConversation(
         context.millSessionId,
-        userMessage,
+        normalizedInput,
         options,
       );
 
@@ -281,7 +283,7 @@ export class ConversationRouter {
 
       context.conversationHistory.push({
         agent: "mill",
-        userMessage,
+        userMessage: summarizeInputForHistory(normalizedInput),
         agentResponse: result.message,
         timestamp: new Date().toISOString(),
       });
@@ -296,17 +298,13 @@ export class ConversationRouter {
 
     // Route to Chatur
     if (activeAgent === "chatur" && context.chaturSessionId) {
-      if (this.isShoppingIntent(userMessage)) {
+      if (this.isShoppingIntent(textMessage)) {
         this.chatur.endConversation(context.chaturSessionId, "completed");
         delete context.chaturSessionId;
-        return await this.handoffToSera(
-          context,
-          userMessage,
-          "Bringing Sera in! She\'s our shopping buddy who can hunt for products, compare prices, and build your wishlist. 🛍️",
-        );
+        return await this.handoffToSera(context, normalizedInput);
       }
 
-      const result = await this.chatur.continueConversation(context.chaturSessionId, userMessage);
+      const result = await this.chatur.continueConversation(context.chaturSessionId, normalizedInput);
 
       // Check if Chatur wants to escalate to Mill
       if (result.shouldEscalateToMill) {
@@ -327,7 +325,7 @@ export class ConversationRouter {
 
       context.conversationHistory.push({
         agent: "chatur",
-        userMessage,
+        userMessage: summarizeInputForHistory(normalizedInput),
         agentResponse: result.message,
         timestamp: new Date().toISOString(),
       });
@@ -342,11 +340,12 @@ export class ConversationRouter {
 
     // Route to Sera
     if (activeAgent === "sera" && context.seraSessionId) {
-      const result = await this.sera.continueConversation(context.seraSessionId, userMessage);
+      const seraMessage = this.prepareSeraTextInput(normalizedInput);
+      const result = await this.sera.continueConversation(context.seraSessionId, seraMessage);
 
       context.conversationHistory.push({
         agent: "sera",
-        userMessage,
+        userMessage: summarizeInputForHistory(normalizedInput),
         agentResponse: result.message,
         timestamp: new Date().toISOString(),
       });
@@ -360,7 +359,7 @@ export class ConversationRouter {
     }
 
     // No active agent - route based on message
-    const startResult = await this.startConversation(userId, userMessage, options);
+    const startResult = await this.startConversation(userId, normalizedInput, options);
     return { ...startResult, completed: false };
   }
 
@@ -461,7 +460,7 @@ export class ConversationRouter {
 
   private async handoffToSera(
     context: ConversationContext,
-    userMessage: string,
+    userInput: AgentInput,
     announcement?: string,
   ): Promise<{
     agent: ActiveAgent;
@@ -471,32 +470,26 @@ export class ConversationRouter {
     newAgent: ActiveAgent;
     result?: unknown;
   }> {
-    let greeting: string | undefined;
+    let announcementMessage: string | undefined = announcement;
 
     if (!context.seraSessionId) {
-      const seraSession = this.sera.startConversation({
-        initialGreeting:
-          announcement ??
-          "Hey! 🛍️ I'm Sera, your shopping buddy. I compare Indian stores, surface the best deals, and can save items to your wishlist.",
-      });
+      const seraSession = this.sera.startConversation({ suppressGreeting: true });
       context.seraSessionId = seraSession.sessionId;
-      greeting = seraSession.messages[0]?.content;
-    } else if (announcement) {
-      greeting = announcement;
     }
 
     context.activeAgent = "sera";
 
     const sessionId = context.seraSessionId!;
-    const result = await this.sera.continueConversation(sessionId, userMessage);
+    const seraMessage = this.prepareSeraTextInput(userInput);
+    const result = await this.sera.continueConversation(sessionId, seraMessage);
 
-    const combinedMessage = [greeting, result.message]
+    const combinedMessage = [announcementMessage, result.message]
       .filter((part): part is string => Boolean(part && part.trim().length > 0))
       .join("\n\n");
 
     context.conversationHistory.push({
       agent: "sera",
-      userMessage,
+      userMessage: summarizeInputForHistory(userInput),
       agentResponse: combinedMessage || result.message,
       timestamp: new Date().toISOString(),
     });
@@ -509,6 +502,15 @@ export class ConversationRouter {
       newAgent: "sera",
       result: result.searchResults,
     };
+  }
+
+  private prepareSeraTextInput(input: AgentInput): string {
+    const trimmed = input.text?.trim();
+    if (trimmed && trimmed.length > 0) {
+      return trimmed;
+    }
+
+    return summarizeInputForHistory(input);
   }
 
   /**

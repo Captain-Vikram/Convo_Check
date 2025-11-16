@@ -95,7 +95,7 @@ export interface AmazonSearchResult {
 }
 
 // Amazon Product Search
-export async function searchAmazonProduct(asinOrUrl: string): Promise<{
+export async function searchAmazonProduct(rawInput: string): Promise<{
   raw: any;
   results: AmazonSearchResult[];
   query: string;
@@ -103,13 +103,19 @@ export async function searchAmazonProduct(asinOrUrl: string): Promise<{
   const key = process.env.SERPAPI_KEY;
   if (!key) throw new Error('SERPAPI_KEY is required');
 
+  const asinOrUrl = typeof rawInput === 'string' ? rawInput.trim() : '';
+  if (!asinOrUrl) {
+    throw new Error('Amazon lookup requires a valid ASIN or product URL.');
+  }
+
   let searchQuery = asinOrUrl;
 
   // Extract product name from Amazon URL
   if (asinOrUrl.includes('amazon.in') || asinOrUrl.includes('amazon.com')) {
     const urlMatch = asinOrUrl.match(/amazon\.[a-z.]+\/([^/]+)\/(?:dp|gp)\//i);
     if (urlMatch && urlMatch[1]) {
-      searchQuery = urlMatch[1]
+      const decoded = decodeURIComponent(urlMatch[1]);
+      searchQuery = decoded
         .replace(/-/g, ' ')
         .replace(/%20/g, ' ')
         .replace(/\+/g, ' ')

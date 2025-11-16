@@ -452,14 +452,8 @@ export async function runChatbotSession(options: ChatbotSessionOptions = {}): Pr
 
     try {
       if (!hasSeraSession) {
-        output.write("mill> Looping in Sera—our shopping pro who scouts trusted deals. 🛍️\n");
-        const session = seraAgent.startConversation();
+        const session = seraAgent.startConversation({ suppressGreeting: true });
         seraSessionId = session.sessionId;
-        const greetingMessage = session.messages[session.messages.length - 1] ?? session.messages[0];
-        const greeting = greetingMessage?.content?.trim() ?? "";
-        if (greeting.length > 0) {
-          output.write(`sera> ${greeting}\n`);
-        }
       }
 
       const sessionId = seraSessionId!;
