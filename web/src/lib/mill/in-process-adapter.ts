@@ -3,8 +3,8 @@ import {
   type ConversationRouterOptions,
   type ConversationContext,
   type ActiveAgent,
-} from "../../../../src/runtime/shared/conversation-router";
-import type { AgentAttachment, AgentInput } from "../../../../src/runtime/shared/multimodal";
+} from "@/runtime/shared/conversation-router";
+import type { AgentAttachment, AgentInput } from "@/runtime/shared/multimodal";
 import { getConversationStore } from "./conversation-store";
 
 const conversationRouter = new ConversationRouter(getConversationStore());

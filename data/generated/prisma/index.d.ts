@@ -42223,12 +42223,12 @@ export namespace Prisma {
     date_updated: Date | null
     sort: number | null
     status: string | null
-    generated_at: Date | null
-    transaction_id: string | null
-    insights_count: number | null
-    snapshot_hash: string | null
     user_created: string | null
     user_updated: string | null
+    generated_at: Date | null
+    insights_count: number | null
+    snapshot_hash: string | null
+    transaction_id: string | null
   }
 
   export type Habit_snapshotsMaxAggregateOutputType = {
@@ -42240,12 +42240,12 @@ export namespace Prisma {
     date_updated: Date | null
     sort: number | null
     status: string | null
-    generated_at: Date | null
-    transaction_id: string | null
-    insights_count: number | null
-    snapshot_hash: string | null
     user_created: string | null
     user_updated: string | null
+    generated_at: Date | null
+    insights_count: number | null
+    snapshot_hash: string | null
+    transaction_id: string | null
   }
 
   export type Habit_snapshotsCountAggregateOutputType = {
@@ -42259,17 +42259,17 @@ export namespace Prisma {
     date_updated: number
     sort: number
     status: number
-    generated_at: number
-    transaction_id: number
-    top_categories: number
-    frequent_merchants: number
-    spending_by_medium: number
-    flags: number
-    insights_count: number
-    insight_labels: number
-    snapshot_hash: number
     user_created: number
     user_updated: number
+    flags: number
+    frequent_merchants: number
+    generated_at: number
+    insight_labels: number
+    insights_count: number
+    snapshot_hash: number
+    spending_by_medium: number
+    top_categories: number
+    transaction_id: number
     _all: number
   }
 
@@ -42297,12 +42297,12 @@ export namespace Prisma {
     date_updated?: true
     sort?: true
     status?: true
-    generated_at?: true
-    transaction_id?: true
-    insights_count?: true
-    snapshot_hash?: true
     user_created?: true
     user_updated?: true
+    generated_at?: true
+    insights_count?: true
+    snapshot_hash?: true
+    transaction_id?: true
   }
 
   export type Habit_snapshotsMaxAggregateInputType = {
@@ -42314,12 +42314,12 @@ export namespace Prisma {
     date_updated?: true
     sort?: true
     status?: true
-    generated_at?: true
-    transaction_id?: true
-    insights_count?: true
-    snapshot_hash?: true
     user_created?: true
     user_updated?: true
+    generated_at?: true
+    insights_count?: true
+    snapshot_hash?: true
+    transaction_id?: true
   }
 
   export type Habit_snapshotsCountAggregateInputType = {
@@ -42333,17 +42333,17 @@ export namespace Prisma {
     date_updated?: true
     sort?: true
     status?: true
-    generated_at?: true
-    transaction_id?: true
-    top_categories?: true
-    frequent_merchants?: true
-    spending_by_medium?: true
-    flags?: true
-    insights_count?: true
-    insight_labels?: true
-    snapshot_hash?: true
     user_created?: true
     user_updated?: true
+    flags?: true
+    frequent_merchants?: true
+    generated_at?: true
+    insight_labels?: true
+    insights_count?: true
+    snapshot_hash?: true
+    spending_by_medium?: true
+    top_categories?: true
+    transaction_id?: true
     _all?: true
   }
 
@@ -42444,17 +42444,17 @@ export namespace Prisma {
     date_updated: Date | null
     sort: number | null
     status: string
-    generated_at: Date | null
-    transaction_id: string | null
-    top_categories: JsonValue | null
-    frequent_merchants: JsonValue | null
-    spending_by_medium: JsonValue | null
-    flags: JsonValue | null
-    insights_count: number | null
-    insight_labels: JsonValue | null
-    snapshot_hash: string | null
     user_created: string | null
     user_updated: string | null
+    flags: JsonValue | null
+    frequent_merchants: JsonValue | null
+    generated_at: Date | null
+    insight_labels: JsonValue | null
+    insights_count: number | null
+    snapshot_hash: string | null
+    spending_by_medium: JsonValue | null
+    top_categories: JsonValue | null
+    transaction_id: string | null
     _count: Habit_snapshotsCountAggregateOutputType | null
     _avg: Habit_snapshotsAvgAggregateOutputType | null
     _sum: Habit_snapshotsSumAggregateOutputType | null
@@ -42487,22 +42487,22 @@ export namespace Prisma {
     date_updated?: boolean
     sort?: boolean
     status?: boolean
-    generated_at?: boolean
-    transaction_id?: boolean
-    top_categories?: boolean
-    frequent_merchants?: boolean
-    spending_by_medium?: boolean
-    flags?: boolean
-    insights_count?: boolean
-    insight_labels?: boolean
-    snapshot_hash?: boolean
     user_created?: boolean
     user_updated?: boolean
+    flags?: boolean
+    frequent_merchants?: boolean
+    generated_at?: boolean
+    insight_labels?: boolean
+    insights_count?: boolean
+    snapshot_hash?: boolean
+    spending_by_medium?: boolean
+    top_categories?: boolean
+    transaction_id?: boolean
     coach_briefings?: boolean | habit_snapshots$coach_briefingsArgs<ExtArgs>
+    habit_snapshot_insights?: boolean | habit_snapshots$habit_snapshot_insightsArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     directus_users_habit_snapshots_user_createdTodirectus_users?: boolean | habit_snapshots$directus_users_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs>
     directus_users_habit_snapshots_user_updatedTodirectus_users?: boolean | habit_snapshots$directus_users_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs>
-    habit_snapshot_insights?: boolean | habit_snapshots$habit_snapshot_insightsArgs<ExtArgs>
     _count?: boolean | Habit_snapshotsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["habit_snapshots"]>
 
@@ -42517,17 +42517,17 @@ export namespace Prisma {
     date_updated?: boolean
     sort?: boolean
     status?: boolean
-    generated_at?: boolean
-    transaction_id?: boolean
-    top_categories?: boolean
-    frequent_merchants?: boolean
-    spending_by_medium?: boolean
-    flags?: boolean
-    insights_count?: boolean
-    insight_labels?: boolean
-    snapshot_hash?: boolean
     user_created?: boolean
     user_updated?: boolean
+    flags?: boolean
+    frequent_merchants?: boolean
+    generated_at?: boolean
+    insight_labels?: boolean
+    insights_count?: boolean
+    snapshot_hash?: boolean
+    spending_by_medium?: boolean
+    top_categories?: boolean
+    transaction_id?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
     directus_users_habit_snapshots_user_createdTodirectus_users?: boolean | habit_snapshots$directus_users_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs>
     directus_users_habit_snapshots_user_updatedTodirectus_users?: boolean | habit_snapshots$directus_users_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs>
@@ -42544,17 +42544,17 @@ export namespace Prisma {
     date_updated?: boolean
     sort?: boolean
     status?: boolean
-    generated_at?: boolean
-    transaction_id?: boolean
-    top_categories?: boolean
-    frequent_merchants?: boolean
-    spending_by_medium?: boolean
-    flags?: boolean
-    insights_count?: boolean
-    insight_labels?: boolean
-    snapshot_hash?: boolean
     user_created?: boolean
     user_updated?: boolean
+    flags?: boolean
+    frequent_merchants?: boolean
+    generated_at?: boolean
+    insight_labels?: boolean
+    insights_count?: boolean
+    snapshot_hash?: boolean
+    spending_by_medium?: boolean
+    top_categories?: boolean
+    transaction_id?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
     directus_users_habit_snapshots_user_createdTodirectus_users?: boolean | habit_snapshots$directus_users_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs>
     directus_users_habit_snapshots_user_updatedTodirectus_users?: boolean | habit_snapshots$directus_users_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs>
@@ -42571,26 +42571,26 @@ export namespace Prisma {
     date_updated?: boolean
     sort?: boolean
     status?: boolean
-    generated_at?: boolean
-    transaction_id?: boolean
-    top_categories?: boolean
-    frequent_merchants?: boolean
-    spending_by_medium?: boolean
-    flags?: boolean
-    insights_count?: boolean
-    insight_labels?: boolean
-    snapshot_hash?: boolean
     user_created?: boolean
     user_updated?: boolean
+    flags?: boolean
+    frequent_merchants?: boolean
+    generated_at?: boolean
+    insight_labels?: boolean
+    insights_count?: boolean
+    snapshot_hash?: boolean
+    spending_by_medium?: boolean
+    top_categories?: boolean
+    transaction_id?: boolean
   }
 
-  export type habit_snapshotsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "snapshot_id" | "owner" | "context_data" | "summary_data" | "trigger" | "date_created" | "date_updated" | "sort" | "status" | "generated_at" | "transaction_id" | "top_categories" | "frequent_merchants" | "spending_by_medium" | "flags" | "insights_count" | "insight_labels" | "snapshot_hash" | "user_created" | "user_updated", ExtArgs["result"]["habit_snapshots"]>
+  export type habit_snapshotsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "snapshot_id" | "owner" | "context_data" | "summary_data" | "trigger" | "date_created" | "date_updated" | "sort" | "status" | "user_created" | "user_updated" | "flags" | "frequent_merchants" | "generated_at" | "insight_labels" | "insights_count" | "snapshot_hash" | "spending_by_medium" | "top_categories" | "transaction_id", ExtArgs["result"]["habit_snapshots"]>
   export type habit_snapshotsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     coach_briefings?: boolean | habit_snapshots$coach_briefingsArgs<ExtArgs>
+    habit_snapshot_insights?: boolean | habit_snapshots$habit_snapshot_insightsArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     directus_users_habit_snapshots_user_createdTodirectus_users?: boolean | habit_snapshots$directus_users_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs>
     directus_users_habit_snapshots_user_updatedTodirectus_users?: boolean | habit_snapshots$directus_users_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs>
-    habit_snapshot_insights?: boolean | habit_snapshots$habit_snapshot_insightsArgs<ExtArgs>
     _count?: boolean | Habit_snapshotsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type habit_snapshotsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -42608,10 +42608,10 @@ export namespace Prisma {
     name: "habit_snapshots"
     objects: {
       coach_briefings: Prisma.$coach_briefingsPayload<ExtArgs>[]
+      habit_snapshot_insights: Prisma.$habit_snapshot_insightsPayload<ExtArgs>[]
       users: Prisma.$usersPayload<ExtArgs>
       directus_users_habit_snapshots_user_createdTodirectus_users: Prisma.$directus_usersPayload<ExtArgs> | null
       directus_users_habit_snapshots_user_updatedTodirectus_users: Prisma.$directus_usersPayload<ExtArgs> | null
-      habit_snapshot_insights: Prisma.$habit_snapshot_insightsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -42624,17 +42624,17 @@ export namespace Prisma {
       date_updated: Date | null
       sort: number | null
       status: string
-      generated_at: Date | null
-      transaction_id: string | null
-      top_categories: Prisma.JsonValue | null
-      frequent_merchants: Prisma.JsonValue | null
-      spending_by_medium: Prisma.JsonValue | null
-      flags: Prisma.JsonValue | null
-      insights_count: number | null
-      insight_labels: Prisma.JsonValue | null
-      snapshot_hash: string | null
       user_created: string | null
       user_updated: string | null
+      flags: Prisma.JsonValue | null
+      frequent_merchants: Prisma.JsonValue | null
+      generated_at: Date | null
+      insight_labels: Prisma.JsonValue | null
+      insights_count: number | null
+      snapshot_hash: string | null
+      spending_by_medium: Prisma.JsonValue | null
+      top_categories: Prisma.JsonValue | null
+      transaction_id: string | null
     }, ExtArgs["result"]["habit_snapshots"]>
     composites: {}
   }
@@ -43030,10 +43030,10 @@ export namespace Prisma {
   export interface Prisma__habit_snapshotsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     coach_briefings<T extends habit_snapshots$coach_briefingsArgs<ExtArgs> = {}>(args?: Subset<T, habit_snapshots$coach_briefingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$coach_briefingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    habit_snapshot_insights<T extends habit_snapshots$habit_snapshot_insightsArgs<ExtArgs> = {}>(args?: Subset<T, habit_snapshots$habit_snapshot_insightsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_snapshot_insightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     users<T extends usersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usersDefaultArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     directus_users_habit_snapshots_user_createdTodirectus_users<T extends habit_snapshots$directus_users_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, habit_snapshots$directus_users_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs>>): Prisma__directus_usersClient<$Result.GetResult<Prisma.$directus_usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     directus_users_habit_snapshots_user_updatedTodirectus_users<T extends habit_snapshots$directus_users_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, habit_snapshots$directus_users_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs>>): Prisma__directus_usersClient<$Result.GetResult<Prisma.$directus_usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    habit_snapshot_insights<T extends habit_snapshots$habit_snapshot_insightsArgs<ExtArgs> = {}>(args?: Subset<T, habit_snapshots$habit_snapshot_insightsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_snapshot_insightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -43073,17 +43073,17 @@ export namespace Prisma {
     readonly date_updated: FieldRef<"habit_snapshots", 'DateTime'>
     readonly sort: FieldRef<"habit_snapshots", 'Int'>
     readonly status: FieldRef<"habit_snapshots", 'String'>
-    readonly generated_at: FieldRef<"habit_snapshots", 'DateTime'>
-    readonly transaction_id: FieldRef<"habit_snapshots", 'String'>
-    readonly top_categories: FieldRef<"habit_snapshots", 'Json'>
-    readonly frequent_merchants: FieldRef<"habit_snapshots", 'Json'>
-    readonly spending_by_medium: FieldRef<"habit_snapshots", 'Json'>
-    readonly flags: FieldRef<"habit_snapshots", 'Json'>
-    readonly insights_count: FieldRef<"habit_snapshots", 'Int'>
-    readonly insight_labels: FieldRef<"habit_snapshots", 'Json'>
-    readonly snapshot_hash: FieldRef<"habit_snapshots", 'String'>
     readonly user_created: FieldRef<"habit_snapshots", 'String'>
     readonly user_updated: FieldRef<"habit_snapshots", 'String'>
+    readonly flags: FieldRef<"habit_snapshots", 'Json'>
+    readonly frequent_merchants: FieldRef<"habit_snapshots", 'Json'>
+    readonly generated_at: FieldRef<"habit_snapshots", 'DateTime'>
+    readonly insight_labels: FieldRef<"habit_snapshots", 'Json'>
+    readonly insights_count: FieldRef<"habit_snapshots", 'Int'>
+    readonly snapshot_hash: FieldRef<"habit_snapshots", 'String'>
+    readonly spending_by_medium: FieldRef<"habit_snapshots", 'Json'>
+    readonly top_categories: FieldRef<"habit_snapshots", 'Json'>
+    readonly transaction_id: FieldRef<"habit_snapshots", 'String'>
   }
     
 
@@ -43504,6 +43504,30 @@ export namespace Prisma {
   }
 
   /**
+   * habit_snapshots.habit_snapshot_insights
+   */
+  export type habit_snapshots$habit_snapshot_insightsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_snapshot_insights
+     */
+    select?: habit_snapshot_insightsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_snapshot_insights
+     */
+    omit?: habit_snapshot_insightsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_snapshot_insightsInclude<ExtArgs> | null
+    where?: habit_snapshot_insightsWhereInput
+    orderBy?: habit_snapshot_insightsOrderByWithRelationInput | habit_snapshot_insightsOrderByWithRelationInput[]
+    cursor?: habit_snapshot_insightsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Habit_snapshot_insightsScalarFieldEnum | Habit_snapshot_insightsScalarFieldEnum[]
+  }
+
+  /**
    * habit_snapshots.directus_users_habit_snapshots_user_createdTodirectus_users
    */
   export type habit_snapshots$directus_users_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -43539,30 +43563,6 @@ export namespace Prisma {
      */
     include?: directus_usersInclude<ExtArgs> | null
     where?: directus_usersWhereInput
-  }
-
-  /**
-   * habit_snapshots.habit_snapshot_insights
-   */
-  export type habit_snapshots$habit_snapshot_insightsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the habit_snapshot_insights
-     */
-    select?: habit_snapshot_insightsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the habit_snapshot_insights
-     */
-    omit?: habit_snapshot_insightsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: habit_snapshot_insightsInclude<ExtArgs> | null
-    where?: habit_snapshot_insightsWhereInput
-    orderBy?: habit_snapshot_insightsOrderByWithRelationInput | habit_snapshot_insightsOrderByWithRelationInput[]
-    cursor?: habit_snapshot_insightsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Habit_snapshot_insightsScalarFieldEnum | Habit_snapshot_insightsScalarFieldEnum[]
   }
 
   /**
@@ -43794,8 +43794,8 @@ export namespace Prisma {
     insight?: boolean
     confidence?: boolean
     created_at?: boolean
-    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
     insight_ref?: boolean | habit_insightsDefaultArgs<ExtArgs>
+    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["habit_snapshot_insights"]>
 
   export type habit_snapshot_insightsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -43804,8 +43804,8 @@ export namespace Prisma {
     insight?: boolean
     confidence?: boolean
     created_at?: boolean
-    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
     insight_ref?: boolean | habit_insightsDefaultArgs<ExtArgs>
+    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["habit_snapshot_insights"]>
 
   export type habit_snapshot_insightsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -43814,8 +43814,8 @@ export namespace Prisma {
     insight?: boolean
     confidence?: boolean
     created_at?: boolean
-    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
     insight_ref?: boolean | habit_insightsDefaultArgs<ExtArgs>
+    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["habit_snapshot_insights"]>
 
   export type habit_snapshot_insightsSelectScalar = {
@@ -43828,23 +43828,23 @@ export namespace Prisma {
 
   export type habit_snapshot_insightsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "snapshot" | "insight" | "confidence" | "created_at", ExtArgs["result"]["habit_snapshot_insights"]>
   export type habit_snapshot_insightsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
     insight_ref?: boolean | habit_insightsDefaultArgs<ExtArgs>
+    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
   }
   export type habit_snapshot_insightsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
     insight_ref?: boolean | habit_insightsDefaultArgs<ExtArgs>
+    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
   }
   export type habit_snapshot_insightsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
     insight_ref?: boolean | habit_insightsDefaultArgs<ExtArgs>
+    snapshot_ref?: boolean | habit_snapshotsDefaultArgs<ExtArgs>
   }
 
   export type $habit_snapshot_insightsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "habit_snapshot_insights"
     objects: {
-      snapshot_ref: Prisma.$habit_snapshotsPayload<ExtArgs>
       insight_ref: Prisma.$habit_insightsPayload<ExtArgs>
+      snapshot_ref: Prisma.$habit_snapshotsPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -44246,8 +44246,8 @@ export namespace Prisma {
    */
   export interface Prisma__habit_snapshot_insightsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    snapshot_ref<T extends habit_snapshotsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, habit_snapshotsDefaultArgs<ExtArgs>>): Prisma__habit_snapshotsClient<$Result.GetResult<Prisma.$habit_snapshotsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     insight_ref<T extends habit_insightsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, habit_insightsDefaultArgs<ExtArgs>>): Prisma__habit_insightsClient<$Result.GetResult<Prisma.$habit_insightsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    snapshot_ref<T extends habit_snapshotsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, habit_snapshotsDefaultArgs<ExtArgs>>): Prisma__habit_snapshotsClient<$Result.GetResult<Prisma.$habit_snapshotsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -50699,17 +50699,17 @@ export namespace Prisma {
     date_updated: 'date_updated',
     sort: 'sort',
     status: 'status',
-    generated_at: 'generated_at',
-    transaction_id: 'transaction_id',
-    top_categories: 'top_categories',
-    frequent_merchants: 'frequent_merchants',
-    spending_by_medium: 'spending_by_medium',
-    flags: 'flags',
-    insights_count: 'insights_count',
-    insight_labels: 'insight_labels',
-    snapshot_hash: 'snapshot_hash',
     user_created: 'user_created',
-    user_updated: 'user_updated'
+    user_updated: 'user_updated',
+    flags: 'flags',
+    frequent_merchants: 'frequent_merchants',
+    generated_at: 'generated_at',
+    insight_labels: 'insight_labels',
+    insights_count: 'insights_count',
+    snapshot_hash: 'snapshot_hash',
+    spending_by_medium: 'spending_by_medium',
+    top_categories: 'top_categories',
+    transaction_id: 'transaction_id'
   };
 
   export type Habit_snapshotsScalarFieldEnum = (typeof Habit_snapshotsScalarFieldEnum)[keyof typeof Habit_snapshotsScalarFieldEnum]
@@ -53976,22 +53976,22 @@ export namespace Prisma {
     date_updated?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
     sort?: IntNullableFilter<"habit_snapshots"> | number | null
     status?: StringFilter<"habit_snapshots"> | string
-    generated_at?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
-    transaction_id?: UuidNullableFilter<"habit_snapshots"> | string | null
-    top_categories?: JsonNullableFilter<"habit_snapshots">
-    frequent_merchants?: JsonNullableFilter<"habit_snapshots">
-    spending_by_medium?: JsonNullableFilter<"habit_snapshots">
-    flags?: JsonNullableFilter<"habit_snapshots">
-    insights_count?: IntNullableFilter<"habit_snapshots"> | number | null
-    insight_labels?: JsonNullableFilter<"habit_snapshots">
-    snapshot_hash?: StringNullableFilter<"habit_snapshots"> | string | null
     user_created?: UuidNullableFilter<"habit_snapshots"> | string | null
     user_updated?: UuidNullableFilter<"habit_snapshots"> | string | null
+    flags?: JsonNullableFilter<"habit_snapshots">
+    frequent_merchants?: JsonNullableFilter<"habit_snapshots">
+    generated_at?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
+    insight_labels?: JsonNullableFilter<"habit_snapshots">
+    insights_count?: IntNullableFilter<"habit_snapshots"> | number | null
+    snapshot_hash?: StringNullableFilter<"habit_snapshots"> | string | null
+    spending_by_medium?: JsonNullableFilter<"habit_snapshots">
+    top_categories?: JsonNullableFilter<"habit_snapshots">
+    transaction_id?: UuidNullableFilter<"habit_snapshots"> | string | null
     coach_briefings?: Coach_briefingsListRelationFilter
+    habit_snapshot_insights?: Habit_snapshot_insightsListRelationFilter
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     directus_users_habit_snapshots_user_createdTodirectus_users?: XOR<Directus_usersNullableScalarRelationFilter, directus_usersWhereInput> | null
     directus_users_habit_snapshots_user_updatedTodirectus_users?: XOR<Directus_usersNullableScalarRelationFilter, directus_usersWhereInput> | null
-    habit_snapshot_insights?: Habit_snapshot_insightsListRelationFilter
   }
 
   export type habit_snapshotsOrderByWithRelationInput = {
@@ -54005,22 +54005,22 @@ export namespace Prisma {
     date_updated?: SortOrderInput | SortOrder
     sort?: SortOrderInput | SortOrder
     status?: SortOrder
-    generated_at?: SortOrderInput | SortOrder
-    transaction_id?: SortOrderInput | SortOrder
-    top_categories?: SortOrderInput | SortOrder
-    frequent_merchants?: SortOrderInput | SortOrder
-    spending_by_medium?: SortOrderInput | SortOrder
-    flags?: SortOrderInput | SortOrder
-    insights_count?: SortOrderInput | SortOrder
-    insight_labels?: SortOrderInput | SortOrder
-    snapshot_hash?: SortOrderInput | SortOrder
     user_created?: SortOrderInput | SortOrder
     user_updated?: SortOrderInput | SortOrder
+    flags?: SortOrderInput | SortOrder
+    frequent_merchants?: SortOrderInput | SortOrder
+    generated_at?: SortOrderInput | SortOrder
+    insight_labels?: SortOrderInput | SortOrder
+    insights_count?: SortOrderInput | SortOrder
+    snapshot_hash?: SortOrderInput | SortOrder
+    spending_by_medium?: SortOrderInput | SortOrder
+    top_categories?: SortOrderInput | SortOrder
+    transaction_id?: SortOrderInput | SortOrder
     coach_briefings?: coach_briefingsOrderByRelationAggregateInput
+    habit_snapshot_insights?: habit_snapshot_insightsOrderByRelationAggregateInput
     users?: usersOrderByWithRelationInput
     directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersOrderByWithRelationInput
     directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersOrderByWithRelationInput
-    habit_snapshot_insights?: habit_snapshot_insightsOrderByRelationAggregateInput
   }
 
   export type habit_snapshotsWhereUniqueInput = Prisma.AtLeast<{
@@ -54037,22 +54037,22 @@ export namespace Prisma {
     date_updated?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
     sort?: IntNullableFilter<"habit_snapshots"> | number | null
     status?: StringFilter<"habit_snapshots"> | string
-    generated_at?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
-    transaction_id?: UuidNullableFilter<"habit_snapshots"> | string | null
-    top_categories?: JsonNullableFilter<"habit_snapshots">
-    frequent_merchants?: JsonNullableFilter<"habit_snapshots">
-    spending_by_medium?: JsonNullableFilter<"habit_snapshots">
-    flags?: JsonNullableFilter<"habit_snapshots">
-    insights_count?: IntNullableFilter<"habit_snapshots"> | number | null
-    insight_labels?: JsonNullableFilter<"habit_snapshots">
-    snapshot_hash?: StringNullableFilter<"habit_snapshots"> | string | null
     user_created?: UuidNullableFilter<"habit_snapshots"> | string | null
     user_updated?: UuidNullableFilter<"habit_snapshots"> | string | null
+    flags?: JsonNullableFilter<"habit_snapshots">
+    frequent_merchants?: JsonNullableFilter<"habit_snapshots">
+    generated_at?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
+    insight_labels?: JsonNullableFilter<"habit_snapshots">
+    insights_count?: IntNullableFilter<"habit_snapshots"> | number | null
+    snapshot_hash?: StringNullableFilter<"habit_snapshots"> | string | null
+    spending_by_medium?: JsonNullableFilter<"habit_snapshots">
+    top_categories?: JsonNullableFilter<"habit_snapshots">
+    transaction_id?: UuidNullableFilter<"habit_snapshots"> | string | null
     coach_briefings?: Coach_briefingsListRelationFilter
+    habit_snapshot_insights?: Habit_snapshot_insightsListRelationFilter
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     directus_users_habit_snapshots_user_createdTodirectus_users?: XOR<Directus_usersNullableScalarRelationFilter, directus_usersWhereInput> | null
     directus_users_habit_snapshots_user_updatedTodirectus_users?: XOR<Directus_usersNullableScalarRelationFilter, directus_usersWhereInput> | null
-    habit_snapshot_insights?: Habit_snapshot_insightsListRelationFilter
   }, "id" | "snapshot_id">
 
   export type habit_snapshotsOrderByWithAggregationInput = {
@@ -54066,17 +54066,17 @@ export namespace Prisma {
     date_updated?: SortOrderInput | SortOrder
     sort?: SortOrderInput | SortOrder
     status?: SortOrder
-    generated_at?: SortOrderInput | SortOrder
-    transaction_id?: SortOrderInput | SortOrder
-    top_categories?: SortOrderInput | SortOrder
-    frequent_merchants?: SortOrderInput | SortOrder
-    spending_by_medium?: SortOrderInput | SortOrder
-    flags?: SortOrderInput | SortOrder
-    insights_count?: SortOrderInput | SortOrder
-    insight_labels?: SortOrderInput | SortOrder
-    snapshot_hash?: SortOrderInput | SortOrder
     user_created?: SortOrderInput | SortOrder
     user_updated?: SortOrderInput | SortOrder
+    flags?: SortOrderInput | SortOrder
+    frequent_merchants?: SortOrderInput | SortOrder
+    generated_at?: SortOrderInput | SortOrder
+    insight_labels?: SortOrderInput | SortOrder
+    insights_count?: SortOrderInput | SortOrder
+    snapshot_hash?: SortOrderInput | SortOrder
+    spending_by_medium?: SortOrderInput | SortOrder
+    top_categories?: SortOrderInput | SortOrder
+    transaction_id?: SortOrderInput | SortOrder
     _count?: habit_snapshotsCountOrderByAggregateInput
     _avg?: habit_snapshotsAvgOrderByAggregateInput
     _max?: habit_snapshotsMaxOrderByAggregateInput
@@ -54098,17 +54098,17 @@ export namespace Prisma {
     date_updated?: DateTimeNullableWithAggregatesFilter<"habit_snapshots"> | Date | string | null
     sort?: IntNullableWithAggregatesFilter<"habit_snapshots"> | number | null
     status?: StringWithAggregatesFilter<"habit_snapshots"> | string
-    generated_at?: DateTimeNullableWithAggregatesFilter<"habit_snapshots"> | Date | string | null
-    transaction_id?: UuidNullableWithAggregatesFilter<"habit_snapshots"> | string | null
-    top_categories?: JsonNullableWithAggregatesFilter<"habit_snapshots">
-    frequent_merchants?: JsonNullableWithAggregatesFilter<"habit_snapshots">
-    spending_by_medium?: JsonNullableWithAggregatesFilter<"habit_snapshots">
-    flags?: JsonNullableWithAggregatesFilter<"habit_snapshots">
-    insights_count?: IntNullableWithAggregatesFilter<"habit_snapshots"> | number | null
-    insight_labels?: JsonNullableWithAggregatesFilter<"habit_snapshots">
-    snapshot_hash?: StringNullableWithAggregatesFilter<"habit_snapshots"> | string | null
     user_created?: UuidNullableWithAggregatesFilter<"habit_snapshots"> | string | null
     user_updated?: UuidNullableWithAggregatesFilter<"habit_snapshots"> | string | null
+    flags?: JsonNullableWithAggregatesFilter<"habit_snapshots">
+    frequent_merchants?: JsonNullableWithAggregatesFilter<"habit_snapshots">
+    generated_at?: DateTimeNullableWithAggregatesFilter<"habit_snapshots"> | Date | string | null
+    insight_labels?: JsonNullableWithAggregatesFilter<"habit_snapshots">
+    insights_count?: IntNullableWithAggregatesFilter<"habit_snapshots"> | number | null
+    snapshot_hash?: StringNullableWithAggregatesFilter<"habit_snapshots"> | string | null
+    spending_by_medium?: JsonNullableWithAggregatesFilter<"habit_snapshots">
+    top_categories?: JsonNullableWithAggregatesFilter<"habit_snapshots">
+    transaction_id?: UuidNullableWithAggregatesFilter<"habit_snapshots"> | string | null
   }
 
   export type habit_snapshot_insightsWhereInput = {
@@ -54120,8 +54120,8 @@ export namespace Prisma {
     insight?: IntFilter<"habit_snapshot_insights"> | number
     confidence?: DecimalNullableFilter<"habit_snapshot_insights"> | Decimal | DecimalJsLike | number | string | null
     created_at?: DateTimeNullableFilter<"habit_snapshot_insights"> | Date | string | null
-    snapshot_ref?: XOR<Habit_snapshotsScalarRelationFilter, habit_snapshotsWhereInput>
     insight_ref?: XOR<Habit_insightsScalarRelationFilter, habit_insightsWhereInput>
+    snapshot_ref?: XOR<Habit_snapshotsScalarRelationFilter, habit_snapshotsWhereInput>
   }
 
   export type habit_snapshot_insightsOrderByWithRelationInput = {
@@ -54130,8 +54130,8 @@ export namespace Prisma {
     insight?: SortOrder
     confidence?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
-    snapshot_ref?: habit_snapshotsOrderByWithRelationInput
     insight_ref?: habit_insightsOrderByWithRelationInput
+    snapshot_ref?: habit_snapshotsOrderByWithRelationInput
   }
 
   export type habit_snapshot_insightsWhereUniqueInput = Prisma.AtLeast<{
@@ -54144,8 +54144,8 @@ export namespace Prisma {
     insight?: IntFilter<"habit_snapshot_insights"> | number
     confidence?: DecimalNullableFilter<"habit_snapshot_insights"> | Decimal | DecimalJsLike | number | string | null
     created_at?: DateTimeNullableFilter<"habit_snapshot_insights"> | Date | string | null
-    snapshot_ref?: XOR<Habit_snapshotsScalarRelationFilter, habit_snapshotsWhereInput>
     insight_ref?: XOR<Habit_insightsScalarRelationFilter, habit_insightsWhereInput>
+    snapshot_ref?: XOR<Habit_snapshotsScalarRelationFilter, habit_snapshotsWhereInput>
   }, "id" | "snapshot_insight">
 
   export type habit_snapshot_insightsOrderByWithAggregationInput = {
@@ -57996,20 +57996,20 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
     insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
     snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
     coach_briefings?: coach_briefingsCreateNestedManyWithoutHabit_snapshotsInput
+    habit_snapshot_insights?: habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput
     users: usersCreateNestedOneWithoutHabit_snapshotsInput
     directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersInput
     directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput
-    habit_snapshot_insights?: habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput
   }
 
   export type habit_snapshotsUncheckedCreateInput = {
@@ -58023,17 +58023,17 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: string | null
     user_created?: string | null
     user_updated?: string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
+    snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
     coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutHabit_snapshotsInput
     habit_snapshot_insights?: habit_snapshot_insightsUncheckedCreateNestedManyWithoutSnapshot_refInput
   }
@@ -58047,20 +58047,20 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
     snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     coach_briefings?: coach_briefingsUpdateManyWithoutHabit_snapshotsNestedInput
+    habit_snapshot_insights?: habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput
     users?: usersUpdateOneRequiredWithoutHabit_snapshotsNestedInput
     directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersNestedInput
     directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersNestedInput
-    habit_snapshot_insights?: habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput
   }
 
   export type habit_snapshotsUncheckedUpdateInput = {
@@ -58074,17 +58074,17 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutHabit_snapshotsNestedInput
     habit_snapshot_insights?: habit_snapshot_insightsUncheckedUpdateManyWithoutSnapshot_refNestedInput
   }
@@ -58100,17 +58100,17 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: string | null
     user_created?: string | null
     user_updated?: string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
+    snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
   }
 
   export type habit_snapshotsUpdateManyMutationInput = {
@@ -58122,15 +58122,15 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
     snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type habit_snapshotsUncheckedUpdateManyInput = {
@@ -58144,24 +58144,24 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type habit_snapshot_insightsCreateInput = {
     confidence?: Decimal | DecimalJsLike | number | string | null
     created_at?: Date | string | null
-    snapshot_ref: habit_snapshotsCreateNestedOneWithoutHabit_snapshot_insightsInput
     insight_ref: habit_insightsCreateNestedOneWithoutHabit_snapshot_linksInput
+    snapshot_ref: habit_snapshotsCreateNestedOneWithoutHabit_snapshot_insightsInput
   }
 
   export type habit_snapshot_insightsUncheckedCreateInput = {
@@ -58175,8 +58175,8 @@ export namespace Prisma {
   export type habit_snapshot_insightsUpdateInput = {
     confidence?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    snapshot_ref?: habit_snapshotsUpdateOneRequiredWithoutHabit_snapshot_insightsNestedInput
     insight_ref?: habit_insightsUpdateOneRequiredWithoutHabit_snapshot_linksNestedInput
+    snapshot_ref?: habit_snapshotsUpdateOneRequiredWithoutHabit_snapshot_insightsNestedInput
   }
 
   export type habit_snapshot_insightsUncheckedUpdateInput = {
@@ -60958,17 +60958,17 @@ export namespace Prisma {
     date_updated?: SortOrder
     sort?: SortOrder
     status?: SortOrder
-    generated_at?: SortOrder
-    transaction_id?: SortOrder
-    top_categories?: SortOrder
-    frequent_merchants?: SortOrder
-    spending_by_medium?: SortOrder
-    flags?: SortOrder
-    insights_count?: SortOrder
-    insight_labels?: SortOrder
-    snapshot_hash?: SortOrder
     user_created?: SortOrder
     user_updated?: SortOrder
+    flags?: SortOrder
+    frequent_merchants?: SortOrder
+    generated_at?: SortOrder
+    insight_labels?: SortOrder
+    insights_count?: SortOrder
+    snapshot_hash?: SortOrder
+    spending_by_medium?: SortOrder
+    top_categories?: SortOrder
+    transaction_id?: SortOrder
   }
 
   export type habit_snapshotsAvgOrderByAggregateInput = {
@@ -60987,12 +60987,12 @@ export namespace Prisma {
     date_updated?: SortOrder
     sort?: SortOrder
     status?: SortOrder
-    generated_at?: SortOrder
-    transaction_id?: SortOrder
-    insights_count?: SortOrder
-    snapshot_hash?: SortOrder
     user_created?: SortOrder
     user_updated?: SortOrder
+    generated_at?: SortOrder
+    insights_count?: SortOrder
+    snapshot_hash?: SortOrder
+    transaction_id?: SortOrder
   }
 
   export type habit_snapshotsMinOrderByAggregateInput = {
@@ -61004,12 +61004,12 @@ export namespace Prisma {
     date_updated?: SortOrder
     sort?: SortOrder
     status?: SortOrder
-    generated_at?: SortOrder
-    transaction_id?: SortOrder
-    insights_count?: SortOrder
-    snapshot_hash?: SortOrder
     user_created?: SortOrder
     user_updated?: SortOrder
+    generated_at?: SortOrder
+    insights_count?: SortOrder
+    snapshot_hash?: SortOrder
+    transaction_id?: SortOrder
   }
 
   export type habit_snapshotsSumOrderByAggregateInput = {
@@ -61056,14 +61056,14 @@ export namespace Prisma {
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
-  export type Habit_snapshotsScalarRelationFilter = {
-    is?: habit_snapshotsWhereInput
-    isNot?: habit_snapshotsWhereInput
-  }
-
   export type Habit_insightsScalarRelationFilter = {
     is?: habit_insightsWhereInput
     isNot?: habit_insightsWhereInput
+  }
+
+  export type Habit_snapshotsScalarRelationFilter = {
+    is?: habit_snapshotsWhereInput
+    isNot?: habit_snapshotsWhereInput
   }
 
   export type habit_snapshot_insightsSnapshotInsightCompoundUniqueInput = {
@@ -64554,6 +64554,13 @@ export namespace Prisma {
     connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
   }
 
+  export type habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput = {
+    create?: XOR<habit_snapshot_insightsCreateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput> | habit_snapshot_insightsCreateWithoutSnapshot_refInput[] | habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput[]
+    connectOrCreate?: habit_snapshot_insightsCreateOrConnectWithoutSnapshot_refInput | habit_snapshot_insightsCreateOrConnectWithoutSnapshot_refInput[]
+    createMany?: habit_snapshot_insightsCreateManySnapshot_refInputEnvelope
+    connect?: habit_snapshot_insightsWhereUniqueInput | habit_snapshot_insightsWhereUniqueInput[]
+  }
+
   export type usersCreateNestedOneWithoutHabit_snapshotsInput = {
     create?: XOR<usersCreateWithoutHabit_snapshotsInput, usersUncheckedCreateWithoutHabit_snapshotsInput>
     connectOrCreate?: usersCreateOrConnectWithoutHabit_snapshotsInput
@@ -64570,13 +64577,6 @@ export namespace Prisma {
     create?: XOR<directus_usersCreateWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput, directus_usersUncheckedCreateWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput>
     connectOrCreate?: directus_usersCreateOrConnectWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput
     connect?: directus_usersWhereUniqueInput
-  }
-
-  export type habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput = {
-    create?: XOR<habit_snapshot_insightsCreateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput> | habit_snapshot_insightsCreateWithoutSnapshot_refInput[] | habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput[]
-    connectOrCreate?: habit_snapshot_insightsCreateOrConnectWithoutSnapshot_refInput | habit_snapshot_insightsCreateOrConnectWithoutSnapshot_refInput[]
-    createMany?: habit_snapshot_insightsCreateManySnapshot_refInputEnvelope
-    connect?: habit_snapshot_insightsWhereUniqueInput | habit_snapshot_insightsWhereUniqueInput[]
   }
 
   export type coach_briefingsUncheckedCreateNestedManyWithoutHabit_snapshotsInput = {
@@ -64607,6 +64607,20 @@ export namespace Prisma {
     deleteMany?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
   }
 
+  export type habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput = {
+    create?: XOR<habit_snapshot_insightsCreateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput> | habit_snapshot_insightsCreateWithoutSnapshot_refInput[] | habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput[]
+    connectOrCreate?: habit_snapshot_insightsCreateOrConnectWithoutSnapshot_refInput | habit_snapshot_insightsCreateOrConnectWithoutSnapshot_refInput[]
+    upsert?: habit_snapshot_insightsUpsertWithWhereUniqueWithoutSnapshot_refInput | habit_snapshot_insightsUpsertWithWhereUniqueWithoutSnapshot_refInput[]
+    createMany?: habit_snapshot_insightsCreateManySnapshot_refInputEnvelope
+    set?: habit_snapshot_insightsWhereUniqueInput | habit_snapshot_insightsWhereUniqueInput[]
+    disconnect?: habit_snapshot_insightsWhereUniqueInput | habit_snapshot_insightsWhereUniqueInput[]
+    delete?: habit_snapshot_insightsWhereUniqueInput | habit_snapshot_insightsWhereUniqueInput[]
+    connect?: habit_snapshot_insightsWhereUniqueInput | habit_snapshot_insightsWhereUniqueInput[]
+    update?: habit_snapshot_insightsUpdateWithWhereUniqueWithoutSnapshot_refInput | habit_snapshot_insightsUpdateWithWhereUniqueWithoutSnapshot_refInput[]
+    updateMany?: habit_snapshot_insightsUpdateManyWithWhereWithoutSnapshot_refInput | habit_snapshot_insightsUpdateManyWithWhereWithoutSnapshot_refInput[]
+    deleteMany?: habit_snapshot_insightsScalarWhereInput | habit_snapshot_insightsScalarWhereInput[]
+  }
+
   export type usersUpdateOneRequiredWithoutHabit_snapshotsNestedInput = {
     create?: XOR<usersCreateWithoutHabit_snapshotsInput, usersUncheckedCreateWithoutHabit_snapshotsInput>
     connectOrCreate?: usersCreateOrConnectWithoutHabit_snapshotsInput
@@ -64633,20 +64647,6 @@ export namespace Prisma {
     delete?: directus_usersWhereInput | boolean
     connect?: directus_usersWhereUniqueInput
     update?: XOR<XOR<directus_usersUpdateToOneWithWhereWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput, directus_usersUpdateWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput>, directus_usersUncheckedUpdateWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput>
-  }
-
-  export type habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput = {
-    create?: XOR<habit_snapshot_insightsCreateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput> | habit_snapshot_insightsCreateWithoutSnapshot_refInput[] | habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput[]
-    connectOrCreate?: habit_snapshot_insightsCreateOrConnectWithoutSnapshot_refInput | habit_snapshot_insightsCreateOrConnectWithoutSnapshot_refInput[]
-    upsert?: habit_snapshot_insightsUpsertWithWhereUniqueWithoutSnapshot_refInput | habit_snapshot_insightsUpsertWithWhereUniqueWithoutSnapshot_refInput[]
-    createMany?: habit_snapshot_insightsCreateManySnapshot_refInputEnvelope
-    set?: habit_snapshot_insightsWhereUniqueInput | habit_snapshot_insightsWhereUniqueInput[]
-    disconnect?: habit_snapshot_insightsWhereUniqueInput | habit_snapshot_insightsWhereUniqueInput[]
-    delete?: habit_snapshot_insightsWhereUniqueInput | habit_snapshot_insightsWhereUniqueInput[]
-    connect?: habit_snapshot_insightsWhereUniqueInput | habit_snapshot_insightsWhereUniqueInput[]
-    update?: habit_snapshot_insightsUpdateWithWhereUniqueWithoutSnapshot_refInput | habit_snapshot_insightsUpdateWithWhereUniqueWithoutSnapshot_refInput[]
-    updateMany?: habit_snapshot_insightsUpdateManyWithWhereWithoutSnapshot_refInput | habit_snapshot_insightsUpdateManyWithWhereWithoutSnapshot_refInput[]
-    deleteMany?: habit_snapshot_insightsScalarWhereInput | habit_snapshot_insightsScalarWhereInput[]
   }
 
   export type coach_briefingsUncheckedUpdateManyWithoutHabit_snapshotsNestedInput = {
@@ -64677,16 +64677,16 @@ export namespace Prisma {
     deleteMany?: habit_snapshot_insightsScalarWhereInput | habit_snapshot_insightsScalarWhereInput[]
   }
 
-  export type habit_snapshotsCreateNestedOneWithoutHabit_snapshot_insightsInput = {
-    create?: XOR<habit_snapshotsCreateWithoutHabit_snapshot_insightsInput, habit_snapshotsUncheckedCreateWithoutHabit_snapshot_insightsInput>
-    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutHabit_snapshot_insightsInput
-    connect?: habit_snapshotsWhereUniqueInput
-  }
-
   export type habit_insightsCreateNestedOneWithoutHabit_snapshot_linksInput = {
     create?: XOR<habit_insightsCreateWithoutHabit_snapshot_linksInput, habit_insightsUncheckedCreateWithoutHabit_snapshot_linksInput>
     connectOrCreate?: habit_insightsCreateOrConnectWithoutHabit_snapshot_linksInput
     connect?: habit_insightsWhereUniqueInput
+  }
+
+  export type habit_snapshotsCreateNestedOneWithoutHabit_snapshot_insightsInput = {
+    create?: XOR<habit_snapshotsCreateWithoutHabit_snapshot_insightsInput, habit_snapshotsUncheckedCreateWithoutHabit_snapshot_insightsInput>
+    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutHabit_snapshot_insightsInput
+    connect?: habit_snapshotsWhereUniqueInput
   }
 
   export type NullableDecimalFieldUpdateOperationsInput = {
@@ -64697,20 +64697,20 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
-  export type habit_snapshotsUpdateOneRequiredWithoutHabit_snapshot_insightsNestedInput = {
-    create?: XOR<habit_snapshotsCreateWithoutHabit_snapshot_insightsInput, habit_snapshotsUncheckedCreateWithoutHabit_snapshot_insightsInput>
-    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutHabit_snapshot_insightsInput
-    upsert?: habit_snapshotsUpsertWithoutHabit_snapshot_insightsInput
-    connect?: habit_snapshotsWhereUniqueInput
-    update?: XOR<XOR<habit_snapshotsUpdateToOneWithWhereWithoutHabit_snapshot_insightsInput, habit_snapshotsUpdateWithoutHabit_snapshot_insightsInput>, habit_snapshotsUncheckedUpdateWithoutHabit_snapshot_insightsInput>
-  }
-
   export type habit_insightsUpdateOneRequiredWithoutHabit_snapshot_linksNestedInput = {
     create?: XOR<habit_insightsCreateWithoutHabit_snapshot_linksInput, habit_insightsUncheckedCreateWithoutHabit_snapshot_linksInput>
     connectOrCreate?: habit_insightsCreateOrConnectWithoutHabit_snapshot_linksInput
     upsert?: habit_insightsUpsertWithoutHabit_snapshot_linksInput
     connect?: habit_insightsWhereUniqueInput
     update?: XOR<XOR<habit_insightsUpdateToOneWithWhereWithoutHabit_snapshot_linksInput, habit_insightsUpdateWithoutHabit_snapshot_linksInput>, habit_insightsUncheckedUpdateWithoutHabit_snapshot_linksInput>
+  }
+
+  export type habit_snapshotsUpdateOneRequiredWithoutHabit_snapshot_insightsNestedInput = {
+    create?: XOR<habit_snapshotsCreateWithoutHabit_snapshot_insightsInput, habit_snapshotsUncheckedCreateWithoutHabit_snapshot_insightsInput>
+    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutHabit_snapshot_insightsInput
+    upsert?: habit_snapshotsUpsertWithoutHabit_snapshot_insightsInput
+    connect?: habit_snapshotsWhereUniqueInput
+    update?: XOR<XOR<habit_snapshotsUpdateToOneWithWhereWithoutHabit_snapshot_insightsInput, habit_snapshotsUpdateWithoutHabit_snapshot_insightsInput>, habit_snapshotsUncheckedUpdateWithoutHabit_snapshot_insightsInput>
   }
 
   export type usersCreateNestedOneWithoutSms_messagesInput = {
@@ -65668,19 +65668,19 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
     insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
     snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
+    habit_snapshot_insights?: habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput
     users: usersCreateNestedOneWithoutHabit_snapshotsInput
     directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersInput
     directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput
-    habit_snapshot_insights?: habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput
   }
 
   export type habit_snapshotsUncheckedCreateWithoutCoach_briefingsInput = {
@@ -65694,17 +65694,17 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: string | null
     user_created?: string | null
     user_updated?: string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
+    snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
     habit_snapshot_insights?: habit_snapshot_insightsUncheckedCreateNestedManyWithoutSnapshot_refInput
   }
 
@@ -66007,19 +66007,19 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
     snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
+    habit_snapshot_insights?: habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput
     users?: usersUpdateOneRequiredWithoutHabit_snapshotsNestedInput
     directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersNestedInput
     directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersNestedInput
-    habit_snapshot_insights?: habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput
   }
 
   export type habit_snapshotsUncheckedUpdateWithoutCoach_briefingsInput = {
@@ -66033,17 +66033,17 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     habit_snapshot_insights?: habit_snapshot_insightsUncheckedUpdateManyWithoutSnapshot_refNestedInput
   }
 
@@ -74768,19 +74768,19 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
     insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
     snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
     coach_briefings?: coach_briefingsCreateNestedManyWithoutHabit_snapshotsInput
+    habit_snapshot_insights?: habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput
     users: usersCreateNestedOneWithoutHabit_snapshotsInput
     directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput
-    habit_snapshot_insights?: habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput
   }
 
   export type habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput = {
@@ -74794,16 +74794,16 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: string | null
     user_updated?: string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
+    snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
     coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutHabit_snapshotsInput
     habit_snapshot_insights?: habit_snapshot_insightsUncheckedCreateNestedManyWithoutSnapshot_refInput
   }
@@ -74827,19 +74827,19 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
     insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
     snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
     coach_briefings?: coach_briefingsCreateNestedManyWithoutHabit_snapshotsInput
+    habit_snapshot_insights?: habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput
     users: usersCreateNestedOneWithoutHabit_snapshotsInput
     directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshot_insights?: habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput
   }
 
   export type habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
@@ -74853,16 +74853,16 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: string | null
     user_created?: string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
+    snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
     coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutHabit_snapshotsInput
     habit_snapshot_insights?: habit_snapshot_insightsUncheckedCreateNestedManyWithoutSnapshot_refInput
   }
@@ -75522,17 +75522,17 @@ export namespace Prisma {
     date_updated?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
     sort?: IntNullableFilter<"habit_snapshots"> | number | null
     status?: StringFilter<"habit_snapshots"> | string
-    generated_at?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
-    transaction_id?: UuidNullableFilter<"habit_snapshots"> | string | null
-    top_categories?: JsonNullableFilter<"habit_snapshots">
-    frequent_merchants?: JsonNullableFilter<"habit_snapshots">
-    spending_by_medium?: JsonNullableFilter<"habit_snapshots">
-    flags?: JsonNullableFilter<"habit_snapshots">
-    insights_count?: IntNullableFilter<"habit_snapshots"> | number | null
-    insight_labels?: JsonNullableFilter<"habit_snapshots">
-    snapshot_hash?: StringNullableFilter<"habit_snapshots"> | string | null
     user_created?: UuidNullableFilter<"habit_snapshots"> | string | null
     user_updated?: UuidNullableFilter<"habit_snapshots"> | string | null
+    flags?: JsonNullableFilter<"habit_snapshots">
+    frequent_merchants?: JsonNullableFilter<"habit_snapshots">
+    generated_at?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
+    insight_labels?: JsonNullableFilter<"habit_snapshots">
+    insights_count?: IntNullableFilter<"habit_snapshots"> | number | null
+    snapshot_hash?: StringNullableFilter<"habit_snapshots"> | string | null
+    spending_by_medium?: JsonNullableFilter<"habit_snapshots">
+    top_categories?: JsonNullableFilter<"habit_snapshots">
+    transaction_id?: UuidNullableFilter<"habit_snapshots"> | string | null
   }
 
   export type habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
@@ -77075,6 +77075,29 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type habit_snapshot_insightsCreateWithoutSnapshot_refInput = {
+    confidence?: Decimal | DecimalJsLike | number | string | null
+    created_at?: Date | string | null
+    insight_ref: habit_insightsCreateNestedOneWithoutHabit_snapshot_linksInput
+  }
+
+  export type habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput = {
+    id?: number
+    insight: number
+    confidence?: Decimal | DecimalJsLike | number | string | null
+    created_at?: Date | string | null
+  }
+
+  export type habit_snapshot_insightsCreateOrConnectWithoutSnapshot_refInput = {
+    where: habit_snapshot_insightsWhereUniqueInput
+    create: XOR<habit_snapshot_insightsCreateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput>
+  }
+
+  export type habit_snapshot_insightsCreateManySnapshot_refInputEnvelope = {
+    data: habit_snapshot_insightsCreateManySnapshot_refInput | habit_snapshot_insightsCreateManySnapshot_refInput[]
+    skipDuplicates?: boolean
+  }
+
   export type usersCreateWithoutHabit_snapshotsInput = {
     status?: string
     date_created?: Date | string | null
@@ -77343,29 +77366,6 @@ export namespace Prisma {
     create: XOR<directus_usersCreateWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput, directus_usersUncheckedCreateWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput>
   }
 
-  export type habit_snapshot_insightsCreateWithoutSnapshot_refInput = {
-    confidence?: Decimal | DecimalJsLike | number | string | null
-    created_at?: Date | string | null
-    insight_ref: habit_insightsCreateNestedOneWithoutHabit_snapshot_linksInput
-  }
-
-  export type habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput = {
-    id?: number
-    insight: number
-    confidence?: Decimal | DecimalJsLike | number | string | null
-    created_at?: Date | string | null
-  }
-
-  export type habit_snapshot_insightsCreateOrConnectWithoutSnapshot_refInput = {
-    where: habit_snapshot_insightsWhereUniqueInput
-    create: XOR<habit_snapshot_insightsCreateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput>
-  }
-
-  export type habit_snapshot_insightsCreateManySnapshot_refInputEnvelope = {
-    data: habit_snapshot_insightsCreateManySnapshot_refInput | habit_snapshot_insightsCreateManySnapshot_refInput[]
-    skipDuplicates?: boolean
-  }
-
   export type coach_briefingsUpsertWithWhereUniqueWithoutHabit_snapshotsInput = {
     where: coach_briefingsWhereUniqueInput
     update: XOR<coach_briefingsUpdateWithoutHabit_snapshotsInput, coach_briefingsUncheckedUpdateWithoutHabit_snapshotsInput>
@@ -77380,6 +77380,22 @@ export namespace Prisma {
   export type coach_briefingsUpdateManyWithWhereWithoutHabit_snapshotsInput = {
     where: coach_briefingsScalarWhereInput
     data: XOR<coach_briefingsUpdateManyMutationInput, coach_briefingsUncheckedUpdateManyWithoutHabit_snapshotsInput>
+  }
+
+  export type habit_snapshot_insightsUpsertWithWhereUniqueWithoutSnapshot_refInput = {
+    where: habit_snapshot_insightsWhereUniqueInput
+    update: XOR<habit_snapshot_insightsUpdateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedUpdateWithoutSnapshot_refInput>
+    create: XOR<habit_snapshot_insightsCreateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput>
+  }
+
+  export type habit_snapshot_insightsUpdateWithWhereUniqueWithoutSnapshot_refInput = {
+    where: habit_snapshot_insightsWhereUniqueInput
+    data: XOR<habit_snapshot_insightsUpdateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedUpdateWithoutSnapshot_refInput>
+  }
+
+  export type habit_snapshot_insightsUpdateManyWithWhereWithoutSnapshot_refInput = {
+    where: habit_snapshot_insightsScalarWhereInput
+    data: XOR<habit_snapshot_insightsUpdateManyMutationInput, habit_snapshot_insightsUncheckedUpdateManyWithoutSnapshot_refInput>
   }
 
   export type usersUpsertWithoutHabit_snapshotsInput = {
@@ -77668,76 +77684,6 @@ export namespace Prisma {
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
 
-  export type habit_snapshot_insightsUpsertWithWhereUniqueWithoutSnapshot_refInput = {
-    where: habit_snapshot_insightsWhereUniqueInput
-    update: XOR<habit_snapshot_insightsUpdateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedUpdateWithoutSnapshot_refInput>
-    create: XOR<habit_snapshot_insightsCreateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedCreateWithoutSnapshot_refInput>
-  }
-
-  export type habit_snapshot_insightsUpdateWithWhereUniqueWithoutSnapshot_refInput = {
-    where: habit_snapshot_insightsWhereUniqueInput
-    data: XOR<habit_snapshot_insightsUpdateWithoutSnapshot_refInput, habit_snapshot_insightsUncheckedUpdateWithoutSnapshot_refInput>
-  }
-
-  export type habit_snapshot_insightsUpdateManyWithWhereWithoutSnapshot_refInput = {
-    where: habit_snapshot_insightsScalarWhereInput
-    data: XOR<habit_snapshot_insightsUpdateManyMutationInput, habit_snapshot_insightsUncheckedUpdateManyWithoutSnapshot_refInput>
-  }
-
-  export type habit_snapshotsCreateWithoutHabit_snapshot_insightsInput = {
-    snapshot_id: string
-    context_data: JsonNullValueInput | InputJsonValue
-    summary_data: JsonNullValueInput | InputJsonValue
-    trigger?: string | null
-    date_created?: Date | string
-    date_updated?: Date | string | null
-    sort?: number | null
-    status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: string | null
-    coach_briefings?: coach_briefingsCreateNestedManyWithoutHabit_snapshotsInput
-    users: usersCreateNestedOneWithoutHabit_snapshotsInput
-    directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersInput
-    directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput
-  }
-
-  export type habit_snapshotsUncheckedCreateWithoutHabit_snapshot_insightsInput = {
-    id?: number
-    snapshot_id: string
-    owner: number
-    context_data: JsonNullValueInput | InputJsonValue
-    summary_data: JsonNullValueInput | InputJsonValue
-    trigger?: string | null
-    date_created?: Date | string
-    date_updated?: Date | string | null
-    sort?: number | null
-    status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: string | null
-    user_created?: string | null
-    user_updated?: string | null
-    coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutHabit_snapshotsInput
-  }
-
-  export type habit_snapshotsCreateOrConnectWithoutHabit_snapshot_insightsInput = {
-    where: habit_snapshotsWhereUniqueInput
-    create: XOR<habit_snapshotsCreateWithoutHabit_snapshot_insightsInput, habit_snapshotsUncheckedCreateWithoutHabit_snapshot_insightsInput>
-  }
-
   export type habit_insightsCreateWithoutHabit_snapshot_linksInput = {
     habit_id: string
     habit_label: string
@@ -77784,64 +77730,58 @@ export namespace Prisma {
     create: XOR<habit_insightsCreateWithoutHabit_snapshot_linksInput, habit_insightsUncheckedCreateWithoutHabit_snapshot_linksInput>
   }
 
-  export type habit_snapshotsUpsertWithoutHabit_snapshot_insightsInput = {
-    update: XOR<habit_snapshotsUpdateWithoutHabit_snapshot_insightsInput, habit_snapshotsUncheckedUpdateWithoutHabit_snapshot_insightsInput>
+  export type habit_snapshotsCreateWithoutHabit_snapshot_insightsInput = {
+    snapshot_id: string
+    context_data: JsonNullValueInput | InputJsonValue
+    summary_data: JsonNullValueInput | InputJsonValue
+    trigger?: string | null
+    date_created?: Date | string
+    date_updated?: Date | string | null
+    sort?: number | null
+    status?: string
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
+    snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
+    coach_briefings?: coach_briefingsCreateNestedManyWithoutHabit_snapshotsInput
+    users: usersCreateNestedOneWithoutHabit_snapshotsInput
+    directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersInput
+    directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput
+  }
+
+  export type habit_snapshotsUncheckedCreateWithoutHabit_snapshot_insightsInput = {
+    id?: number
+    snapshot_id: string
+    owner: number
+    context_data: JsonNullValueInput | InputJsonValue
+    summary_data: JsonNullValueInput | InputJsonValue
+    trigger?: string | null
+    date_created?: Date | string
+    date_updated?: Date | string | null
+    sort?: number | null
+    status?: string
+    user_created?: string | null
+    user_updated?: string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
+    snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
+    coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutHabit_snapshotsInput
+  }
+
+  export type habit_snapshotsCreateOrConnectWithoutHabit_snapshot_insightsInput = {
+    where: habit_snapshotsWhereUniqueInput
     create: XOR<habit_snapshotsCreateWithoutHabit_snapshot_insightsInput, habit_snapshotsUncheckedCreateWithoutHabit_snapshot_insightsInput>
-    where?: habit_snapshotsWhereInput
-  }
-
-  export type habit_snapshotsUpdateToOneWithWhereWithoutHabit_snapshot_insightsInput = {
-    where?: habit_snapshotsWhereInput
-    data: XOR<habit_snapshotsUpdateWithoutHabit_snapshot_insightsInput, habit_snapshotsUncheckedUpdateWithoutHabit_snapshot_insightsInput>
-  }
-
-  export type habit_snapshotsUpdateWithoutHabit_snapshot_insightsInput = {
-    snapshot_id?: StringFieldUpdateOperationsInput | string
-    context_data?: JsonNullValueInput | InputJsonValue
-    summary_data?: JsonNullValueInput | InputJsonValue
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
-    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
-    coach_briefings?: coach_briefingsUpdateManyWithoutHabit_snapshotsNestedInput
-    users?: usersUpdateOneRequiredWithoutHabit_snapshotsNestedInput
-    directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersNestedInput
-    directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersNestedInput
-  }
-
-  export type habit_snapshotsUncheckedUpdateWithoutHabit_snapshot_insightsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    snapshot_id?: StringFieldUpdateOperationsInput | string
-    owner?: IntFieldUpdateOperationsInput | number
-    context_data?: JsonNullValueInput | InputJsonValue
-    summary_data?: JsonNullValueInput | InputJsonValue
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
-    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
-    coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutHabit_snapshotsNestedInput
   }
 
   export type habit_insightsUpsertWithoutHabit_snapshot_linksInput = {
@@ -77894,6 +77834,66 @@ export namespace Prisma {
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type habit_snapshotsUpsertWithoutHabit_snapshot_insightsInput = {
+    update: XOR<habit_snapshotsUpdateWithoutHabit_snapshot_insightsInput, habit_snapshotsUncheckedUpdateWithoutHabit_snapshot_insightsInput>
+    create: XOR<habit_snapshotsCreateWithoutHabit_snapshot_insightsInput, habit_snapshotsUncheckedCreateWithoutHabit_snapshot_insightsInput>
+    where?: habit_snapshotsWhereInput
+  }
+
+  export type habit_snapshotsUpdateToOneWithWhereWithoutHabit_snapshot_insightsInput = {
+    where?: habit_snapshotsWhereInput
+    data: XOR<habit_snapshotsUpdateWithoutHabit_snapshot_insightsInput, habit_snapshotsUncheckedUpdateWithoutHabit_snapshot_insightsInput>
+  }
+
+  export type habit_snapshotsUpdateWithoutHabit_snapshot_insightsInput = {
+    snapshot_id?: StringFieldUpdateOperationsInput | string
+    context_data?: JsonNullValueInput | InputJsonValue
+    summary_data?: JsonNullValueInput | InputJsonValue
+    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
+    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
+    coach_briefings?: coach_briefingsUpdateManyWithoutHabit_snapshotsNestedInput
+    users?: usersUpdateOneRequiredWithoutHabit_snapshotsNestedInput
+    directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersNestedInput
+    directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersNestedInput
+  }
+
+  export type habit_snapshotsUncheckedUpdateWithoutHabit_snapshot_insightsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    snapshot_id?: StringFieldUpdateOperationsInput | string
+    owner?: IntFieldUpdateOperationsInput | number
+    context_data?: JsonNullValueInput | InputJsonValue
+    summary_data?: JsonNullValueInput | InputJsonValue
+    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
+    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    user_created?: NullableStringFieldUpdateOperationsInput | string | null
+    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
+    coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutHabit_snapshotsNestedInput
   }
 
   export type usersCreateWithoutSms_messagesInput = {
@@ -79021,19 +79021,19 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
     insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
     snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
     coach_briefings?: coach_briefingsCreateNestedManyWithoutHabit_snapshotsInput
+    habit_snapshot_insights?: habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput
     directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersInput
     directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersInput
-    habit_snapshot_insights?: habit_snapshot_insightsCreateNestedManyWithoutSnapshot_refInput
   }
 
   export type habit_snapshotsUncheckedCreateWithoutUsersInput = {
@@ -79046,17 +79046,17 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: string | null
     user_created?: string | null
     user_updated?: string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
+    snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
     coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutHabit_snapshotsInput
     habit_snapshot_insights?: habit_snapshot_insightsUncheckedCreateNestedManyWithoutSnapshot_refInput
   }
@@ -82386,16 +82386,16 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: string | null
     user_updated?: string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
+    snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
   }
 
   export type habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
@@ -82409,16 +82409,16 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: string | null
     user_created?: string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
+    snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
   }
 
   export type sms_messagesCreateManyDirectus_users_sms_messages_user_createdTodirectus_usersInput = {
@@ -83549,19 +83549,19 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
     snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     coach_briefings?: coach_briefingsUpdateManyWithoutHabit_snapshotsNestedInput
+    habit_snapshot_insights?: habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput
     users?: usersUpdateOneRequiredWithoutHabit_snapshotsNestedInput
     directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersNestedInput
-    habit_snapshot_insights?: habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput
   }
 
   export type habit_snapshotsUncheckedUpdateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput = {
@@ -83575,16 +83575,16 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutHabit_snapshotsNestedInput
     habit_snapshot_insights?: habit_snapshot_insightsUncheckedUpdateManyWithoutSnapshot_refNestedInput
   }
@@ -83600,16 +83600,16 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type habit_snapshotsUpdateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
@@ -83621,19 +83621,19 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
     snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     coach_briefings?: coach_briefingsUpdateManyWithoutHabit_snapshotsNestedInput
+    habit_snapshot_insights?: habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput
     users?: usersUpdateOneRequiredWithoutHabit_snapshotsNestedInput
     directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshot_insights?: habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput
   }
 
   export type habit_snapshotsUncheckedUpdateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
@@ -83647,16 +83647,16 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutHabit_snapshotsNestedInput
     habit_snapshot_insights?: habit_snapshot_insightsUncheckedUpdateManyWithoutSnapshot_refNestedInput
   }
@@ -83672,16 +83672,16 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type sms_messagesUpdateWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput = {
@@ -84297,17 +84297,17 @@ export namespace Prisma {
     date_updated?: Date | string | null
     sort?: number | null
     status?: string
-    generated_at?: Date | string | null
-    transaction_id?: string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: string | null
     user_created?: string | null
     user_updated?: string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: number | null
+    snapshot_hash?: string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: string | null
   }
 
   export type sms_messagesCreateManyUsersInput = {
@@ -84548,19 +84548,19 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
     snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     coach_briefings?: coach_briefingsUpdateManyWithoutHabit_snapshotsNestedInput
+    habit_snapshot_insights?: habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput
     directus_users_habit_snapshots_user_createdTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_createdTodirectus_usersNestedInput
     directus_users_habit_snapshots_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersNestedInput
-    habit_snapshot_insights?: habit_snapshot_insightsUpdateManyWithoutSnapshot_refNestedInput
   }
 
   export type habit_snapshotsUncheckedUpdateWithoutUsersInput = {
@@ -84573,17 +84573,17 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutHabit_snapshotsNestedInput
     habit_snapshot_insights?: habit_snapshot_insightsUncheckedUpdateManyWithoutSnapshot_refNestedInput
   }
@@ -84598,17 +84598,17 @@ export namespace Prisma {
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
-    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    top_categories?: NullableJsonNullValueInput | InputJsonValue
-    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
-    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
-    flags?: NullableJsonNullValueInput | InputJsonValue
-    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
-    insight_labels?: NullableJsonNullValueInput | InputJsonValue
-    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+    flags?: NullableJsonNullValueInput | InputJsonValue
+    frequent_merchants?: NullableJsonNullValueInput | InputJsonValue
+    generated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    insight_labels?: NullableJsonNullValueInput | InputJsonValue
+    insights_count?: NullableIntFieldUpdateOperationsInput | number | null
+    snapshot_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
+    top_categories?: NullableJsonNullValueInput | InputJsonValue
+    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type sms_messagesUpdateWithoutUsersInput = {

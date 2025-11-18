@@ -49,7 +49,7 @@ model shopping_wishlist {
   created_at    DateTime @default(now()) @db.Timestamptz(6)
   updated_at    DateTime @default(now()) @updatedAt @db.Timestamptz(6)
 
-  @@index([owner], map: "shopping_wishlist_owner_idx")
+  @@index([owner])
 }
 
 model directus_access {
@@ -549,28 +549,28 @@ model directus_webhooks {
 }
 
 model habit_insights {
-  habit_id                                                   String          @unique @db.VarChar(255)
+  habit_id                                                   String                    @unique @db.VarChar(255)
   owner                                                      Int
   habit_label                                                String
   evidence                                                   String
   counsel                                                    String
   full_text                                                  String
-  metrics                                                    Json?           @db.Json
-  recent_transactions                                        Json?           @db.Json
-  transaction_id                                             String?         @db.Uuid
-  recorded_at                                                DateTime        @default(now()) @db.Timestamptz(6)
-  previous_habit_id                                          String?         @db.VarChar(255)
-  id                                                         Int             @id @default(autoincrement())
-  status                                                     String          @default("draft") @db.VarChar(255)
-  date_created                                               DateTime?       @default(now()) @db.Timestamptz(6)
-  date_updated                                               DateTime?       @db.Timestamptz(6)
+  metrics                                                    Json?                     @db.Json
+  recent_transactions                                        Json?                     @db.Json
+  transaction_id                                             String?                   @db.Uuid
+  recorded_at                                                DateTime                  @default(now()) @db.Timestamptz(6)
+  previous_habit_id                                          String?                   @db.VarChar(255)
+  id                                                         Int                       @id @default(autoincrement())
+  status                                                     String                    @default("draft") @db.VarChar(255)
+  date_created                                               DateTime?                 @default(now()) @db.Timestamptz(6)
+  date_updated                                               DateTime?                 @db.Timestamptz(6)
   sort                                                       Int?
-  user_created                                               String?         @db.Uuid
-  user_updated                                               String?         @db.Uuid
-  users                                                      users           @relation(fields: [owner], references: [id], onDelete: Cascade, map: "habit_insights_owner_foreign")
-  tranasctions                                               tranasctions?   @relation(fields: [transaction_id], references: [id], map: "habit_insights_transaction_foreign")
-  directus_users_habit_insights_user_createdTodirectus_users directus_users? @relation("habit_insights_user_createdTodirectus_users", fields: [user_created], references: [id], onUpdate: NoAction, map: "habit_insights_user_created_foreign")
-  directus_users_habit_insights_user_updatedTodirectus_users directus_users? @relation("habit_insights_user_updatedTodirectus_users", fields: [user_updated], references: [id], onUpdate: NoAction, map: "habit_insights_user_updated_foreign")
+  user_created                                               String?                   @db.Uuid
+  user_updated                                               String?                   @db.Uuid
+  users                                                      users                     @relation(fields: [owner], references: [id], onDelete: Cascade, map: "habit_insights_owner_foreign")
+  tranasctions                                               tranasctions?             @relation(fields: [transaction_id], references: [id], map: "habit_insights_transaction_foreign")
+  directus_users_habit_insights_user_createdTodirectus_users directus_users?           @relation("habit_insights_user_createdTodirectus_users", fields: [user_created], references: [id], onUpdate: NoAction, map: "habit_insights_user_created_foreign")
+  directus_users_habit_insights_user_updatedTodirectus_users directus_users?           @relation("habit_insights_user_updatedTodirectus_users", fields: [user_updated], references: [id], onUpdate: NoAction, map: "habit_insights_user_updated_foreign")
   habit_snapshot_links                                       habit_snapshot_insights[]
 
   @@index([owner, date_created])
@@ -579,32 +579,32 @@ model habit_insights {
 }
 
 model habit_snapshots {
-  id                                                          Int               @id @default(autoincrement())
-  snapshot_id                                                 String            @unique @db.VarChar(255)
+  id                                                          Int                       @id @default(autoincrement())
+  snapshot_id                                                 String                    @unique @db.VarChar(255)
   owner                                                       Int
-  context_data                                                Json              @db.Json
-  summary_data                                                Json              @db.Json
-  trigger                                                     String?           @db.VarChar(64)
-  date_created                                                DateTime          @default(now()) @db.Timestamptz(6)
-  date_updated                                                DateTime?         @db.Timestamptz(6)
+  context_data                                                Json                      @db.Json
+  summary_data                                                Json                      @db.Json
+  trigger                                                     String?                   @db.VarChar(64)
+  date_created                                                DateTime                  @default(now()) @db.Timestamptz(6)
+  date_updated                                                DateTime?                 @db.Timestamptz(6)
   sort                                                        Int?
-  status                                                      String            @default("draft") @db.VarChar(255)
-  generated_at                                                DateTime?         @db.Timestamptz(6)
-  transaction_id                                              String?           @db.Uuid
-  top_categories                                              Json?             @db.Json
-  frequent_merchants                                          Json?             @db.Json
-  spending_by_medium                                          Json?             @db.Json
-  flags                                                       Json?             @db.Json
+  status                                                      String                    @default("draft") @db.VarChar(255)
+  user_created                                                String?                   @db.Uuid
+  user_updated                                                String?                   @db.Uuid
+  flags                                                       Json?                     @db.Json
+  frequent_merchants                                          Json?                     @db.Json
+  generated_at                                                DateTime?                 @db.Timestamptz(6)
+  insight_labels                                              Json?                     @db.Json
   insights_count                                              Int?
-  insight_labels                                              Json?             @db.Json
-  snapshot_hash                                               String?           @db.VarChar(255)
-  user_created                                                String?           @db.Uuid
-  user_updated                                                String?           @db.Uuid
+  snapshot_hash                                               String?                   @db.VarChar(255)
+  spending_by_medium                                          Json?                     @db.Json
+  top_categories                                              Json?                     @db.Json
+  transaction_id                                              String?                   @db.Uuid
   coach_briefings                                             coach_briefings[]
-  users                                                       users             @relation(fields: [owner], references: [id], onDelete: Cascade, map: "habit_snapshots_owner_foreign")
-  directus_users_habit_snapshots_user_createdTodirectus_users directus_users?   @relation("habit_snapshots_user_createdTodirectus_users", fields: [user_created], references: [id], onUpdate: NoAction, map: "habit_snapshots_user_created_foreign")
-  directus_users_habit_snapshots_user_updatedTodirectus_users directus_users?   @relation("habit_snapshots_user_updatedTodirectus_users", fields: [user_updated], references: [id], onUpdate: NoAction, map: "habit_snapshots_user_updated_foreign")
-  habit_snapshot_insights                                    habit_snapshot_insights[]
+  habit_snapshot_insights                                     habit_snapshot_insights[]
+  users                                                       users                     @relation(fields: [owner], references: [id], onDelete: Cascade, map: "habit_snapshots_owner_foreign")
+  directus_users_habit_snapshots_user_createdTodirectus_users directus_users?           @relation("habit_snapshots_user_createdTodirectus_users", fields: [user_created], references: [id], onUpdate: NoAction, map: "habit_snapshots_user_created_foreign")
+  directus_users_habit_snapshots_user_updatedTodirectus_users directus_users?           @relation("habit_snapshots_user_updatedTodirectus_users", fields: [user_updated], references: [id], onUpdate: NoAction, map: "habit_snapshots_user_updated_foreign")
 
   @@index([owner, date_created])
   @@index([owner, generated_at])
@@ -616,11 +616,11 @@ model habit_snapshot_insights {
   insight      Int
   confidence   Decimal?        @db.Decimal(5, 4)
   created_at   DateTime?       @default(now()) @db.Timestamptz(6)
-  snapshot_ref habit_snapshots @relation(fields: [snapshot], references: [id], onDelete: Cascade, map: "habit_snapshot_insights_snapshot_foreign")
   insight_ref  habit_insights  @relation(fields: [insight], references: [id], onDelete: Cascade, map: "habit_snapshot_insights_insight_foreign")
+  snapshot_ref habit_snapshots @relation(fields: [snapshot], references: [id], onDelete: Cascade, map: "habit_snapshot_insights_snapshot_foreign")
 
   @@unique([snapshot, insight], map: "habit_snapshot_insights_snapshot_insight_unique")
-  @@index([insight], map: "habit_snapshot_insights_insight_idx")
+  @@index([insight])
 }
 
 model sms_messages {

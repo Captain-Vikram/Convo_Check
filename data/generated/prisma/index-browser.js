@@ -586,17 +586,17 @@ exports.Prisma.Habit_snapshotsScalarFieldEnum = {
   date_updated: 'date_updated',
   sort: 'sort',
   status: 'status',
-  generated_at: 'generated_at',
-  transaction_id: 'transaction_id',
-  top_categories: 'top_categories',
-  frequent_merchants: 'frequent_merchants',
-  spending_by_medium: 'spending_by_medium',
-  flags: 'flags',
-  insights_count: 'insights_count',
-  insight_labels: 'insight_labels',
-  snapshot_hash: 'snapshot_hash',
   user_created: 'user_created',
-  user_updated: 'user_updated'
+  user_updated: 'user_updated',
+  flags: 'flags',
+  frequent_merchants: 'frequent_merchants',
+  generated_at: 'generated_at',
+  insight_labels: 'insight_labels',
+  insights_count: 'insights_count',
+  snapshot_hash: 'snapshot_hash',
+  spending_by_medium: 'spending_by_medium',
+  top_categories: 'top_categories',
+  transaction_id: 'transaction_id'
 };
 
 exports.Prisma.Habit_snapshot_insightsScalarFieldEnum = {

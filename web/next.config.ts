@@ -14,6 +14,12 @@ const nextConfig: NextConfig = {
   experimental: {
     externalDir: true,
   },
+  turbopack: {
+    resolveAlias: {
+      // Allow .js imports to resolve to .ts files
+      '*.js': ['*.ts', '*.tsx', '*.js', '*.jsx'],
+    },
+  },
 };
 
 export default nextConfig;

@@ -1,10 +1,11 @@
-import { createDevAgentEnvironment } from "../../../src/runtime/dev/dev-agent";
+import { createDevAgentEnvironment } from "@/runtime/dev/dev-agent";
 import {
   processSmsMessage,
   type ProcessSmsMessageOutcome,
   type SmsMessage,
-} from "../../../src/runtime/dev/dev-sms-agent";
-import { createSmsLog, type SmsLog } from "../../../src/runtime/dev/sms-log";
+} from "@/runtime/dev/dev-sms-agent";
+// TEMP: sms-log.ts deleted - state is now in database
+// import { createSmsLog, type SmsLog } from "../../../src/runtime/dev/sms-log";
 import type { Prisma } from "../../../data/generated/prisma";
 
 import { prisma } from "@/lib/prisma";
@@ -26,7 +27,7 @@ interface SmsProcessingJob {
 type DevEnvironment = Awaited<ReturnType<typeof createDevAgentEnvironment>>;
 
 let environmentPromise: Promise<DevEnvironment> | null = null;
-let smsLogPromise: Promise<SmsLog | undefined> | null = null;
+// let smsLogPromise: Promise<SmsLog | undefined> | null = null;
 
 const queue: SmsProcessingJob[] = [];
 let isProcessingQueue = false;
@@ -163,7 +164,7 @@ void resumeQueuedJobs();
 export async function processQueuedSmsMessage(
   job: SmsProcessingJob,
   environment: DevEnvironment,
-  smsLog: SmsLog | undefined,
+  // smsLog: SmsLog | undefined,
 ): Promise<{ status: string; details?: any }> {
   const acquired = await markJobAsProcessing(job);
 
@@ -187,7 +188,7 @@ export async function processQueuedSmsMessage(
   try {
     outcome = await processSmsMessage(smsPayload, {
       devEnvironment: environment,
-      smsLog: smsLog ?? undefined,
+      // smsLog: smsLog ?? undefined,
       meta: { originalSmsId: job.smsMessageId },
     });
   } catch (error: unknown) {
@@ -266,7 +267,7 @@ async function handleJob(job: SmsProcessingJob): Promise<void> {
     return;
   }
 
-  const smsLog = await resolveSmsLog();
+  // const smsLog = await resolveSmsLog();
 
   const smsPayload: SmsMessage = {
     sender: job.sender,
@@ -283,7 +284,7 @@ async function handleJob(job: SmsProcessingJob): Promise<void> {
   try {
     outcome = await processSmsMessage(smsPayload, {
       devEnvironment: environment,
-      smsLog: smsLog ?? undefined,
+      // smsLog: smsLog ?? undefined,
       meta: { originalSmsId: job.smsMessageId },
     });
   } catch (error: unknown) {
@@ -387,22 +388,23 @@ export async function resolveEnvironment(): Promise<DevEnvironment> {
   }
 }
 
-export async function resolveSmsLog(): Promise<SmsLog | undefined> {
-  if (!smsLogPromise) {
-    smsLogPromise = createSmsLog().catch((error: unknown) => {
-      console.error("[sms-processor] Failed to initialize SMS log", error);
-      return undefined;
-    });
-  }
+// TEMP: sms-log removed
+// export async function resolveSmsLog(): Promise<SmsLog | undefined> {
+//   if (!smsLogPromise) {
+//     smsLogPromise = createSmsLog().catch((error: unknown) => {
+//       console.error("[sms-processor] Failed to initialize SMS log", error);
+//       return undefined;
+//     });
+//   }
 
-  try {
-    return await smsLogPromise;
-  } catch (error: unknown) {
-    smsLogPromise = null;
-    console.error("[sms-processor] SMS log initialization failed", error);
-    return undefined;
-  }
-}
+//   try {
+//     return await smsLogPromise;
+//   } catch (error: unknown) {
+//     smsLogPromise = null;
+//     console.error("[sms-processor] SMS log initialization failed", error);
+//     return undefined;
+//   }
+// }
 
 interface StatusUpdateOptions {
   processedAt?: Date | null;

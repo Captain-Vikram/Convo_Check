@@ -4,7 +4,6 @@ import { prisma } from "@/lib/prisma";
 import {
   processQueuedSmsMessage,
   resolveEnvironment,
-  resolveSmsLog,
 } from "@/lib/sms-processor";
 
 const CRON_SECRET = process.env.CRON_SECRET;
@@ -53,10 +52,8 @@ export async function GET(request: Request) {
 
   // Setup shared environment
   let environment;
-  let smsLog;
   try {
     environment = await resolveEnvironment();
-    smsLog = await resolveSmsLog();
   } catch (error: unknown) {
     console.error("[process-queue] Failed to initialize environment", error);
     return NextResponse.json(
@@ -94,7 +91,7 @@ export async function GET(request: Request) {
         timePart: timestampIso.slice(11, 19),
       };
 
-      const outcome = await processQueuedSmsMessage(job, environment, smsLog);
+      const outcome = await processQueuedSmsMessage(job, environment);
 
       processingResults.push({
         smsId: sms.id,

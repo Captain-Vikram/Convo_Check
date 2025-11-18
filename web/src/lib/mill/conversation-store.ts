@@ -1,21 +1,21 @@
-import { createClient, type RedisClientType } from "redis";
+import { createClient } from "redis";
 
 import {
   InMemoryConversationStore,
   type ConversationContext,
   type ConversationStore,
-} from "../../../../src/runtime/shared/conversation-router";
+} from "@/runtime/shared/conversation-router";
 
 const CONTEXT_TTL_SECONDS = 60 * 60; // 1 hour
 
 class RedisConversationStore implements ConversationStore {
-  private clientPromise: Promise<RedisClientType>;
+  private clientPromise: Promise<ReturnType<typeof createClient>>;
 
   constructor(private readonly url: string) {
     this.clientPromise = this.initialize();
   }
 
-  private async initialize(): Promise<RedisClientType> {
+  private async initialize() {
     const client = createClient({ url: this.url });
     client.on("error", (error) => {
       console.error("[conversation-store] Redis error", error);
@@ -24,7 +24,7 @@ class RedisConversationStore implements ConversationStore {
     return client;
   }
 
-  private async getClient(): Promise<RedisClientType> {
+  private async getClient() {
     return this.clientPromise;
   }
 
