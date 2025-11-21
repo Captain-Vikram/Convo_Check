@@ -112,6 +112,13 @@ export class ConversationRouter {
     "transactions",
     "recent",
     "last",
+    "balance",
+    "status",
+    "check",
+    "account",
+    "wallet",
+    "expense",
+    "spending",
   ] as const;
 
   private static readonly CHATUR_KEYWORDS = [
@@ -130,6 +137,23 @@ export class ConversationRouter {
     "coach",
     "guidance",
     "strategy",
+    "calculate",
+    "invest",
+    "sip",
+    "emi",
+    "split",
+    "mutual fund",
+    "stock",
+    "return",
+    "growth",
+    "future value",
+    "projection",
+    "retirement",
+    "wealth",
+    "allocation",
+    "portfolio",
+    "loan",
+    "interest",
   ] as const;
 
   private static readonly SERA_KEYWORDS = [
@@ -160,6 +184,13 @@ export class ConversationRouter {
     "watch",
     "shoes",
     "clothing",
+    "discount",
+    "offer",
+    "sale",
+    "review",
+    "specs",
+    "features",
+    "emi", // Context dependent
   ] as const;
 
   constructor(store: ConversationStore = new InMemoryConversationStore()) {
@@ -257,43 +288,60 @@ export class ConversationRouter {
     };
 
     if (agent === "mill") {
-      const millSession = this.mill.startConversation({
-        initialMessage:
-          "Hey! 👋 What's up? I can help you log transactions or check your spending. Need shopping help? I can loop in Sera—our deal-hunting shopping buddy. 🛍️",
-      });
+      // Start session without initial message
+      const millSession = this.mill.startConversation({});
       context.millSessionId = millSession.sessionId;
+
+      // Immediately process the user's first message
+      const result = await this.mill.continueConversation(
+        millSession.sessionId,
+        normalizedInput,
+        {
+          onTransactionReady: options.onTransactionReady,
+          onQueryReady: options.onQueryReady,
+        }
+      );
+
       context.conversationHistory.push({
         agent: "mill",
         userMessage: summarizeInputForHistory(normalizedInput),
-        agentResponse: millSession.messages[0]?.content || "",
+        agentResponse: result.message,
         timestamp: new Date().toISOString(),
       });
       await this.persistContext(userId, context);
 
       return {
         agent: "mill",
-        message: millSession.messages[0]?.content || "",
+        message: result.message,
         sessionId: millSession.sessionId,
       };
     } else if (agent === "chatur") {
       const insights = options.onInsightsAvailable ? await options.onInsightsAvailable() : [];
+      const financialSummary = options.onQueryReady ? await options.onQueryReady() : undefined;
+      // Start session without initial message
       const chaturSession = this.chatur.startConversation({
         insights,
-        initialQuestion:
-          "Hey there! 💡 I'm Chatur, your financial coach. I'd love to help you with your money goals. What's your biggest financial challenge or goal right now?",
+        financialSummary,
       });
       context.chaturSessionId = chaturSession.sessionId;
+
+      // Immediately process the user's first message
+      const result = await this.chatur.continueConversation(
+        chaturSession.sessionId,
+        normalizedInput
+      );
+
       context.conversationHistory.push({
         agent: "chatur",
         userMessage: summarizeInputForHistory(normalizedInput),
-        agentResponse: chaturSession.currentQuestion || "",
+        agentResponse: result.message,
         timestamp: new Date().toISOString(),
       });
       await this.persistContext(userId, context);
 
       return {
         agent: "chatur",
-        message: chaturSession.currentQuestion || "",
+        message: result.message,
         sessionId: chaturSession.sessionId,
       };
     } else if (agent === "sera") {
@@ -320,10 +368,18 @@ export class ConversationRouter {
     // Default: ask what they want to do
     await this.persistContext(userId, context);
 
+    // User requested to remove default message for now
+    /*
     return {
       agent: "none",
       message:
         "Hey! 👋 I can help you:\n• Log transactions (Mill)\n• Get financial advice (Chatur)\n• Shop for products (Sera)\n\nWhat would you like to do?",
+      sessionId: "welcome",
+    };
+    */
+    return {
+      agent: "none",
+      message: "", // Empty message as requested
       sessionId: "welcome",
     };
   }
@@ -372,11 +428,11 @@ export class ConversationRouter {
       // Check if Mill wants to escalate to Chatur
       if (result.action === "escalate_to_coach") {
         const insights = options.onInsightsAvailable ? await options.onInsightsAvailable() : [];
+        const financialSummary = options.onQueryReady ? await options.onQueryReady() : undefined;
         const chaturSession = this.chatur.startConversation({
           insights,
-          initialQuestion:
-            "Perfect! I'm Chatur, your financial coach. Let's work on your financial goals. " +
-            result.message,
+          financialSummary,
+          initialQuestion: "Perfect! I'm Chatur, your financial coach. Let's work on your financial goals. 🎯",
         });
         context.activeAgent = "chatur";
         context.chaturSessionId = chaturSession.sessionId;
@@ -455,6 +511,77 @@ export class ConversationRouter {
 
     // Route to Sera
     if (activeAgent === "sera" && context.seraSessionId) {
+      // Check if user wants to switch to Mill (Transaction/Finance)
+      if (this.looksLikeTransactionIntent(textMessage)) {
+        this.sera.endConversation(context.seraSessionId, "completed");
+        delete context.seraSessionId;
+        
+        const millSession = this.mill.startConversation({
+          initialMessage: "I can help with that transaction. What are the details?",
+        });
+        context.activeAgent = "mill";
+        context.millSessionId = millSession.sessionId;
+
+        // Process the message with Mill immediately
+        const result = await this.mill.continueConversation(
+          millSession.sessionId,
+          normalizedInput,
+          options
+        );
+
+        context.conversationHistory.push({
+          agent: "mill",
+          userMessage: summarizeInputForHistory(normalizedInput),
+          agentResponse: result.message,
+          timestamp: new Date().toISOString(),
+        });
+
+        await this.persistContext(userId, context);
+        return {
+          agent: "mill",
+          message: result.message,
+          completed: false,
+          switched: true,
+          newAgent: "mill",
+        };
+      }
+
+      // Check if user wants to switch to Chatur (Coaching/Advice)
+      if (this.looksLikeCoachingIntent(textMessage)) {
+        this.sera.endConversation(context.seraSessionId, "completed");
+        delete context.seraSessionId;
+
+        const insights = options.onInsightsAvailable ? await options.onInsightsAvailable() : [];
+        const chaturSession = this.chatur.startConversation({
+          insights,
+          initialQuestion: "I can definitely help with financial advice. What's on your mind?",
+        });
+        context.activeAgent = "chatur";
+        context.chaturSessionId = chaturSession.sessionId;
+
+        // Process the message with Chatur immediately
+        const result = await this.chatur.continueConversation(
+          chaturSession.sessionId,
+          normalizedInput
+        );
+
+        context.conversationHistory.push({
+          agent: "chatur",
+          userMessage: summarizeInputForHistory(normalizedInput),
+          agentResponse: result.message,
+          timestamp: new Date().toISOString(),
+        });
+
+        await this.persistContext(userId, context);
+        return {
+          agent: "chatur",
+          message: result.message,
+          completed: false,
+          switched: true,
+          newAgent: "chatur",
+        };
+      }
+
       const seraMessage = this.prepareSeraTextInput(normalizedInput);
       const result = await this.sera.continueConversation(context.seraSessionId, seraMessage);
 
@@ -528,15 +655,30 @@ export class ConversationRouter {
   private routeInitialMessage(message: string): ActiveAgent {
     const lower = message.toLowerCase();
 
+    // 1. Check for Shopping Intent (Sera)
     if (this.isShoppingIntent(message)) {
       return "sera";
+    }
+
+    // 2. Check for Financial Calculation/Planning Intent (Chatur)
+    // "Calculate SIP", "Budget split", "Loan EMI" (without product context)
+    if (lower.includes("calculate") || lower.includes("split")) {
+      if (lower.includes("sip") || lower.includes("budget") || lower.includes("loan") || lower.includes("invest")) {
+        return "chatur";
+      }
+    }
+
+    // 3. Check for Investment/Stock Intent (Chatur)
+    if (this.looksLikeCoachingIntent(lower)) {
+      return "chatur";
     }
 
     const millScore = ConversationRouter.keywordScore(ConversationRouter.MILL_KEYWORDS, lower);
     const chaturScore = ConversationRouter.keywordScore(ConversationRouter.CHATUR_KEYWORDS, lower);
     const hasAmount = /\d+/.test(message);
 
-    if (hasAmount && millScore >= chaturScore) {
+    // 4. Transaction Logging (Mill) - High confidence if amount + transaction keyword
+    if (hasAmount && this.looksLikeTransactionIntent(lower)) {
       return "mill";
     }
 
@@ -555,14 +697,25 @@ export class ConversationRouter {
     return keywords.reduce((score, keyword) => (lower.includes(keyword) ? score + 1 : score), 0);
   }
 
+  private looksLikeCoachingIntent(lower: string): boolean {
+    return /\b(advice|tip|help|goal|save|budget|plan|reduce|improve|habit|coach|guidance|strategy|invest|sip|mutual fund|stock|portfolio|wealth|retirement|loan|interest)\b/.test(lower);
+  }
+
   private looksLikeTransactionIntent(lower: string): boolean {
-    return /\b(spent|spend|pay|paid|log|record|salary|income|earned|received|deposit|withdraw|transfer|credited|debited)\b/.test(
+    return /\b(spent|spend|pay|paid|log|record|salary|income|earned|received|deposit|withdraw|transfer|credited|debited|balance|status|check)\b/.test(
       lower,
     );
   }
 
   private isShoppingIntent(message: string): boolean {
     const lower = message.toLowerCase();
+    
+    // Exclude financial investment queries from shopping
+    const hasFinancialContext = /stock|share|market|invest|fund|sip|mutual|equity|crypto|bitcoin|gold|silver|bond|fd|rd|portfolio|nav|sensex|nifty/.test(lower);
+    if (hasFinancialContext) {
+      return false;
+    }
+
     const keywordScore = ConversationRouter.keywordScore(ConversationRouter.SERA_KEYWORDS, lower);
     const hasStoreMention = /amazon|flipkart|croma|myntra|ajio|tatacliq|reliance digital|nykaa|decathlon/.test(
       lower,

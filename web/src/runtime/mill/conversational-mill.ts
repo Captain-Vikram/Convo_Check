@@ -7,6 +7,7 @@ import type { AgentInput } from "../shared/multimodal";
 import { normalizeAgentInput, summarizeInputForHistory, buildMultimodalContent } from "../shared/multimodal";
 import type { LogCashTransactionPayload } from "@/tools/log-cash-transaction";
 import type { SpendingSummaryResult } from "@/tools/query-spending-summary";
+import { createFinancialCalculatorTool } from "@/tools/financial-calculator";
 
 /**
  * Mill's conversational session for transaction logging and financial queries
@@ -194,6 +195,9 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
             async () => {
               const result = await this.callLLM({
                 messages: messages as CoreMessage[],
+                tools: {
+                  financialCalculator: createFinancialCalculatorTool(),
+                },
               });
 
               const text = (result.text ?? "").trim();
@@ -234,6 +238,10 @@ UNDERSTAND USER INTENT:
 
 4. **General Chat**: Greetings, clarifications, follow-ups
    - Be friendly and guide toward your capabilities
+
+5. **Calculations**: User asks for math or financial calculations
+   - Use the 'financialCalculator' tool for accurate results
+   - Example: "Calculate 20% of 5000" or "Split 50000 into 50/30/20"
 
 RESPONSE FORMAT (JSON):
 {
@@ -320,7 +328,12 @@ KEY RULES:
       lastUserMsg.includes("advice") ||
       lastUserMsg.includes("should i") ||
       lastUserMsg.includes("help me") ||
-      lastUserMsg.includes("tip")
+      lastUserMsg.includes("tip") ||
+      lastUserMsg.includes("save") ||
+      lastUserMsg.includes("budget") ||
+      lastUserMsg.includes("reduce") ||
+      lastUserMsg.includes("invest") ||
+      lastUserMsg.includes("goal")
     ) {
       return {
         message:
@@ -330,12 +343,21 @@ KEY RULES:
       };
     }
 
+    // Detect logging intent (prioritize over query if amount is present)
+    if (/\d+/.test(lastUserMsg) && (lastUserMsg.includes("spent") || lastUserMsg.includes("spend") || lastUserMsg.includes("paid") || lastUserMsg.includes("bought"))) {
+      return {
+        message: "Got it! Could you tell me the amount and what it was for? 💸",
+        intent: "logging",
+        action: "log_transaction",
+      };
+    }
+
     // Detect query intent
     if (
       lastUserMsg.includes("how much") ||
       lastUserMsg.includes("show") ||
-      lastUserMsg.includes("spent") ||
-      lastUserMsg.includes("history")
+      lastUserMsg.includes("history") ||
+      ((lastUserMsg.includes("spent") || lastUserMsg.includes("spend")) && !/\d+/.test(lastUserMsg)) // "spent" or "spend" without number -> query
     ) {
       return {
         message: "Let me fetch your spending data for you! 📊",
@@ -344,14 +366,7 @@ KEY RULES:
       };
     }
 
-    // Detect logging intent
-    if (/\d+/.test(lastUserMsg) || lastUserMsg.includes("spent") || lastUserMsg.includes("paid")) {
-      return {
-        message: "Got it! Could you tell me the amount and what it was for? 💸",
-        intent: "logging",
-      };
-    }
-
+    // Default fallback
     return {
       message:
         "I can help you log transactions or check your spending. What would you like to do? 😊",

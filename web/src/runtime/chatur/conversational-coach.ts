@@ -8,17 +8,22 @@ import { BaseConversationalAgent, type ConversationSession, type ConversationOpt
 import type { AgentInput } from "../shared/multimodal";
 import { normalizeAgentInput, summarizeInputForHistory, buildMultimodalContent } from "../shared/multimodal";
 import type { CoreMessage } from "ai";
+import { createWebSearchTool, searchWeb } from "../../tools/web-search";
+import { createFinancialCalculatorTool } from "../../tools/financial-calculator";
+import type { SpendingSummaryResult } from "../../tools/query-spending-summary";
 
 /**
  * Conversational session with Coach for interactive guidance
  */
 export interface CoachConversation extends ConversationSession<Record<string, unknown>> {
   insights: HabitInsight[];
+  financialSummary?: SpendingSummaryResult;
   currentQuestion?: string;
 }
 
 export interface CoachConversationOptions extends ConversationOptions {
   insights: HabitInsight[];
+  financialSummary?: SpendingSummaryResult;
   initialQuestion?: string;
 }
 
@@ -46,6 +51,7 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
       sessionId,
       startedAt: new Date().toISOString(),
       insights: options.insights,
+      financialSummary: options.financialSummary,
       messages: [],
       state: "active",
       collectedInfo: {},
@@ -189,8 +195,14 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
             async () => {
               const result = await this.callLLM({
                 messages: messages as CoreMessage[],
+                tools: {
+                  webSearch: createWebSearchTool(searchWeb),
+                  financialCalculator: createFinancialCalculatorTool(),
+                },
+                maxSteps: 5,
               });
 
+              console.log('[coach] LLM Raw Result:', result.text);
               const text = (result.text ?? "").trim();
               return this.parseConversationalResponse(text);
             },
@@ -244,20 +256,11 @@ CONVERSATIONAL STRATEGY:
 4. After 2-4 turns, provide personalized action plan
 5. Keep responses concise (2-3 sentences), encouraging, practical
 6. Use evidence from insights to ground advice
+7. **AUTONOMOUS PERSONALIZATION**: If you have the "Financial Snapshot", use it to proactively suggest budgets or savings goals without asking generic questions. E.g., "Since you have a surplus of ₹5,000, maybe invest ₹2,000?"
+8. **REAL-TIME INFO**: Use the 'webSearch' tool to find up-to-date info on investments, companies, stocks, or financial concepts.
+9. **ACCURATE MATH**: Use the 'financialCalculator' tool for ANY calculation (budget splits, SIP projections, loan EMIs). Do not do math in your head.
 
-Respond with JSON:
-{
-  "message": "Your supportive, actionable response to user",
-  "completed": true/false,
-  "nextQuestion": "Follow-up question if not completed",
-  "extractedInfo": {
-    "primaryGoal": "save|reduce_spending|increase_income|other",
-    "problemArea": "food|entertainment|impulse|irregular_income",
-    "timeline": "immediate|1month|3months|longterm",
-    "constraints": "budget_amount|time|knowledge"
-  },
-  "shouldEscalateToMill": false // Set true if user asks to log transactions
-}
+Respond with a helpful message.
 
 KEY RULES:
 - If user says "log this" or "I spent X" → set shouldEscalateToMill: true
@@ -268,6 +271,16 @@ KEY RULES:
 
   private buildConversationalPrompt(session: CoachConversation): string {
     const lines: string[] = [];
+
+    if (session.financialSummary) {
+      lines.push("💰 Financial Snapshot (Use this for autonomous suggestions):");
+      lines.push(`- Total Income: ₹${session.financialSummary.totalIncome}`);
+      lines.push(`- Total Expenses: ₹${session.financialSummary.totalExpense}`);
+      lines.push(`- Net Balance: ₹${session.financialSummary.netBalance}`);
+      if (session.financialSummary.topCategories.length > 0) {
+        lines.push(`- Top Spending Categories: ${session.financialSummary.topCategories.map(c => `${c.category} (₹${c.totalSpent})`).join(", ")}`);
+      }
+    }
 
     lines.push("Latest financial insights:");
     session.insights.forEach((insight, idx) => {

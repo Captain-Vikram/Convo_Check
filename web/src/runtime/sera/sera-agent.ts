@@ -31,6 +31,7 @@ import {
   searchAmazonProduct,
   type AmazonSearchResult,
 } from './services/search-service';
+import { createFinancialCalculatorTool } from '@/tools/financial-calculator';
 
 export type { SeraConversation } from './types';
 
@@ -221,6 +222,7 @@ export class SeraAgent {
           addToWishlist: addToWishlistTool,
           viewWishlist: viewWishlistTool,
           getProductDetails: enhancedGetProductDetails,
+          financialCalculator: createFinancialCalculatorTool(),
         },
       });
 
@@ -306,6 +308,7 @@ export class SeraAgent {
           addToWishlist: addToWishlistTool,
           viewWishlist: viewWishlistTool,
           getProductDetails: enhancedGetProductDetails,
+          financialCalculator: createFinancialCalculatorTool(),
         },
       });
 
