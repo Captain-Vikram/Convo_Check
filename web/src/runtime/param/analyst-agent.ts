@@ -832,6 +832,7 @@ async function persistHabitSnapshot(options: HabitSnapshotPersistOptions): Promi
         generated_at: payload.generatedAt,
         insight_labels: payload.insightLabels,
         insights_count: payload.insightCount,
+        status: "Active",
         trigger: options.trigger ?? "manual",
       },
       create: {
@@ -843,6 +844,7 @@ async function persistHabitSnapshot(options: HabitSnapshotPersistOptions): Promi
         generated_at: payload.generatedAt,
         insight_labels: payload.insightLabels,
         insights_count: payload.insightCount,
+        status: "Active",
         trigger: options.trigger ?? "manual",
       },
     });

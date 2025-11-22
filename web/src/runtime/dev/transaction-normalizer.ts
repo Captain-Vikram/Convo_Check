@@ -8,7 +8,7 @@ export interface NormalizedTransaction {
   recordedAt: string;
   eventDate: string;
   eventTime?: string;
-  direction: LogCashTransactionPayload["direction"];
+  direction: "expense" | "income";
   amount: number;
   currency: string;
   category: string;
@@ -195,7 +195,7 @@ const CATEGORY_SYNONYMS: Record<string, string> = {
 const CATEGORY_KEYWORD_RULES: Array<{
   category: string;
   keywords: RegExp[];
-  direction?: LogCashTransactionPayload["direction"];
+  direction?: "expense" | "income";
 }> = [
   {
     category: "Food & Groceries",
@@ -347,7 +347,7 @@ export function normalizeTransaction(
     recordedAt: now.toISOString(),
     eventDate,
     ...(eventTime ? { eventTime } : {}),
-    direction: payload.direction,
+    direction: payload.type === "credit" ? "income" : "expense",
     amount: payload.amount,
     currency,
   category: resolvedCategory,
@@ -385,7 +385,7 @@ function resolveCategory(
   payload: LogCashTransactionPayload,
   categorization: CategorizationResult,
 ): string {
-  const direction = payload.direction;
+  const direction = payload.type === "credit" ? "income" : "expense";
   const candidateSources = [payload.category_suggestion, categorization.inferredCategory];
 
   for (const candidate of candidateSources) {
@@ -408,7 +408,7 @@ function resolveCategory(
 
 function mapCategoryCandidate(
   value: string | undefined,
-  direction: LogCashTransactionPayload["direction"],
+  direction: "expense" | "income",
 ): string | undefined {
   if (!value) {
     return undefined;
@@ -439,7 +439,7 @@ function normalizeCategoryCandidate(value: string): string {
 
 function matchCategoryByKeywords(
   text: string,
-  direction: LogCashTransactionPayload["direction"],
+  direction: "expense" | "income",
 ): string | undefined {
   const haystack = text.toLowerCase();
 
@@ -458,7 +458,7 @@ function matchCategoryByKeywords(
 
 function alignCategoryWithDirection(
   category: string,
-  direction: LogCashTransactionPayload["direction"],
+  direction: "expense" | "income",
 ): string {
   if (direction === "income") {
     return INCOME_CATEGORY_SET.has(category) ? category : "Other Income";
@@ -592,7 +592,7 @@ function buildTags(
   extraTags: string[] = [],
 ): string[] {
   const tags = new Set<string>();
-  tags.add(payload.direction);
+  tags.add(payload.type === "credit" ? "income" : "expense");
   tags.add(categorization.flavor);
   tags.add(toKebabCase(category));
 
@@ -638,7 +638,7 @@ function buildSummary({
   category: string;
 }): string {
   const amountLabel = `${currency} ${payload.amount}`;
-  const directionVerb = payload.direction === "income" ? "received" : "spent";
+  const directionVerb = payload.type === "credit" ? "received" : "spent";
   const flavorNote = categorization.flavor === "luxury" ? "luxury" : categorization.flavor;
   return `${directionVerb} ${amountLabel} for ${payload.description} (${category}) on ${eventDate} (${flavorNote}).`;
 }

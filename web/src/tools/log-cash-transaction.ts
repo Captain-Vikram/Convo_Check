@@ -8,7 +8,7 @@ export interface LogCashTransactionPayload {
   amount: number;
   description: string;
   category_suggestion: string;
-  direction: "expense" | "income";
+  type: "debit" | "credit";
   raw_text: string;
 }
 
@@ -40,8 +40,8 @@ export const logCashTransactionToolDefinition: ToolDefinition = {
       required: true,
     },
     {
-      name: "direction",
-      description: "Whether the transaction is an expense or income entry.",
+      name: "type",
+      description: "Whether the transaction is a debit (expense) or credit (income).",
       type: "enum",
       required: true,
     },

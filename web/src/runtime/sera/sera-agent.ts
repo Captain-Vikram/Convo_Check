@@ -228,7 +228,20 @@ export class SeraAgent {
 
       logger.debug('sera', `generateText completed. Text: "${result.text?.substring(0, 100)}..."`);
 
-      const assistantMessage = result.text;
+      const assistantMessage = result.text ?? "";
+
+      if (!assistantMessage && result.toolCalls && result.toolCalls.length > 0) {
+         // If we have tool calls but no text, and maxSteps was used, it means the model didn't generate a final response?
+         // Or maybe it did, but it's in the last step?
+         // generateText returns the accumulated text? No, it returns the text of the generated message.
+         // If maxSteps > 1, it returns the text of the FINAL message.
+      }
+
+      if (!assistantMessage) {
+         // Fallback if empty
+         logger.warn('sera', 'Empty response from Sera LLM');
+         // We could throw or return a default message, but let's just ensure it's a string
+      }
 
       // Check if search was performed and store results
       let searchResults: SearchResult[] | undefined;

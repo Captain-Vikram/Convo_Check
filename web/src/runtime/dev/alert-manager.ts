@@ -408,6 +408,7 @@ class MemoryAlertManager implements TransactionAlertManager {
 
     await prisma.alerts.create({
       data: {
+        status: "Active",
         owner: Number(this.userId),
         transaction_id: transaction.id,
         alert_type: this.mapRuleToType(record.rule),

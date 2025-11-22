@@ -17,7 +17,7 @@ export interface MillConversation extends ConversationSession<{
   transactionAmount?: number;
   transactionDescription?: string;
   transactionCategory?: string;
-  transactionDirection?: "expense" | "income";
+  transactionType?: "debit" | "credit";
   queryType?: "summary" | "recent" | "category" | "specific";
 }> {
   intent: "logging" | "query" | "general" | "unclear";
@@ -118,7 +118,7 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
 
     // Check if we should execute an action
     if (result.action === "log_transaction" && this.hasCompleteTransaction(session)) {
-  const payload = this.buildTransactionPayload(session, normalizedInput.text);
+      const payload = this.buildTransactionPayload(session, normalizedInput.text);
       if (options.onTransactionReady) {
         await options.onTransactionReady(payload);
       }
@@ -195,12 +195,15 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
             async () => {
               const result = await this.callLLM({
                 messages: messages as CoreMessage[],
-                tools: {
-                  financialCalculator: createFinancialCalculatorTool(),
-                },
               });
 
               const text = (result.text ?? "").trim();
+              console.log("[Mill] LLM Response:", text); // Debug log
+
+              if (!text) {
+                throw new Error("Empty response from LLM");
+              }
+
               return this.parseMillResponse(text);
             },
             { maxAttempts: 3 },
@@ -215,9 +218,9 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
   }
 
   private getMillSystemPrompt(): string {
-    return `${chatbotAgent.systemPrompt}
-
-You are Mill in CONVERSATIONAL mode. Your specialized role:
+    return `You are "Mill", the user's personal finance sidekick. You are charismatic, encouraging, and naturally funny.
+    
+You are in CONVERSATIONAL mode. Your specialized role:
 - Log transactions (expenses and income)
 - Query financial data (summaries, recent transactions)
 - Coordinate with other agents (Dev for data, Param for analysis, Chatur for advice)
@@ -239,11 +242,8 @@ UNDERSTAND USER INTENT:
 4. **General Chat**: Greetings, clarifications, follow-ups
    - Be friendly and guide toward your capabilities
 
-5. **Calculations**: User asks for math or financial calculations
-   - Use the 'financialCalculator' tool for accurate results
-   - Example: "Calculate 20% of 5000" or "Split 50000 into 50/30/20"
-
 RESPONSE FORMAT (JSON):
+You must output a valid JSON object. Do not use tool calls.
 {
   "message": "Your friendly response to user (2-3 sentences max)",
   "intent": "logging|query|general|unclear",
@@ -252,7 +252,7 @@ RESPONSE FORMAT (JSON):
     "transactionAmount": 500,
     "transactionDescription": "groceries",
     "transactionCategory": "Food & Groceries",
-    "transactionDirection": "expense",
+    "transactionType": "debit",
     "queryType": "summary|recent|category"
   },
   "escalationReason": "User needs personalized financial advice"
@@ -378,7 +378,7 @@ KEY RULES:
     return !!(
       session.collectedInfo.transactionAmount &&
       session.collectedInfo.transactionDescription &&
-      session.collectedInfo.transactionDirection
+      session.collectedInfo.transactionType
     );
   }
 
@@ -387,8 +387,8 @@ KEY RULES:
     rawText: string,
   ): LogCashTransactionPayload {
     const description = session.collectedInfo.transactionDescription!;
-    const resolvedDirection = this.resolveTransactionDirection(
-      session.collectedInfo.transactionDirection,
+    const resolvedType = this.resolveTransactionType(
+      session.collectedInfo.transactionType,
       description,
       rawText,
       session.collectedInfo.transactionCategory,
@@ -398,19 +398,19 @@ KEY RULES:
       amount: session.collectedInfo.transactionAmount!,
       description,
       category_suggestion: session.collectedInfo.transactionCategory || "Other",
-      direction: resolvedDirection,
+      type: resolvedType,
       raw_text: rawText,
     };
   }
 
-  private resolveTransactionDirection(
-    candidate: MillConversation["collectedInfo"]["transactionDirection"],
+  private resolveTransactionType(
+    candidate: MillConversation["collectedInfo"]["transactionType"],
     description: string,
     rawText: string,
     category?: string,
-  ): "expense" | "income" {
-    if (candidate === "income") {
-      return "income";
+  ): "debit" | "credit" {
+    if (candidate === "credit") {
+      return "credit";
     }
 
     const text = `${rawText} ${description} ${category ?? ""}`.toLowerCase();
@@ -458,20 +458,20 @@ KEY RULES:
       ? incomeCategoryHints.some((hint) => category.toLowerCase().includes(hint))
       : false;
 
-    const baseDirection = candidate ?? "expense";
+    const baseType = candidate ?? "debit";
 
     if (categoryLooksIncome || (hasIncomeSignal && !hasExpenseSignal)) {
-      return "income";
+      return "credit";
     }
 
     if (hasExpenseSignal && !hasIncomeSignal) {
-      return "expense";
+      return "debit";
     }
 
-    if (hasIncomeSignal && baseDirection === "expense") {
-      return "income";
+    if (hasIncomeSignal && baseType === "debit") {
+      return "credit";
     }
 
-    return baseDirection;
+    return baseType;
   }
 }

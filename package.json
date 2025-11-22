@@ -17,7 +17,8 @@
     "analyst": "tsx src/runtime/analyst-agent.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"src/**/*.ts\"",
-    "schema:introspect": "tsx scripts/introspect-schema.ts"
+    "schema:introspect": "tsx scripts/introspect-schema.ts",
+    "db": "prisma db pull --schema=./data/introspected-schema.prisma --force && prisma generate --schema=./data/introspected-schema.prisma"
   },
   "keywords": [
     "cli",

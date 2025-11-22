@@ -13,14 +13,24 @@ export async function loadTransactions(
 
   try {
     const records = await prisma.tranasctions.findMany({
+      where: { status: "Active" },
       orderBy: { date_created: 'desc' },
     });
     
     // Map DB records to NormalizedTransaction format
-    return records.map(record => ({
-      id: record.id.toString(),
-      direction: (record.type as NormalizedTransaction["direction"]) || "expense",
-      amount: record.amount || 0,
+    return records.map(record => {
+      // Map debit/credit to expense/income for Analyst compatibility
+      let direction: NormalizedTransaction["direction"] = "expense";
+      if (record.type === "credit" || record.type === "income") {
+        direction = "income";
+      } else {
+        direction = "expense";
+      }
+
+      return {
+        id: record.id.toString(),
+        direction,
+        amount: record.amount || 0,
       currency: record.currency || "INR",
       category: record.category || "uncategorized",
       flavor: "regular" as NormalizedTransaction["flavor"], // Not in DB schema
@@ -42,7 +52,8 @@ export async function loadTransactions(
         medium: record.medium || undefined,
         targetParty: record.target_party || undefined,
       },
-    }));
+    };
+    });
   } catch (error) {
     logger.error("transactions-loader", "Failed to fetch transactions from DB", error);
     return [];

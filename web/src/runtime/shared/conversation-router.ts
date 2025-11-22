@@ -53,6 +53,9 @@ export interface ConversationRouterOptions {
   onTransactionReady?: (payload: LogCashTransactionPayload) => Promise<void>;
   onQueryReady?: () => Promise<SpendingSummaryResult>;
   onInsightsAvailable?: () => Promise<HabitInsight[]>;
+  onRecentTransactionsReady?: () => Promise<any[]>;
+  onPastBriefingsReady?: () => Promise<any[]>;
+  onCoachBriefingReady?: (briefing: any) => Promise<void>;
 }
 
 export interface ConversationStore {
@@ -318,10 +321,15 @@ export class ConversationRouter {
     } else if (agent === "chatur") {
       const insights = options.onInsightsAvailable ? await options.onInsightsAvailable() : [];
       const financialSummary = options.onQueryReady ? await options.onQueryReady() : undefined;
+      const recentTransactions = options.onRecentTransactionsReady ? await options.onRecentTransactionsReady() : undefined;
+      const pastBriefings = options.onPastBriefingsReady ? await options.onPastBriefingsReady() : undefined;
+
       // Start session without initial message
       const chaturSession = this.chatur.startConversation({
         insights,
         financialSummary,
+        recentTransactions,
+        pastBriefings,
       });
       context.chaturSessionId = chaturSession.sessionId;
 
@@ -337,6 +345,11 @@ export class ConversationRouter {
         agentResponse: result.message,
         timestamp: new Date().toISOString(),
       });
+      
+      if (result.completed && result.guidance && options.onCoachBriefingReady) {
+        await options.onCoachBriefingReady(result.guidance);
+      }
+
       await this.persistContext(userId, context);
 
       return {
@@ -429,9 +442,14 @@ export class ConversationRouter {
       if (result.action === "escalate_to_coach") {
         const insights = options.onInsightsAvailable ? await options.onInsightsAvailable() : [];
         const financialSummary = options.onQueryReady ? await options.onQueryReady() : undefined;
+        const recentTransactions = options.onRecentTransactionsReady ? await options.onRecentTransactionsReady() : undefined;
+        const pastBriefings = options.onPastBriefingsReady ? await options.onPastBriefingsReady() : undefined;
+
         const chaturSession = this.chatur.startConversation({
           insights,
           financialSummary,
+          recentTransactions,
+          pastBriefings,
           initialQuestion: "Perfect! I'm Chatur, your financial coach. Let's work on your financial goals. 🎯",
         });
         context.activeAgent = "chatur";
@@ -454,6 +472,11 @@ export class ConversationRouter {
         timestamp: new Date().toISOString(),
       });
 
+      if (result.completed) {
+        delete context.millSessionId;
+        context.activeAgent = "none";
+      }
+
       await this.persistContext(userId, context);
       return {
         agent: "mill",
@@ -473,7 +496,22 @@ export class ConversationRouter {
         return handoffResult;
       }
 
-      const result = await this.chatur.continueConversation(context.chaturSessionId, normalizedInput);
+      // Fetch fresh data for context update
+      const insights = options.onInsightsAvailable ? await options.onInsightsAvailable() : undefined;
+      const financialSummary = options.onQueryReady ? await options.onQueryReady() : undefined;
+      const recentTransactions = options.onRecentTransactionsReady ? await options.onRecentTransactionsReady() : undefined;
+      const pastBriefings = options.onPastBriefingsReady ? await options.onPastBriefingsReady() : undefined;
+
+      const result = await this.chatur.continueConversation(
+        context.chaturSessionId, 
+        normalizedInput,
+        {
+          insights,
+          financialSummary,
+          recentTransactions,
+          pastBriefings
+        }
+      );
 
       // Check if Chatur wants to escalate to Mill
       if (result.shouldEscalateToMill) {
@@ -499,6 +537,16 @@ export class ConversationRouter {
         agentResponse: result.message,
         timestamp: new Date().toISOString(),
       });
+
+      if (result.completed) {
+        // Save briefing if available
+        if (result.guidance && options.onCoachBriefingReady) {
+          await options.onCoachBriefingReady(result.guidance);
+        }
+
+        delete context.chaturSessionId;
+        context.activeAgent = "none";
+      }
 
       await this.persistContext(userId, context);
       return {
@@ -552,8 +600,15 @@ export class ConversationRouter {
         delete context.seraSessionId;
 
         const insights = options.onInsightsAvailable ? await options.onInsightsAvailable() : [];
+        const financialSummary = options.onQueryReady ? await options.onQueryReady() : undefined;
+        const recentTransactions = options.onRecentTransactionsReady ? await options.onRecentTransactionsReady() : undefined;
+        const pastBriefings = options.onPastBriefingsReady ? await options.onPastBriefingsReady() : undefined;
+
         const chaturSession = this.chatur.startConversation({
           insights,
+          financialSummary,
+          recentTransactions,
+          pastBriefings,
           initialQuestion: "I can definitely help with financial advice. What's on your mind?",
         });
         context.activeAgent = "chatur";
@@ -571,6 +626,10 @@ export class ConversationRouter {
           agentResponse: result.message,
           timestamp: new Date().toISOString(),
         });
+
+        if (result.completed && result.guidance && options.onCoachBriefingReady) {
+          await options.onCoachBriefingReady(result.guidance);
+        }
 
         await this.persistContext(userId, context);
         return {
@@ -591,6 +650,11 @@ export class ConversationRouter {
         agentResponse: result.message,
         timestamp: new Date().toISOString(),
       });
+
+      if (result.completed) {
+        delete context.seraSessionId;
+        context.activeAgent = "none";
+      }
 
       await this.persistContext(userId, context);
       return {
@@ -655,22 +719,22 @@ export class ConversationRouter {
   private routeInitialMessage(message: string): ActiveAgent {
     const lower = message.toLowerCase();
 
-    // 1. Check for Shopping Intent (Sera)
-    if (this.isShoppingIntent(message)) {
-      return "sera";
-    }
-
-    // 2. Check for Financial Calculation/Planning Intent (Chatur)
+    // 1. Check for Financial Calculation/Planning Intent (Chatur) - Prioritize over shopping
     // "Calculate SIP", "Budget split", "Loan EMI" (without product context)
     if (lower.includes("calculate") || lower.includes("split")) {
-      if (lower.includes("sip") || lower.includes("budget") || lower.includes("loan") || lower.includes("invest")) {
+      if (lower.includes("sip") || lower.includes("budget") || lower.includes("loan") || lower.includes("invest") || lower.includes("emi")) {
         return "chatur";
       }
     }
 
-    // 3. Check for Investment/Stock Intent (Chatur)
+    // 2. Check for Investment/Stock/Advice Intent (Chatur)
     if (this.looksLikeCoachingIntent(lower)) {
       return "chatur";
+    }
+
+    // 3. Check for Shopping Intent (Sera)
+    if (this.isShoppingIntent(message)) {
+      return "sera";
     }
 
     const millScore = ConversationRouter.keywordScore(ConversationRouter.MILL_KEYWORDS, lower);
@@ -698,7 +762,11 @@ export class ConversationRouter {
   }
 
   private looksLikeCoachingIntent(lower: string): boolean {
-    return /\b(advice|tip|help|goal|save|budget|plan|reduce|improve|habit|coach|guidance|strategy|invest|sip|mutual fund|stock|portfolio|wealth|retirement|loan|interest)\b/.test(lower);
+    // Added "should i buy" to catch purchase advice questions
+    if (lower.includes("should i buy") || lower.includes("can i afford")) {
+      return true;
+    }
+    return /\b(advice|tip|help|goal|save|budget|plan|reduce|improve|habit|coach|guidance|strategy|invest|sip|mutual fund|stock|portfolio|wealth|retirement|loan|interest|emi)\b/.test(lower);
   }
 
   private looksLikeTransactionIntent(lower: string): boolean {
@@ -711,8 +779,13 @@ export class ConversationRouter {
     const lower = message.toLowerCase();
     
     // Exclude financial investment queries from shopping
-    const hasFinancialContext = /stock|share|market|invest|fund|sip|mutual|equity|crypto|bitcoin|gold|silver|bond|fd|rd|portfolio|nav|sensex|nifty/.test(lower);
+    const hasFinancialContext = /stock|share|market|invest|fund|sip|mutual|equity|crypto|bitcoin|gold|silver|bond|fd|rd|portfolio|nav|sensex|nifty|loan|emi|afford/.test(lower);
     if (hasFinancialContext) {
+      return false;
+    }
+
+    // Exclude advice questions ("Should I buy...")
+    if (lower.includes("should i buy") || lower.includes("can i afford")) {
       return false;
     }
 

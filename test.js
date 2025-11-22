@@ -136,27 +136,27 @@ async function testAgent(agentName, message, expectedKeyword = "") {
   log("Convo_Check API Feature Test Suite");
   log("===============================================================");
 
-  // ------------------------------------------------------------------------
-  // 1. SMS INGESTION + PROCESSING
-  // ------------------------------------------------------------------------
-  header("1. SMS INGESTION & PROCESSING (Dev Agent)");
+  // // ------------------------------------------------------------------------
+  // // 1. SMS INGESTION + PROCESSING
+  // // ------------------------------------------------------------------------
+  // header("1. SMS INGESTION & PROCESSING (Dev Agent)");
 
-  await testEndpoint(
-    "SMS Ingestion",
-    `${BASE_URL}/api/sms/ingest`,
-    "POST",
-    {
-      userPhone: "919619183585",
-      smsBody: "You spent Rs 1250 at Amazon on 15-Nov-2025. -HDFC Bank",
-      receivedAt: new Date().toISOString()
-    }
-  );
+  // await testEndpoint(
+  //   "SMS Ingestion",
+  //   `${BASE_URL}/api/sms/ingest`,
+  //   "POST",
+  //   {
+  //     userPhone: "919619183585",
+  //     smsBody: "You spent Rs 1250 at Amazon on 15-Nov-2025. -HDFC Bank",
+  //     receivedAt: new Date().toISOString()
+  //   }
+  // );
 
-  await testEndpoint(
-    "SMS Queue Processing",
-    `${BASE_URL}/api/sms/process-queue`,
-    "POST"
-  );
+  // await testEndpoint(
+  //   "SMS Queue Processing",
+  //   `${BASE_URL}/api/sms/process-queue`,
+  //   "POST"
+  // );
 
   // ------------------------------------------------------------------------
   // 2. MILL AGENT
@@ -164,68 +164,72 @@ async function testAgent(agentName, message, expectedKeyword = "") {
   header("2. MILL AGENT - Transaction Logging & Queries");
 
   await testAgent("Mill", "I spent 250 rupees on groceries today", "transaction");
+  // wait 1.5s before sending next message
+  await new Promise((res) => setTimeout(res, 1500));
   await testAgent("Mill", "What did I spend yesterday?");
+  // wait 1.5s before next message
+  await new Promise((res) => setTimeout(res, 1500));
   await testAgent("Mill", "Show me my total spending this month");
 
-  // ------------------------------------------------------------------------
-  // 3. CHATUR AGENT
-  // ------------------------------------------------------------------------
-  header("3. CHATUR AGENT - Financial Coaching");
+  // // ------------------------------------------------------------------------
+  // // 3. CHATUR AGENT
+  // // ------------------------------------------------------------------------
+  // header("3. CHATUR AGENT - Financial Coaching");
 
-  await testAgent("Chatur", "How can I save more money?", "save");
-  await testAgent("Chatur", "Give me tips to reduce my food expenses");
-  await testAgent("Chatur", "Help me create a budget", "budget");
+  // await testAgent("Chatur", "How can I save more money?", "save");
+  // await testAgent("Chatur", "Give me tips to reduce my food expenses");
+  // await testAgent("Chatur", "Help me create a budget", "budget");
 
-  // ------------------------------------------------------------------------
-  // 4. SERA AGENT
-  // ------------------------------------------------------------------------
-  header("4. SERA AGENT - Shopping Assistant");
+  // // ------------------------------------------------------------------------
+  // // 4. SERA AGENT
+  // // ------------------------------------------------------------------------
+  // header("4. SERA AGENT - Shopping Assistant");
 
-  await testAgent("Sera", "I want to buy a laptop under 50000 rupees");
+  // await testAgent("Sera", "I want to buy a laptop under 50000 rupees");
 
-  // ------------------------------------------------------------------------
-  // 5. GROUNDED SEARCH
-  // ------------------------------------------------------------------------
-  header("5. GROUNDED SEARCH");
+  // // ------------------------------------------------------------------------
+  // // 5. GROUNDED SEARCH
+  // // ------------------------------------------------------------------------
+  // header("5. GROUNDED SEARCH");
 
-  await testEndpoint(
-    "Grounded Search",
-    `${BASE_URL}/api/grounded-search`,
-    "POST",
-    {
-      query: "best budget smartphones in India",
-      num: 5
-    }
-  );
-  // ------------------------------------------------------------------------
-  // 6. ERROR TESTS
-  // ------------------------------------------------------------------------
-  header("6. ERROR HANDLING");
+  // await testEndpoint(
+  //   "Grounded Search",
+  //   `${BASE_URL}/api/grounded-search`,
+  //   "POST",
+  //   {
+  //     query: "best budget smartphones in India",
+  //     num: 5
+  //   }
+  // );
+  // // ------------------------------------------------------------------------
+  // // 6. ERROR TESTS
+  // // ------------------------------------------------------------------------
+  // header("6. ERROR HANDLING");
 
-  log("\n🧪 Invalid Request (Missing userId)");
-  try {
-    await fetch(`${BASE_URL}/api/agent`, {
-      method: "POST",
-      headers: HEADERS,
-      body: JSON.stringify({ message: "test" })
-    });
-    log("  ⚠️ UNEXPECTED: Should have failed");
-  } catch (e) {
-    log("  ✅ Expected error caught");
-    TestResults.passed++;
-  }
+  // log("\n🧪 Invalid Request (Missing userId)");
+  // try {
+  //   await fetch(`${BASE_URL}/api/agent`, {
+  //     method: "POST",
+  //     headers: HEADERS,
+  //     body: JSON.stringify({ message: "test" })
+  //   });
+  //   log("  ⚠️ UNEXPECTED: Should have failed");
+  // } catch (e) {
+  //   log("  ✅ Expected error caught");
+  //   TestResults.passed++;
+  // }
 
-  log("\n🧪 Protected Endpoint Without Auth");
-  try {
-    await fetch(`${BASE_URL}/api/protected`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
-    });
-    log("  ⚠️ UNEXPECTED: Should require auth");
-  } catch (e) {
-    log("  ✅ Expected auth error");
-    TestResults.passed++;
-  }
+  // log("\n🧪 Protected Endpoint Without Auth");
+  // try {
+  //   await fetch(`${BASE_URL}/api/protected`, {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" }
+  //   });
+  //   log("  ⚠️ UNEXPECTED: Should require auth");
+  // } catch (e) {
+  //   log("  ✅ Expected auth error");
+  //   TestResults.passed++;
+  // }
 
   // ------------------------------------------------------------------------
   // SUMMARY

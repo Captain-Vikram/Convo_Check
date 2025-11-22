@@ -199,14 +199,11 @@ export async function processSmsMessage(
     return { status: "skipped", reason: "invalid" };
   }
 
-  const direction: LogCashTransactionPayload["direction"] =
-    extraction.type === "credit" ? "income" : "expense";
-
   const payload: LogCashTransactionPayload = {
     amount: extraction.amount,
     description: extraction.description,
     category_suggestion: extraction.category,
-    direction,
+    type: extraction.type === "credit" ? "credit" : "debit",
     raw_text: message.message,
   };
 

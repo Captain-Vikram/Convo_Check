@@ -31,7 +31,7 @@ export interface AnalystMetadata {
   recordedAt: string;
   amount: number;
   currency: string;
-  direction: LogCashTransactionPayload["direction"];
+  direction: NormalizedTransaction["direction"];
   category: string;
   flavor: CategorizationResult["flavor"];
   tags: string[];

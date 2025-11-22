@@ -18,12 +18,16 @@ import type { SpendingSummaryResult } from "../../tools/query-spending-summary";
 export interface CoachConversation extends ConversationSession<Record<string, unknown>> {
   insights: HabitInsight[];
   financialSummary?: SpendingSummaryResult;
+  recentTransactions?: any[];
+  pastBriefings?: any[];
   currentQuestion?: string;
 }
 
 export interface CoachConversationOptions extends ConversationOptions {
   insights: HabitInsight[];
   financialSummary?: SpendingSummaryResult;
+  recentTransactions?: any[];
+  pastBriefings?: any[];
   initialQuestion?: string;
 }
 
@@ -52,6 +56,8 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
       startedAt: new Date().toISOString(),
       insights: options.insights,
       financialSummary: options.financialSummary,
+      recentTransactions: options.recentTransactions,
+      pastBriefings: options.pastBriefings,
       messages: [],
       state: "active",
       collectedInfo: {},
@@ -92,6 +98,7 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
   async continueConversation(
     sessionId: string,
     userResponse: string | AgentInput,
+    contextUpdate?: Partial<CoachConversationOptions>
   ): Promise<{
     message: string;
     completed: boolean;
@@ -105,6 +112,14 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
 
     if (session.state !== "active") {
       throw new Error(`Conversation ${sessionId} is ${session.state}`);
+    }
+
+    // Update session context if provided
+    if (contextUpdate) {
+      if (contextUpdate.insights) session.insights = contextUpdate.insights;
+      if (contextUpdate.financialSummary) session.financialSummary = contextUpdate.financialSummary;
+      if (contextUpdate.recentTransactions) session.recentTransactions = contextUpdate.recentTransactions;
+      if (contextUpdate.pastBriefings) session.pastBriefings = contextUpdate.pastBriefings;
     }
 
     const normalizedInput = normalizeAgentInput(userResponse);
@@ -150,8 +165,8 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
     // Check if conversation is complete
     if (result.completed) {
       session.state = "completed";
-      const guidance = await this.generateFinalGuidance(session);
-      return { message: result.message, completed: true, guidance };
+      // const guidance = await this.generateFinalGuidance(session);
+      return { message: result.message, completed: true };
     }
 
     // Update current question
@@ -204,6 +219,11 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
 
               console.log('[coach] LLM Raw Result:', result.text);
               const text = (result.text ?? "").trim();
+
+              if (!text) {
+                throw new Error("Empty response from LLM");
+              }
+
               return this.parseConversationalResponse(text);
             },
             { 
@@ -259,6 +279,7 @@ CONVERSATIONAL STRATEGY:
 7. **AUTONOMOUS PERSONALIZATION**: If you have the "Financial Snapshot", use it to proactively suggest budgets or savings goals without asking generic questions. E.g., "Since you have a surplus of ₹5,000, maybe invest ₹2,000?"
 8. **REAL-TIME INFO**: Use the 'webSearch' tool to find up-to-date info on investments, companies, stocks, or financial concepts.
 9. **ACCURATE MATH**: Use the 'financialCalculator' tool for ANY calculation (budget splits, SIP projections, loan EMIs). Do not do math in your head.
+10. **CONTEXT AWARENESS**: Use "Recent Transactions" and "Past Advice" to make your responses highly relevant. Don't give generic advice if you see specific spending patterns.
 
 Respond with a helpful message.
 
@@ -280,6 +301,21 @@ KEY RULES:
       if (session.financialSummary.topCategories.length > 0) {
         lines.push(`- Top Spending Categories: ${session.financialSummary.topCategories.map(c => `${c.category} (₹${c.totalSpent})`).join(", ")}`);
       }
+    }
+
+    if (session.recentTransactions && session.recentTransactions.length > 0) {
+      lines.push("\nRecent Transactions (Use for specific context):");
+      session.recentTransactions.slice(0, 10).forEach(t => {
+        const date = t.date_of_transaction ? new Date(t.date_of_transaction).toLocaleDateString() : "Unknown Date";
+        lines.push(`- ${date}: ${t.description} (${t.type}) ₹${t.amount} [${t.category}]`);
+      });
+    }
+
+    if (session.pastBriefings && session.pastBriefings.length > 0) {
+      lines.push("\nPast Advice (Do not repeat, build upon this):");
+      session.pastBriefings.slice(0, 3).forEach(b => {
+        lines.push(`- ${b.headline}: ${b.counsel}`);
+      });
     }
 
     lines.push("Latest financial insights:");

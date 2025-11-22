@@ -504,6 +504,7 @@ async function persistBriefingRecord(input: PersistBriefingInput): Promise<Coach
     data: {
       id: randomUUID(),
       date_created: new Date(),
+      status: "Active",
       ...sharedData,
     },
     select: BRIEFING_SELECT,
