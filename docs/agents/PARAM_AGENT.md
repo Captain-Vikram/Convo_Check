@@ -23,13 +23,418 @@ Param is the **analytical brain** of the financial system. Param:
 
 Param is like a **financial detective** - examines every transaction, identifies patterns, and presents findings as clear, actionable bullets that coaches can use verbatim.
 
-## What's New in the Unified Runtime (Nov 2025)
+## What's New in the Unified Runtime (Nov 2025)
 
 - **Versioned analysis runs** – `runAnalyst` (`src/runtime/param/analyst-agent.ts`) now tracks an `ANALYSIS_VERSION` per transaction and skips work when the stored `analyzed_version` already matches, so nightly jobs stay fast while still allowing forced replays.
+  - Transactions are marked with `analyzed_at` timestamp and `analyzed_version` integer via PATCH `/api/transactions/:id`
+  - Dry-run mode (`dryRun: true`) reports impact without writing changes
+  - Force re-analysis with `reanalyzeAll: true` to bypass version checks
 - **Direct API persistence** – Insights are written through `syncHabitToApi` and transactions are patched via `/api/transactions/:id`, meaning the docs + dashboards always reflect the latest evidence without manual exports.
-- **Automatic coach handoff** – After every successful analysis, the agent calls `runCoach` with the latest/previous insights, keeping Chatur’s playbook in sync without separate schedulers.
+  - Uses `HabitInsight` typed interface: `{ habitLabel, evidence, counsel, fullText }`
+  - Multi-user support via optional `ownerId` parameter
+- **Automatic coach handoff** – After every successful analysis, the agent calls `runCoach` with the latest/previous insights (passed from `loadExistingInsights`), keeping Chatur's playbook in sync without separate schedulers.
+  - Trigger reason recorded as `"analyst"` in coach session metadata
+  - Continues even if coach handoff fails (non-blocking error handling)
 
-**Why it’s better**: Param now produces “ready-to-serve” insights that stay versioned, deduped, and instantly available to Chatur/Mill.
+**Why it's better**: Param now produces "ready-to-serve" insights that stay versioned, deduped, and instantly available to Chatur/Mill. Version tracking eliminates redundant analysis, and automatic coach handoff creates a tight feedback loop.
+
+---
+
+## Implementation Details (Nov 2025)
+
+### Runtime Flow: `runAnalyst(options)`
+
+**Entry Point**: `src/runtime/param/analyst-agent.ts`
+
+The `runAnalyst` function orchestrates the entire analysis pipeline:
+
+```typescript
+export interface RunAnalystOptions {
+  reanalyzeAll?: boolean; // Force re-analysis regardless of analyzed_version
+  dryRun?: boolean; // Count only, no writes
+  ownerId?: number; // Optional multi-user filter
+}
+
+export interface AnalystRunResult {
+  status: "success" | "skipped" | "error";
+  totalTransactions: number;
+  analyzedTransactions: number;
+  insightsGenerated: number;
+  message: string;
+  error?: Error;
+}
+```
+
+**Step 1: Load & Filter Transactions**
+
+```
+loadTransactions()
+  → All transactions from database (via NormalizedTransaction format)
+  → If reanalyzeAll=false: filter to transactions where analyzed_version !== ANALYSIS_VERSION
+  → If 0 transactions: return placeholder insight, skip analysis
+```
+
+**Step 2: Build Statistics**
+
+```
+buildAnalysisStats(transactionsToAnalyze)
+  → CategoryStat: top categories by count & spend
+  → DirectionStat: income vs expense totals
+  → WeekdayStat: spending distribution by day of week
+  → TagStat: custom tags frequency
+  → FlavorStat: transaction flavor distribution
+  → CounterpartyStat: merchant/payee distribution
+  → Last 30-day metrics: transaction count, savings rate
+  → Largest & recent transactions (top 5 each)
+  → Returns: AnalysisStats object (30+ fields)
+```
+
+**Step 3: Generate LLM Prompt**
+
+```
+buildAnalystPrompt(stats)
+  → Includes lifetime totals, last 30-day summary, guidance rules
+  → Embeds full AnalysisStats JSON payload
+  → Instructs LLM on Insight Protocol
+  → Example format: "- Habit Label | Evidence: ... | Counsel: ..."
+```
+
+**Step 4: Call Language Model (Gemini)**
+
+```
+callLanguageModel(prompt)
+  → Uses callLLM("agent3", { system, messages })
+  → System prompt enforces mandatory insight protocol
+  → Returns raw bullet lines (5-7 expected)
+```
+
+**Step 5: Parse Bullet Lines**
+
+```
+normalizeBulletLines(rawOutput)
+  → Split on newlines, filter empty lines
+  → Ensure each line starts with "- "
+
+parseHabitInsight(line)
+  → Attempts 3 parsing strategies:
+    1. Structured Fields: "Habit Label: X | Evidence: Y | Counsel: Z"
+    2. Label-Counsel: "Pattern: evidence; Counsel: action"
+    3. Simple: "Label: evidence; Counsel: action"
+  → Extracts { habitLabel, evidence, counsel, fullText }
+  → Throws if no valid structure detected
+```
+
+**Step 6: Persist Insights to API**
+
+```
+persistHabitsToApi(insights)
+  → For each HabitInsight:
+    - Call syncHabitToApi({ habitLabel, evidence, counsel, fullText, owner })
+    - Inserts/updates record in habit_insights table
+    - Non-blocking: continues if one fails
+```
+
+**Step 7: Mark Transactions Analyzed**
+
+```
+markTransactionsAsAnalyzed(transactionsToAnalyze, ANALYSIS_VERSION)
+  → For each transaction:
+    - PATCH /api/transactions/:id with { analyzed_at, analyzed_version, analysis_notes }
+    - Tracked fields: analyzed_at (ISO timestamp), analyzed_version (int), analysis_notes (string)
+    - Non-blocking: continues if one fails
+```
+
+**Step 8: Hand Off to Coach (if successful)**
+
+```
+runCoach({ latestInsights, previousInsights, trigger: "analyst" })
+  → Calls src/runtime/chatur/coach-agent.ts
+  → Passes fresh insights + previous snapshot for continuity
+  → Non-blocking: catches and logs errors without failing main flow
+```
+
+---
+
+### Database Schema (Prisma)
+
+**Tables Used**:
+
+#### 1. `habit_insights`
+
+Stores analyzed spending habits and patterns. Schema:
+
+```prisma
+model habit_insights {
+  id                  String    @id @db.Uuid
+  owner               Int                    // User ID
+  habit_label         String    @db.VarChar(255)    // Pattern name
+  evidence            String                 // Quantified data (e.g., "₹8K spent")
+  counsel             String                 // Actionable recommendation
+  full_text           String                 // Complete bullet line
+  status              String    @default("published") @db.VarChar(64)
+  recorded_at         DateTime  @default(now()) @db.Timestamptz(6)
+  source_agent        String    @default("param") @db.VarChar(64)
+
+  @@index([owner, status, recorded_at])
+}
+```
+
+**Key Queries**:
+
+- `findMany({ where: { owner, status: "published" }, orderBy: { recorded_at: "desc" }, take: 5 })`
+  → Fetches 5 most recent insights per user (used by Mill/Chatur)
+
+#### 2. `habit_snapshots`
+
+Stores historical snapshots for trend tracking. Schema:
+
+```prisma
+model habit_snapshots {
+  id              Int      @id @default(autoincrement())
+  owner           Int
+  snapshot_date   DateTime @db.Timestamptz(6)
+  insights_count  Int
+  top_categories  Json     // Array of category statistics
+  metadata        Json     // Additional context
+
+  @@index([owner, snapshot_date])
+}
+```
+
+**Usage**: Referenced by coach_briefings for historical context.
+
+#### 3. `tranasctions`
+
+Stores individual financial transactions. Schema:
+
+```prisma
+model tranasctions {
+  id                  String    @id @db.Uuid
+  owner               Int                    // User ID
+  type                String    @db.VarChar(64)    // "income", "expense"
+  category            String    @db.VarChar(255)   // Spending category
+  amount              Decimal   @db.Decimal(15, 2)
+  date_of_transaction DateTime  @db.Timestamptz(6)
+  description         String?
+  status              String    @default("published") @db.VarChar(64)
+
+  // Analysis tracking (NEW in v1.1)
+  analyzed_at         DateTime? @db.Timestamptz(6)  // When Param analyzed this
+  analyzed_version    Int?                         // Analysis version (ANALYSIS_VERSION=1)
+  analysis_notes      String?                      // e.g., "Analyzed by param agent v1"
+
+  @@index([owner, status, date_of_transaction])
+  @@index([owner, analyzed_version])  // For version filtering
+}
+```
+
+**Key Queries**:
+
+- `findMany({ where: { owner, status: "published" } })`
+  → Load all transactions for analysis
+- `findMany({ where: { owner, analyzed_version: { not: 1 } } })`
+  → Find unanalyzed transactions (for incremental runs)
+
+#### 4. `coach_briefings`
+
+Stores generated coaching messages. Param populates indirectly via Coach handoff. Schema:
+
+```prisma
+model coach_briefings {
+  id            String   @id @db.Uuid
+  owner         Int
+  headline      String
+  counsel       String
+  evidence      String?
+  trigger       String?  @db.VarChar(64)  // "analyst" if triggered by Param
+  delivered     Boolean  @default(false)
+  delivered_at  DateTime?
+  date_created  DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([owner, delivered])
+}
+```
+
+---
+
+### Configuration & Environment
+
+**Environment Variables**:
+
+```bash
+ANALYSIS_VERSION=1                           # Set in code, auto-incremented on logic changes
+ANALYST_GEMINI_API_KEY=<key>                # Google Gemini API key for LLM
+WEB_API_URL=http://localhost:3000            # Base URL for API calls
+SERVICE_API_TOKEN=<token>                    # Auth token for PATCH /api/transactions/:id
+MILL_API_BASE_URL=http://localhost:3000      # Override WEB_API_URL if needed
+DATABASE_URL=postgresql://...                # Prisma DB connection
+DEV_USER_ID=2                                # Default user ID for single-user testing
+```
+
+**LLM Settings** (Gemini):
+
+- Model: Google Gemini 2.0 Flash (via @ai-sdk/google)
+- Temperature: Low (0.2-0.4) for consistent, factual output
+- Max Tokens: 1000 (for 5-7 concise bullets)
+- Streaming: Disabled (batch analysis, no real-time output)
+
+---
+
+### API Endpoints Called
+
+#### 1. PATCH `/api/transactions/:id`
+
+**Purpose**: Mark transactions as analyzed
+
+**Headers**:
+
+```
+Content-Type: application/json
+Authorization: Bearer <SERVICE_API_TOKEN> (if set)
+```
+
+**Body**:
+
+```json
+{
+  "analyzed_at": "2025-11-22T14:30:00.000Z",
+  "analyzed_version": 1,
+  "analysis_notes": "Analyzed by param agent v1"
+}
+```
+
+**Response**: Updated transaction object
+
+#### 2. POST/PATCH `/api/habits`
+
+**Purpose**: Sync habit insights to database
+
+**Headers**:
+
+```
+Content-Type: application/json
+Authorization: Bearer <SERVICE_API_TOKEN> (if set)
+```
+
+**Body** (HabitInsightPayload):
+
+```json
+{
+  "habitLabel": "Overspending on Food",
+  "evidence": "₹8K spent (40% of total)",
+  "counsel": "Reduce by 25%, target ₹6K this month",
+  "fullText": "- Overspending on Food: Evidence: ₹8K spent (40% of total); Counsel: Reduce by 25%...",
+  "owner": 2
+}
+```
+
+**Response**: Inserted/updated habit record
+
+---
+
+### Integration Points
+
+#### Incoming Triggers
+
+1. **CLI / Scheduled Job**:
+
+   ```bash
+   # From: scripts/run-analyst.ts or cron job
+   node --loader ts-node/esm src/runtime/param/analyst-agent.ts
+   # Calls: runAnalyst({ reanalyzeAll: false })
+   ```
+
+2. **Programmatic**:
+   ```typescript
+   // From: Coach-Analyst loop or other agents
+   import { runAnalyst } from "@/runtime/param/analyst-agent";
+   const result = await runAnalyst({ reanalyzeAll: false, ownerId: 2 });
+   ```
+
+#### Outgoing Calls
+
+1. **To Coach**:
+
+   ```typescript
+   await runCoach({
+     latestInsights: insights, // Fresh from this run
+     previousInsights: oldInsights, // From loadExistingInsights()
+     trigger: "analyst",
+   });
+   ```
+
+2. **To Database** (via API):
+   - Habits: `syncHabitToApi(payload)`
+   - Transactions: `PATCH /api/transactions/:id`
+
+---
+
+### Error Handling & Resilience
+
+**Non-Blocking Patterns**:
+
+- **Transaction Mark Failures**: If `markTransactionsAsAnalyzed` fails for one TX, it continues with others (logged, not thrown)
+- **Habit Persist Failures**: If `syncHabitToApi` fails for one insight, it continues with others
+- **Coach Handoff Failures**: Caught and logged; main flow completes successfully
+- **API Sync Failures**: Logged at error level; does not block analysis completion
+
+**Fallback Behaviors**:
+
+- **No Transactions**: Returns placeholder insight ("Insufficient History") to DB
+- **Empty LLM Output**: Throws error, stops run with status="error"
+- **Parse Failures**: Throws error, stops run with status="error"
+
+---
+
+### Performance Characteristics
+
+**Time Complexity** (per analysis run):
+
+- Load transactions: O(n)
+- Build stats: O(n)
+- LLM call: O(1) fixed (~2-5s)
+- Parse & persist: O(m) where m = 5-7 insights
+- Mark analyzed: O(n) sequential PATCH calls (~100-500ms per TX)
+
+**Total**: ~3-10 seconds for typical user (50-200 transactions)
+
+**Optimization Strategy**:
+
+- Version tracking skips re-analysis if no new transactions
+- Only patch changed transactions (set analyzed_at/analyzed_version)
+- Batch API calls use sequential PATCH; consider bulk endpoint if scaling to 10K+ TX
+
+---
+
+### Testing & Validation
+
+**Dry-Run Mode**:
+
+```typescript
+const result = await runAnalyst({ dryRun: true });
+// Returns: { status: "success", totalTransactions: 50, analyzedTransactions: 5, insightsGenerated: 0 }
+// Side effects: None (no DB writes)
+```
+
+**Force Re-Analysis**:
+
+```typescript
+const result = await runAnalyst({ reanalyzeAll: true });
+// Forces all transactions to be re-analyzed regardless of version
+// Useful for testing changes to analysis logic or LLM prompts
+```
+
+**Expected Output** (success case):
+
+```json
+{
+  "status": "success",
+  "totalTransactions": 45,
+  "analyzedTransactions": 12,
+  "insightsGenerated": 5,
+  "message": "Analyzed 12 transactions, generated 5 insights"
+}
+```
 
 ---
 
@@ -420,23 +825,62 @@ Chatur: "Based on your spending patterns, I recommend reducing food expenses by 
 
 ### Database Interactions
 
-- **Reads**: Transactions, alerts, previous habit snapshots (via REST API)
-- **Writes**: Habit insights, habit snapshots (via REST API)
-- **Endpoints**:
-  - `GET /api/transactions` - Fetch transaction data
-  - `POST /api/habits` - Store habit insights
-  - `POST /api/habit-snapshots` - Store aggregated snapshots
+**Reads**:
+
+- Transactions via `loadTransactions()` → Prisma `tranasctions.findMany()`
+- Previous insights via `loadExistingInsights()` → Prisma `habit_insights.findMany()` (latest 5)
+
+**Writes**:
+
+- Habit insights via `syncHabitToApi()` → POST/PATCH to `/api/habits` (creates/updates `habit_insights`)
+- Transaction metadata via PATCH `/api/transactions/:id` (sets `analyzed_at`, `analyzed_version`, `analysis_notes`)
+
+**Transaction Tracking**:
+
+- All transactions loaded with metadata fields: `analyzed_at` (nullable datetime), `analyzed_version` (nullable int)
+- Version filtering: `WHERE analyzed_version != 1` to find unanalyzed work
+- Efficient indexing: `@@index([owner, analyzed_version])` for fast lookups
+
+**Endpoints** (via web/src/lib/mill/in-process-adapter.ts):
+
+- `GET /api/habits?owner={id}` - Fetch recent insights
+- `POST /api/habits` - Create/update habit insight
+- `PATCH /api/transactions/:id` - Mark transaction as analyzed
 
 ### External Services
 
 - **Google Gemini**: Powers analytical AI (ANALYST_GEMINI_API_KEY)
-- **PostgreSQL**: Stores insights and snapshots (via web API)
+- **PostgreSQL**: Stores insights, snapshots, and transaction metadata (via Prisma)
+- **LLM Client Wrapper** (`src/runtime/shared/llm-client.ts`): Handles retries, circuit breaker, error fallbacks
 
 ### Runtime Structure
 
-- **Entry Point**: `src/agents/analyst.ts`
-- **Runtime Logic**: `src/runtime/param/analyst-agent.ts`
-- **Data Processing**: In-memory analytics engine
+- **Entry Point**: `src/agents/analyst.ts` (agent definition + system prompt)
+- **Runtime Logic**: `src/runtime/param/analyst-agent.ts` (main runAnalyst orchestrator)
+- **Utilities**:
+  - `transactions-loader.ts` - Fetch & normalize transaction data
+  - `habit-tracker.ts` - Incremental habit snapshots (for future use with Chatur streaming)
+  - `index.ts` - Public exports
+
+### Coach Integration
+
+After analysis completes, Param automatically hands off to Coach:
+
+```typescript
+// In runAnalyst() after insight generation
+await runCoach({
+  latestInsights: insights, // Fresh insights from this run
+  previousInsights: oldInsights, // Historical context for comparison
+  trigger: "analyst", // Metadata for coach session
+});
+```
+
+**Coach Responsibilities**:
+
+1. Compare latest vs previous insights (trend detection)
+2. Generate coaching briefings
+3. Store briefings in `coach_briefings` table
+4. Detect escalation signals (e.g., overspending alerts)
 
 ---
 
@@ -473,31 +917,86 @@ Transactions (Mill + Dev) → Param Analysis → Insights → Mill (display) + C
 
 ## Analysis Triggers
 
-### When Param Runs
+### When Param Runs (Current v1.1)
 
-1. **User Query via Mill**:
+#### 1. **Scheduled Job (Nightly)**
 
-   - User asks: "How's my spending?"
-   - Mill calls spending summary
-   - System triggers Param analysis
-   - Fresh insights generated
+**Trigger**: Cron job or manual invocation  
+**Command**:
 
-2. **Scheduled Analysis** (Future):
+```bash
+node --loader ts-node/esm src/runtime/param/analyst-agent.ts
+```
 
-   - Daily/weekly automated runs
-   - Generates habit snapshots
-   - Stores for historical tracking
+**Behavior**:
 
-3. **Coach Request**:
+- Calls `runAnalyst({ reanalyzeAll: false })` (default)
+- Analyzes only transactions where `analyzed_version != 1` (new/updated only)
+- Skips if all transactions already analyzed (fast return)
+- Runs in ~3-10 seconds for typical user
 
-   - Chatur needs insights for coaching session
-   - Fetches latest Param snapshot
-   - Uses insights as foundation
+**Output**:
 
-4. **Significant Event** (Future):
-   - Budget threshold breach
-   - Unusual transaction detected
-   - Month-end analysis
+```json
+{
+  "status": "success",
+  "totalTransactions": 50,
+  "analyzedTransactions": 3,
+  "insightsGenerated": 5,
+  "message": "Analyzed 3 new transactions, generated 5 insights"
+}
+```
+
+#### 2. **User Query via Mill**
+
+**Trigger**: User asks "Show my spending"  
+**Flow**:
+
+1. User → Mill chatbot
+2. Mill calls `/api/agent` (post message)
+3. Router detects "spending" keyword
+4. Router calls `query_spending_summary` tool
+5. System fetches latest insights from `habit_insights` table (populated by Param)
+6. Mill displays insights to user (attributed to Param)
+
+**Output**: Insight text displayed in chat, no re-analysis triggered (uses cached insights)
+
+#### 3. **Manual Re-Analysis**
+
+**Trigger**: Developer or admin  
+**Command**:
+
+```bash
+node --loader ts-node/esm -e "import { runAnalyst } from './src/runtime/param/analyst-agent.js'; runAnalyst({ reanalyzeAll: true }).then(r => console.log(r));"
+```
+
+**Behavior**:
+
+- Analyzes ALL transactions regardless of version
+- Useful for testing changes to analysis logic or LLM prompts
+- Overwrites previous insights
+
+**Output**: Same format as scheduled job
+
+#### 4. **Coach Handoff (Automatic)**
+
+**Trigger**: After successful Param analysis  
+**Flow**:
+
+1. Param generates insights
+2. Param calls `runCoach({ latestInsights, previousInsights, trigger: "analyst" })`
+3. Coach session created with context
+4. Coach generates briefings (insights + recommendations)
+5. Briefings stored in `coach_briefings` table
+
+**Output**: Coach briefings generated and ready for delivery
+
+### Planned Triggers (Future)
+
+- **Transaction Threshold**: Analyze when new transaction > 1.5x average spend
+- **Pattern Detection**: Auto-analyze when category spending exceeds budget
+- **Weekly Summary**: Generate insights every Sunday 6 AM
+- **Significant Event**: Detect anomalies (fraud flags, income changes)
 
 ---
 
@@ -618,6 +1117,41 @@ DEV_USER_ID=2
 
 ---
 
-**Last Updated**: November 14, 2025  
-**Version**: 1.0.0  
+## Related Agent Changes (Nov 2025)
+
+### Mill (Chatbot) Updates
+
+- **Router-native entrypoint** – Mill now runs inside `ConversationRouter` via `web/src/lib/mill/in-process-adapter.ts`
+- **State snapshots with Redis fallback** – Sessions persist via `getConversationStore()` (Redis or in-memory)
+- **Structured actions & attachments** – Emits typed `log_transaction`, `query_data`, `escalate_to_coach` actions with payloads
+
+**Key Integration**: Mill calls `query_spending_summary` which fetches Param's latest insights from `habit_insights` table and displays them to users.
+
+### Chatur (Coach) Updates
+
+- **Router-seeded sessions** – `ConversationalCoach` slots into `ConversationRouter`, cold-starts with Param's insights
+- **Structured guidance loop** – Responses generated via JSON schema capturing `nextQuestion`, goal metadata, and `shouldEscalateToMill` flags
+- **Resilient LLM calls** – Uses circuit breaker + exponential backoff (overload-specific retries) and rule-based fallbacks
+
+**Key Integration**: Chatur receives `latestInsights` and `previousInsights` from Param's automatic handoff, builds coaching plans on evidence.
+
+### Sera (Shopping Assistant) Updates
+
+- **Router-integrated sessions** – Sera runs in shared router, shares conversation context across agents
+- **No direct Param interaction** – Focused on product search and recommendations only
+
+**Key Integration**: Sera coordinates with Mill/Chatur; receives user handoffs when shopping queries detected.
+
+### Conversation Router (Shared)
+
+- **Keyword-based routing** – Routes between mill/chatur/sera based on message content and context
+- **Session hydration** – Rehydrates correct agent session on every `/api/agent` call
+- **State persistence** – Uses `getConversationStore()` for cross-request session continuity
+
+**Database**: Uses `habit_insights` and transaction data to seed agent context on cold-start.
+
+---
+
+**Last Updated**: November 22, 2025  
+**Version**: 1.1.0  
 **Status**: Production Ready ✅
