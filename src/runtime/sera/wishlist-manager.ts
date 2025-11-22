@@ -1,14 +1,18 @@
 ﻿/**
- * Wishlist Manager - API-backed product wishlist for Sera agent
- * Saves and manages product wishlists using REST API
+ * Wishlist Manager - Direct Prisma-backed wishlist utilities used by the CLI stack
  */
 
-import { createWishlistApiClient } from './wishlist-api-client.js';
-import type { WishlistApiClient } from './wishlist-api-client.js';
+import { PrismaClient } from '@prisma/client';
+import { randomUUID } from 'node:crypto';
+
 import { logger } from '../shared/logger.js';
+
+const prisma = new PrismaClient();
+type WishlistRecord = NonNullable<Awaited<ReturnType<typeof prisma.shopping_wishlist.findUnique>>>;
 
 export interface WishlistItem {
   id?: string | undefined;
+  owner?: number | undefined;
   name: string;
   link: string;
   currentPrice: string;
@@ -20,53 +24,70 @@ export interface WishlistItem {
   updatedAt?: string | undefined;
 }
 
-let apiClient: WishlistApiClient | undefined;
-
-function getApiClient(): WishlistApiClient {
-  if (!apiClient) {
-    const baseUrl = process.env.WEB_API_URL || process.env.WEB_BASE_URL || 'http://localhost:3000';
-    const apiKey =
-      process.env.SERVICE_API_TOKEN || process.env.API_KEY || process.env.SERA_SERVICE_API_TOKEN;
-    const userId = parseInt(process.env.DEV_USER_ID || process.env.DEFAULT_USER_ID || '2', 10);
-    
-    if (isNaN(userId) || userId <= 0) {
-      throw new Error('Invalid user ID in environment variables');
-    }
-
-    if (!apiKey && process.env.DISABLE_AUTH !== '1') {
-      throw new Error(
-        'Wishlist API requires SERVICE_API_TOKEN (or API_KEY) when auth is enabled. Set SERVICE_API_TOKEN to match the web app.'
-      );
-    }
-    
-    apiClient = createWishlistApiClient({
-      baseUrl,
-      apiKey,
-      userId,
-    });
+function resolveOwner(owner?: number): number {
+  if (typeof owner === 'number' && Number.isFinite(owner) && owner > 0) {
+    return Math.trunc(owner);
   }
-  
-  return apiClient;
+
+  const fallbackRaw = process.env.DEV_USER_ID || process.env.DEFAULT_USER_ID || '1';
+  const fallback = Number.parseInt(fallbackRaw, 10);
+  if (!Number.isFinite(fallback) || fallback <= 0) {
+    throw new Error('Wishlist owner is not configured. Set DEV_USER_ID or pass ownerId.');
+  }
+  return fallback;
 }
 
+function toIsoDateOnly(date?: Date | null): string {
+  const source = (date ?? new Date()).toISOString();
+  return source.slice(0, 10);
+}
+
+function mapRecord(record: WishlistRecord): WishlistItem {
+  return {
+    id: record.id,
+    owner: record.owner,
+    name: record.name,
+    link: record.link,
+    currentPrice: record.current_price,
+    desiredPrice: record.desired_price,
+    rating: record.rating ?? undefined,
+    source: record.source,
+    dateAdded: toIsoDateOnly(record.date_added),
+    createdAt: record.created_at?.toISOString(),
+    updatedAt: record.updated_at?.toISOString(),
+  };
+}
+
+function mapUpdatePayload(data: Partial<WishlistItem>): Record<string, unknown> {
+  const payload: Record<string, unknown> = {};
+  if (typeof data.name === 'string') payload.name = data.name;
+  if (typeof data.link === 'string') payload.link = data.link;
+  if (typeof data.currentPrice === 'string') payload.current_price = data.currentPrice;
+  if (typeof data.desiredPrice === 'string') payload.desired_price = data.desiredPrice;
+  if (typeof data.rating === 'string') payload.rating = data.rating;
+  if (typeof data.source === 'string') payload.source = data.source;
+  if (typeof data.owner === 'number') payload.owner = Math.trunc(data.owner);
+  if (typeof data.dateAdded === 'string') payload.date_added = new Date(data.dateAdded);
+  return payload;
+}
 export async function addToWishlist(item: WishlistItem, ownerId?: number): Promise<WishlistItem> {
+  const resolvedOwner = resolveOwner(ownerId ?? item.owner);
   try {
-    const client = getApiClient();
-    
-    if (ownerId !== undefined) {
-      const customClient = createWishlistApiClient({
-        baseUrl: process.env.WEB_API_URL || 'http://localhost:3000',
-        apiKey: process.env.API_KEY,
-        userId: ownerId,
-      });
-      const result = await customClient.addToWishlist(item);
-      logger.debug('wishlist', `Added product via API: ${item.name}`);
-      return result.item;
-    }
-    
-    const result = await client.addToWishlist(item);
-    logger.debug('wishlist', `Added product via API: ${item.name}`);
-    return result.item;
+    const record: WishlistRecord = await prisma.shopping_wishlist.create({
+      data: {
+        id: item.id ?? randomUUID(),
+        owner: resolvedOwner,
+        name: item.name,
+        link: item.link,
+        current_price: item.currentPrice,
+        desired_price: item.desiredPrice,
+        rating: item.rating ?? null,
+        source: item.source,
+        date_added: item.dateAdded ? new Date(item.dateAdded) : new Date(),
+      },
+    });
+    logger.debug('wishlist', `Added product via Prisma: ${item.name}`);
+    return mapRecord(record);
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'Unknown error';
     logger.error('wishlist', `Failed to add item: ${msg}`, error);
@@ -76,20 +97,12 @@ export async function addToWishlist(item: WishlistItem, ownerId?: number): Promi
 
 export async function getWishlist(ownerId?: number): Promise<WishlistItem[]> {
   try {
-    const client = getApiClient();
-    
-    if (ownerId !== undefined) {
-      const customClient = createWishlistApiClient({
-        baseUrl: process.env.WEB_API_URL || 'http://localhost:3000',
-        apiKey: process.env.API_KEY,
-        userId: ownerId,
-      });
-      const result = await customClient.getWishlist();
-      return result.items;
-    }
-    
-    const result = await client.getWishlist();
-    return result.items;
+    const resolvedOwner = resolveOwner(ownerId);
+    const records: WishlistRecord[] = await prisma.shopping_wishlist.findMany({
+      where: { owner: resolvedOwner },
+      orderBy: { date_added: 'desc' },
+    });
+    return records.map((record) => mapRecord(record));
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'Unknown error';
     logger.error('wishlist', `Failed to fetch wishlist: ${msg}`, error);
@@ -99,9 +112,8 @@ export async function getWishlist(ownerId?: number): Promise<WishlistItem[]> {
 
 export async function getWishlistItem(id: string): Promise<WishlistItem | undefined> {
   try {
-    const client = getApiClient();
-    const item = await client.getWishlistItem(id);
-    return item;
+  const record = await prisma.shopping_wishlist.findUnique({ where: { id } });
+  return record ? mapRecord(record as WishlistRecord) : undefined;
   } catch (error) {
     if (error instanceof Error && error.message.includes('404')) {
       return undefined;
@@ -117,10 +129,12 @@ export async function updateWishlistItem(
   updates: Partial<Omit<WishlistItem, 'id' | 'dateAdded' | 'createdAt' | 'updatedAt'>>
 ): Promise<WishlistItem> {
   try {
-    const client = getApiClient();
-    const result = await client.updateWishlistItem(id, updates);
+    const record: WishlistRecord = await prisma.shopping_wishlist.update({
+      where: { id },
+      data: mapUpdatePayload(updates),
+    });
     logger.debug('wishlist', `Updated wishlist item: ${id}`);
-    return result.item;
+    return mapRecord(record);
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'Unknown error';
     logger.error('wishlist', `Failed to update item: ${msg}`, error);
@@ -130,8 +144,7 @@ export async function updateWishlistItem(
 
 export async function removeWishlistItem(id: string): Promise<boolean> {
   try {
-    const client = getApiClient();
-    await client.removeWishlistItem(id);
+    await prisma.shopping_wishlist.delete({ where: { id } });
     logger.debug('wishlist', `Removed wishlist item: ${id}`);
     return true;
   } catch (error) {
@@ -143,29 +156,16 @@ export async function removeWishlistItem(id: string): Promise<boolean> {
 
 export async function clearWishlist(ownerId?: number): Promise<number> {
   try {
-    const client = getApiClient();
-    
-    if (ownerId !== undefined) {
-      const customClient = createWishlistApiClient({
-        baseUrl: process.env.WEB_API_URL || 'http://localhost:3000',
-        apiKey: process.env.API_KEY,
-        userId: ownerId,
-      });
-      const result = await customClient.clearWishlist();
-      logger.debug('wishlist', `Cleared wishlist:  items`);
-      return result.deletedCount;
-    }
-    
-    const result = await client.clearWishlist();
-    logger.debug('wishlist', `Cleared wishlist: ${result.deletedCount} items`);
-    return result.deletedCount;
+    const resolvedOwner = resolveOwner(ownerId);
+    const result = await prisma.shopping_wishlist.deleteMany({ where: { owner: resolvedOwner } });
+    logger.debug('wishlist', `Cleared wishlist: ${result.count} items`);
+    return result.count;
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'Unknown error';
     logger.error('wishlist', `Failed to clear wishlist: ${msg}`, error);
     throw new Error(`Failed to clear wishlist: ${msg}`);
   }
 }
-
 export async function disconnectWishlist(): Promise<void> {
-  logger.debug('wishlist', 'API client cleanup (no-op)');
+  await prisma.$disconnect();
 }

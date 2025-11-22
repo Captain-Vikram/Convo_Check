@@ -164,6 +164,11 @@ export type directus_webhooks = $Result.DefaultSelection<Prisma.$directus_webhoo
  */
 export type habit_insights = $Result.DefaultSelection<Prisma.$habit_insightsPayload>
 /**
+ * Model habit_processing_cursors
+ * 
+ */
+export type habit_processing_cursors = $Result.DefaultSelection<Prisma.$habit_processing_cursorsPayload>
+/**
  * Model habit_snapshots
  * 
  */
@@ -613,6 +618,16 @@ export class PrismaClient<
     * ```
     */
   get habit_insights(): Prisma.habit_insightsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.habit_processing_cursors`: Exposes CRUD operations for the **habit_processing_cursors** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Habit_processing_cursors
+    * const habit_processing_cursors = await prisma.habit_processing_cursors.findMany()
+    * ```
+    */
+  get habit_processing_cursors(): Prisma.habit_processing_cursorsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.habit_snapshots`: Exposes CRUD operations for the **habit_snapshots** model.
@@ -1144,6 +1159,7 @@ export namespace Prisma {
     directus_versions: 'directus_versions',
     directus_webhooks: 'directus_webhooks',
     habit_insights: 'habit_insights',
+    habit_processing_cursors: 'habit_processing_cursors',
     habit_snapshots: 'habit_snapshots',
     habit_snapshot_insights: 'habit_snapshot_insights',
     sms_messages: 'sms_messages',
@@ -1168,7 +1184,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "coach_briefings" | "shopping_wishlist" | "directus_access" | "directus_activity" | "directus_collections" | "directus_comments" | "directus_dashboards" | "directus_extensions" | "directus_fields" | "directus_files" | "directus_flows" | "directus_folders" | "directus_migrations" | "directus_notifications" | "directus_operations" | "directus_panels" | "directus_permissions" | "directus_policies" | "directus_presets" | "directus_relations" | "directus_revisions" | "directus_roles" | "directus_sessions" | "directus_settings" | "directus_shares" | "directus_translations" | "directus_users" | "directus_versions" | "directus_webhooks" | "habit_insights" | "habit_snapshots" | "habit_snapshot_insights" | "sms_messages" | "tranasctions" | "users" | "alerts"
+      modelProps: "coach_briefings" | "shopping_wishlist" | "directus_access" | "directus_activity" | "directus_collections" | "directus_comments" | "directus_dashboards" | "directus_extensions" | "directus_fields" | "directus_files" | "directus_flows" | "directus_folders" | "directus_migrations" | "directus_notifications" | "directus_operations" | "directus_panels" | "directus_permissions" | "directus_policies" | "directus_presets" | "directus_relations" | "directus_revisions" | "directus_roles" | "directus_sessions" | "directus_settings" | "directus_shares" | "directus_translations" | "directus_users" | "directus_versions" | "directus_webhooks" | "habit_insights" | "habit_processing_cursors" | "habit_snapshots" | "habit_snapshot_insights" | "sms_messages" | "tranasctions" | "users" | "alerts"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3392,6 +3408,80 @@ export namespace Prisma {
           }
         }
       }
+      habit_processing_cursors: {
+        payload: Prisma.$habit_processing_cursorsPayload<ExtArgs>
+        fields: Prisma.habit_processing_cursorsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.habit_processing_cursorsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$habit_processing_cursorsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.habit_processing_cursorsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$habit_processing_cursorsPayload>
+          }
+          findFirst: {
+            args: Prisma.habit_processing_cursorsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$habit_processing_cursorsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.habit_processing_cursorsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$habit_processing_cursorsPayload>
+          }
+          findMany: {
+            args: Prisma.habit_processing_cursorsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$habit_processing_cursorsPayload>[]
+          }
+          create: {
+            args: Prisma.habit_processing_cursorsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$habit_processing_cursorsPayload>
+          }
+          createMany: {
+            args: Prisma.habit_processing_cursorsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.habit_processing_cursorsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$habit_processing_cursorsPayload>[]
+          }
+          delete: {
+            args: Prisma.habit_processing_cursorsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$habit_processing_cursorsPayload>
+          }
+          update: {
+            args: Prisma.habit_processing_cursorsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$habit_processing_cursorsPayload>
+          }
+          deleteMany: {
+            args: Prisma.habit_processing_cursorsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.habit_processing_cursorsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.habit_processing_cursorsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$habit_processing_cursorsPayload>[]
+          }
+          upsert: {
+            args: Prisma.habit_processing_cursorsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$habit_processing_cursorsPayload>
+          }
+          aggregate: {
+            args: Prisma.Habit_processing_cursorsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHabit_processing_cursors>
+          }
+          groupBy: {
+            args: Prisma.habit_processing_cursorsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Habit_processing_cursorsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.habit_processing_cursorsCountArgs<ExtArgs>
+            result: $Utils.Optional<Habit_processing_cursorsCountAggregateOutputType> | number
+          }
+        }
+      }
       habit_snapshots: {
         payload: Prisma.$habit_snapshotsPayload<ExtArgs>
         fields: Prisma.habit_snapshotsFieldRefs
@@ -3962,6 +4052,7 @@ export namespace Prisma {
     directus_versions?: directus_versionsOmit
     directus_webhooks?: directus_webhooksOmit
     habit_insights?: habit_insightsOmit
+    habit_processing_cursors?: habit_processing_cursorsOmit
     habit_snapshots?: habit_snapshotsOmit
     habit_snapshot_insights?: habit_snapshot_insightsOmit
     sms_messages?: sms_messagesOmit
@@ -4486,8 +4577,6 @@ export namespace Prisma {
   export type Directus_usersCountOutputType = {
     alerts_alerts_user_createdTodirectus_users: number
     alerts_alerts_user_updatedTodirectus_users: number
-    coach_briefings_coach_briefings_user_createdTodirectus_users: number
-    coach_briefings_coach_briefings_user_updatedTodirectus_users: number
     directus_access: number
     directus_comments_directus_comments_user_createdTodirectus_users: number
     directus_comments_directus_comments_user_updatedTodirectus_users: number
@@ -4502,12 +4591,12 @@ export namespace Prisma {
     directus_presets: number
     directus_sessions: number
     directus_shares: number
-    directus_versions_directus_versions_user_createdTodirectus_users: number
-    directus_versions_directus_versions_user_updatedTodirectus_users: number
-    habit_insights_habit_insights_user_createdTodirectus_users: number
-    habit_insights_habit_insights_user_updatedTodirectus_users: number
+    coach_briefings_coach_briefings_user_createdTodirectus_users: number
+    coach_briefings_coach_briefings_user_updatedTodirectus_users: number
     habit_snapshots_habit_snapshots_user_createdTodirectus_users: number
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users: number
+    directus_versions_directus_versions_user_createdTodirectus_users: number
+    directus_versions_directus_versions_user_updatedTodirectus_users: number
     sms_messages_sms_messages_user_createdTodirectus_users: number
     sms_messages_sms_messages_user_updatedTodirectus_users: number
   }
@@ -4515,8 +4604,6 @@ export namespace Prisma {
   export type Directus_usersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alerts_alerts_user_createdTodirectus_users?: boolean | Directus_usersCountOutputTypeCountAlerts_alerts_user_createdTodirectus_usersArgs
     alerts_alerts_user_updatedTodirectus_users?: boolean | Directus_usersCountOutputTypeCountAlerts_alerts_user_updatedTodirectus_usersArgs
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: boolean | Directus_usersCountOutputTypeCountCoach_briefings_coach_briefings_user_createdTodirectus_usersArgs
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: boolean | Directus_usersCountOutputTypeCountCoach_briefings_coach_briefings_user_updatedTodirectus_usersArgs
     directus_access?: boolean | Directus_usersCountOutputTypeCountDirectus_accessArgs
     directus_comments_directus_comments_user_createdTodirectus_users?: boolean | Directus_usersCountOutputTypeCountDirectus_comments_directus_comments_user_createdTodirectus_usersArgs
     directus_comments_directus_comments_user_updatedTodirectus_users?: boolean | Directus_usersCountOutputTypeCountDirectus_comments_directus_comments_user_updatedTodirectus_usersArgs
@@ -4531,12 +4618,12 @@ export namespace Prisma {
     directus_presets?: boolean | Directus_usersCountOutputTypeCountDirectus_presetsArgs
     directus_sessions?: boolean | Directus_usersCountOutputTypeCountDirectus_sessionsArgs
     directus_shares?: boolean | Directus_usersCountOutputTypeCountDirectus_sharesArgs
-    directus_versions_directus_versions_user_createdTodirectus_users?: boolean | Directus_usersCountOutputTypeCountDirectus_versions_directus_versions_user_createdTodirectus_usersArgs
-    directus_versions_directus_versions_user_updatedTodirectus_users?: boolean | Directus_usersCountOutputTypeCountDirectus_versions_directus_versions_user_updatedTodirectus_usersArgs
-    habit_insights_habit_insights_user_createdTodirectus_users?: boolean | Directus_usersCountOutputTypeCountHabit_insights_habit_insights_user_createdTodirectus_usersArgs
-    habit_insights_habit_insights_user_updatedTodirectus_users?: boolean | Directus_usersCountOutputTypeCountHabit_insights_habit_insights_user_updatedTodirectus_usersArgs
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: boolean | Directus_usersCountOutputTypeCountCoach_briefings_coach_briefings_user_createdTodirectus_usersArgs
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: boolean | Directus_usersCountOutputTypeCountCoach_briefings_coach_briefings_user_updatedTodirectus_usersArgs
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: boolean | Directus_usersCountOutputTypeCountHabit_snapshots_habit_snapshots_user_createdTodirectus_usersArgs
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: boolean | Directus_usersCountOutputTypeCountHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs
+    directus_versions_directus_versions_user_createdTodirectus_users?: boolean | Directus_usersCountOutputTypeCountDirectus_versions_directus_versions_user_createdTodirectus_usersArgs
+    directus_versions_directus_versions_user_updatedTodirectus_users?: boolean | Directus_usersCountOutputTypeCountDirectus_versions_directus_versions_user_updatedTodirectus_usersArgs
     sms_messages_sms_messages_user_createdTodirectus_users?: boolean | Directus_usersCountOutputTypeCountSms_messages_sms_messages_user_createdTodirectus_usersArgs
     sms_messages_sms_messages_user_updatedTodirectus_users?: boolean | Directus_usersCountOutputTypeCountSms_messages_sms_messages_user_updatedTodirectus_usersArgs
   }
@@ -4564,20 +4651,6 @@ export namespace Prisma {
    */
   export type Directus_usersCountOutputTypeCountAlerts_alerts_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: alertsWhereInput
-  }
-
-  /**
-   * Directus_usersCountOutputType without action
-   */
-  export type Directus_usersCountOutputTypeCountCoach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: coach_briefingsWhereInput
-  }
-
-  /**
-   * Directus_usersCountOutputType without action
-   */
-  export type Directus_usersCountOutputTypeCountCoach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: coach_briefingsWhereInput
   }
 
   /**
@@ -4681,29 +4754,15 @@ export namespace Prisma {
   /**
    * Directus_usersCountOutputType without action
    */
-  export type Directus_usersCountOutputTypeCountDirectus_versions_directus_versions_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: directus_versionsWhereInput
+  export type Directus_usersCountOutputTypeCountCoach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: coach_briefingsWhereInput
   }
 
   /**
    * Directus_usersCountOutputType without action
    */
-  export type Directus_usersCountOutputTypeCountDirectus_versions_directus_versions_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: directus_versionsWhereInput
-  }
-
-  /**
-   * Directus_usersCountOutputType without action
-   */
-  export type Directus_usersCountOutputTypeCountHabit_insights_habit_insights_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: habit_insightsWhereInput
-  }
-
-  /**
-   * Directus_usersCountOutputType without action
-   */
-  export type Directus_usersCountOutputTypeCountHabit_insights_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: habit_insightsWhereInput
+  export type Directus_usersCountOutputTypeCountCoach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: coach_briefingsWhereInput
   }
 
   /**
@@ -4718,6 +4777,20 @@ export namespace Prisma {
    */
   export type Directus_usersCountOutputTypeCountHabit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: habit_snapshotsWhereInput
+  }
+
+  /**
+   * Directus_usersCountOutputType without action
+   */
+  export type Directus_usersCountOutputTypeCountDirectus_versions_directus_versions_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: directus_versionsWhereInput
+  }
+
+  /**
+   * Directus_usersCountOutputType without action
+   */
+  export type Directus_usersCountOutputTypeCountDirectus_versions_directus_versions_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: directus_versionsWhereInput
   }
 
   /**
@@ -4874,12 +4947,10 @@ export namespace Prisma {
 
   export type TranasctionsCountOutputType = {
     alerts: number
-    habit_insights: number
   }
 
   export type TranasctionsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alerts?: boolean | TranasctionsCountOutputTypeCountAlertsArgs
-    habit_insights?: boolean | TranasctionsCountOutputTypeCountHabit_insightsArgs
   }
 
   // Custom InputTypes
@@ -4898,13 +4969,6 @@ export namespace Prisma {
    */
   export type TranasctionsCountOutputTypeCountAlertsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: alertsWhereInput
-  }
-
-  /**
-   * TranasctionsCountOutputType without action
-   */
-  export type TranasctionsCountOutputTypeCountHabit_insightsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: habit_insightsWhereInput
   }
 
 
@@ -5002,12 +5066,14 @@ export namespace Prisma {
 
   export type Coach_briefingsAvgAggregateOutputType = {
     owner: number | null
+    answer_version: number | null
     snapshot: number | null
     sort: number | null
   }
 
   export type Coach_briefingsSumAggregateOutputType = {
     owner: number | null
+    answer_version: number | null
     snapshot: number | null
     sort: number | null
   }
@@ -5018,14 +5084,17 @@ export namespace Prisma {
     headline: string | null
     counsel: string | null
     evidence: string | null
-    trigger: string | null
+    user_question: string | null
+    agent_answer: string | null
+    question_hash: string | null
+    insight_hash: string | null
+    answer_version: number | null
+    snapshot: number | null
     delivered: boolean | null
     delivered_at: Date | null
     date_created: Date | null
-    insight_hash: string | null
-    snapshot: number | null
-    status: string | null
     date_updated: Date | null
+    status: string | null
     sort: number | null
     user_created: string | null
     user_updated: string | null
@@ -5037,14 +5106,17 @@ export namespace Prisma {
     headline: string | null
     counsel: string | null
     evidence: string | null
-    trigger: string | null
+    user_question: string | null
+    agent_answer: string | null
+    question_hash: string | null
+    insight_hash: string | null
+    answer_version: number | null
+    snapshot: number | null
     delivered: boolean | null
     delivered_at: Date | null
     date_created: Date | null
-    insight_hash: string | null
-    snapshot: number | null
-    status: string | null
     date_updated: Date | null
+    status: string | null
     sort: number | null
     user_created: string | null
     user_updated: string | null
@@ -5056,15 +5128,19 @@ export namespace Prisma {
     headline: number
     counsel: number
     evidence: number
-    trigger: number
+    user_question: number
+    agent_answer: number
+    question_hash: number
+    question_embedding: number
+    insight_hash: number
+    insights_used: number
+    answer_version: number
+    snapshot: number
     delivered: number
     delivered_at: number
     date_created: number
-    insight_hash: number
-    metadata: number
-    snapshot: number
-    status: number
     date_updated: number
+    status: number
     sort: number
     user_created: number
     user_updated: number
@@ -5074,12 +5150,14 @@ export namespace Prisma {
 
   export type Coach_briefingsAvgAggregateInputType = {
     owner?: true
+    answer_version?: true
     snapshot?: true
     sort?: true
   }
 
   export type Coach_briefingsSumAggregateInputType = {
     owner?: true
+    answer_version?: true
     snapshot?: true
     sort?: true
   }
@@ -5090,14 +5168,17 @@ export namespace Prisma {
     headline?: true
     counsel?: true
     evidence?: true
-    trigger?: true
+    user_question?: true
+    agent_answer?: true
+    question_hash?: true
+    insight_hash?: true
+    answer_version?: true
+    snapshot?: true
     delivered?: true
     delivered_at?: true
     date_created?: true
-    insight_hash?: true
-    snapshot?: true
-    status?: true
     date_updated?: true
+    status?: true
     sort?: true
     user_created?: true
     user_updated?: true
@@ -5109,14 +5190,17 @@ export namespace Prisma {
     headline?: true
     counsel?: true
     evidence?: true
-    trigger?: true
+    user_question?: true
+    agent_answer?: true
+    question_hash?: true
+    insight_hash?: true
+    answer_version?: true
+    snapshot?: true
     delivered?: true
     delivered_at?: true
     date_created?: true
-    insight_hash?: true
-    snapshot?: true
-    status?: true
     date_updated?: true
+    status?: true
     sort?: true
     user_created?: true
     user_updated?: true
@@ -5128,15 +5212,19 @@ export namespace Prisma {
     headline?: true
     counsel?: true
     evidence?: true
-    trigger?: true
+    user_question?: true
+    agent_answer?: true
+    question_hash?: true
+    question_embedding?: true
+    insight_hash?: true
+    insights_used?: true
+    answer_version?: true
+    snapshot?: true
     delivered?: true
     delivered_at?: true
     date_created?: true
-    insight_hash?: true
-    metadata?: true
-    snapshot?: true
-    status?: true
     date_updated?: true
+    status?: true
     sort?: true
     user_created?: true
     user_updated?: true
@@ -5232,18 +5320,22 @@ export namespace Prisma {
   export type Coach_briefingsGroupByOutputType = {
     id: string
     owner: number
-    headline: string
-    counsel: string
+    headline: string | null
+    counsel: string | null
     evidence: string | null
-    trigger: string | null
+    user_question: string | null
+    agent_answer: string | null
+    question_hash: string | null
+    question_embedding: JsonValue | null
+    insight_hash: string
+    insights_used: JsonValue | null
+    answer_version: number
+    snapshot: number | null
     delivered: boolean
     delivered_at: Date | null
     date_created: Date
-    insight_hash: string
-    metadata: JsonValue | null
-    snapshot: number | null
-    status: string
     date_updated: Date | null
+    status: string
     sort: number | null
     user_created: string | null
     user_updated: string | null
@@ -5274,15 +5366,19 @@ export namespace Prisma {
     headline?: boolean
     counsel?: boolean
     evidence?: boolean
-    trigger?: boolean
+    user_question?: boolean
+    agent_answer?: boolean
+    question_hash?: boolean
+    question_embedding?: boolean
+    insight_hash?: boolean
+    insights_used?: boolean
+    answer_version?: boolean
+    snapshot?: boolean
     delivered?: boolean
     delivered_at?: boolean
     date_created?: boolean
-    insight_hash?: boolean
-    metadata?: boolean
-    snapshot?: boolean
-    status?: boolean
     date_updated?: boolean
+    status?: boolean
     sort?: boolean
     user_created?: boolean
     user_updated?: boolean
@@ -5298,15 +5394,19 @@ export namespace Prisma {
     headline?: boolean
     counsel?: boolean
     evidence?: boolean
-    trigger?: boolean
+    user_question?: boolean
+    agent_answer?: boolean
+    question_hash?: boolean
+    question_embedding?: boolean
+    insight_hash?: boolean
+    insights_used?: boolean
+    answer_version?: boolean
+    snapshot?: boolean
     delivered?: boolean
     delivered_at?: boolean
     date_created?: boolean
-    insight_hash?: boolean
-    metadata?: boolean
-    snapshot?: boolean
-    status?: boolean
     date_updated?: boolean
+    status?: boolean
     sort?: boolean
     user_created?: boolean
     user_updated?: boolean
@@ -5322,15 +5422,19 @@ export namespace Prisma {
     headline?: boolean
     counsel?: boolean
     evidence?: boolean
-    trigger?: boolean
+    user_question?: boolean
+    agent_answer?: boolean
+    question_hash?: boolean
+    question_embedding?: boolean
+    insight_hash?: boolean
+    insights_used?: boolean
+    answer_version?: boolean
+    snapshot?: boolean
     delivered?: boolean
     delivered_at?: boolean
     date_created?: boolean
-    insight_hash?: boolean
-    metadata?: boolean
-    snapshot?: boolean
-    status?: boolean
     date_updated?: boolean
+    status?: boolean
     sort?: boolean
     user_created?: boolean
     user_updated?: boolean
@@ -5346,21 +5450,25 @@ export namespace Prisma {
     headline?: boolean
     counsel?: boolean
     evidence?: boolean
-    trigger?: boolean
+    user_question?: boolean
+    agent_answer?: boolean
+    question_hash?: boolean
+    question_embedding?: boolean
+    insight_hash?: boolean
+    insights_used?: boolean
+    answer_version?: boolean
+    snapshot?: boolean
     delivered?: boolean
     delivered_at?: boolean
     date_created?: boolean
-    insight_hash?: boolean
-    metadata?: boolean
-    snapshot?: boolean
-    status?: boolean
     date_updated?: boolean
+    status?: boolean
     sort?: boolean
     user_created?: boolean
     user_updated?: boolean
   }
 
-  export type coach_briefingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "owner" | "headline" | "counsel" | "evidence" | "trigger" | "delivered" | "delivered_at" | "date_created" | "insight_hash" | "metadata" | "snapshot" | "status" | "date_updated" | "sort" | "user_created" | "user_updated", ExtArgs["result"]["coach_briefings"]>
+  export type coach_briefingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "owner" | "headline" | "counsel" | "evidence" | "user_question" | "agent_answer" | "question_hash" | "question_embedding" | "insight_hash" | "insights_used" | "answer_version" | "snapshot" | "delivered" | "delivered_at" | "date_created" | "date_updated" | "status" | "sort" | "user_created" | "user_updated", ExtArgs["result"]["coach_briefings"]>
   export type coach_briefingsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | usersDefaultArgs<ExtArgs>
     habit_snapshots?: boolean | coach_briefings$habit_snapshotsArgs<ExtArgs>
@@ -5391,18 +5499,22 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       owner: number
-      headline: string
-      counsel: string
+      headline: string | null
+      counsel: string | null
       evidence: string | null
-      trigger: string | null
+      user_question: string | null
+      agent_answer: string | null
+      question_hash: string | null
+      question_embedding: Prisma.JsonValue | null
+      insight_hash: string
+      insights_used: Prisma.JsonValue | null
+      answer_version: number
+      snapshot: number | null
       delivered: boolean
       delivered_at: Date | null
       date_created: Date
-      insight_hash: string
-      metadata: Prisma.JsonValue | null
-      snapshot: number | null
-      status: string
       date_updated: Date | null
+      status: string
       sort: number | null
       user_created: string | null
       user_updated: string | null
@@ -5838,15 +5950,19 @@ export namespace Prisma {
     readonly headline: FieldRef<"coach_briefings", 'String'>
     readonly counsel: FieldRef<"coach_briefings", 'String'>
     readonly evidence: FieldRef<"coach_briefings", 'String'>
-    readonly trigger: FieldRef<"coach_briefings", 'String'>
+    readonly user_question: FieldRef<"coach_briefings", 'String'>
+    readonly agent_answer: FieldRef<"coach_briefings", 'String'>
+    readonly question_hash: FieldRef<"coach_briefings", 'String'>
+    readonly question_embedding: FieldRef<"coach_briefings", 'Json'>
+    readonly insight_hash: FieldRef<"coach_briefings", 'String'>
+    readonly insights_used: FieldRef<"coach_briefings", 'Json'>
+    readonly answer_version: FieldRef<"coach_briefings", 'Int'>
+    readonly snapshot: FieldRef<"coach_briefings", 'Int'>
     readonly delivered: FieldRef<"coach_briefings", 'Boolean'>
     readonly delivered_at: FieldRef<"coach_briefings", 'DateTime'>
     readonly date_created: FieldRef<"coach_briefings", 'DateTime'>
-    readonly insight_hash: FieldRef<"coach_briefings", 'String'>
-    readonly metadata: FieldRef<"coach_briefings", 'Json'>
-    readonly snapshot: FieldRef<"coach_briefings", 'Int'>
-    readonly status: FieldRef<"coach_briefings", 'String'>
     readonly date_updated: FieldRef<"coach_briefings", 'DateTime'>
+    readonly status: FieldRef<"coach_briefings", 'String'>
     readonly sort: FieldRef<"coach_briefings", 'Int'>
     readonly user_created: FieldRef<"coach_briefings", 'String'>
     readonly user_updated: FieldRef<"coach_briefings", 'String'>
@@ -36664,8 +36780,6 @@ export namespace Prisma {
     text_direction?: boolean
     alerts_alerts_user_createdTodirectus_users?: boolean | directus_users$alerts_alerts_user_createdTodirectus_usersArgs<ExtArgs>
     alerts_alerts_user_updatedTodirectus_users?: boolean | directus_users$alerts_alerts_user_updatedTodirectus_usersArgs<ExtArgs>
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: boolean | directus_users$coach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs>
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: boolean | directus_users$coach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs>
     directus_access?: boolean | directus_users$directus_accessArgs<ExtArgs>
     directus_comments_directus_comments_user_createdTodirectus_users?: boolean | directus_users$directus_comments_directus_comments_user_createdTodirectus_usersArgs<ExtArgs>
     directus_comments_directus_comments_user_updatedTodirectus_users?: boolean | directus_users$directus_comments_directus_comments_user_updatedTodirectus_usersArgs<ExtArgs>
@@ -36680,13 +36794,13 @@ export namespace Prisma {
     directus_presets?: boolean | directus_users$directus_presetsArgs<ExtArgs>
     directus_sessions?: boolean | directus_users$directus_sessionsArgs<ExtArgs>
     directus_shares?: boolean | directus_users$directus_sharesArgs<ExtArgs>
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: boolean | directus_users$coach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs>
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: boolean | directus_users$coach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs>
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: boolean | directus_users$habit_snapshots_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs>
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: boolean | directus_users$habit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs>
     directus_roles?: boolean | directus_users$directus_rolesArgs<ExtArgs>
     directus_versions_directus_versions_user_createdTodirectus_users?: boolean | directus_users$directus_versions_directus_versions_user_createdTodirectus_usersArgs<ExtArgs>
     directus_versions_directus_versions_user_updatedTodirectus_users?: boolean | directus_users$directus_versions_directus_versions_user_updatedTodirectus_usersArgs<ExtArgs>
-    habit_insights_habit_insights_user_createdTodirectus_users?: boolean | directus_users$habit_insights_habit_insights_user_createdTodirectus_usersArgs<ExtArgs>
-    habit_insights_habit_insights_user_updatedTodirectus_users?: boolean | directus_users$habit_insights_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs>
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: boolean | directus_users$habit_snapshots_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs>
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: boolean | directus_users$habit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs>
     sms_messages_sms_messages_user_createdTodirectus_users?: boolean | directus_users$sms_messages_sms_messages_user_createdTodirectus_usersArgs<ExtArgs>
     sms_messages_sms_messages_user_updatedTodirectus_users?: boolean | directus_users$sms_messages_sms_messages_user_updatedTodirectus_usersArgs<ExtArgs>
     _count?: boolean | Directus_usersCountOutputTypeDefaultArgs<ExtArgs>
@@ -36788,8 +36902,6 @@ export namespace Prisma {
   export type directus_usersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alerts_alerts_user_createdTodirectus_users?: boolean | directus_users$alerts_alerts_user_createdTodirectus_usersArgs<ExtArgs>
     alerts_alerts_user_updatedTodirectus_users?: boolean | directus_users$alerts_alerts_user_updatedTodirectus_usersArgs<ExtArgs>
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: boolean | directus_users$coach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs>
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: boolean | directus_users$coach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs>
     directus_access?: boolean | directus_users$directus_accessArgs<ExtArgs>
     directus_comments_directus_comments_user_createdTodirectus_users?: boolean | directus_users$directus_comments_directus_comments_user_createdTodirectus_usersArgs<ExtArgs>
     directus_comments_directus_comments_user_updatedTodirectus_users?: boolean | directus_users$directus_comments_directus_comments_user_updatedTodirectus_usersArgs<ExtArgs>
@@ -36804,13 +36916,13 @@ export namespace Prisma {
     directus_presets?: boolean | directus_users$directus_presetsArgs<ExtArgs>
     directus_sessions?: boolean | directus_users$directus_sessionsArgs<ExtArgs>
     directus_shares?: boolean | directus_users$directus_sharesArgs<ExtArgs>
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: boolean | directus_users$coach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs>
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: boolean | directus_users$coach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs>
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: boolean | directus_users$habit_snapshots_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs>
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: boolean | directus_users$habit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs>
     directus_roles?: boolean | directus_users$directus_rolesArgs<ExtArgs>
     directus_versions_directus_versions_user_createdTodirectus_users?: boolean | directus_users$directus_versions_directus_versions_user_createdTodirectus_usersArgs<ExtArgs>
     directus_versions_directus_versions_user_updatedTodirectus_users?: boolean | directus_users$directus_versions_directus_versions_user_updatedTodirectus_usersArgs<ExtArgs>
-    habit_insights_habit_insights_user_createdTodirectus_users?: boolean | directus_users$habit_insights_habit_insights_user_createdTodirectus_usersArgs<ExtArgs>
-    habit_insights_habit_insights_user_updatedTodirectus_users?: boolean | directus_users$habit_insights_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs>
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: boolean | directus_users$habit_snapshots_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs>
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: boolean | directus_users$habit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs>
     sms_messages_sms_messages_user_createdTodirectus_users?: boolean | directus_users$sms_messages_sms_messages_user_createdTodirectus_usersArgs<ExtArgs>
     sms_messages_sms_messages_user_updatedTodirectus_users?: boolean | directus_users$sms_messages_sms_messages_user_updatedTodirectus_usersArgs<ExtArgs>
     _count?: boolean | Directus_usersCountOutputTypeDefaultArgs<ExtArgs>
@@ -36827,8 +36939,6 @@ export namespace Prisma {
     objects: {
       alerts_alerts_user_createdTodirectus_users: Prisma.$alertsPayload<ExtArgs>[]
       alerts_alerts_user_updatedTodirectus_users: Prisma.$alertsPayload<ExtArgs>[]
-      coach_briefings_coach_briefings_user_createdTodirectus_users: Prisma.$coach_briefingsPayload<ExtArgs>[]
-      coach_briefings_coach_briefings_user_updatedTodirectus_users: Prisma.$coach_briefingsPayload<ExtArgs>[]
       directus_access: Prisma.$directus_accessPayload<ExtArgs>[]
       directus_comments_directus_comments_user_createdTodirectus_users: Prisma.$directus_commentsPayload<ExtArgs>[]
       directus_comments_directus_comments_user_updatedTodirectus_users: Prisma.$directus_commentsPayload<ExtArgs>[]
@@ -36843,13 +36953,13 @@ export namespace Prisma {
       directus_presets: Prisma.$directus_presetsPayload<ExtArgs>[]
       directus_sessions: Prisma.$directus_sessionsPayload<ExtArgs>[]
       directus_shares: Prisma.$directus_sharesPayload<ExtArgs>[]
+      coach_briefings_coach_briefings_user_createdTodirectus_users: Prisma.$coach_briefingsPayload<ExtArgs>[]
+      coach_briefings_coach_briefings_user_updatedTodirectus_users: Prisma.$coach_briefingsPayload<ExtArgs>[]
+      habit_snapshots_habit_snapshots_user_createdTodirectus_users: Prisma.$habit_snapshotsPayload<ExtArgs>[]
+      habit_snapshots_habit_snapshots_user_updatedTodirectus_users: Prisma.$habit_snapshotsPayload<ExtArgs>[]
       directus_roles: Prisma.$directus_rolesPayload<ExtArgs> | null
       directus_versions_directus_versions_user_createdTodirectus_users: Prisma.$directus_versionsPayload<ExtArgs>[]
       directus_versions_directus_versions_user_updatedTodirectus_users: Prisma.$directus_versionsPayload<ExtArgs>[]
-      habit_insights_habit_insights_user_createdTodirectus_users: Prisma.$habit_insightsPayload<ExtArgs>[]
-      habit_insights_habit_insights_user_updatedTodirectus_users: Prisma.$habit_insightsPayload<ExtArgs>[]
-      habit_snapshots_habit_snapshots_user_createdTodirectus_users: Prisma.$habit_snapshotsPayload<ExtArgs>[]
-      habit_snapshots_habit_snapshots_user_updatedTodirectus_users: Prisma.$habit_snapshotsPayload<ExtArgs>[]
       sms_messages_sms_messages_user_createdTodirectus_users: Prisma.$sms_messagesPayload<ExtArgs>[]
       sms_messages_sms_messages_user_updatedTodirectus_users: Prisma.$sms_messagesPayload<ExtArgs>[]
     }
@@ -37277,8 +37387,6 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     alerts_alerts_user_createdTodirectus_users<T extends directus_users$alerts_alerts_user_createdTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$alerts_alerts_user_createdTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$alertsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     alerts_alerts_user_updatedTodirectus_users<T extends directus_users$alerts_alerts_user_updatedTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$alerts_alerts_user_updatedTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$alertsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    coach_briefings_coach_briefings_user_createdTodirectus_users<T extends directus_users$coach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$coach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$coach_briefingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    coach_briefings_coach_briefings_user_updatedTodirectus_users<T extends directus_users$coach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$coach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$coach_briefingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     directus_access<T extends directus_users$directus_accessArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$directus_accessArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$directus_accessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     directus_comments_directus_comments_user_createdTodirectus_users<T extends directus_users$directus_comments_directus_comments_user_createdTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$directus_comments_directus_comments_user_createdTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$directus_commentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     directus_comments_directus_comments_user_updatedTodirectus_users<T extends directus_users$directus_comments_directus_comments_user_updatedTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$directus_comments_directus_comments_user_updatedTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$directus_commentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -37293,13 +37401,13 @@ export namespace Prisma {
     directus_presets<T extends directus_users$directus_presetsArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$directus_presetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$directus_presetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     directus_sessions<T extends directus_users$directus_sessionsArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$directus_sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$directus_sessionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     directus_shares<T extends directus_users$directus_sharesArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$directus_sharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$directus_sharesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    coach_briefings_coach_briefings_user_createdTodirectus_users<T extends directus_users$coach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$coach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$coach_briefingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    coach_briefings_coach_briefings_user_updatedTodirectus_users<T extends directus_users$coach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$coach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$coach_briefingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users<T extends directus_users$habit_snapshots_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$habit_snapshots_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_snapshotsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users<T extends directus_users$habit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$habit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_snapshotsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     directus_roles<T extends directus_users$directus_rolesArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$directus_rolesArgs<ExtArgs>>): Prisma__directus_rolesClient<$Result.GetResult<Prisma.$directus_rolesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     directus_versions_directus_versions_user_createdTodirectus_users<T extends directus_users$directus_versions_directus_versions_user_createdTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$directus_versions_directus_versions_user_createdTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$directus_versionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     directus_versions_directus_versions_user_updatedTodirectus_users<T extends directus_users$directus_versions_directus_versions_user_updatedTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$directus_versions_directus_versions_user_updatedTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$directus_versionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    habit_insights_habit_insights_user_createdTodirectus_users<T extends directus_users$habit_insights_habit_insights_user_createdTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$habit_insights_habit_insights_user_createdTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_insightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    habit_insights_habit_insights_user_updatedTodirectus_users<T extends directus_users$habit_insights_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$habit_insights_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_insightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users<T extends directus_users$habit_snapshots_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$habit_snapshots_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_snapshotsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users<T extends directus_users$habit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$habit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_snapshotsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sms_messages_sms_messages_user_createdTodirectus_users<T extends directus_users$sms_messages_sms_messages_user_createdTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$sms_messages_sms_messages_user_createdTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$sms_messagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sms_messages_sms_messages_user_updatedTodirectus_users<T extends directus_users$sms_messages_sms_messages_user_updatedTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, directus_users$sms_messages_sms_messages_user_updatedTodirectus_usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$sms_messagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -37802,54 +37910,6 @@ export namespace Prisma {
   }
 
   /**
-   * directus_users.coach_briefings_coach_briefings_user_createdTodirectus_users
-   */
-  export type directus_users$coach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the coach_briefings
-     */
-    select?: coach_briefingsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the coach_briefings
-     */
-    omit?: coach_briefingsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: coach_briefingsInclude<ExtArgs> | null
-    where?: coach_briefingsWhereInput
-    orderBy?: coach_briefingsOrderByWithRelationInput | coach_briefingsOrderByWithRelationInput[]
-    cursor?: coach_briefingsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Coach_briefingsScalarFieldEnum | Coach_briefingsScalarFieldEnum[]
-  }
-
-  /**
-   * directus_users.coach_briefings_coach_briefings_user_updatedTodirectus_users
-   */
-  export type directus_users$coach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the coach_briefings
-     */
-    select?: coach_briefingsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the coach_briefings
-     */
-    omit?: coach_briefingsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: coach_briefingsInclude<ExtArgs> | null
-    where?: coach_briefingsWhereInput
-    orderBy?: coach_briefingsOrderByWithRelationInput | coach_briefingsOrderByWithRelationInput[]
-    cursor?: coach_briefingsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Coach_briefingsScalarFieldEnum | Coach_briefingsScalarFieldEnum[]
-  }
-
-  /**
    * directus_users.directus_access
    */
   export type directus_users$directus_accessArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -38186,6 +38246,102 @@ export namespace Prisma {
   }
 
   /**
+   * directus_users.coach_briefings_coach_briefings_user_createdTodirectus_users
+   */
+  export type directus_users$coach_briefings_coach_briefings_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the coach_briefings
+     */
+    select?: coach_briefingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the coach_briefings
+     */
+    omit?: coach_briefingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: coach_briefingsInclude<ExtArgs> | null
+    where?: coach_briefingsWhereInput
+    orderBy?: coach_briefingsOrderByWithRelationInput | coach_briefingsOrderByWithRelationInput[]
+    cursor?: coach_briefingsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Coach_briefingsScalarFieldEnum | Coach_briefingsScalarFieldEnum[]
+  }
+
+  /**
+   * directus_users.coach_briefings_coach_briefings_user_updatedTodirectus_users
+   */
+  export type directus_users$coach_briefings_coach_briefings_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the coach_briefings
+     */
+    select?: coach_briefingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the coach_briefings
+     */
+    omit?: coach_briefingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: coach_briefingsInclude<ExtArgs> | null
+    where?: coach_briefingsWhereInput
+    orderBy?: coach_briefingsOrderByWithRelationInput | coach_briefingsOrderByWithRelationInput[]
+    cursor?: coach_briefingsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Coach_briefingsScalarFieldEnum | Coach_briefingsScalarFieldEnum[]
+  }
+
+  /**
+   * directus_users.habit_snapshots_habit_snapshots_user_createdTodirectus_users
+   */
+  export type directus_users$habit_snapshots_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_snapshots
+     */
+    select?: habit_snapshotsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_snapshots
+     */
+    omit?: habit_snapshotsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_snapshotsInclude<ExtArgs> | null
+    where?: habit_snapshotsWhereInput
+    orderBy?: habit_snapshotsOrderByWithRelationInput | habit_snapshotsOrderByWithRelationInput[]
+    cursor?: habit_snapshotsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Habit_snapshotsScalarFieldEnum | Habit_snapshotsScalarFieldEnum[]
+  }
+
+  /**
+   * directus_users.habit_snapshots_habit_snapshots_user_updatedTodirectus_users
+   */
+  export type directus_users$habit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_snapshots
+     */
+    select?: habit_snapshotsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_snapshots
+     */
+    omit?: habit_snapshotsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_snapshotsInclude<ExtArgs> | null
+    where?: habit_snapshotsWhereInput
+    orderBy?: habit_snapshotsOrderByWithRelationInput | habit_snapshotsOrderByWithRelationInput[]
+    cursor?: habit_snapshotsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Habit_snapshotsScalarFieldEnum | Habit_snapshotsScalarFieldEnum[]
+  }
+
+  /**
    * directus_users.directus_roles
    */
   export type directus_users$directus_rolesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -38250,102 +38406,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Directus_versionsScalarFieldEnum | Directus_versionsScalarFieldEnum[]
-  }
-
-  /**
-   * directus_users.habit_insights_habit_insights_user_createdTodirectus_users
-   */
-  export type directus_users$habit_insights_habit_insights_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the habit_insights
-     */
-    select?: habit_insightsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the habit_insights
-     */
-    omit?: habit_insightsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: habit_insightsInclude<ExtArgs> | null
-    where?: habit_insightsWhereInput
-    orderBy?: habit_insightsOrderByWithRelationInput | habit_insightsOrderByWithRelationInput[]
-    cursor?: habit_insightsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Habit_insightsScalarFieldEnum | Habit_insightsScalarFieldEnum[]
-  }
-
-  /**
-   * directus_users.habit_insights_habit_insights_user_updatedTodirectus_users
-   */
-  export type directus_users$habit_insights_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the habit_insights
-     */
-    select?: habit_insightsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the habit_insights
-     */
-    omit?: habit_insightsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: habit_insightsInclude<ExtArgs> | null
-    where?: habit_insightsWhereInput
-    orderBy?: habit_insightsOrderByWithRelationInput | habit_insightsOrderByWithRelationInput[]
-    cursor?: habit_insightsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Habit_insightsScalarFieldEnum | Habit_insightsScalarFieldEnum[]
-  }
-
-  /**
-   * directus_users.habit_snapshots_habit_snapshots_user_createdTodirectus_users
-   */
-  export type directus_users$habit_snapshots_habit_snapshots_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the habit_snapshots
-     */
-    select?: habit_snapshotsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the habit_snapshots
-     */
-    omit?: habit_snapshotsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: habit_snapshotsInclude<ExtArgs> | null
-    where?: habit_snapshotsWhereInput
-    orderBy?: habit_snapshotsOrderByWithRelationInput | habit_snapshotsOrderByWithRelationInput[]
-    cursor?: habit_snapshotsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Habit_snapshotsScalarFieldEnum | Habit_snapshotsScalarFieldEnum[]
-  }
-
-  /**
-   * directus_users.habit_snapshots_habit_snapshots_user_updatedTodirectus_users
-   */
-  export type directus_users$habit_snapshots_habit_snapshots_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the habit_snapshots
-     */
-    select?: habit_snapshotsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the habit_snapshots
-     */
-    omit?: habit_snapshotsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: habit_snapshotsInclude<ExtArgs> | null
-    where?: habit_snapshotsWhereInput
-    orderBy?: habit_snapshotsOrderByWithRelationInput | habit_snapshotsOrderByWithRelationInput[]
-    cursor?: habit_snapshotsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Habit_snapshotsScalarFieldEnum | Habit_snapshotsScalarFieldEnum[]
   }
 
   /**
@@ -40829,56 +40889,45 @@ export namespace Prisma {
   }
 
   export type Habit_insightsAvgAggregateOutputType = {
-    owner: number | null
     id: number | null
-    sort: number | null
+    owner: number | null
   }
 
   export type Habit_insightsSumAggregateOutputType = {
-    owner: number | null
     id: number | null
-    sort: number | null
+    owner: number | null
   }
 
   export type Habit_insightsMinAggregateOutputType = {
+    id: number | null
     habit_id: string | null
     owner: number | null
     habit_label: string | null
     evidence: string | null
     counsel: string | null
     full_text: string | null
-    transaction_id: string | null
     recorded_at: Date | null
+    updated_at: Date | null
+    superseded: boolean | null
     previous_habit_id: string | null
-    id: number | null
-    status: string | null
-    date_created: Date | null
-    date_updated: Date | null
-    sort: number | null
-    user_created: string | null
-    user_updated: string | null
   }
 
   export type Habit_insightsMaxAggregateOutputType = {
+    id: number | null
     habit_id: string | null
     owner: number | null
     habit_label: string | null
     evidence: string | null
     counsel: string | null
     full_text: string | null
-    transaction_id: string | null
     recorded_at: Date | null
+    updated_at: Date | null
+    superseded: boolean | null
     previous_habit_id: string | null
-    id: number | null
-    status: string | null
-    date_created: Date | null
-    date_updated: Date | null
-    sort: number | null
-    user_created: string | null
-    user_updated: string | null
   }
 
   export type Habit_insightsCountAggregateOutputType = {
+    id: number
     habit_id: number
     owner: number
     habit_label: number
@@ -40886,72 +40935,54 @@ export namespace Prisma {
     counsel: number
     full_text: number
     metrics: number
-    recent_transactions: number
-    transaction_id: number
     recorded_at: number
+    updated_at: number
+    superseded: number
     previous_habit_id: number
-    id: number
-    status: number
-    date_created: number
-    date_updated: number
-    sort: number
-    user_created: number
-    user_updated: number
     _all: number
   }
 
 
   export type Habit_insightsAvgAggregateInputType = {
-    owner?: true
     id?: true
-    sort?: true
+    owner?: true
   }
 
   export type Habit_insightsSumAggregateInputType = {
-    owner?: true
     id?: true
-    sort?: true
+    owner?: true
   }
 
   export type Habit_insightsMinAggregateInputType = {
+    id?: true
     habit_id?: true
     owner?: true
     habit_label?: true
     evidence?: true
     counsel?: true
     full_text?: true
-    transaction_id?: true
     recorded_at?: true
+    updated_at?: true
+    superseded?: true
     previous_habit_id?: true
-    id?: true
-    status?: true
-    date_created?: true
-    date_updated?: true
-    sort?: true
-    user_created?: true
-    user_updated?: true
   }
 
   export type Habit_insightsMaxAggregateInputType = {
+    id?: true
     habit_id?: true
     owner?: true
     habit_label?: true
     evidence?: true
     counsel?: true
     full_text?: true
-    transaction_id?: true
     recorded_at?: true
+    updated_at?: true
+    superseded?: true
     previous_habit_id?: true
-    id?: true
-    status?: true
-    date_created?: true
-    date_updated?: true
-    sort?: true
-    user_created?: true
-    user_updated?: true
   }
 
   export type Habit_insightsCountAggregateInputType = {
+    id?: true
     habit_id?: true
     owner?: true
     habit_label?: true
@@ -40959,17 +40990,10 @@ export namespace Prisma {
     counsel?: true
     full_text?: true
     metrics?: true
-    recent_transactions?: true
-    transaction_id?: true
     recorded_at?: true
+    updated_at?: true
+    superseded?: true
     previous_habit_id?: true
-    id?: true
-    status?: true
-    date_created?: true
-    date_updated?: true
-    sort?: true
-    user_created?: true
-    user_updated?: true
     _all?: true
   }
 
@@ -41060,6 +41084,7 @@ export namespace Prisma {
   }
 
   export type Habit_insightsGroupByOutputType = {
+    id: number
     habit_id: string
     owner: number
     habit_label: string
@@ -41067,17 +41092,10 @@ export namespace Prisma {
     counsel: string
     full_text: string
     metrics: JsonValue | null
-    recent_transactions: JsonValue | null
-    transaction_id: string | null
     recorded_at: Date
+    updated_at: Date
+    superseded: boolean
     previous_habit_id: string | null
-    id: number
-    status: string
-    date_created: Date | null
-    date_updated: Date | null
-    sort: number | null
-    user_created: string | null
-    user_updated: string | null
     _count: Habit_insightsCountAggregateOutputType | null
     _avg: Habit_insightsAvgAggregateOutputType | null
     _sum: Habit_insightsSumAggregateOutputType | null
@@ -41100,6 +41118,7 @@ export namespace Prisma {
 
 
   export type habit_insightsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     habit_id?: boolean
     owner?: boolean
     habit_label?: boolean
@@ -41107,26 +41126,17 @@ export namespace Prisma {
     counsel?: boolean
     full_text?: boolean
     metrics?: boolean
-    recent_transactions?: boolean
-    transaction_id?: boolean
     recorded_at?: boolean
+    updated_at?: boolean
+    superseded?: boolean
     previous_habit_id?: boolean
-    id?: boolean
-    status?: boolean
-    date_created?: boolean
-    date_updated?: boolean
-    sort?: boolean
-    user_created?: boolean
-    user_updated?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
-    tranasctions?: boolean | habit_insights$tranasctionsArgs<ExtArgs>
-    directus_users_habit_insights_user_createdTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_createdTodirectus_usersArgs<ExtArgs>
-    directus_users_habit_insights_user_updatedTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs>
     habit_snapshot_links?: boolean | habit_insights$habit_snapshot_linksArgs<ExtArgs>
     _count?: boolean | Habit_insightsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["habit_insights"]>
 
   export type habit_insightsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     habit_id?: boolean
     owner?: boolean
     habit_label?: boolean
@@ -41134,24 +41144,15 @@ export namespace Prisma {
     counsel?: boolean
     full_text?: boolean
     metrics?: boolean
-    recent_transactions?: boolean
-    transaction_id?: boolean
     recorded_at?: boolean
+    updated_at?: boolean
+    superseded?: boolean
     previous_habit_id?: boolean
-    id?: boolean
-    status?: boolean
-    date_created?: boolean
-    date_updated?: boolean
-    sort?: boolean
-    user_created?: boolean
-    user_updated?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
-    tranasctions?: boolean | habit_insights$tranasctionsArgs<ExtArgs>
-    directus_users_habit_insights_user_createdTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_createdTodirectus_usersArgs<ExtArgs>
-    directus_users_habit_insights_user_updatedTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs>
   }, ExtArgs["result"]["habit_insights"]>
 
   export type habit_insightsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     habit_id?: boolean
     owner?: boolean
     habit_label?: boolean
@@ -41159,24 +41160,15 @@ export namespace Prisma {
     counsel?: boolean
     full_text?: boolean
     metrics?: boolean
-    recent_transactions?: boolean
-    transaction_id?: boolean
     recorded_at?: boolean
+    updated_at?: boolean
+    superseded?: boolean
     previous_habit_id?: boolean
-    id?: boolean
-    status?: boolean
-    date_created?: boolean
-    date_updated?: boolean
-    sort?: boolean
-    user_created?: boolean
-    user_updated?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
-    tranasctions?: boolean | habit_insights$tranasctionsArgs<ExtArgs>
-    directus_users_habit_insights_user_createdTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_createdTodirectus_usersArgs<ExtArgs>
-    directus_users_habit_insights_user_updatedTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs>
   }, ExtArgs["result"]["habit_insights"]>
 
   export type habit_insightsSelectScalar = {
+    id?: boolean
     habit_id?: boolean
     owner?: boolean
     habit_label?: boolean
@@ -41184,51 +41176,33 @@ export namespace Prisma {
     counsel?: boolean
     full_text?: boolean
     metrics?: boolean
-    recent_transactions?: boolean
-    transaction_id?: boolean
     recorded_at?: boolean
+    updated_at?: boolean
+    superseded?: boolean
     previous_habit_id?: boolean
-    id?: boolean
-    status?: boolean
-    date_created?: boolean
-    date_updated?: boolean
-    sort?: boolean
-    user_created?: boolean
-    user_updated?: boolean
   }
 
-  export type habit_insightsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"habit_id" | "owner" | "habit_label" | "evidence" | "counsel" | "full_text" | "metrics" | "recent_transactions" | "transaction_id" | "recorded_at" | "previous_habit_id" | "id" | "status" | "date_created" | "date_updated" | "sort" | "user_created" | "user_updated", ExtArgs["result"]["habit_insights"]>
+  export type habit_insightsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "habit_id" | "owner" | "habit_label" | "evidence" | "counsel" | "full_text" | "metrics" | "recorded_at" | "updated_at" | "superseded" | "previous_habit_id", ExtArgs["result"]["habit_insights"]>
   export type habit_insightsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | usersDefaultArgs<ExtArgs>
-    tranasctions?: boolean | habit_insights$tranasctionsArgs<ExtArgs>
-    directus_users_habit_insights_user_createdTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_createdTodirectus_usersArgs<ExtArgs>
-    directus_users_habit_insights_user_updatedTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs>
     habit_snapshot_links?: boolean | habit_insights$habit_snapshot_linksArgs<ExtArgs>
     _count?: boolean | Habit_insightsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type habit_insightsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | usersDefaultArgs<ExtArgs>
-    tranasctions?: boolean | habit_insights$tranasctionsArgs<ExtArgs>
-    directus_users_habit_insights_user_createdTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_createdTodirectus_usersArgs<ExtArgs>
-    directus_users_habit_insights_user_updatedTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs>
   }
   export type habit_insightsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | usersDefaultArgs<ExtArgs>
-    tranasctions?: boolean | habit_insights$tranasctionsArgs<ExtArgs>
-    directus_users_habit_insights_user_createdTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_createdTodirectus_usersArgs<ExtArgs>
-    directus_users_habit_insights_user_updatedTodirectus_users?: boolean | habit_insights$directus_users_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs>
   }
 
   export type $habit_insightsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "habit_insights"
     objects: {
       users: Prisma.$usersPayload<ExtArgs>
-      tranasctions: Prisma.$tranasctionsPayload<ExtArgs> | null
-      directus_users_habit_insights_user_createdTodirectus_users: Prisma.$directus_usersPayload<ExtArgs> | null
-      directus_users_habit_insights_user_updatedTodirectus_users: Prisma.$directus_usersPayload<ExtArgs> | null
       habit_snapshot_links: Prisma.$habit_snapshot_insightsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
+      id: number
       habit_id: string
       owner: number
       habit_label: string
@@ -41236,17 +41210,10 @@ export namespace Prisma {
       counsel: string
       full_text: string
       metrics: Prisma.JsonValue | null
-      recent_transactions: Prisma.JsonValue | null
-      transaction_id: string | null
       recorded_at: Date
+      updated_at: Date
+      superseded: boolean
       previous_habit_id: string | null
-      id: number
-      status: string
-      date_created: Date | null
-      date_updated: Date | null
-      sort: number | null
-      user_created: string | null
-      user_updated: string | null
     }, ExtArgs["result"]["habit_insights"]>
     composites: {}
   }
@@ -41330,8 +41297,8 @@ export namespace Prisma {
      * // Get first 10 Habit_insights
      * const habit_insights = await prisma.habit_insights.findMany({ take: 10 })
      * 
-     * // Only select the `habit_id`
-     * const habit_insightsWithHabit_idOnly = await prisma.habit_insights.findMany({ select: { habit_id: true } })
+     * // Only select the `id`
+     * const habit_insightsWithIdOnly = await prisma.habit_insights.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends habit_insightsFindManyArgs>(args?: SelectSubset<T, habit_insightsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_insightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -41375,9 +41342,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Habit_insights and only return the `habit_id`
-     * const habit_insightsWithHabit_idOnly = await prisma.habit_insights.createManyAndReturn({
-     *   select: { habit_id: true },
+     * // Create many Habit_insights and only return the `id`
+     * const habit_insightsWithIdOnly = await prisma.habit_insights.createManyAndReturn({
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -41466,9 +41433,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Habit_insights and only return the `habit_id`
-     * const habit_insightsWithHabit_idOnly = await prisma.habit_insights.updateManyAndReturn({
-     *   select: { habit_id: true },
+     * // Update zero or more Habit_insights and only return the `id`
+     * const habit_insightsWithIdOnly = await prisma.habit_insights.updateManyAndReturn({
+     *   select: { id: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -41642,9 +41609,6 @@ export namespace Prisma {
   export interface Prisma__habit_insightsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     users<T extends usersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usersDefaultArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    tranasctions<T extends habit_insights$tranasctionsArgs<ExtArgs> = {}>(args?: Subset<T, habit_insights$tranasctionsArgs<ExtArgs>>): Prisma__tranasctionsClient<$Result.GetResult<Prisma.$tranasctionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    directus_users_habit_insights_user_createdTodirectus_users<T extends habit_insights$directus_users_habit_insights_user_createdTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, habit_insights$directus_users_habit_insights_user_createdTodirectus_usersArgs<ExtArgs>>): Prisma__directus_usersClient<$Result.GetResult<Prisma.$directus_usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    directus_users_habit_insights_user_updatedTodirectus_users<T extends habit_insights$directus_users_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs> = {}>(args?: Subset<T, habit_insights$directus_users_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs>>): Prisma__directus_usersClient<$Result.GetResult<Prisma.$directus_usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     habit_snapshot_links<T extends habit_insights$habit_snapshot_linksArgs<ExtArgs> = {}>(args?: Subset<T, habit_insights$habit_snapshot_linksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_snapshot_insightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -41675,6 +41639,7 @@ export namespace Prisma {
    * Fields of the habit_insights model
    */
   interface habit_insightsFieldRefs {
+    readonly id: FieldRef<"habit_insights", 'Int'>
     readonly habit_id: FieldRef<"habit_insights", 'String'>
     readonly owner: FieldRef<"habit_insights", 'Int'>
     readonly habit_label: FieldRef<"habit_insights", 'String'>
@@ -41682,17 +41647,10 @@ export namespace Prisma {
     readonly counsel: FieldRef<"habit_insights", 'String'>
     readonly full_text: FieldRef<"habit_insights", 'String'>
     readonly metrics: FieldRef<"habit_insights", 'Json'>
-    readonly recent_transactions: FieldRef<"habit_insights", 'Json'>
-    readonly transaction_id: FieldRef<"habit_insights", 'String'>
     readonly recorded_at: FieldRef<"habit_insights", 'DateTime'>
+    readonly updated_at: FieldRef<"habit_insights", 'DateTime'>
+    readonly superseded: FieldRef<"habit_insights", 'Boolean'>
     readonly previous_habit_id: FieldRef<"habit_insights", 'String'>
-    readonly id: FieldRef<"habit_insights", 'Int'>
-    readonly status: FieldRef<"habit_insights", 'String'>
-    readonly date_created: FieldRef<"habit_insights", 'DateTime'>
-    readonly date_updated: FieldRef<"habit_insights", 'DateTime'>
-    readonly sort: FieldRef<"habit_insights", 'Int'>
-    readonly user_created: FieldRef<"habit_insights", 'String'>
-    readonly user_updated: FieldRef<"habit_insights", 'String'>
   }
     
 
@@ -42089,63 +42047,6 @@ export namespace Prisma {
   }
 
   /**
-   * habit_insights.tranasctions
-   */
-  export type habit_insights$tranasctionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the tranasctions
-     */
-    select?: tranasctionsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the tranasctions
-     */
-    omit?: tranasctionsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tranasctionsInclude<ExtArgs> | null
-    where?: tranasctionsWhereInput
-  }
-
-  /**
-   * habit_insights.directus_users_habit_insights_user_createdTodirectus_users
-   */
-  export type habit_insights$directus_users_habit_insights_user_createdTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the directus_users
-     */
-    select?: directus_usersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the directus_users
-     */
-    omit?: directus_usersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: directus_usersInclude<ExtArgs> | null
-    where?: directus_usersWhereInput
-  }
-
-  /**
-   * habit_insights.directus_users_habit_insights_user_updatedTodirectus_users
-   */
-  export type habit_insights$directus_users_habit_insights_user_updatedTodirectus_usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the directus_users
-     */
-    select?: directus_usersSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the directus_users
-     */
-    omit?: directus_usersOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: directus_usersInclude<ExtArgs> | null
-    where?: directus_usersWhereInput
-  }
-
-  /**
    * habit_insights.habit_snapshot_links
    */
   export type habit_insights$habit_snapshot_linksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -42185,6 +42086,1137 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: habit_insightsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model habit_processing_cursors
+   */
+
+  export type AggregateHabit_processing_cursors = {
+    _count: Habit_processing_cursorsCountAggregateOutputType | null
+    _avg: Habit_processing_cursorsAvgAggregateOutputType | null
+    _sum: Habit_processing_cursorsSumAggregateOutputType | null
+    _min: Habit_processing_cursorsMinAggregateOutputType | null
+    _max: Habit_processing_cursorsMaxAggregateOutputType | null
+  }
+
+  export type Habit_processing_cursorsAvgAggregateOutputType = {
+    owner: number | null
+    last_analysis_version: number | null
+  }
+
+  export type Habit_processing_cursorsSumAggregateOutputType = {
+    owner: number | null
+    last_analysis_version: number | null
+  }
+
+  export type Habit_processing_cursorsMinAggregateOutputType = {
+    owner: number | null
+    last_transaction_at: Date | null
+    last_run_at: Date | null
+    last_trigger: string | null
+    last_analysis_version: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Habit_processing_cursorsMaxAggregateOutputType = {
+    owner: number | null
+    last_transaction_at: Date | null
+    last_run_at: Date | null
+    last_trigger: string | null
+    last_analysis_version: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Habit_processing_cursorsCountAggregateOutputType = {
+    owner: number
+    last_transaction_at: number
+    last_run_at: number
+    last_trigger: number
+    last_analysis_version: number
+    notes: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Habit_processing_cursorsAvgAggregateInputType = {
+    owner?: true
+    last_analysis_version?: true
+  }
+
+  export type Habit_processing_cursorsSumAggregateInputType = {
+    owner?: true
+    last_analysis_version?: true
+  }
+
+  export type Habit_processing_cursorsMinAggregateInputType = {
+    owner?: true
+    last_transaction_at?: true
+    last_run_at?: true
+    last_trigger?: true
+    last_analysis_version?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Habit_processing_cursorsMaxAggregateInputType = {
+    owner?: true
+    last_transaction_at?: true
+    last_run_at?: true
+    last_trigger?: true
+    last_analysis_version?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Habit_processing_cursorsCountAggregateInputType = {
+    owner?: true
+    last_transaction_at?: true
+    last_run_at?: true
+    last_trigger?: true
+    last_analysis_version?: true
+    notes?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Habit_processing_cursorsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which habit_processing_cursors to aggregate.
+     */
+    where?: habit_processing_cursorsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of habit_processing_cursors to fetch.
+     */
+    orderBy?: habit_processing_cursorsOrderByWithRelationInput | habit_processing_cursorsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: habit_processing_cursorsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` habit_processing_cursors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` habit_processing_cursors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned habit_processing_cursors
+    **/
+    _count?: true | Habit_processing_cursorsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Habit_processing_cursorsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Habit_processing_cursorsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Habit_processing_cursorsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Habit_processing_cursorsMaxAggregateInputType
+  }
+
+  export type GetHabit_processing_cursorsAggregateType<T extends Habit_processing_cursorsAggregateArgs> = {
+        [P in keyof T & keyof AggregateHabit_processing_cursors]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHabit_processing_cursors[P]>
+      : GetScalarType<T[P], AggregateHabit_processing_cursors[P]>
+  }
+
+
+
+
+  export type habit_processing_cursorsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: habit_processing_cursorsWhereInput
+    orderBy?: habit_processing_cursorsOrderByWithAggregationInput | habit_processing_cursorsOrderByWithAggregationInput[]
+    by: Habit_processing_cursorsScalarFieldEnum[] | Habit_processing_cursorsScalarFieldEnum
+    having?: habit_processing_cursorsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Habit_processing_cursorsCountAggregateInputType | true
+    _avg?: Habit_processing_cursorsAvgAggregateInputType
+    _sum?: Habit_processing_cursorsSumAggregateInputType
+    _min?: Habit_processing_cursorsMinAggregateInputType
+    _max?: Habit_processing_cursorsMaxAggregateInputType
+  }
+
+  export type Habit_processing_cursorsGroupByOutputType = {
+    owner: number
+    last_transaction_at: Date | null
+    last_run_at: Date | null
+    last_trigger: string | null
+    last_analysis_version: number | null
+    notes: JsonValue | null
+    created_at: Date
+    updated_at: Date | null
+    _count: Habit_processing_cursorsCountAggregateOutputType | null
+    _avg: Habit_processing_cursorsAvgAggregateOutputType | null
+    _sum: Habit_processing_cursorsSumAggregateOutputType | null
+    _min: Habit_processing_cursorsMinAggregateOutputType | null
+    _max: Habit_processing_cursorsMaxAggregateOutputType | null
+  }
+
+  type GetHabit_processing_cursorsGroupByPayload<T extends habit_processing_cursorsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Habit_processing_cursorsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Habit_processing_cursorsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Habit_processing_cursorsGroupByOutputType[P]>
+            : GetScalarType<T[P], Habit_processing_cursorsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type habit_processing_cursorsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    owner?: boolean
+    last_transaction_at?: boolean
+    last_run_at?: boolean
+    last_trigger?: boolean
+    last_analysis_version?: boolean
+    notes?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["habit_processing_cursors"]>
+
+  export type habit_processing_cursorsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    owner?: boolean
+    last_transaction_at?: boolean
+    last_run_at?: boolean
+    last_trigger?: boolean
+    last_analysis_version?: boolean
+    notes?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["habit_processing_cursors"]>
+
+  export type habit_processing_cursorsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    owner?: boolean
+    last_transaction_at?: boolean
+    last_run_at?: boolean
+    last_trigger?: boolean
+    last_analysis_version?: boolean
+    notes?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["habit_processing_cursors"]>
+
+  export type habit_processing_cursorsSelectScalar = {
+    owner?: boolean
+    last_transaction_at?: boolean
+    last_run_at?: boolean
+    last_trigger?: boolean
+    last_analysis_version?: boolean
+    notes?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type habit_processing_cursorsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"owner" | "last_transaction_at" | "last_run_at" | "last_trigger" | "last_analysis_version" | "notes" | "created_at" | "updated_at", ExtArgs["result"]["habit_processing_cursors"]>
+  export type habit_processing_cursorsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+  export type habit_processing_cursorsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+  export type habit_processing_cursorsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+
+  export type $habit_processing_cursorsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "habit_processing_cursors"
+    objects: {
+      users: Prisma.$usersPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      owner: number
+      last_transaction_at: Date | null
+      last_run_at: Date | null
+      last_trigger: string | null
+      last_analysis_version: number | null
+      notes: Prisma.JsonValue | null
+      created_at: Date
+      updated_at: Date | null
+    }, ExtArgs["result"]["habit_processing_cursors"]>
+    composites: {}
+  }
+
+  type habit_processing_cursorsGetPayload<S extends boolean | null | undefined | habit_processing_cursorsDefaultArgs> = $Result.GetResult<Prisma.$habit_processing_cursorsPayload, S>
+
+  type habit_processing_cursorsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<habit_processing_cursorsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Habit_processing_cursorsCountAggregateInputType | true
+    }
+
+  export interface habit_processing_cursorsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['habit_processing_cursors'], meta: { name: 'habit_processing_cursors' } }
+    /**
+     * Find zero or one Habit_processing_cursors that matches the filter.
+     * @param {habit_processing_cursorsFindUniqueArgs} args - Arguments to find a Habit_processing_cursors
+     * @example
+     * // Get one Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends habit_processing_cursorsFindUniqueArgs>(args: SelectSubset<T, habit_processing_cursorsFindUniqueArgs<ExtArgs>>): Prisma__habit_processing_cursorsClient<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Habit_processing_cursors that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {habit_processing_cursorsFindUniqueOrThrowArgs} args - Arguments to find a Habit_processing_cursors
+     * @example
+     * // Get one Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends habit_processing_cursorsFindUniqueOrThrowArgs>(args: SelectSubset<T, habit_processing_cursorsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__habit_processing_cursorsClient<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Habit_processing_cursors that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {habit_processing_cursorsFindFirstArgs} args - Arguments to find a Habit_processing_cursors
+     * @example
+     * // Get one Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends habit_processing_cursorsFindFirstArgs>(args?: SelectSubset<T, habit_processing_cursorsFindFirstArgs<ExtArgs>>): Prisma__habit_processing_cursorsClient<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Habit_processing_cursors that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {habit_processing_cursorsFindFirstOrThrowArgs} args - Arguments to find a Habit_processing_cursors
+     * @example
+     * // Get one Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends habit_processing_cursorsFindFirstOrThrowArgs>(args?: SelectSubset<T, habit_processing_cursorsFindFirstOrThrowArgs<ExtArgs>>): Prisma__habit_processing_cursorsClient<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Habit_processing_cursors that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {habit_processing_cursorsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.findMany()
+     * 
+     * // Get first 10 Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.findMany({ take: 10 })
+     * 
+     * // Only select the `owner`
+     * const habit_processing_cursorsWithOwnerOnly = await prisma.habit_processing_cursors.findMany({ select: { owner: true } })
+     * 
+     */
+    findMany<T extends habit_processing_cursorsFindManyArgs>(args?: SelectSubset<T, habit_processing_cursorsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Habit_processing_cursors.
+     * @param {habit_processing_cursorsCreateArgs} args - Arguments to create a Habit_processing_cursors.
+     * @example
+     * // Create one Habit_processing_cursors
+     * const Habit_processing_cursors = await prisma.habit_processing_cursors.create({
+     *   data: {
+     *     // ... data to create a Habit_processing_cursors
+     *   }
+     * })
+     * 
+     */
+    create<T extends habit_processing_cursorsCreateArgs>(args: SelectSubset<T, habit_processing_cursorsCreateArgs<ExtArgs>>): Prisma__habit_processing_cursorsClient<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Habit_processing_cursors.
+     * @param {habit_processing_cursorsCreateManyArgs} args - Arguments to create many Habit_processing_cursors.
+     * @example
+     * // Create many Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends habit_processing_cursorsCreateManyArgs>(args?: SelectSubset<T, habit_processing_cursorsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Habit_processing_cursors and returns the data saved in the database.
+     * @param {habit_processing_cursorsCreateManyAndReturnArgs} args - Arguments to create many Habit_processing_cursors.
+     * @example
+     * // Create many Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Habit_processing_cursors and only return the `owner`
+     * const habit_processing_cursorsWithOwnerOnly = await prisma.habit_processing_cursors.createManyAndReturn({
+     *   select: { owner: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends habit_processing_cursorsCreateManyAndReturnArgs>(args?: SelectSubset<T, habit_processing_cursorsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Habit_processing_cursors.
+     * @param {habit_processing_cursorsDeleteArgs} args - Arguments to delete one Habit_processing_cursors.
+     * @example
+     * // Delete one Habit_processing_cursors
+     * const Habit_processing_cursors = await prisma.habit_processing_cursors.delete({
+     *   where: {
+     *     // ... filter to delete one Habit_processing_cursors
+     *   }
+     * })
+     * 
+     */
+    delete<T extends habit_processing_cursorsDeleteArgs>(args: SelectSubset<T, habit_processing_cursorsDeleteArgs<ExtArgs>>): Prisma__habit_processing_cursorsClient<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Habit_processing_cursors.
+     * @param {habit_processing_cursorsUpdateArgs} args - Arguments to update one Habit_processing_cursors.
+     * @example
+     * // Update one Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends habit_processing_cursorsUpdateArgs>(args: SelectSubset<T, habit_processing_cursorsUpdateArgs<ExtArgs>>): Prisma__habit_processing_cursorsClient<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Habit_processing_cursors.
+     * @param {habit_processing_cursorsDeleteManyArgs} args - Arguments to filter Habit_processing_cursors to delete.
+     * @example
+     * // Delete a few Habit_processing_cursors
+     * const { count } = await prisma.habit_processing_cursors.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends habit_processing_cursorsDeleteManyArgs>(args?: SelectSubset<T, habit_processing_cursorsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Habit_processing_cursors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {habit_processing_cursorsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends habit_processing_cursorsUpdateManyArgs>(args: SelectSubset<T, habit_processing_cursorsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Habit_processing_cursors and returns the data updated in the database.
+     * @param {habit_processing_cursorsUpdateManyAndReturnArgs} args - Arguments to update many Habit_processing_cursors.
+     * @example
+     * // Update many Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Habit_processing_cursors and only return the `owner`
+     * const habit_processing_cursorsWithOwnerOnly = await prisma.habit_processing_cursors.updateManyAndReturn({
+     *   select: { owner: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends habit_processing_cursorsUpdateManyAndReturnArgs>(args: SelectSubset<T, habit_processing_cursorsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Habit_processing_cursors.
+     * @param {habit_processing_cursorsUpsertArgs} args - Arguments to update or create a Habit_processing_cursors.
+     * @example
+     * // Update or create a Habit_processing_cursors
+     * const habit_processing_cursors = await prisma.habit_processing_cursors.upsert({
+     *   create: {
+     *     // ... data to create a Habit_processing_cursors
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Habit_processing_cursors we want to update
+     *   }
+     * })
+     */
+    upsert<T extends habit_processing_cursorsUpsertArgs>(args: SelectSubset<T, habit_processing_cursorsUpsertArgs<ExtArgs>>): Prisma__habit_processing_cursorsClient<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Habit_processing_cursors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {habit_processing_cursorsCountArgs} args - Arguments to filter Habit_processing_cursors to count.
+     * @example
+     * // Count the number of Habit_processing_cursors
+     * const count = await prisma.habit_processing_cursors.count({
+     *   where: {
+     *     // ... the filter for the Habit_processing_cursors we want to count
+     *   }
+     * })
+    **/
+    count<T extends habit_processing_cursorsCountArgs>(
+      args?: Subset<T, habit_processing_cursorsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Habit_processing_cursorsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Habit_processing_cursors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Habit_processing_cursorsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Habit_processing_cursorsAggregateArgs>(args: Subset<T, Habit_processing_cursorsAggregateArgs>): Prisma.PrismaPromise<GetHabit_processing_cursorsAggregateType<T>>
+
+    /**
+     * Group by Habit_processing_cursors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {habit_processing_cursorsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends habit_processing_cursorsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: habit_processing_cursorsGroupByArgs['orderBy'] }
+        : { orderBy?: habit_processing_cursorsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, habit_processing_cursorsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHabit_processing_cursorsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the habit_processing_cursors model
+   */
+  readonly fields: habit_processing_cursorsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for habit_processing_cursors.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__habit_processing_cursorsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    users<T extends usersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usersDefaultArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the habit_processing_cursors model
+   */
+  interface habit_processing_cursorsFieldRefs {
+    readonly owner: FieldRef<"habit_processing_cursors", 'Int'>
+    readonly last_transaction_at: FieldRef<"habit_processing_cursors", 'DateTime'>
+    readonly last_run_at: FieldRef<"habit_processing_cursors", 'DateTime'>
+    readonly last_trigger: FieldRef<"habit_processing_cursors", 'String'>
+    readonly last_analysis_version: FieldRef<"habit_processing_cursors", 'Int'>
+    readonly notes: FieldRef<"habit_processing_cursors", 'Json'>
+    readonly created_at: FieldRef<"habit_processing_cursors", 'DateTime'>
+    readonly updated_at: FieldRef<"habit_processing_cursors", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * habit_processing_cursors findUnique
+   */
+  export type habit_processing_cursorsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsInclude<ExtArgs> | null
+    /**
+     * Filter, which habit_processing_cursors to fetch.
+     */
+    where: habit_processing_cursorsWhereUniqueInput
+  }
+
+  /**
+   * habit_processing_cursors findUniqueOrThrow
+   */
+  export type habit_processing_cursorsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsInclude<ExtArgs> | null
+    /**
+     * Filter, which habit_processing_cursors to fetch.
+     */
+    where: habit_processing_cursorsWhereUniqueInput
+  }
+
+  /**
+   * habit_processing_cursors findFirst
+   */
+  export type habit_processing_cursorsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsInclude<ExtArgs> | null
+    /**
+     * Filter, which habit_processing_cursors to fetch.
+     */
+    where?: habit_processing_cursorsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of habit_processing_cursors to fetch.
+     */
+    orderBy?: habit_processing_cursorsOrderByWithRelationInput | habit_processing_cursorsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for habit_processing_cursors.
+     */
+    cursor?: habit_processing_cursorsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` habit_processing_cursors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` habit_processing_cursors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of habit_processing_cursors.
+     */
+    distinct?: Habit_processing_cursorsScalarFieldEnum | Habit_processing_cursorsScalarFieldEnum[]
+  }
+
+  /**
+   * habit_processing_cursors findFirstOrThrow
+   */
+  export type habit_processing_cursorsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsInclude<ExtArgs> | null
+    /**
+     * Filter, which habit_processing_cursors to fetch.
+     */
+    where?: habit_processing_cursorsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of habit_processing_cursors to fetch.
+     */
+    orderBy?: habit_processing_cursorsOrderByWithRelationInput | habit_processing_cursorsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for habit_processing_cursors.
+     */
+    cursor?: habit_processing_cursorsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` habit_processing_cursors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` habit_processing_cursors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of habit_processing_cursors.
+     */
+    distinct?: Habit_processing_cursorsScalarFieldEnum | Habit_processing_cursorsScalarFieldEnum[]
+  }
+
+  /**
+   * habit_processing_cursors findMany
+   */
+  export type habit_processing_cursorsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsInclude<ExtArgs> | null
+    /**
+     * Filter, which habit_processing_cursors to fetch.
+     */
+    where?: habit_processing_cursorsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of habit_processing_cursors to fetch.
+     */
+    orderBy?: habit_processing_cursorsOrderByWithRelationInput | habit_processing_cursorsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing habit_processing_cursors.
+     */
+    cursor?: habit_processing_cursorsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` habit_processing_cursors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` habit_processing_cursors.
+     */
+    skip?: number
+    distinct?: Habit_processing_cursorsScalarFieldEnum | Habit_processing_cursorsScalarFieldEnum[]
+  }
+
+  /**
+   * habit_processing_cursors create
+   */
+  export type habit_processing_cursorsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a habit_processing_cursors.
+     */
+    data: XOR<habit_processing_cursorsCreateInput, habit_processing_cursorsUncheckedCreateInput>
+  }
+
+  /**
+   * habit_processing_cursors createMany
+   */
+  export type habit_processing_cursorsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many habit_processing_cursors.
+     */
+    data: habit_processing_cursorsCreateManyInput | habit_processing_cursorsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * habit_processing_cursors createManyAndReturn
+   */
+  export type habit_processing_cursorsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * The data used to create many habit_processing_cursors.
+     */
+    data: habit_processing_cursorsCreateManyInput | habit_processing_cursorsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * habit_processing_cursors update
+   */
+  export type habit_processing_cursorsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a habit_processing_cursors.
+     */
+    data: XOR<habit_processing_cursorsUpdateInput, habit_processing_cursorsUncheckedUpdateInput>
+    /**
+     * Choose, which habit_processing_cursors to update.
+     */
+    where: habit_processing_cursorsWhereUniqueInput
+  }
+
+  /**
+   * habit_processing_cursors updateMany
+   */
+  export type habit_processing_cursorsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update habit_processing_cursors.
+     */
+    data: XOR<habit_processing_cursorsUpdateManyMutationInput, habit_processing_cursorsUncheckedUpdateManyInput>
+    /**
+     * Filter which habit_processing_cursors to update
+     */
+    where?: habit_processing_cursorsWhereInput
+    /**
+     * Limit how many habit_processing_cursors to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * habit_processing_cursors updateManyAndReturn
+   */
+  export type habit_processing_cursorsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * The data used to update habit_processing_cursors.
+     */
+    data: XOR<habit_processing_cursorsUpdateManyMutationInput, habit_processing_cursorsUncheckedUpdateManyInput>
+    /**
+     * Filter which habit_processing_cursors to update
+     */
+    where?: habit_processing_cursorsWhereInput
+    /**
+     * Limit how many habit_processing_cursors to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * habit_processing_cursors upsert
+   */
+  export type habit_processing_cursorsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the habit_processing_cursors to update in case it exists.
+     */
+    where: habit_processing_cursorsWhereUniqueInput
+    /**
+     * In case the habit_processing_cursors found by the `where` argument doesn't exist, create a new habit_processing_cursors with this data.
+     */
+    create: XOR<habit_processing_cursorsCreateInput, habit_processing_cursorsUncheckedCreateInput>
+    /**
+     * In case the habit_processing_cursors was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<habit_processing_cursorsUpdateInput, habit_processing_cursorsUncheckedUpdateInput>
+  }
+
+  /**
+   * habit_processing_cursors delete
+   */
+  export type habit_processing_cursorsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsInclude<ExtArgs> | null
+    /**
+     * Filter which habit_processing_cursors to delete.
+     */
+    where: habit_processing_cursorsWhereUniqueInput
+  }
+
+  /**
+   * habit_processing_cursors deleteMany
+   */
+  export type habit_processing_cursorsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which habit_processing_cursors to delete
+     */
+    where?: habit_processing_cursorsWhereInput
+    /**
+     * Limit how many habit_processing_cursors to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * habit_processing_cursors without action
+   */
+  export type habit_processing_cursorsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsInclude<ExtArgs> | null
   }
 
 
@@ -46340,7 +47372,6 @@ export namespace Prisma {
     analyzed_version?: boolean
     analysis_notes?: boolean
     alerts?: boolean | tranasctions$alertsArgs<ExtArgs>
-    habit_insights?: boolean | tranasctions$habit_insightsArgs<ExtArgs>
     sms_messages?: boolean | tranasctions$sms_messagesArgs<ExtArgs>
     users?: boolean | tranasctions$usersArgs<ExtArgs>
     _count?: boolean | TranasctionsCountOutputTypeDefaultArgs<ExtArgs>
@@ -46416,7 +47447,6 @@ export namespace Prisma {
   export type tranasctionsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "date_created" | "date_updated" | "amount" | "type" | "target_party" | "currency" | "medium" | "description" | "comments" | "date_of_transaction" | "category" | "owner" | "original_sms" | "analyzed_at" | "analyzed_version" | "analysis_notes", ExtArgs["result"]["tranasctions"]>
   export type tranasctionsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alerts?: boolean | tranasctions$alertsArgs<ExtArgs>
-    habit_insights?: boolean | tranasctions$habit_insightsArgs<ExtArgs>
     sms_messages?: boolean | tranasctions$sms_messagesArgs<ExtArgs>
     users?: boolean | tranasctions$usersArgs<ExtArgs>
     _count?: boolean | TranasctionsCountOutputTypeDefaultArgs<ExtArgs>
@@ -46434,7 +47464,6 @@ export namespace Prisma {
     name: "tranasctions"
     objects: {
       alerts: Prisma.$alertsPayload<ExtArgs>[]
-      habit_insights: Prisma.$habit_insightsPayload<ExtArgs>[]
       sms_messages: Prisma.$sms_messagesPayload<ExtArgs> | null
       users: Prisma.$usersPayload<ExtArgs> | null
     }
@@ -46852,7 +47881,6 @@ export namespace Prisma {
   export interface Prisma__tranasctionsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     alerts<T extends tranasctions$alertsArgs<ExtArgs> = {}>(args?: Subset<T, tranasctions$alertsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$alertsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    habit_insights<T extends tranasctions$habit_insightsArgs<ExtArgs> = {}>(args?: Subset<T, tranasctions$habit_insightsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_insightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sms_messages<T extends tranasctions$sms_messagesArgs<ExtArgs> = {}>(args?: Subset<T, tranasctions$sms_messagesArgs<ExtArgs>>): Prisma__sms_messagesClient<$Result.GetResult<Prisma.$sms_messagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     users<T extends tranasctions$usersArgs<ExtArgs> = {}>(args?: Subset<T, tranasctions$usersArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -47322,30 +48350,6 @@ export namespace Prisma {
   }
 
   /**
-   * tranasctions.habit_insights
-   */
-  export type tranasctions$habit_insightsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the habit_insights
-     */
-    select?: habit_insightsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the habit_insights
-     */
-    omit?: habit_insightsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: habit_insightsInclude<ExtArgs> | null
-    where?: habit_insightsWhereInput
-    orderBy?: habit_insightsOrderByWithRelationInput | habit_insightsOrderByWithRelationInput[]
-    cursor?: habit_insightsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Habit_insightsScalarFieldEnum | Habit_insightsScalarFieldEnum[]
-  }
-
-  /**
    * tranasctions.sms_messages
    */
   export type tranasctions$sms_messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -47640,6 +48644,7 @@ export namespace Prisma {
     coach_briefings?: boolean | users$coach_briefingsArgs<ExtArgs>
     habit_insights?: boolean | users$habit_insightsArgs<ExtArgs>
     habit_snapshots?: boolean | users$habit_snapshotsArgs<ExtArgs>
+    habit_processing_cursors?: boolean | users$habit_processing_cursorsArgs<ExtArgs>
     sms_messages?: boolean | users$sms_messagesArgs<ExtArgs>
     tranasctions?: boolean | users$tranasctionsArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
@@ -47687,6 +48692,7 @@ export namespace Prisma {
     coach_briefings?: boolean | users$coach_briefingsArgs<ExtArgs>
     habit_insights?: boolean | users$habit_insightsArgs<ExtArgs>
     habit_snapshots?: boolean | users$habit_snapshotsArgs<ExtArgs>
+    habit_processing_cursors?: boolean | users$habit_processing_cursorsArgs<ExtArgs>
     sms_messages?: boolean | users$sms_messagesArgs<ExtArgs>
     tranasctions?: boolean | users$tranasctionsArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
@@ -47701,6 +48707,7 @@ export namespace Prisma {
       coach_briefings: Prisma.$coach_briefingsPayload<ExtArgs>[]
       habit_insights: Prisma.$habit_insightsPayload<ExtArgs>[]
       habit_snapshots: Prisma.$habit_snapshotsPayload<ExtArgs>[]
+      habit_processing_cursors: Prisma.$habit_processing_cursorsPayload<ExtArgs> | null
       sms_messages: Prisma.$sms_messagesPayload<ExtArgs>[]
       tranasctions: Prisma.$tranasctionsPayload<ExtArgs>[]
     }
@@ -48112,6 +49119,7 @@ export namespace Prisma {
     coach_briefings<T extends users$coach_briefingsArgs<ExtArgs> = {}>(args?: Subset<T, users$coach_briefingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$coach_briefingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     habit_insights<T extends users$habit_insightsArgs<ExtArgs> = {}>(args?: Subset<T, users$habit_insightsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_insightsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     habit_snapshots<T extends users$habit_snapshotsArgs<ExtArgs> = {}>(args?: Subset<T, users$habit_snapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$habit_snapshotsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    habit_processing_cursors<T extends users$habit_processing_cursorsArgs<ExtArgs> = {}>(args?: Subset<T, users$habit_processing_cursorsArgs<ExtArgs>>): Prisma__habit_processing_cursorsClient<$Result.GetResult<Prisma.$habit_processing_cursorsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     sms_messages<T extends users$sms_messagesArgs<ExtArgs> = {}>(args?: Subset<T, users$sms_messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$sms_messagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tranasctions<T extends users$tranasctionsArgs<ExtArgs> = {}>(args?: Subset<T, users$tranasctionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tranasctionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -48633,6 +49641,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Habit_snapshotsScalarFieldEnum | Habit_snapshotsScalarFieldEnum[]
+  }
+
+  /**
+   * users.habit_processing_cursors
+   */
+  export type users$habit_processing_cursorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the habit_processing_cursors
+     */
+    select?: habit_processing_cursorsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the habit_processing_cursors
+     */
+    omit?: habit_processing_cursorsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: habit_processing_cursorsInclude<ExtArgs> | null
+    where?: habit_processing_cursorsWhereInput
   }
 
   /**
@@ -50149,15 +51176,19 @@ export namespace Prisma {
     headline: 'headline',
     counsel: 'counsel',
     evidence: 'evidence',
-    trigger: 'trigger',
+    user_question: 'user_question',
+    agent_answer: 'agent_answer',
+    question_hash: 'question_hash',
+    question_embedding: 'question_embedding',
+    insight_hash: 'insight_hash',
+    insights_used: 'insights_used',
+    answer_version: 'answer_version',
+    snapshot: 'snapshot',
     delivered: 'delivered',
     delivered_at: 'delivered_at',
     date_created: 'date_created',
-    insight_hash: 'insight_hash',
-    metadata: 'metadata',
-    snapshot: 'snapshot',
-    status: 'status',
     date_updated: 'date_updated',
+    status: 'status',
     sort: 'sort',
     user_created: 'user_created',
     user_updated: 'user_updated'
@@ -50665,6 +51696,7 @@ export namespace Prisma {
 
 
   export const Habit_insightsScalarFieldEnum: {
+    id: 'id',
     habit_id: 'habit_id',
     owner: 'owner',
     habit_label: 'habit_label',
@@ -50672,20 +51704,27 @@ export namespace Prisma {
     counsel: 'counsel',
     full_text: 'full_text',
     metrics: 'metrics',
-    recent_transactions: 'recent_transactions',
-    transaction_id: 'transaction_id',
     recorded_at: 'recorded_at',
-    previous_habit_id: 'previous_habit_id',
-    id: 'id',
-    status: 'status',
-    date_created: 'date_created',
-    date_updated: 'date_updated',
-    sort: 'sort',
-    user_created: 'user_created',
-    user_updated: 'user_updated'
+    updated_at: 'updated_at',
+    superseded: 'superseded',
+    previous_habit_id: 'previous_habit_id'
   };
 
   export type Habit_insightsScalarFieldEnum = (typeof Habit_insightsScalarFieldEnum)[keyof typeof Habit_insightsScalarFieldEnum]
+
+
+  export const Habit_processing_cursorsScalarFieldEnum: {
+    owner: 'owner',
+    last_transaction_at: 'last_transaction_at',
+    last_run_at: 'last_run_at',
+    last_trigger: 'last_trigger',
+    last_analysis_version: 'last_analysis_version',
+    notes: 'notes',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Habit_processing_cursorsScalarFieldEnum = (typeof Habit_processing_cursorsScalarFieldEnum)[keyof typeof Habit_processing_cursorsScalarFieldEnum]
 
 
   export const Habit_snapshotsScalarFieldEnum: {
@@ -50897,6 +51936,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -50914,20 +51967,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -50982,18 +52021,22 @@ export namespace Prisma {
     NOT?: coach_briefingsWhereInput | coach_briefingsWhereInput[]
     id?: UuidFilter<"coach_briefings"> | string
     owner?: IntFilter<"coach_briefings"> | number
-    headline?: StringFilter<"coach_briefings"> | string
-    counsel?: StringFilter<"coach_briefings"> | string
+    headline?: StringNullableFilter<"coach_briefings"> | string | null
+    counsel?: StringNullableFilter<"coach_briefings"> | string | null
     evidence?: StringNullableFilter<"coach_briefings"> | string | null
-    trigger?: StringNullableFilter<"coach_briefings"> | string | null
+    user_question?: StringNullableFilter<"coach_briefings"> | string | null
+    agent_answer?: StringNullableFilter<"coach_briefings"> | string | null
+    question_hash?: StringNullableFilter<"coach_briefings"> | string | null
+    question_embedding?: JsonNullableFilter<"coach_briefings">
+    insight_hash?: StringFilter<"coach_briefings"> | string
+    insights_used?: JsonNullableFilter<"coach_briefings">
+    answer_version?: IntFilter<"coach_briefings"> | number
+    snapshot?: IntNullableFilter<"coach_briefings"> | number | null
     delivered?: BoolFilter<"coach_briefings"> | boolean
     delivered_at?: DateTimeNullableFilter<"coach_briefings"> | Date | string | null
     date_created?: DateTimeFilter<"coach_briefings"> | Date | string
-    insight_hash?: StringFilter<"coach_briefings"> | string
-    metadata?: JsonNullableFilter<"coach_briefings">
-    snapshot?: IntNullableFilter<"coach_briefings"> | number | null
-    status?: StringFilter<"coach_briefings"> | string
     date_updated?: DateTimeNullableFilter<"coach_briefings"> | Date | string | null
+    status?: StringFilter<"coach_briefings"> | string
     sort?: IntNullableFilter<"coach_briefings"> | number | null
     user_created?: UuidNullableFilter<"coach_briefings"> | string | null
     user_updated?: UuidNullableFilter<"coach_briefings"> | string | null
@@ -51006,18 +52049,22 @@ export namespace Prisma {
   export type coach_briefingsOrderByWithRelationInput = {
     id?: SortOrder
     owner?: SortOrder
-    headline?: SortOrder
-    counsel?: SortOrder
+    headline?: SortOrderInput | SortOrder
+    counsel?: SortOrderInput | SortOrder
     evidence?: SortOrderInput | SortOrder
-    trigger?: SortOrderInput | SortOrder
+    user_question?: SortOrderInput | SortOrder
+    agent_answer?: SortOrderInput | SortOrder
+    question_hash?: SortOrderInput | SortOrder
+    question_embedding?: SortOrderInput | SortOrder
+    insight_hash?: SortOrder
+    insights_used?: SortOrderInput | SortOrder
+    answer_version?: SortOrder
+    snapshot?: SortOrderInput | SortOrder
     delivered?: SortOrder
     delivered_at?: SortOrderInput | SortOrder
     date_created?: SortOrder
-    insight_hash?: SortOrder
-    metadata?: SortOrderInput | SortOrder
-    snapshot?: SortOrderInput | SortOrder
-    status?: SortOrder
     date_updated?: SortOrderInput | SortOrder
+    status?: SortOrder
     sort?: SortOrderInput | SortOrder
     user_created?: SortOrderInput | SortOrder
     user_updated?: SortOrderInput | SortOrder
@@ -51033,18 +52080,22 @@ export namespace Prisma {
     OR?: coach_briefingsWhereInput[]
     NOT?: coach_briefingsWhereInput | coach_briefingsWhereInput[]
     owner?: IntFilter<"coach_briefings"> | number
-    headline?: StringFilter<"coach_briefings"> | string
-    counsel?: StringFilter<"coach_briefings"> | string
+    headline?: StringNullableFilter<"coach_briefings"> | string | null
+    counsel?: StringNullableFilter<"coach_briefings"> | string | null
     evidence?: StringNullableFilter<"coach_briefings"> | string | null
-    trigger?: StringNullableFilter<"coach_briefings"> | string | null
+    user_question?: StringNullableFilter<"coach_briefings"> | string | null
+    agent_answer?: StringNullableFilter<"coach_briefings"> | string | null
+    question_hash?: StringNullableFilter<"coach_briefings"> | string | null
+    question_embedding?: JsonNullableFilter<"coach_briefings">
+    insight_hash?: StringFilter<"coach_briefings"> | string
+    insights_used?: JsonNullableFilter<"coach_briefings">
+    answer_version?: IntFilter<"coach_briefings"> | number
+    snapshot?: IntNullableFilter<"coach_briefings"> | number | null
     delivered?: BoolFilter<"coach_briefings"> | boolean
     delivered_at?: DateTimeNullableFilter<"coach_briefings"> | Date | string | null
     date_created?: DateTimeFilter<"coach_briefings"> | Date | string
-    insight_hash?: StringFilter<"coach_briefings"> | string
-    metadata?: JsonNullableFilter<"coach_briefings">
-    snapshot?: IntNullableFilter<"coach_briefings"> | number | null
-    status?: StringFilter<"coach_briefings"> | string
     date_updated?: DateTimeNullableFilter<"coach_briefings"> | Date | string | null
+    status?: StringFilter<"coach_briefings"> | string
     sort?: IntNullableFilter<"coach_briefings"> | number | null
     user_created?: UuidNullableFilter<"coach_briefings"> | string | null
     user_updated?: UuidNullableFilter<"coach_briefings"> | string | null
@@ -51057,18 +52108,22 @@ export namespace Prisma {
   export type coach_briefingsOrderByWithAggregationInput = {
     id?: SortOrder
     owner?: SortOrder
-    headline?: SortOrder
-    counsel?: SortOrder
+    headline?: SortOrderInput | SortOrder
+    counsel?: SortOrderInput | SortOrder
     evidence?: SortOrderInput | SortOrder
-    trigger?: SortOrderInput | SortOrder
+    user_question?: SortOrderInput | SortOrder
+    agent_answer?: SortOrderInput | SortOrder
+    question_hash?: SortOrderInput | SortOrder
+    question_embedding?: SortOrderInput | SortOrder
+    insight_hash?: SortOrder
+    insights_used?: SortOrderInput | SortOrder
+    answer_version?: SortOrder
+    snapshot?: SortOrderInput | SortOrder
     delivered?: SortOrder
     delivered_at?: SortOrderInput | SortOrder
     date_created?: SortOrder
-    insight_hash?: SortOrder
-    metadata?: SortOrderInput | SortOrder
-    snapshot?: SortOrderInput | SortOrder
-    status?: SortOrder
     date_updated?: SortOrderInput | SortOrder
+    status?: SortOrder
     sort?: SortOrderInput | SortOrder
     user_created?: SortOrderInput | SortOrder
     user_updated?: SortOrderInput | SortOrder
@@ -51085,18 +52140,22 @@ export namespace Prisma {
     NOT?: coach_briefingsScalarWhereWithAggregatesInput | coach_briefingsScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"coach_briefings"> | string
     owner?: IntWithAggregatesFilter<"coach_briefings"> | number
-    headline?: StringWithAggregatesFilter<"coach_briefings"> | string
-    counsel?: StringWithAggregatesFilter<"coach_briefings"> | string
+    headline?: StringNullableWithAggregatesFilter<"coach_briefings"> | string | null
+    counsel?: StringNullableWithAggregatesFilter<"coach_briefings"> | string | null
     evidence?: StringNullableWithAggregatesFilter<"coach_briefings"> | string | null
-    trigger?: StringNullableWithAggregatesFilter<"coach_briefings"> | string | null
+    user_question?: StringNullableWithAggregatesFilter<"coach_briefings"> | string | null
+    agent_answer?: StringNullableWithAggregatesFilter<"coach_briefings"> | string | null
+    question_hash?: StringNullableWithAggregatesFilter<"coach_briefings"> | string | null
+    question_embedding?: JsonNullableWithAggregatesFilter<"coach_briefings">
+    insight_hash?: StringWithAggregatesFilter<"coach_briefings"> | string
+    insights_used?: JsonNullableWithAggregatesFilter<"coach_briefings">
+    answer_version?: IntWithAggregatesFilter<"coach_briefings"> | number
+    snapshot?: IntNullableWithAggregatesFilter<"coach_briefings"> | number | null
     delivered?: BoolWithAggregatesFilter<"coach_briefings"> | boolean
     delivered_at?: DateTimeNullableWithAggregatesFilter<"coach_briefings"> | Date | string | null
     date_created?: DateTimeWithAggregatesFilter<"coach_briefings"> | Date | string
-    insight_hash?: StringWithAggregatesFilter<"coach_briefings"> | string
-    metadata?: JsonNullableWithAggregatesFilter<"coach_briefings">
-    snapshot?: IntNullableWithAggregatesFilter<"coach_briefings"> | number | null
-    status?: StringWithAggregatesFilter<"coach_briefings"> | string
     date_updated?: DateTimeNullableWithAggregatesFilter<"coach_briefings"> | Date | string | null
+    status?: StringWithAggregatesFilter<"coach_briefings"> | string
     sort?: IntNullableWithAggregatesFilter<"coach_briefings"> | number | null
     user_created?: UuidNullableWithAggregatesFilter<"coach_briefings"> | string | null
     user_updated?: UuidNullableWithAggregatesFilter<"coach_briefings"> | string | null
@@ -53437,8 +54496,6 @@ export namespace Prisma {
     text_direction?: StringFilter<"directus_users"> | string
     alerts_alerts_user_createdTodirectus_users?: AlertsListRelationFilter
     alerts_alerts_user_updatedTodirectus_users?: AlertsListRelationFilter
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: Coach_briefingsListRelationFilter
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: Coach_briefingsListRelationFilter
     directus_access?: Directus_accessListRelationFilter
     directus_comments_directus_comments_user_createdTodirectus_users?: Directus_commentsListRelationFilter
     directus_comments_directus_comments_user_updatedTodirectus_users?: Directus_commentsListRelationFilter
@@ -53453,13 +54510,13 @@ export namespace Prisma {
     directus_presets?: Directus_presetsListRelationFilter
     directus_sessions?: Directus_sessionsListRelationFilter
     directus_shares?: Directus_sharesListRelationFilter
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: Coach_briefingsListRelationFilter
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: Coach_briefingsListRelationFilter
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: Habit_snapshotsListRelationFilter
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: Habit_snapshotsListRelationFilter
     directus_roles?: XOR<Directus_rolesNullableScalarRelationFilter, directus_rolesWhereInput> | null
     directus_versions_directus_versions_user_createdTodirectus_users?: Directus_versionsListRelationFilter
     directus_versions_directus_versions_user_updatedTodirectus_users?: Directus_versionsListRelationFilter
-    habit_insights_habit_insights_user_createdTodirectus_users?: Habit_insightsListRelationFilter
-    habit_insights_habit_insights_user_updatedTodirectus_users?: Habit_insightsListRelationFilter
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: Habit_snapshotsListRelationFilter
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: Habit_snapshotsListRelationFilter
     sms_messages_sms_messages_user_createdTodirectus_users?: Sms_messagesListRelationFilter
     sms_messages_sms_messages_user_updatedTodirectus_users?: Sms_messagesListRelationFilter
   }
@@ -53494,8 +54551,6 @@ export namespace Prisma {
     text_direction?: SortOrder
     alerts_alerts_user_createdTodirectus_users?: alertsOrderByRelationAggregateInput
     alerts_alerts_user_updatedTodirectus_users?: alertsOrderByRelationAggregateInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsOrderByRelationAggregateInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsOrderByRelationAggregateInput
     directus_access?: directus_accessOrderByRelationAggregateInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsOrderByRelationAggregateInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsOrderByRelationAggregateInput
@@ -53510,13 +54565,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsOrderByRelationAggregateInput
     directus_sessions?: directus_sessionsOrderByRelationAggregateInput
     directus_shares?: directus_sharesOrderByRelationAggregateInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsOrderByRelationAggregateInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsOrderByRelationAggregateInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsOrderByRelationAggregateInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsOrderByRelationAggregateInput
     directus_roles?: directus_rolesOrderByWithRelationInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsOrderByRelationAggregateInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsOrderByRelationAggregateInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsOrderByRelationAggregateInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsOrderByRelationAggregateInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsOrderByRelationAggregateInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsOrderByRelationAggregateInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesOrderByRelationAggregateInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesOrderByRelationAggregateInput
   }
@@ -53554,8 +54609,6 @@ export namespace Prisma {
     text_direction?: StringFilter<"directus_users"> | string
     alerts_alerts_user_createdTodirectus_users?: AlertsListRelationFilter
     alerts_alerts_user_updatedTodirectus_users?: AlertsListRelationFilter
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: Coach_briefingsListRelationFilter
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: Coach_briefingsListRelationFilter
     directus_access?: Directus_accessListRelationFilter
     directus_comments_directus_comments_user_createdTodirectus_users?: Directus_commentsListRelationFilter
     directus_comments_directus_comments_user_updatedTodirectus_users?: Directus_commentsListRelationFilter
@@ -53570,13 +54623,13 @@ export namespace Prisma {
     directus_presets?: Directus_presetsListRelationFilter
     directus_sessions?: Directus_sessionsListRelationFilter
     directus_shares?: Directus_sharesListRelationFilter
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: Coach_briefingsListRelationFilter
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: Coach_briefingsListRelationFilter
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: Habit_snapshotsListRelationFilter
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: Habit_snapshotsListRelationFilter
     directus_roles?: XOR<Directus_rolesNullableScalarRelationFilter, directus_rolesWhereInput> | null
     directus_versions_directus_versions_user_createdTodirectus_users?: Directus_versionsListRelationFilter
     directus_versions_directus_versions_user_updatedTodirectus_users?: Directus_versionsListRelationFilter
-    habit_insights_habit_insights_user_createdTodirectus_users?: Habit_insightsListRelationFilter
-    habit_insights_habit_insights_user_updatedTodirectus_users?: Habit_insightsListRelationFilter
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: Habit_snapshotsListRelationFilter
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: Habit_snapshotsListRelationFilter
     sms_messages_sms_messages_user_createdTodirectus_users?: Sms_messagesListRelationFilter
     sms_messages_sms_messages_user_updatedTodirectus_users?: Sms_messagesListRelationFilter
   }, "id" | "email" | "token" | "external_identifier">
@@ -53832,6 +54885,7 @@ export namespace Prisma {
     AND?: habit_insightsWhereInput | habit_insightsWhereInput[]
     OR?: habit_insightsWhereInput[]
     NOT?: habit_insightsWhereInput | habit_insightsWhereInput[]
+    id?: IntFilter<"habit_insights"> | number
     habit_id?: StringFilter<"habit_insights"> | string
     owner?: IntFilter<"habit_insights"> | number
     habit_label?: StringFilter<"habit_insights"> | string
@@ -53839,25 +54893,16 @@ export namespace Prisma {
     counsel?: StringFilter<"habit_insights"> | string
     full_text?: StringFilter<"habit_insights"> | string
     metrics?: JsonNullableFilter<"habit_insights">
-    recent_transactions?: JsonNullableFilter<"habit_insights">
-    transaction_id?: UuidNullableFilter<"habit_insights"> | string | null
     recorded_at?: DateTimeFilter<"habit_insights"> | Date | string
+    updated_at?: DateTimeFilter<"habit_insights"> | Date | string
+    superseded?: BoolFilter<"habit_insights"> | boolean
     previous_habit_id?: StringNullableFilter<"habit_insights"> | string | null
-    id?: IntFilter<"habit_insights"> | number
-    status?: StringFilter<"habit_insights"> | string
-    date_created?: DateTimeNullableFilter<"habit_insights"> | Date | string | null
-    date_updated?: DateTimeNullableFilter<"habit_insights"> | Date | string | null
-    sort?: IntNullableFilter<"habit_insights"> | number | null
-    user_created?: UuidNullableFilter<"habit_insights"> | string | null
-    user_updated?: UuidNullableFilter<"habit_insights"> | string | null
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
-    tranasctions?: XOR<TranasctionsNullableScalarRelationFilter, tranasctionsWhereInput> | null
-    directus_users_habit_insights_user_createdTodirectus_users?: XOR<Directus_usersNullableScalarRelationFilter, directus_usersWhereInput> | null
-    directus_users_habit_insights_user_updatedTodirectus_users?: XOR<Directus_usersNullableScalarRelationFilter, directus_usersWhereInput> | null
     habit_snapshot_links?: Habit_snapshot_insightsListRelationFilter
   }
 
   export type habit_insightsOrderByWithRelationInput = {
+    id?: SortOrder
     habit_id?: SortOrder
     owner?: SortOrder
     habit_label?: SortOrder
@@ -53865,27 +54910,17 @@ export namespace Prisma {
     counsel?: SortOrder
     full_text?: SortOrder
     metrics?: SortOrderInput | SortOrder
-    recent_transactions?: SortOrderInput | SortOrder
-    transaction_id?: SortOrderInput | SortOrder
     recorded_at?: SortOrder
+    updated_at?: SortOrder
+    superseded?: SortOrder
     previous_habit_id?: SortOrderInput | SortOrder
-    id?: SortOrder
-    status?: SortOrder
-    date_created?: SortOrderInput | SortOrder
-    date_updated?: SortOrderInput | SortOrder
-    sort?: SortOrderInput | SortOrder
-    user_created?: SortOrderInput | SortOrder
-    user_updated?: SortOrderInput | SortOrder
     users?: usersOrderByWithRelationInput
-    tranasctions?: tranasctionsOrderByWithRelationInput
-    directus_users_habit_insights_user_createdTodirectus_users?: directus_usersOrderByWithRelationInput
-    directus_users_habit_insights_user_updatedTodirectus_users?: directus_usersOrderByWithRelationInput
     habit_snapshot_links?: habit_snapshot_insightsOrderByRelationAggregateInput
   }
 
   export type habit_insightsWhereUniqueInput = Prisma.AtLeast<{
-    habit_id?: string
     id?: number
+    habit_id?: string
     AND?: habit_insightsWhereInput | habit_insightsWhereInput[]
     OR?: habit_insightsWhereInput[]
     NOT?: habit_insightsWhereInput | habit_insightsWhereInput[]
@@ -53895,24 +54930,16 @@ export namespace Prisma {
     counsel?: StringFilter<"habit_insights"> | string
     full_text?: StringFilter<"habit_insights"> | string
     metrics?: JsonNullableFilter<"habit_insights">
-    recent_transactions?: JsonNullableFilter<"habit_insights">
-    transaction_id?: UuidNullableFilter<"habit_insights"> | string | null
     recorded_at?: DateTimeFilter<"habit_insights"> | Date | string
+    updated_at?: DateTimeFilter<"habit_insights"> | Date | string
+    superseded?: BoolFilter<"habit_insights"> | boolean
     previous_habit_id?: StringNullableFilter<"habit_insights"> | string | null
-    status?: StringFilter<"habit_insights"> | string
-    date_created?: DateTimeNullableFilter<"habit_insights"> | Date | string | null
-    date_updated?: DateTimeNullableFilter<"habit_insights"> | Date | string | null
-    sort?: IntNullableFilter<"habit_insights"> | number | null
-    user_created?: UuidNullableFilter<"habit_insights"> | string | null
-    user_updated?: UuidNullableFilter<"habit_insights"> | string | null
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
-    tranasctions?: XOR<TranasctionsNullableScalarRelationFilter, tranasctionsWhereInput> | null
-    directus_users_habit_insights_user_createdTodirectus_users?: XOR<Directus_usersNullableScalarRelationFilter, directus_usersWhereInput> | null
-    directus_users_habit_insights_user_updatedTodirectus_users?: XOR<Directus_usersNullableScalarRelationFilter, directus_usersWhereInput> | null
     habit_snapshot_links?: Habit_snapshot_insightsListRelationFilter
   }, "id" | "habit_id">
 
   export type habit_insightsOrderByWithAggregationInput = {
+    id?: SortOrder
     habit_id?: SortOrder
     owner?: SortOrder
     habit_label?: SortOrder
@@ -53920,17 +54947,10 @@ export namespace Prisma {
     counsel?: SortOrder
     full_text?: SortOrder
     metrics?: SortOrderInput | SortOrder
-    recent_transactions?: SortOrderInput | SortOrder
-    transaction_id?: SortOrderInput | SortOrder
     recorded_at?: SortOrder
+    updated_at?: SortOrder
+    superseded?: SortOrder
     previous_habit_id?: SortOrderInput | SortOrder
-    id?: SortOrder
-    status?: SortOrder
-    date_created?: SortOrderInput | SortOrder
-    date_updated?: SortOrderInput | SortOrder
-    sort?: SortOrderInput | SortOrder
-    user_created?: SortOrderInput | SortOrder
-    user_updated?: SortOrderInput | SortOrder
     _count?: habit_insightsCountOrderByAggregateInput
     _avg?: habit_insightsAvgOrderByAggregateInput
     _max?: habit_insightsMaxOrderByAggregateInput
@@ -53942,6 +54962,7 @@ export namespace Prisma {
     AND?: habit_insightsScalarWhereWithAggregatesInput | habit_insightsScalarWhereWithAggregatesInput[]
     OR?: habit_insightsScalarWhereWithAggregatesInput[]
     NOT?: habit_insightsScalarWhereWithAggregatesInput | habit_insightsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"habit_insights"> | number
     habit_id?: StringWithAggregatesFilter<"habit_insights"> | string
     owner?: IntWithAggregatesFilter<"habit_insights"> | number
     habit_label?: StringWithAggregatesFilter<"habit_insights"> | string
@@ -53949,17 +54970,82 @@ export namespace Prisma {
     counsel?: StringWithAggregatesFilter<"habit_insights"> | string
     full_text?: StringWithAggregatesFilter<"habit_insights"> | string
     metrics?: JsonNullableWithAggregatesFilter<"habit_insights">
-    recent_transactions?: JsonNullableWithAggregatesFilter<"habit_insights">
-    transaction_id?: UuidNullableWithAggregatesFilter<"habit_insights"> | string | null
     recorded_at?: DateTimeWithAggregatesFilter<"habit_insights"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"habit_insights"> | Date | string
+    superseded?: BoolWithAggregatesFilter<"habit_insights"> | boolean
     previous_habit_id?: StringNullableWithAggregatesFilter<"habit_insights"> | string | null
-    id?: IntWithAggregatesFilter<"habit_insights"> | number
-    status?: StringWithAggregatesFilter<"habit_insights"> | string
-    date_created?: DateTimeNullableWithAggregatesFilter<"habit_insights"> | Date | string | null
-    date_updated?: DateTimeNullableWithAggregatesFilter<"habit_insights"> | Date | string | null
-    sort?: IntNullableWithAggregatesFilter<"habit_insights"> | number | null
-    user_created?: UuidNullableWithAggregatesFilter<"habit_insights"> | string | null
-    user_updated?: UuidNullableWithAggregatesFilter<"habit_insights"> | string | null
+  }
+
+  export type habit_processing_cursorsWhereInput = {
+    AND?: habit_processing_cursorsWhereInput | habit_processing_cursorsWhereInput[]
+    OR?: habit_processing_cursorsWhereInput[]
+    NOT?: habit_processing_cursorsWhereInput | habit_processing_cursorsWhereInput[]
+    owner?: IntFilter<"habit_processing_cursors"> | number
+    last_transaction_at?: DateTimeNullableFilter<"habit_processing_cursors"> | Date | string | null
+    last_run_at?: DateTimeNullableFilter<"habit_processing_cursors"> | Date | string | null
+    last_trigger?: StringNullableFilter<"habit_processing_cursors"> | string | null
+    last_analysis_version?: IntNullableFilter<"habit_processing_cursors"> | number | null
+    notes?: JsonNullableFilter<"habit_processing_cursors">
+    created_at?: DateTimeFilter<"habit_processing_cursors"> | Date | string
+    updated_at?: DateTimeNullableFilter<"habit_processing_cursors"> | Date | string | null
+    users?: XOR<UsersScalarRelationFilter, usersWhereInput>
+  }
+
+  export type habit_processing_cursorsOrderByWithRelationInput = {
+    owner?: SortOrder
+    last_transaction_at?: SortOrderInput | SortOrder
+    last_run_at?: SortOrderInput | SortOrder
+    last_trigger?: SortOrderInput | SortOrder
+    last_analysis_version?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    users?: usersOrderByWithRelationInput
+  }
+
+  export type habit_processing_cursorsWhereUniqueInput = Prisma.AtLeast<{
+    owner?: number
+    AND?: habit_processing_cursorsWhereInput | habit_processing_cursorsWhereInput[]
+    OR?: habit_processing_cursorsWhereInput[]
+    NOT?: habit_processing_cursorsWhereInput | habit_processing_cursorsWhereInput[]
+    last_transaction_at?: DateTimeNullableFilter<"habit_processing_cursors"> | Date | string | null
+    last_run_at?: DateTimeNullableFilter<"habit_processing_cursors"> | Date | string | null
+    last_trigger?: StringNullableFilter<"habit_processing_cursors"> | string | null
+    last_analysis_version?: IntNullableFilter<"habit_processing_cursors"> | number | null
+    notes?: JsonNullableFilter<"habit_processing_cursors">
+    created_at?: DateTimeFilter<"habit_processing_cursors"> | Date | string
+    updated_at?: DateTimeNullableFilter<"habit_processing_cursors"> | Date | string | null
+    users?: XOR<UsersScalarRelationFilter, usersWhereInput>
+  }, "owner">
+
+  export type habit_processing_cursorsOrderByWithAggregationInput = {
+    owner?: SortOrder
+    last_transaction_at?: SortOrderInput | SortOrder
+    last_run_at?: SortOrderInput | SortOrder
+    last_trigger?: SortOrderInput | SortOrder
+    last_analysis_version?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    _count?: habit_processing_cursorsCountOrderByAggregateInput
+    _avg?: habit_processing_cursorsAvgOrderByAggregateInput
+    _max?: habit_processing_cursorsMaxOrderByAggregateInput
+    _min?: habit_processing_cursorsMinOrderByAggregateInput
+    _sum?: habit_processing_cursorsSumOrderByAggregateInput
+  }
+
+  export type habit_processing_cursorsScalarWhereWithAggregatesInput = {
+    AND?: habit_processing_cursorsScalarWhereWithAggregatesInput | habit_processing_cursorsScalarWhereWithAggregatesInput[]
+    OR?: habit_processing_cursorsScalarWhereWithAggregatesInput[]
+    NOT?: habit_processing_cursorsScalarWhereWithAggregatesInput | habit_processing_cursorsScalarWhereWithAggregatesInput[]
+    owner?: IntWithAggregatesFilter<"habit_processing_cursors"> | number
+    last_transaction_at?: DateTimeNullableWithAggregatesFilter<"habit_processing_cursors"> | Date | string | null
+    last_run_at?: DateTimeNullableWithAggregatesFilter<"habit_processing_cursors"> | Date | string | null
+    last_trigger?: StringNullableWithAggregatesFilter<"habit_processing_cursors"> | string | null
+    last_analysis_version?: IntNullableWithAggregatesFilter<"habit_processing_cursors"> | number | null
+    notes?: JsonNullableWithAggregatesFilter<"habit_processing_cursors">
+    created_at?: DateTimeWithAggregatesFilter<"habit_processing_cursors"> | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter<"habit_processing_cursors"> | Date | string | null
   }
 
   export type habit_snapshotsWhereInput = {
@@ -54311,7 +55397,6 @@ export namespace Prisma {
     analyzed_version?: IntNullableFilter<"tranasctions"> | number | null
     analysis_notes?: StringNullableFilter<"tranasctions"> | string | null
     alerts?: AlertsListRelationFilter
-    habit_insights?: Habit_insightsListRelationFilter
     sms_messages?: XOR<Sms_messagesNullableScalarRelationFilter, sms_messagesWhereInput> | null
     users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
   }
@@ -54336,7 +55421,6 @@ export namespace Prisma {
     analyzed_version?: SortOrderInput | SortOrder
     analysis_notes?: SortOrderInput | SortOrder
     alerts?: alertsOrderByRelationAggregateInput
-    habit_insights?: habit_insightsOrderByRelationAggregateInput
     sms_messages?: sms_messagesOrderByWithRelationInput
     users?: usersOrderByWithRelationInput
   }
@@ -54364,7 +55448,6 @@ export namespace Prisma {
     analyzed_version?: IntNullableFilter<"tranasctions"> | number | null
     analysis_notes?: StringNullableFilter<"tranasctions"> | string | null
     alerts?: AlertsListRelationFilter
-    habit_insights?: Habit_insightsListRelationFilter
     sms_messages?: XOR<Sms_messagesNullableScalarRelationFilter, sms_messagesWhereInput> | null
     users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
   }, "id">
@@ -54436,6 +55519,7 @@ export namespace Prisma {
     coach_briefings?: Coach_briefingsListRelationFilter
     habit_insights?: Habit_insightsListRelationFilter
     habit_snapshots?: Habit_snapshotsListRelationFilter
+    habit_processing_cursors?: XOR<Habit_processing_cursorsNullableScalarRelationFilter, habit_processing_cursorsWhereInput> | null
     sms_messages?: Sms_messagesListRelationFilter
     tranasctions?: TranasctionsListRelationFilter
   }
@@ -54454,6 +55538,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsOrderByRelationAggregateInput
     habit_insights?: habit_insightsOrderByRelationAggregateInput
     habit_snapshots?: habit_snapshotsOrderByRelationAggregateInput
+    habit_processing_cursors?: habit_processing_cursorsOrderByWithRelationInput
     sms_messages?: sms_messagesOrderByRelationAggregateInput
     tranasctions?: tranasctionsOrderByRelationAggregateInput
   }
@@ -54475,6 +55560,7 @@ export namespace Prisma {
     coach_briefings?: Coach_briefingsListRelationFilter
     habit_insights?: Habit_insightsListRelationFilter
     habit_snapshots?: Habit_snapshotsListRelationFilter
+    habit_processing_cursors?: XOR<Habit_processing_cursorsNullableScalarRelationFilter, habit_processing_cursorsWhereInput> | null
     sms_messages?: Sms_messagesListRelationFilter
     tranasctions?: TranasctionsListRelationFilter
   }, "id">
@@ -54669,17 +55755,21 @@ export namespace Prisma {
 
   export type coach_briefingsCreateInput = {
     id: string
-    headline: string
-    counsel: string
+    headline?: string | null
+    counsel?: string | null
     evidence?: string | null
-    trigger?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
     delivered?: boolean
     delivered_at?: Date | string | null
     date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     users: usersCreateNestedOneWithoutCoach_briefingsInput
     habit_snapshots?: habit_snapshotsCreateNestedOneWithoutCoach_briefingsInput
@@ -54690,18 +55780,22 @@ export namespace Prisma {
   export type coach_briefingsUncheckedCreateInput = {
     id: string
     owner: number
-    headline: string
-    counsel: string
+    headline?: string | null
+    counsel?: string | null
     evidence?: string | null
-    trigger?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
+    snapshot?: number | null
     delivered?: boolean
     delivered_at?: Date | string | null
     date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: number | null
-    status?: string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     user_created?: string | null
     user_updated?: string | null
@@ -54709,17 +55803,21 @@ export namespace Prisma {
 
   export type coach_briefingsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
     evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
     delivered?: BoolFieldUpdateOperationsInput | boolean
     delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     users?: usersUpdateOneRequiredWithoutCoach_briefingsNestedInput
     habit_snapshots?: habit_snapshotsUpdateOneWithoutCoach_briefingsNestedInput
@@ -54730,18 +55828,22 @@ export namespace Prisma {
   export type coach_briefingsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     owner?: IntFieldUpdateOperationsInput | number
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
     evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
+    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
     delivered?: BoolFieldUpdateOperationsInput | boolean
     delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
-    status?: StringFieldUpdateOperationsInput | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
@@ -54750,18 +55852,22 @@ export namespace Prisma {
   export type coach_briefingsCreateManyInput = {
     id: string
     owner: number
-    headline: string
-    counsel: string
+    headline?: string | null
+    counsel?: string | null
     evidence?: string | null
-    trigger?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
+    snapshot?: number | null
     delivered?: boolean
     delivered_at?: Date | string | null
     date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: number | null
-    status?: string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     user_created?: string | null
     user_updated?: string | null
@@ -54769,35 +55875,43 @@ export namespace Prisma {
 
   export type coach_briefingsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
     evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
     delivered?: BoolFieldUpdateOperationsInput | boolean
     delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type coach_briefingsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     owner?: IntFieldUpdateOperationsInput | number
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
     evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
+    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
     delivered?: BoolFieldUpdateOperationsInput | boolean
     delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
-    status?: StringFieldUpdateOperationsInput | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
@@ -57366,8 +58480,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -57382,13 +58494,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -57423,8 +58535,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -57439,12 +58549,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -57478,8 +58588,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -57494,13 +58602,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -57535,8 +58643,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -57551,12 +58657,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -57850,21 +58956,16 @@ export namespace Prisma {
     counsel: string
     full_text: string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
     recorded_at?: Date | string
+    updated_at?: Date | string
+    superseded?: boolean
     previous_habit_id?: string | null
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    sort?: number | null
     users: usersCreateNestedOneWithoutHabit_insightsInput
-    tranasctions?: tranasctionsCreateNestedOneWithoutHabit_insightsInput
-    directus_users_habit_insights_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput
-    directus_users_habit_insights_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput
     habit_snapshot_links?: habit_snapshot_insightsCreateNestedManyWithoutInsight_refInput
   }
 
   export type habit_insightsUncheckedCreateInput = {
+    id?: number
     habit_id: string
     owner: number
     habit_label: string
@@ -57872,17 +58973,10 @@ export namespace Prisma {
     counsel: string
     full_text: string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: string | null
     recorded_at?: Date | string
+    updated_at?: Date | string
+    superseded?: boolean
     previous_habit_id?: string | null
-    id?: number
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    sort?: number | null
-    user_created?: string | null
-    user_updated?: string | null
     habit_snapshot_links?: habit_snapshot_insightsUncheckedCreateNestedManyWithoutInsight_refInput
   }
 
@@ -57893,21 +58987,16 @@ export namespace Prisma {
     counsel?: StringFieldUpdateOperationsInput | string
     full_text?: StringFieldUpdateOperationsInput | string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
     recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    superseded?: BoolFieldUpdateOperationsInput | boolean
     previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
     users?: usersUpdateOneRequiredWithoutHabit_insightsNestedInput
-    tranasctions?: tranasctionsUpdateOneWithoutHabit_insightsNestedInput
-    directus_users_habit_insights_user_createdTodirectus_users?: directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersNestedInput
-    directus_users_habit_insights_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersNestedInput
     habit_snapshot_links?: habit_snapshot_insightsUpdateManyWithoutInsight_refNestedInput
   }
 
   export type habit_insightsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
     habit_id?: StringFieldUpdateOperationsInput | string
     owner?: IntFieldUpdateOperationsInput | number
     habit_label?: StringFieldUpdateOperationsInput | string
@@ -57915,21 +59004,15 @@ export namespace Prisma {
     counsel?: StringFieldUpdateOperationsInput | string
     full_text?: StringFieldUpdateOperationsInput | string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    superseded?: BoolFieldUpdateOperationsInput | boolean
     previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
     habit_snapshot_links?: habit_snapshot_insightsUncheckedUpdateManyWithoutInsight_refNestedInput
   }
 
   export type habit_insightsCreateManyInput = {
+    id?: number
     habit_id: string
     owner: number
     habit_label: string
@@ -57937,17 +59020,10 @@ export namespace Prisma {
     counsel: string
     full_text: string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: string | null
     recorded_at?: Date | string
+    updated_at?: Date | string
+    superseded?: boolean
     previous_habit_id?: string | null
-    id?: number
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    sort?: number | null
-    user_created?: string | null
-    user_updated?: string | null
   }
 
   export type habit_insightsUpdateManyMutationInput = {
@@ -57957,16 +59033,14 @@ export namespace Prisma {
     counsel?: StringFieldUpdateOperationsInput | string
     full_text?: StringFieldUpdateOperationsInput | string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
     recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    superseded?: BoolFieldUpdateOperationsInput | boolean
     previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type habit_insightsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
     habit_id?: StringFieldUpdateOperationsInput | string
     owner?: IntFieldUpdateOperationsInput | number
     habit_label?: StringFieldUpdateOperationsInput | string
@@ -57974,17 +59048,86 @@ export namespace Prisma {
     counsel?: StringFieldUpdateOperationsInput | string
     full_text?: StringFieldUpdateOperationsInput | string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    superseded?: BoolFieldUpdateOperationsInput | boolean
     previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type habit_processing_cursorsCreateInput = {
+    last_transaction_at?: Date | string | null
+    last_run_at?: Date | string | null
+    last_trigger?: string | null
+    last_analysis_version?: number | null
+    notes?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    users: usersCreateNestedOneWithoutHabit_processing_cursorsInput
+  }
+
+  export type habit_processing_cursorsUncheckedCreateInput = {
+    owner: number
+    last_transaction_at?: Date | string | null
+    last_run_at?: Date | string | null
+    last_trigger?: string | null
+    last_analysis_version?: number | null
+    notes?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type habit_processing_cursorsUpdateInput = {
+    last_transaction_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_run_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    last_analysis_version?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users?: usersUpdateOneRequiredWithoutHabit_processing_cursorsNestedInput
+  }
+
+  export type habit_processing_cursorsUncheckedUpdateInput = {
+    owner?: IntFieldUpdateOperationsInput | number
+    last_transaction_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_run_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    last_analysis_version?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type habit_processing_cursorsCreateManyInput = {
+    owner: number
+    last_transaction_at?: Date | string | null
+    last_run_at?: Date | string | null
+    last_trigger?: string | null
+    last_analysis_version?: number | null
+    notes?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type habit_processing_cursorsUpdateManyMutationInput = {
+    last_transaction_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_run_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    last_analysis_version?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type habit_processing_cursorsUncheckedUpdateManyInput = {
+    owner?: IntFieldUpdateOperationsInput | number
+    last_transaction_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_run_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    last_analysis_version?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type habit_snapshotsCreateInput = {
@@ -58350,7 +59493,6 @@ export namespace Prisma {
     analyzed_version?: number | null
     analysis_notes?: string | null
     alerts?: alertsCreateNestedManyWithoutTranasctionsInput
-    habit_insights?: habit_insightsCreateNestedManyWithoutTranasctionsInput
     sms_messages?: sms_messagesCreateNestedOneWithoutTranasctionsInput
     users?: usersCreateNestedOneWithoutTranasctionsInput
   }
@@ -58375,7 +59517,6 @@ export namespace Prisma {
     analyzed_version?: number | null
     analysis_notes?: string | null
     alerts?: alertsUncheckedCreateNestedManyWithoutTranasctionsInput
-    habit_insights?: habit_insightsUncheckedCreateNestedManyWithoutTranasctionsInput
   }
 
   export type tranasctionsUpdateInput = {
@@ -58396,7 +59537,6 @@ export namespace Prisma {
     analyzed_version?: NullableIntFieldUpdateOperationsInput | number | null
     analysis_notes?: NullableStringFieldUpdateOperationsInput | string | null
     alerts?: alertsUpdateManyWithoutTranasctionsNestedInput
-    habit_insights?: habit_insightsUpdateManyWithoutTranasctionsNestedInput
     sms_messages?: sms_messagesUpdateOneWithoutTranasctionsNestedInput
     users?: usersUpdateOneWithoutTranasctionsNestedInput
   }
@@ -58421,7 +59561,6 @@ export namespace Prisma {
     analyzed_version?: NullableIntFieldUpdateOperationsInput | number | null
     analysis_notes?: NullableStringFieldUpdateOperationsInput | string | null
     alerts?: alertsUncheckedUpdateManyWithoutTranasctionsNestedInput
-    habit_insights?: habit_insightsUncheckedUpdateManyWithoutTranasctionsNestedInput
   }
 
   export type tranasctionsCreateManyInput = {
@@ -58498,6 +59637,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesCreateNestedManyWithoutUsersInput
     tranasctions?: tranasctionsCreateNestedManyWithoutUsersInput
   }
@@ -58516,6 +59656,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsUncheckedCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsUncheckedCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesUncheckedCreateNestedManyWithoutUsersInput
     tranasctions?: tranasctionsUncheckedCreateNestedManyWithoutUsersInput
   }
@@ -58533,6 +59674,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUpdateManyWithoutUsersNestedInput
     tranasctions?: tranasctionsUpdateManyWithoutUsersNestedInput
   }
@@ -58551,6 +59693,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUncheckedUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUncheckedUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUncheckedUpdateManyWithoutUsersNestedInput
     tranasctions?: tranasctionsUncheckedUpdateManyWithoutUsersNestedInput
   }
@@ -58788,6 +59931,44 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -58803,19 +59984,15 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -58843,40 +60020,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type UuidNullableFilter<$PrismaModel = never> = {
@@ -58917,15 +60060,19 @@ export namespace Prisma {
     headline?: SortOrder
     counsel?: SortOrder
     evidence?: SortOrder
-    trigger?: SortOrder
+    user_question?: SortOrder
+    agent_answer?: SortOrder
+    question_hash?: SortOrder
+    question_embedding?: SortOrder
+    insight_hash?: SortOrder
+    insights_used?: SortOrder
+    answer_version?: SortOrder
+    snapshot?: SortOrder
     delivered?: SortOrder
     delivered_at?: SortOrder
     date_created?: SortOrder
-    insight_hash?: SortOrder
-    metadata?: SortOrder
-    snapshot?: SortOrder
-    status?: SortOrder
     date_updated?: SortOrder
+    status?: SortOrder
     sort?: SortOrder
     user_created?: SortOrder
     user_updated?: SortOrder
@@ -58933,6 +60080,7 @@ export namespace Prisma {
 
   export type coach_briefingsAvgOrderByAggregateInput = {
     owner?: SortOrder
+    answer_version?: SortOrder
     snapshot?: SortOrder
     sort?: SortOrder
   }
@@ -58943,14 +60091,17 @@ export namespace Prisma {
     headline?: SortOrder
     counsel?: SortOrder
     evidence?: SortOrder
-    trigger?: SortOrder
+    user_question?: SortOrder
+    agent_answer?: SortOrder
+    question_hash?: SortOrder
+    insight_hash?: SortOrder
+    answer_version?: SortOrder
+    snapshot?: SortOrder
     delivered?: SortOrder
     delivered_at?: SortOrder
     date_created?: SortOrder
-    insight_hash?: SortOrder
-    snapshot?: SortOrder
-    status?: SortOrder
     date_updated?: SortOrder
+    status?: SortOrder
     sort?: SortOrder
     user_created?: SortOrder
     user_updated?: SortOrder
@@ -58962,14 +60113,17 @@ export namespace Prisma {
     headline?: SortOrder
     counsel?: SortOrder
     evidence?: SortOrder
-    trigger?: SortOrder
+    user_question?: SortOrder
+    agent_answer?: SortOrder
+    question_hash?: SortOrder
+    insight_hash?: SortOrder
+    answer_version?: SortOrder
+    snapshot?: SortOrder
     delivered?: SortOrder
     delivered_at?: SortOrder
     date_created?: SortOrder
-    insight_hash?: SortOrder
-    snapshot?: SortOrder
-    status?: SortOrder
     date_updated?: SortOrder
+    status?: SortOrder
     sort?: SortOrder
     user_created?: SortOrder
     user_updated?: SortOrder
@@ -58977,6 +60131,7 @@ export namespace Prisma {
 
   export type coach_briefingsSumOrderByAggregateInput = {
     owner?: SortOrder
+    answer_version?: SortOrder
     snapshot?: SortOrder
     sort?: SortOrder
   }
@@ -59012,6 +60167,50 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -59030,22 +60229,20 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -59082,48 +60279,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -60579,12 +61734,6 @@ export namespace Prisma {
     none?: alertsWhereInput
   }
 
-  export type Coach_briefingsListRelationFilter = {
-    every?: coach_briefingsWhereInput
-    some?: coach_briefingsWhereInput
-    none?: coach_briefingsWhereInput
-  }
-
   export type Directus_commentsListRelationFilter = {
     every?: directus_commentsWhereInput
     some?: directus_commentsWhereInput
@@ -60609,10 +61758,10 @@ export namespace Prisma {
     none?: directus_notificationsWhereInput
   }
 
-  export type Habit_insightsListRelationFilter = {
-    every?: habit_insightsWhereInput
-    some?: habit_insightsWhereInput
-    none?: habit_insightsWhereInput
+  export type Coach_briefingsListRelationFilter = {
+    every?: coach_briefingsWhereInput
+    some?: coach_briefingsWhereInput
+    none?: coach_briefingsWhereInput
   }
 
   export type Habit_snapshotsListRelationFilter = {
@@ -60628,10 +61777,6 @@ export namespace Prisma {
   }
 
   export type alertsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type coach_briefingsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -60651,7 +61796,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type habit_insightsOrderByRelationAggregateInput = {
+  export type coach_briefingsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -60838,11 +61983,6 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type TranasctionsNullableScalarRelationFilter = {
-    is?: tranasctionsWhereInput | null
-    isNot?: tranasctionsWhereInput | null
-  }
-
   export type Habit_snapshot_insightsListRelationFilter = {
     every?: habit_snapshot_insightsWhereInput
     some?: habit_snapshot_insightsWhereInput
@@ -60854,6 +61994,7 @@ export namespace Prisma {
   }
 
   export type habit_insightsCountOrderByAggregateInput = {
+    id?: SortOrder
     habit_id?: SortOrder
     owner?: SortOrder
     habit_label?: SortOrder
@@ -60861,67 +62002,89 @@ export namespace Prisma {
     counsel?: SortOrder
     full_text?: SortOrder
     metrics?: SortOrder
-    recent_transactions?: SortOrder
-    transaction_id?: SortOrder
     recorded_at?: SortOrder
+    updated_at?: SortOrder
+    superseded?: SortOrder
     previous_habit_id?: SortOrder
-    id?: SortOrder
-    status?: SortOrder
-    date_created?: SortOrder
-    date_updated?: SortOrder
-    sort?: SortOrder
-    user_created?: SortOrder
-    user_updated?: SortOrder
   }
 
   export type habit_insightsAvgOrderByAggregateInput = {
-    owner?: SortOrder
     id?: SortOrder
-    sort?: SortOrder
+    owner?: SortOrder
   }
 
   export type habit_insightsMaxOrderByAggregateInput = {
+    id?: SortOrder
     habit_id?: SortOrder
     owner?: SortOrder
     habit_label?: SortOrder
     evidence?: SortOrder
     counsel?: SortOrder
     full_text?: SortOrder
-    transaction_id?: SortOrder
     recorded_at?: SortOrder
+    updated_at?: SortOrder
+    superseded?: SortOrder
     previous_habit_id?: SortOrder
-    id?: SortOrder
-    status?: SortOrder
-    date_created?: SortOrder
-    date_updated?: SortOrder
-    sort?: SortOrder
-    user_created?: SortOrder
-    user_updated?: SortOrder
   }
 
   export type habit_insightsMinOrderByAggregateInput = {
+    id?: SortOrder
     habit_id?: SortOrder
     owner?: SortOrder
     habit_label?: SortOrder
     evidence?: SortOrder
     counsel?: SortOrder
     full_text?: SortOrder
-    transaction_id?: SortOrder
     recorded_at?: SortOrder
+    updated_at?: SortOrder
+    superseded?: SortOrder
     previous_habit_id?: SortOrder
-    id?: SortOrder
-    status?: SortOrder
-    date_created?: SortOrder
-    date_updated?: SortOrder
-    sort?: SortOrder
-    user_created?: SortOrder
-    user_updated?: SortOrder
   }
 
   export type habit_insightsSumOrderByAggregateInput = {
-    owner?: SortOrder
     id?: SortOrder
-    sort?: SortOrder
+    owner?: SortOrder
+  }
+
+  export type habit_processing_cursorsCountOrderByAggregateInput = {
+    owner?: SortOrder
+    last_transaction_at?: SortOrder
+    last_run_at?: SortOrder
+    last_trigger?: SortOrder
+    last_analysis_version?: SortOrder
+    notes?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type habit_processing_cursorsAvgOrderByAggregateInput = {
+    owner?: SortOrder
+    last_analysis_version?: SortOrder
+  }
+
+  export type habit_processing_cursorsMaxOrderByAggregateInput = {
+    owner?: SortOrder
+    last_transaction_at?: SortOrder
+    last_run_at?: SortOrder
+    last_trigger?: SortOrder
+    last_analysis_version?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type habit_processing_cursorsMinOrderByAggregateInput = {
+    owner?: SortOrder
+    last_transaction_at?: SortOrder
+    last_run_at?: SortOrder
+    last_trigger?: SortOrder
+    last_analysis_version?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type habit_processing_cursorsSumOrderByAggregateInput = {
+    owner?: SortOrder
+    last_analysis_version?: SortOrder
   }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -61313,6 +62476,21 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type Habit_insightsListRelationFilter = {
+    every?: habit_insightsWhereInput
+    some?: habit_insightsWhereInput
+    none?: habit_insightsWhereInput
+  }
+
+  export type Habit_processing_cursorsNullableScalarRelationFilter = {
+    is?: habit_processing_cursorsWhereInput | null
+    isNot?: habit_processing_cursorsWhereInput | null
+  }
+
+  export type habit_insightsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type usersCountOrderByAggregateInput = {
     id?: SortOrder
     status?: SortOrder
@@ -61357,6 +62535,11 @@ export namespace Prisma {
     id?: SortOrder
     approx_age?: SortOrder
     approx_bank_balance?: SortOrder
+  }
+
+  export type TranasctionsNullableScalarRelationFilter = {
+    is?: tranasctionsWhereInput | null
+    isNot?: tranasctionsWhereInput | null
   }
 
   export type alertsCountOrderByAggregateInput = {
@@ -61487,6 +62670,14 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
@@ -61543,14 +62734,6 @@ export namespace Prisma {
     delete?: directus_usersWhereInput | boolean
     connect?: directus_usersWhereUniqueInput
     update?: XOR<XOR<directus_usersUpdateToOneWithWhereWithoutCoach_briefings_coach_briefings_user_updatedTodirectus_usersInput, directus_usersUpdateWithoutCoach_briefings_coach_briefings_user_updatedTodirectus_usersInput>, directus_usersUncheckedUpdateWithoutCoach_briefings_coach_briefings_user_updatedTodirectus_usersInput>
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type directus_policiesCreateNestedOneWithoutDirectus_accessInput = {
@@ -63245,20 +64428,6 @@ export namespace Prisma {
     connect?: alertsWhereUniqueInput | alertsWhereUniqueInput[]
   }
 
-  export type coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInputEnvelope
-    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-  }
-
-  export type coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInputEnvelope
-    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-  }
-
   export type directus_accessCreateNestedManyWithoutDirectus_usersInput = {
     create?: XOR<directus_accessCreateWithoutDirectus_usersInput, directus_accessUncheckedCreateWithoutDirectus_usersInput> | directus_accessCreateWithoutDirectus_usersInput[] | directus_accessUncheckedCreateWithoutDirectus_usersInput[]
     connectOrCreate?: directus_accessCreateOrConnectWithoutDirectus_usersInput | directus_accessCreateOrConnectWithoutDirectus_usersInput[]
@@ -63357,6 +64526,34 @@ export namespace Prisma {
     connect?: directus_sharesWhereUniqueInput | directus_sharesWhereUniqueInput[]
   }
 
+  export type coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
+    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInputEnvelope
+    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+  }
+
+  export type coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInputEnvelope
+    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+  }
+
+  export type habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput = {
+    create?: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput> | habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[] | habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
+    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput | habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
+    createMany?: habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_createdTodirectus_usersInputEnvelope
+    connect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+  }
+
+  export type habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
+    create?: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput> | habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[] | habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
+    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
+    createMany?: habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_updatedTodirectus_usersInputEnvelope
+    connect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+  }
+
   export type directus_rolesCreateNestedOneWithoutDirectus_usersInput = {
     create?: XOR<directus_rolesCreateWithoutDirectus_usersInput, directus_rolesUncheckedCreateWithoutDirectus_usersInput>
     connectOrCreate?: directus_rolesCreateOrConnectWithoutDirectus_usersInput
@@ -63375,34 +64572,6 @@ export namespace Prisma {
     connectOrCreate?: directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
     createMany?: directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInputEnvelope
     connect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
-  }
-
-  export type habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    create?: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput> | habit_insightsCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[] | habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput | habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    createMany?: habit_insightsCreateManyDirectus_users_habit_insights_user_createdTodirectus_usersInputEnvelope
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-  }
-
-  export type habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    create?: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput> | habit_insightsCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[] | habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput | habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    createMany?: habit_insightsCreateManyDirectus_users_habit_insights_user_updatedTodirectus_usersInputEnvelope
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-  }
-
-  export type habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput = {
-    create?: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput> | habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[] | habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
-    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput | habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
-    createMany?: habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_createdTodirectus_usersInputEnvelope
-    connect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
-  }
-
-  export type habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
-    create?: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput> | habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[] | habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
-    createMany?: habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_updatedTodirectus_usersInputEnvelope
-    connect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
   }
 
   export type sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput = {
@@ -63431,20 +64600,6 @@ export namespace Prisma {
     connectOrCreate?: alertsCreateOrConnectWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput | alertsCreateOrConnectWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput[]
     createMany?: alertsCreateManyDirectus_users_alerts_user_updatedTodirectus_usersInputEnvelope
     connect?: alertsWhereUniqueInput | alertsWhereUniqueInput[]
-  }
-
-  export type coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInputEnvelope
-    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-  }
-
-  export type coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInputEnvelope
-    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
   }
 
   export type directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput = {
@@ -63545,32 +64700,18 @@ export namespace Prisma {
     connect?: directus_sharesWhereUniqueInput | directus_sharesWhereUniqueInput[]
   }
 
-  export type directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
-    create?: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput> | directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[] | directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
-    connectOrCreate?: directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
-    createMany?: directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInputEnvelope
-    connect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
+  export type coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
+    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInputEnvelope
+    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
   }
 
-  export type directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
-    create?: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput> | directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[] | directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
-    createMany?: directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInputEnvelope
-    connect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
-  }
-
-  export type habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    create?: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput> | habit_insightsCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[] | habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput | habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    createMany?: habit_insightsCreateManyDirectus_users_habit_insights_user_createdTodirectus_usersInputEnvelope
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-  }
-
-  export type habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    create?: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput> | habit_insightsCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[] | habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput | habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    createMany?: habit_insightsCreateManyDirectus_users_habit_insights_user_updatedTodirectus_usersInputEnvelope
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
+  export type coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInputEnvelope
+    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
   }
 
   export type habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput = {
@@ -63585,6 +64726,20 @@ export namespace Prisma {
     connectOrCreate?: habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
     createMany?: habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_updatedTodirectus_usersInputEnvelope
     connect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+  }
+
+  export type directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
+    create?: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput> | directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[] | directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
+    connectOrCreate?: directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
+    createMany?: directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInputEnvelope
+    connect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
+  }
+
+  export type directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
+    create?: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput> | directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[] | directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
+    connectOrCreate?: directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
+    createMany?: directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInputEnvelope
+    connect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
   }
 
   export type sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput = {
@@ -63627,34 +64782,6 @@ export namespace Prisma {
     update?: alertsUpdateWithWhereUniqueWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput | alertsUpdateWithWhereUniqueWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput[]
     updateMany?: alertsUpdateManyWithWhereWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput | alertsUpdateManyWithWhereWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput[]
     deleteMany?: alertsScalarWhereInput | alertsScalarWhereInput[]
-  }
-
-  export type coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput = {
-    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    upsert?: coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInputEnvelope
-    set?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    disconnect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    delete?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    update?: coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    updateMany?: coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    deleteMany?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
-  }
-
-  export type coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput = {
-    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    upsert?: coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInputEnvelope
-    set?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    disconnect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    delete?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    update?: coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    updateMany?: coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    deleteMany?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
   }
 
   export type directus_accessUpdateManyWithoutDirectus_usersNestedInput = {
@@ -63853,6 +64980,62 @@ export namespace Prisma {
     deleteMany?: directus_sharesScalarWhereInput | directus_sharesScalarWhereInput[]
   }
 
+  export type coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput = {
+    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    upsert?: coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInputEnvelope
+    set?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    disconnect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    delete?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    update?: coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    updateMany?: coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    deleteMany?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
+  }
+
+  export type coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput = {
+    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    upsert?: coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInputEnvelope
+    set?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    disconnect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    delete?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    update?: coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    updateMany?: coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    deleteMany?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
+  }
+
+  export type habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput = {
+    create?: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput> | habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[] | habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
+    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput | habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
+    upsert?: habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput | habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
+    createMany?: habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_createdTodirectus_usersInputEnvelope
+    set?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+    disconnect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+    delete?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+    connect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+    update?: habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput | habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
+    updateMany?: habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput | habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
+    deleteMany?: habit_snapshotsScalarWhereInput | habit_snapshotsScalarWhereInput[]
+  }
+
+  export type habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput = {
+    create?: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput> | habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[] | habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
+    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
+    upsert?: habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
+    createMany?: habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_updatedTodirectus_usersInputEnvelope
+    set?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+    disconnect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+    delete?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+    connect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+    update?: habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
+    updateMany?: habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
+    deleteMany?: habit_snapshotsScalarWhereInput | habit_snapshotsScalarWhereInput[]
+  }
+
   export type directus_rolesUpdateOneWithoutDirectus_usersNestedInput = {
     create?: XOR<directus_rolesCreateWithoutDirectus_usersInput, directus_rolesUncheckedCreateWithoutDirectus_usersInput>
     connectOrCreate?: directus_rolesCreateOrConnectWithoutDirectus_usersInput
@@ -63889,62 +65072,6 @@ export namespace Prisma {
     update?: directus_versionsUpdateWithWhereUniqueWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsUpdateWithWhereUniqueWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
     updateMany?: directus_versionsUpdateManyWithWhereWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsUpdateManyWithWhereWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
     deleteMany?: directus_versionsScalarWhereInput | directus_versionsScalarWhereInput[]
-  }
-
-  export type habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput = {
-    create?: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput> | habit_insightsCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[] | habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput | habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    upsert?: habit_insightsUpsertWithWhereUniqueWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput | habit_insightsUpsertWithWhereUniqueWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    createMany?: habit_insightsCreateManyDirectus_users_habit_insights_user_createdTodirectus_usersInputEnvelope
-    set?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    disconnect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    delete?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    update?: habit_insightsUpdateWithWhereUniqueWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput | habit_insightsUpdateWithWhereUniqueWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    updateMany?: habit_insightsUpdateManyWithWhereWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput | habit_insightsUpdateManyWithWhereWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    deleteMany?: habit_insightsScalarWhereInput | habit_insightsScalarWhereInput[]
-  }
-
-  export type habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput = {
-    create?: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput> | habit_insightsCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[] | habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput | habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    upsert?: habit_insightsUpsertWithWhereUniqueWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput | habit_insightsUpsertWithWhereUniqueWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    createMany?: habit_insightsCreateManyDirectus_users_habit_insights_user_updatedTodirectus_usersInputEnvelope
-    set?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    disconnect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    delete?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    update?: habit_insightsUpdateWithWhereUniqueWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput | habit_insightsUpdateWithWhereUniqueWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    updateMany?: habit_insightsUpdateManyWithWhereWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput | habit_insightsUpdateManyWithWhereWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    deleteMany?: habit_insightsScalarWhereInput | habit_insightsScalarWhereInput[]
-  }
-
-  export type habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput = {
-    create?: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput> | habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[] | habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
-    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput | habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
-    upsert?: habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput | habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
-    createMany?: habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_createdTodirectus_usersInputEnvelope
-    set?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
-    disconnect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
-    delete?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
-    connect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
-    update?: habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput | habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
-    updateMany?: habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput | habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput[]
-    deleteMany?: habit_snapshotsScalarWhereInput | habit_snapshotsScalarWhereInput[]
-  }
-
-  export type habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput = {
-    create?: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput> | habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[] | habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsCreateOrConnectWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
-    upsert?: habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
-    createMany?: habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_updatedTodirectus_usersInputEnvelope
-    set?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
-    disconnect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
-    delete?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
-    connect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
-    update?: habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
-    updateMany?: habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
-    deleteMany?: habit_snapshotsScalarWhereInput | habit_snapshotsScalarWhereInput[]
   }
 
   export type sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput = {
@@ -64001,34 +65128,6 @@ export namespace Prisma {
     update?: alertsUpdateWithWhereUniqueWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput | alertsUpdateWithWhereUniqueWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput[]
     updateMany?: alertsUpdateManyWithWhereWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput | alertsUpdateManyWithWhereWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput[]
     deleteMany?: alertsScalarWhereInput | alertsScalarWhereInput[]
-  }
-
-  export type coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput = {
-    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    upsert?: coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInputEnvelope
-    set?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    disconnect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    delete?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    update?: coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    updateMany?: coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    deleteMany?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
-  }
-
-  export type coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput = {
-    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    upsert?: coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInputEnvelope
-    set?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    disconnect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    delete?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
-    update?: coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    updateMany?: coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
-    deleteMany?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
   }
 
   export type directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput = {
@@ -64227,60 +65326,32 @@ export namespace Prisma {
     deleteMany?: directus_sharesScalarWhereInput | directus_sharesScalarWhereInput[]
   }
 
-  export type directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput = {
-    create?: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput> | directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[] | directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
-    connectOrCreate?: directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
-    upsert?: directus_versionsUpsertWithWhereUniqueWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsUpsertWithWhereUniqueWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
-    createMany?: directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInputEnvelope
-    set?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
-    disconnect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
-    delete?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
-    connect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
-    update?: directus_versionsUpdateWithWhereUniqueWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsUpdateWithWhereUniqueWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
-    updateMany?: directus_versionsUpdateManyWithWhereWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsUpdateManyWithWhereWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
-    deleteMany?: directus_versionsScalarWhereInput | directus_versionsScalarWhereInput[]
+  export type coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput = {
+    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    upsert?: coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInputEnvelope
+    set?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    disconnect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    delete?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    update?: coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    updateMany?: coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
+    deleteMany?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
   }
 
-  export type directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput = {
-    create?: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput> | directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[] | directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
-    upsert?: directus_versionsUpsertWithWhereUniqueWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsUpsertWithWhereUniqueWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
-    createMany?: directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInputEnvelope
-    set?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
-    disconnect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
-    delete?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
-    connect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
-    update?: directus_versionsUpdateWithWhereUniqueWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsUpdateWithWhereUniqueWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
-    updateMany?: directus_versionsUpdateManyWithWhereWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsUpdateManyWithWhereWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
-    deleteMany?: directus_versionsScalarWhereInput | directus_versionsScalarWhereInput[]
-  }
-
-  export type habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput = {
-    create?: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput> | habit_insightsCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[] | habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput | habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    upsert?: habit_insightsUpsertWithWhereUniqueWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput | habit_insightsUpsertWithWhereUniqueWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    createMany?: habit_insightsCreateManyDirectus_users_habit_insights_user_createdTodirectus_usersInputEnvelope
-    set?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    disconnect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    delete?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    update?: habit_insightsUpdateWithWhereUniqueWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput | habit_insightsUpdateWithWhereUniqueWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    updateMany?: habit_insightsUpdateManyWithWhereWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput | habit_insightsUpdateManyWithWhereWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
-    deleteMany?: habit_insightsScalarWhereInput | habit_insightsScalarWhereInput[]
-  }
-
-  export type habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput = {
-    create?: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput> | habit_insightsCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[] | habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput | habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    upsert?: habit_insightsUpsertWithWhereUniqueWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput | habit_insightsUpsertWithWhereUniqueWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    createMany?: habit_insightsCreateManyDirectus_users_habit_insights_user_updatedTodirectus_usersInputEnvelope
-    set?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    disconnect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    delete?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    update?: habit_insightsUpdateWithWhereUniqueWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput | habit_insightsUpdateWithWhereUniqueWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    updateMany?: habit_insightsUpdateManyWithWhereWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput | habit_insightsUpdateManyWithWhereWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
-    deleteMany?: habit_insightsScalarWhereInput | habit_insightsScalarWhereInput[]
+  export type coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput = {
+    create?: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput> | coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[] | coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    connectOrCreate?: coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    upsert?: coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    createMany?: coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInputEnvelope
+    set?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    disconnect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    delete?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    connect?: coach_briefingsWhereUniqueInput | coach_briefingsWhereUniqueInput[]
+    update?: coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    updateMany?: coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
+    deleteMany?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
   }
 
   export type habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput = {
@@ -64309,6 +65380,34 @@ export namespace Prisma {
     update?: habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
     updateMany?: habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
     deleteMany?: habit_snapshotsScalarWhereInput | habit_snapshotsScalarWhereInput[]
+  }
+
+  export type directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput = {
+    create?: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput> | directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[] | directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
+    connectOrCreate?: directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
+    upsert?: directus_versionsUpsertWithWhereUniqueWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsUpsertWithWhereUniqueWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
+    createMany?: directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInputEnvelope
+    set?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
+    disconnect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
+    delete?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
+    connect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
+    update?: directus_versionsUpdateWithWhereUniqueWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsUpdateWithWhereUniqueWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
+    updateMany?: directus_versionsUpdateManyWithWhereWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsUpdateManyWithWhereWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
+    deleteMany?: directus_versionsScalarWhereInput | directus_versionsScalarWhereInput[]
+  }
+
+  export type directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput = {
+    create?: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput> | directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[] | directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
+    connectOrCreate?: directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
+    upsert?: directus_versionsUpsertWithWhereUniqueWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsUpsertWithWhereUniqueWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
+    createMany?: directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInputEnvelope
+    set?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
+    disconnect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
+    delete?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
+    connect?: directus_versionsWhereUniqueInput | directus_versionsWhereUniqueInput[]
+    update?: directus_versionsUpdateWithWhereUniqueWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsUpdateWithWhereUniqueWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
+    updateMany?: directus_versionsUpdateManyWithWhereWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsUpdateManyWithWhereWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
+    deleteMany?: directus_versionsScalarWhereInput | directus_versionsScalarWhereInput[]
   }
 
   export type sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput = {
@@ -64449,24 +65548,6 @@ export namespace Prisma {
     connect?: usersWhereUniqueInput
   }
 
-  export type tranasctionsCreateNestedOneWithoutHabit_insightsInput = {
-    create?: XOR<tranasctionsCreateWithoutHabit_insightsInput, tranasctionsUncheckedCreateWithoutHabit_insightsInput>
-    connectOrCreate?: tranasctionsCreateOrConnectWithoutHabit_insightsInput
-    connect?: tranasctionsWhereUniqueInput
-  }
-
-  export type directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput = {
-    create?: XOR<directus_usersCreateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput, directus_usersUncheckedCreateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput>
-    connectOrCreate?: directus_usersCreateOrConnectWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput
-    connect?: directus_usersWhereUniqueInput
-  }
-
-  export type directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput = {
-    create?: XOR<directus_usersCreateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput, directus_usersUncheckedCreateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput>
-    connectOrCreate?: directus_usersCreateOrConnectWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput
-    connect?: directus_usersWhereUniqueInput
-  }
-
   export type habit_snapshot_insightsCreateNestedManyWithoutInsight_refInput = {
     create?: XOR<habit_snapshot_insightsCreateWithoutInsight_refInput, habit_snapshot_insightsUncheckedCreateWithoutInsight_refInput> | habit_snapshot_insightsCreateWithoutInsight_refInput[] | habit_snapshot_insightsUncheckedCreateWithoutInsight_refInput[]
     connectOrCreate?: habit_snapshot_insightsCreateOrConnectWithoutInsight_refInput | habit_snapshot_insightsCreateOrConnectWithoutInsight_refInput[]
@@ -64487,36 +65568,6 @@ export namespace Prisma {
     upsert?: usersUpsertWithoutHabit_insightsInput
     connect?: usersWhereUniqueInput
     update?: XOR<XOR<usersUpdateToOneWithWhereWithoutHabit_insightsInput, usersUpdateWithoutHabit_insightsInput>, usersUncheckedUpdateWithoutHabit_insightsInput>
-  }
-
-  export type tranasctionsUpdateOneWithoutHabit_insightsNestedInput = {
-    create?: XOR<tranasctionsCreateWithoutHabit_insightsInput, tranasctionsUncheckedCreateWithoutHabit_insightsInput>
-    connectOrCreate?: tranasctionsCreateOrConnectWithoutHabit_insightsInput
-    upsert?: tranasctionsUpsertWithoutHabit_insightsInput
-    disconnect?: tranasctionsWhereInput | boolean
-    delete?: tranasctionsWhereInput | boolean
-    connect?: tranasctionsWhereUniqueInput
-    update?: XOR<XOR<tranasctionsUpdateToOneWithWhereWithoutHabit_insightsInput, tranasctionsUpdateWithoutHabit_insightsInput>, tranasctionsUncheckedUpdateWithoutHabit_insightsInput>
-  }
-
-  export type directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersNestedInput = {
-    create?: XOR<directus_usersCreateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput, directus_usersUncheckedCreateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput>
-    connectOrCreate?: directus_usersCreateOrConnectWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput
-    upsert?: directus_usersUpsertWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput
-    disconnect?: directus_usersWhereInput | boolean
-    delete?: directus_usersWhereInput | boolean
-    connect?: directus_usersWhereUniqueInput
-    update?: XOR<XOR<directus_usersUpdateToOneWithWhereWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput, directus_usersUpdateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput>, directus_usersUncheckedUpdateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput>
-  }
-
-  export type directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersNestedInput = {
-    create?: XOR<directus_usersCreateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput, directus_usersUncheckedCreateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput>
-    connectOrCreate?: directus_usersCreateOrConnectWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput
-    upsert?: directus_usersUpsertWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput
-    disconnect?: directus_usersWhereInput | boolean
-    delete?: directus_usersWhereInput | boolean
-    connect?: directus_usersWhereUniqueInput
-    update?: XOR<XOR<directus_usersUpdateToOneWithWhereWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput, directus_usersUpdateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput>, directus_usersUncheckedUpdateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput>
   }
 
   export type habit_snapshot_insightsUpdateManyWithoutInsight_refNestedInput = {
@@ -64545,6 +65596,20 @@ export namespace Prisma {
     update?: habit_snapshot_insightsUpdateWithWhereUniqueWithoutInsight_refInput | habit_snapshot_insightsUpdateWithWhereUniqueWithoutInsight_refInput[]
     updateMany?: habit_snapshot_insightsUpdateManyWithWhereWithoutInsight_refInput | habit_snapshot_insightsUpdateManyWithWhereWithoutInsight_refInput[]
     deleteMany?: habit_snapshot_insightsScalarWhereInput | habit_snapshot_insightsScalarWhereInput[]
+  }
+
+  export type usersCreateNestedOneWithoutHabit_processing_cursorsInput = {
+    create?: XOR<usersCreateWithoutHabit_processing_cursorsInput, usersUncheckedCreateWithoutHabit_processing_cursorsInput>
+    connectOrCreate?: usersCreateOrConnectWithoutHabit_processing_cursorsInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type usersUpdateOneRequiredWithoutHabit_processing_cursorsNestedInput = {
+    create?: XOR<usersCreateWithoutHabit_processing_cursorsInput, usersUncheckedCreateWithoutHabit_processing_cursorsInput>
+    connectOrCreate?: usersCreateOrConnectWithoutHabit_processing_cursorsInput
+    upsert?: usersUpsertWithoutHabit_processing_cursorsInput
+    connect?: usersWhereUniqueInput
+    update?: XOR<XOR<usersUpdateToOneWithWhereWithoutHabit_processing_cursorsInput, usersUpdateWithoutHabit_processing_cursorsInput>, usersUncheckedUpdateWithoutHabit_processing_cursorsInput>
   }
 
   export type coach_briefingsCreateNestedManyWithoutHabit_snapshotsInput = {
@@ -64810,13 +65875,6 @@ export namespace Prisma {
     connect?: alertsWhereUniqueInput | alertsWhereUniqueInput[]
   }
 
-  export type habit_insightsCreateNestedManyWithoutTranasctionsInput = {
-    create?: XOR<habit_insightsCreateWithoutTranasctionsInput, habit_insightsUncheckedCreateWithoutTranasctionsInput> | habit_insightsCreateWithoutTranasctionsInput[] | habit_insightsUncheckedCreateWithoutTranasctionsInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutTranasctionsInput | habit_insightsCreateOrConnectWithoutTranasctionsInput[]
-    createMany?: habit_insightsCreateManyTranasctionsInputEnvelope
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-  }
-
   export type sms_messagesCreateNestedOneWithoutTranasctionsInput = {
     create?: XOR<sms_messagesCreateWithoutTranasctionsInput, sms_messagesUncheckedCreateWithoutTranasctionsInput>
     connectOrCreate?: sms_messagesCreateOrConnectWithoutTranasctionsInput
@@ -64834,13 +65892,6 @@ export namespace Prisma {
     connectOrCreate?: alertsCreateOrConnectWithoutTranasctionsInput | alertsCreateOrConnectWithoutTranasctionsInput[]
     createMany?: alertsCreateManyTranasctionsInputEnvelope
     connect?: alertsWhereUniqueInput | alertsWhereUniqueInput[]
-  }
-
-  export type habit_insightsUncheckedCreateNestedManyWithoutTranasctionsInput = {
-    create?: XOR<habit_insightsCreateWithoutTranasctionsInput, habit_insightsUncheckedCreateWithoutTranasctionsInput> | habit_insightsCreateWithoutTranasctionsInput[] | habit_insightsUncheckedCreateWithoutTranasctionsInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutTranasctionsInput | habit_insightsCreateOrConnectWithoutTranasctionsInput[]
-    createMany?: habit_insightsCreateManyTranasctionsInputEnvelope
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -64863,20 +65914,6 @@ export namespace Prisma {
     update?: alertsUpdateWithWhereUniqueWithoutTranasctionsInput | alertsUpdateWithWhereUniqueWithoutTranasctionsInput[]
     updateMany?: alertsUpdateManyWithWhereWithoutTranasctionsInput | alertsUpdateManyWithWhereWithoutTranasctionsInput[]
     deleteMany?: alertsScalarWhereInput | alertsScalarWhereInput[]
-  }
-
-  export type habit_insightsUpdateManyWithoutTranasctionsNestedInput = {
-    create?: XOR<habit_insightsCreateWithoutTranasctionsInput, habit_insightsUncheckedCreateWithoutTranasctionsInput> | habit_insightsCreateWithoutTranasctionsInput[] | habit_insightsUncheckedCreateWithoutTranasctionsInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutTranasctionsInput | habit_insightsCreateOrConnectWithoutTranasctionsInput[]
-    upsert?: habit_insightsUpsertWithWhereUniqueWithoutTranasctionsInput | habit_insightsUpsertWithWhereUniqueWithoutTranasctionsInput[]
-    createMany?: habit_insightsCreateManyTranasctionsInputEnvelope
-    set?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    disconnect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    delete?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    update?: habit_insightsUpdateWithWhereUniqueWithoutTranasctionsInput | habit_insightsUpdateWithWhereUniqueWithoutTranasctionsInput[]
-    updateMany?: habit_insightsUpdateManyWithWhereWithoutTranasctionsInput | habit_insightsUpdateManyWithWhereWithoutTranasctionsInput[]
-    deleteMany?: habit_insightsScalarWhereInput | habit_insightsScalarWhereInput[]
   }
 
   export type sms_messagesUpdateOneWithoutTranasctionsNestedInput = {
@@ -64913,20 +65950,6 @@ export namespace Prisma {
     deleteMany?: alertsScalarWhereInput | alertsScalarWhereInput[]
   }
 
-  export type habit_insightsUncheckedUpdateManyWithoutTranasctionsNestedInput = {
-    create?: XOR<habit_insightsCreateWithoutTranasctionsInput, habit_insightsUncheckedCreateWithoutTranasctionsInput> | habit_insightsCreateWithoutTranasctionsInput[] | habit_insightsUncheckedCreateWithoutTranasctionsInput[]
-    connectOrCreate?: habit_insightsCreateOrConnectWithoutTranasctionsInput | habit_insightsCreateOrConnectWithoutTranasctionsInput[]
-    upsert?: habit_insightsUpsertWithWhereUniqueWithoutTranasctionsInput | habit_insightsUpsertWithWhereUniqueWithoutTranasctionsInput[]
-    createMany?: habit_insightsCreateManyTranasctionsInputEnvelope
-    set?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    disconnect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    delete?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    connect?: habit_insightsWhereUniqueInput | habit_insightsWhereUniqueInput[]
-    update?: habit_insightsUpdateWithWhereUniqueWithoutTranasctionsInput | habit_insightsUpdateWithWhereUniqueWithoutTranasctionsInput[]
-    updateMany?: habit_insightsUpdateManyWithWhereWithoutTranasctionsInput | habit_insightsUpdateManyWithWhereWithoutTranasctionsInput[]
-    deleteMany?: habit_insightsScalarWhereInput | habit_insightsScalarWhereInput[]
-  }
-
   export type alertsCreateNestedManyWithoutUsersInput = {
     create?: XOR<alertsCreateWithoutUsersInput, alertsUncheckedCreateWithoutUsersInput> | alertsCreateWithoutUsersInput[] | alertsUncheckedCreateWithoutUsersInput[]
     connectOrCreate?: alertsCreateOrConnectWithoutUsersInput | alertsCreateOrConnectWithoutUsersInput[]
@@ -64953,6 +65976,12 @@ export namespace Prisma {
     connectOrCreate?: habit_snapshotsCreateOrConnectWithoutUsersInput | habit_snapshotsCreateOrConnectWithoutUsersInput[]
     createMany?: habit_snapshotsCreateManyUsersInputEnvelope
     connect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+  }
+
+  export type habit_processing_cursorsCreateNestedOneWithoutUsersInput = {
+    create?: XOR<habit_processing_cursorsCreateWithoutUsersInput, habit_processing_cursorsUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: habit_processing_cursorsCreateOrConnectWithoutUsersInput
+    connect?: habit_processing_cursorsWhereUniqueInput
   }
 
   export type sms_messagesCreateNestedManyWithoutUsersInput = {
@@ -64995,6 +66024,12 @@ export namespace Prisma {
     connectOrCreate?: habit_snapshotsCreateOrConnectWithoutUsersInput | habit_snapshotsCreateOrConnectWithoutUsersInput[]
     createMany?: habit_snapshotsCreateManyUsersInputEnvelope
     connect?: habit_snapshotsWhereUniqueInput | habit_snapshotsWhereUniqueInput[]
+  }
+
+  export type habit_processing_cursorsUncheckedCreateNestedOneWithoutUsersInput = {
+    create?: XOR<habit_processing_cursorsCreateWithoutUsersInput, habit_processing_cursorsUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: habit_processing_cursorsCreateOrConnectWithoutUsersInput
+    connect?: habit_processing_cursorsWhereUniqueInput
   }
 
   export type sms_messagesUncheckedCreateNestedManyWithoutUsersInput = {
@@ -65065,6 +66100,16 @@ export namespace Prisma {
     update?: habit_snapshotsUpdateWithWhereUniqueWithoutUsersInput | habit_snapshotsUpdateWithWhereUniqueWithoutUsersInput[]
     updateMany?: habit_snapshotsUpdateManyWithWhereWithoutUsersInput | habit_snapshotsUpdateManyWithWhereWithoutUsersInput[]
     deleteMany?: habit_snapshotsScalarWhereInput | habit_snapshotsScalarWhereInput[]
+  }
+
+  export type habit_processing_cursorsUpdateOneWithoutUsersNestedInput = {
+    create?: XOR<habit_processing_cursorsCreateWithoutUsersInput, habit_processing_cursorsUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: habit_processing_cursorsCreateOrConnectWithoutUsersInput
+    upsert?: habit_processing_cursorsUpsertWithoutUsersInput
+    disconnect?: habit_processing_cursorsWhereInput | boolean
+    delete?: habit_processing_cursorsWhereInput | boolean
+    connect?: habit_processing_cursorsWhereUniqueInput
+    update?: XOR<XOR<habit_processing_cursorsUpdateToOneWithWhereWithoutUsersInput, habit_processing_cursorsUpdateWithoutUsersInput>, habit_processing_cursorsUncheckedUpdateWithoutUsersInput>
   }
 
   export type sms_messagesUpdateManyWithoutUsersNestedInput = {
@@ -65149,6 +66194,16 @@ export namespace Prisma {
     update?: habit_snapshotsUpdateWithWhereUniqueWithoutUsersInput | habit_snapshotsUpdateWithWhereUniqueWithoutUsersInput[]
     updateMany?: habit_snapshotsUpdateManyWithWhereWithoutUsersInput | habit_snapshotsUpdateManyWithWhereWithoutUsersInput[]
     deleteMany?: habit_snapshotsScalarWhereInput | habit_snapshotsScalarWhereInput[]
+  }
+
+  export type habit_processing_cursorsUncheckedUpdateOneWithoutUsersNestedInput = {
+    create?: XOR<habit_processing_cursorsCreateWithoutUsersInput, habit_processing_cursorsUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: habit_processing_cursorsCreateOrConnectWithoutUsersInput
+    upsert?: habit_processing_cursorsUpsertWithoutUsersInput
+    disconnect?: habit_processing_cursorsWhereInput | boolean
+    delete?: habit_processing_cursorsWhereInput | boolean
+    connect?: habit_processing_cursorsWhereUniqueInput
+    update?: XOR<XOR<habit_processing_cursorsUpdateToOneWithWhereWithoutUsersInput, habit_processing_cursorsUpdateWithoutUsersInput>, habit_processing_cursorsUncheckedUpdateWithoutUsersInput>
   }
 
   export type sms_messagesUncheckedUpdateManyWithoutUsersNestedInput = {
@@ -65263,6 +66318,20 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -65277,18 +66346,15 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -65316,17 +66382,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedUuidNullableFilter<$PrismaModel = never> = {
@@ -65381,6 +66436,46 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -65398,21 +66493,31 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -65449,56 +66554,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -65633,6 +66688,7 @@ export namespace Prisma {
     alerts?: alertsCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesCreateNestedManyWithoutUsersInput
     tranasctions?: tranasctionsCreateNestedManyWithoutUsersInput
   }
@@ -65650,6 +66706,7 @@ export namespace Prisma {
     alerts?: alertsUncheckedCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsUncheckedCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsUncheckedCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesUncheckedCreateNestedManyWithoutUsersInput
     tranasctions?: tranasctionsUncheckedCreateNestedManyWithoutUsersInput
   }
@@ -65742,7 +66799,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -65757,13 +66813,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -65798,7 +66853,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -65813,12 +66867,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -65857,7 +66910,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -65872,13 +66924,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -65913,7 +66964,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -65928,12 +66978,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -65966,6 +67015,7 @@ export namespace Prisma {
     alerts?: alertsUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUpdateManyWithoutUsersNestedInput
     tranasctions?: tranasctionsUpdateManyWithoutUsersNestedInput
   }
@@ -65983,6 +67033,7 @@ export namespace Prisma {
     alerts?: alertsUncheckedUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUncheckedUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUncheckedUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUncheckedUpdateManyWithoutUsersNestedInput
     tranasctions?: tranasctionsUncheckedUpdateManyWithoutUsersNestedInput
   }
@@ -66087,7 +67138,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -66102,13 +67152,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -66143,7 +67192,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -66158,12 +67206,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -66208,7 +67255,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -66223,13 +67269,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -66264,7 +67309,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -66279,12 +67323,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -66378,8 +67421,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
     directus_dashboards?: directus_dashboardsCreateNestedManyWithoutDirectus_usersInput
@@ -66393,13 +67434,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -66434,8 +67475,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
     directus_dashboards?: directus_dashboardsUncheckedCreateNestedManyWithoutDirectus_usersInput
@@ -66449,12 +67488,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -66576,8 +67615,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
     directus_dashboards?: directus_dashboardsUpdateManyWithoutDirectus_usersNestedInput
@@ -66591,13 +67628,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -66632,8 +67669,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
     directus_dashboards?: directus_dashboardsUncheckedUpdateManyWithoutDirectus_usersNestedInput
@@ -66647,12 +67682,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -67110,8 +68145,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
     directus_dashboards?: directus_dashboardsCreateNestedManyWithoutDirectus_usersInput
@@ -67125,13 +68158,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -67166,8 +68199,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
     directus_dashboards?: directus_dashboardsUncheckedCreateNestedManyWithoutDirectus_usersInput
@@ -67181,12 +68212,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -67225,8 +68256,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_dashboards?: directus_dashboardsCreateNestedManyWithoutDirectus_usersInput
@@ -67240,13 +68269,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -67281,8 +68310,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_dashboards?: directus_dashboardsUncheckedCreateNestedManyWithoutDirectus_usersInput
@@ -67296,12 +68323,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -67351,8 +68378,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
     directus_dashboards?: directus_dashboardsUpdateManyWithoutDirectus_usersNestedInput
@@ -67366,13 +68391,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -67407,8 +68432,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
     directus_dashboards?: directus_dashboardsUncheckedUpdateManyWithoutDirectus_usersNestedInput
@@ -67422,12 +68445,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -67472,8 +68495,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_dashboards?: directus_dashboardsUpdateManyWithoutDirectus_usersNestedInput
@@ -67487,13 +68508,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -67528,8 +68549,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_dashboards?: directus_dashboardsUncheckedUpdateManyWithoutDirectus_usersNestedInput
@@ -67543,12 +68562,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -67582,8 +68601,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -67597,13 +68614,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -67638,8 +68655,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -67653,12 +68668,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -67752,8 +68767,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -67767,13 +68780,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -67808,8 +68821,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -67823,12 +68834,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -67920,8 +68931,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -67935,13 +68944,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -67976,8 +68985,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -67991,12 +68998,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -68035,8 +69042,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -68050,13 +69055,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -68091,8 +69096,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -68106,12 +69109,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -68568,8 +69571,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -68583,13 +69584,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -68624,8 +69625,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -68639,12 +69638,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -68689,8 +69688,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -68704,13 +69701,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -68745,8 +69742,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -68760,12 +69755,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -68910,8 +69905,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -68925,13 +69918,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -68966,8 +69959,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -68981,12 +69972,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -69113,8 +70104,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -69128,13 +70117,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -69169,8 +70158,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -69184,12 +70171,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -69622,8 +70609,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -69637,13 +70622,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -69678,8 +70663,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -69693,12 +70676,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -69737,8 +70720,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -69752,13 +70733,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -69793,8 +70774,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -69808,12 +70787,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -69863,8 +70842,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -69878,13 +70855,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -69919,8 +70896,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -69934,12 +70909,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -69984,8 +70959,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -69999,13 +70972,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -70040,8 +71013,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -70055,12 +71026,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -70279,8 +71250,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -70294,13 +71263,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -70335,8 +71304,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -70350,12 +71317,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -70620,8 +71587,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -70635,13 +71600,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -70676,8 +71641,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -70691,12 +71654,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -70755,8 +71718,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -70770,13 +71731,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -70811,8 +71772,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -70826,12 +71785,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -70912,8 +71871,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -70927,13 +71884,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -70968,8 +71925,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -70983,12 +71938,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -71227,8 +72182,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -71242,13 +72195,13 @@ export namespace Prisma {
     directus_panels?: directus_panelsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -71283,8 +72236,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -71298,12 +72249,12 @@ export namespace Prisma {
     directus_panels?: directus_panelsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -71390,8 +72341,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -71405,13 +72354,13 @@ export namespace Prisma {
     directus_panels?: directus_panelsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -71446,8 +72395,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -71461,12 +72408,12 @@ export namespace Prisma {
     directus_panels?: directus_panelsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -72004,8 +72951,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -72020,12 +72965,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -72059,8 +73004,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -72075,12 +73018,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -72355,8 +73298,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -72370,13 +73311,13 @@ export namespace Prisma {
     directus_panels?: directus_panelsCreateNestedManyWithoutDirectus_usersInput
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -72411,8 +73352,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -72426,12 +73365,12 @@ export namespace Prisma {
     directus_panels?: directus_panelsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -72522,8 +73461,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -72537,13 +73474,13 @@ export namespace Prisma {
     directus_panels?: directus_panelsUpdateManyWithoutDirectus_usersNestedInput
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -72578,8 +73515,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -72593,12 +73528,12 @@ export namespace Prisma {
     directus_panels?: directus_panelsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -73440,8 +74375,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -73455,13 +74388,13 @@ export namespace Prisma {
     directus_panels?: directus_panelsCreateNestedManyWithoutDirectus_usersInput
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -73496,8 +74429,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -73511,12 +74442,12 @@ export namespace Prisma {
     directus_panels?: directus_panelsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -73694,8 +74625,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -73709,13 +74638,13 @@ export namespace Prisma {
     directus_panels?: directus_panelsUpdateManyWithoutDirectus_usersNestedInput
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -73750,8 +74679,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -73765,12 +74692,12 @@ export namespace Prisma {
     directus_panels?: directus_panelsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -73890,102 +74817,6 @@ export namespace Prisma {
 
   export type alertsCreateManyDirectus_users_alerts_user_updatedTodirectus_usersInputEnvelope = {
     data: alertsCreateManyDirectus_users_alerts_user_updatedTodirectus_usersInput | alertsCreateManyDirectus_users_alerts_user_updatedTodirectus_usersInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    id: string
-    headline: string
-    counsel: string
-    evidence?: string | null
-    trigger?: string | null
-    delivered?: boolean
-    delivered_at?: Date | string | null
-    date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
-    date_updated?: Date | string | null
-    sort?: number | null
-    users: usersCreateNestedOneWithoutCoach_briefingsInput
-    habit_snapshots?: habit_snapshotsCreateNestedOneWithoutCoach_briefingsInput
-    directus_users_coach_briefings_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutCoach_briefings_coach_briefings_user_updatedTodirectus_usersInput
-  }
-
-  export type coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    id: string
-    owner: number
-    headline: string
-    counsel: string
-    evidence?: string | null
-    trigger?: string | null
-    delivered?: boolean
-    delivered_at?: Date | string | null
-    date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: number | null
-    status?: string
-    date_updated?: Date | string | null
-    sort?: number | null
-    user_updated?: string | null
-  }
-
-  export type coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    where: coach_briefingsWhereUniqueInput
-    create: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput>
-  }
-
-  export type coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInputEnvelope = {
-    data: coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    id: string
-    headline: string
-    counsel: string
-    evidence?: string | null
-    trigger?: string | null
-    delivered?: boolean
-    delivered_at?: Date | string | null
-    date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
-    date_updated?: Date | string | null
-    sort?: number | null
-    users: usersCreateNestedOneWithoutCoach_briefingsInput
-    habit_snapshots?: habit_snapshotsCreateNestedOneWithoutCoach_briefingsInput
-    directus_users_coach_briefings_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutCoach_briefings_coach_briefings_user_createdTodirectus_usersInput
-  }
-
-  export type coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    id: string
-    owner: number
-    headline: string
-    counsel: string
-    evidence?: string | null
-    trigger?: string | null
-    delivered?: boolean
-    delivered_at?: Date | string | null
-    date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: number | null
-    status?: string
-    date_updated?: Date | string | null
-    sort?: number | null
-    user_created?: string | null
-  }
-
-  export type coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    where: coach_briefingsWhereUniqueInput
-    create: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput>
-  }
-
-  export type coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInputEnvelope = {
-    data: coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
     skipDuplicates?: boolean
   }
 
@@ -74550,212 +75381,115 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type directus_rolesCreateWithoutDirectus_usersInput = {
+  export type coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
     id: string
-    name: string
-    icon?: string
-    description?: string | null
-    directus_access?: directus_accessCreateNestedManyWithoutDirectus_rolesInput
-    directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_rolesInput
-    directus_roles?: directus_rolesCreateNestedOneWithoutOther_directus_rolesInput
-    other_directus_roles?: directus_rolesCreateNestedManyWithoutDirectus_rolesInput
-    directus_settings?: directus_settingsCreateNestedManyWithoutDirectus_rolesInput
-    directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_rolesInput
-  }
-
-  export type directus_rolesUncheckedCreateWithoutDirectus_usersInput = {
-    id: string
-    name: string
-    icon?: string
-    description?: string | null
-    parent?: string | null
-    directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_rolesInput
-    directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_rolesInput
-    other_directus_roles?: directus_rolesUncheckedCreateNestedManyWithoutDirectus_rolesInput
-    directus_settings?: directus_settingsUncheckedCreateNestedManyWithoutDirectus_rolesInput
-    directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_rolesInput
-  }
-
-  export type directus_rolesCreateOrConnectWithoutDirectus_usersInput = {
-    where: directus_rolesWhereUniqueInput
-    create: XOR<directus_rolesCreateWithoutDirectus_usersInput, directus_rolesUncheckedCreateWithoutDirectus_usersInput>
-  }
-
-  export type directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
-    id: string
-    key: string
-    name?: string | null
-    item: string
-    hash?: string | null
-    date_created?: Date | string | null
+    headline?: string | null
+    counsel?: string | null
+    evidence?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
+    delivered?: boolean
+    delivered_at?: Date | string | null
+    date_created?: Date | string
     date_updated?: Date | string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-    directus_revisions?: directus_revisionsCreateNestedManyWithoutDirectus_versionsInput
-    directus_collections: directus_collectionsCreateNestedOneWithoutDirectus_versionsInput
-    directus_users_directus_versions_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutDirectus_versions_directus_versions_user_updatedTodirectus_usersInput
-  }
-
-  export type directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
-    id: string
-    key: string
-    name?: string | null
-    collection: string
-    item: string
-    hash?: string | null
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    user_updated?: string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-    directus_revisions?: directus_revisionsUncheckedCreateNestedManyWithoutDirectus_versionsInput
-  }
-
-  export type directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
-    where: directus_versionsWhereUniqueInput
-    create: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput>
-  }
-
-  export type directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInputEnvelope = {
-    data: directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
-    id: string
-    key: string
-    name?: string | null
-    item: string
-    hash?: string | null
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-    directus_revisions?: directus_revisionsCreateNestedManyWithoutDirectus_versionsInput
-    directus_collections: directus_collectionsCreateNestedOneWithoutDirectus_versionsInput
-    directus_users_directus_versions_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutDirectus_versions_directus_versions_user_createdTodirectus_usersInput
-  }
-
-  export type directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
-    id: string
-    key: string
-    name?: string | null
-    collection: string
-    item: string
-    hash?: string | null
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    user_created?: string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-    directus_revisions?: directus_revisionsUncheckedCreateNestedManyWithoutDirectus_versionsInput
-  }
-
-  export type directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
-    where: directus_versionsWhereUniqueInput
-    create: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput>
-  }
-
-  export type directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInputEnvelope = {
-    data: directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type habit_insightsCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    habit_id: string
-    habit_label: string
-    evidence: string
-    counsel: string
-    full_text: string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    recorded_at?: Date | string
-    previous_habit_id?: string | null
     status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
     sort?: number | null
-    users: usersCreateNestedOneWithoutHabit_insightsInput
-    tranasctions?: tranasctionsCreateNestedOneWithoutHabit_insightsInput
-    directus_users_habit_insights_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshot_links?: habit_snapshot_insightsCreateNestedManyWithoutInsight_refInput
+    users: usersCreateNestedOneWithoutCoach_briefingsInput
+    habit_snapshots?: habit_snapshotsCreateNestedOneWithoutCoach_briefingsInput
+    directus_users_coach_briefings_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutCoach_briefings_coach_briefings_user_updatedTodirectus_usersInput
   }
 
-  export type habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    habit_id: string
+  export type coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
+    id: string
     owner: number
-    habit_label: string
-    evidence: string
-    counsel: string
-    full_text: string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: string | null
-    recorded_at?: Date | string
-    previous_habit_id?: string | null
-    id?: number
-    status?: string
-    date_created?: Date | string | null
+    headline?: string | null
+    counsel?: string | null
+    evidence?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
+    snapshot?: number | null
+    delivered?: boolean
+    delivered_at?: Date | string | null
+    date_created?: Date | string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     user_updated?: string | null
-    habit_snapshot_links?: habit_snapshot_insightsUncheckedCreateNestedManyWithoutInsight_refInput
   }
 
-  export type habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    where: habit_insightsWhereUniqueInput
-    create: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput>
+  export type coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
+    where: coach_briefingsWhereUniqueInput
+    create: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput>
   }
 
-  export type habit_insightsCreateManyDirectus_users_habit_insights_user_createdTodirectus_usersInputEnvelope = {
-    data: habit_insightsCreateManyDirectus_users_habit_insights_user_createdTodirectus_usersInput | habit_insightsCreateManyDirectus_users_habit_insights_user_createdTodirectus_usersInput[]
+  export type coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInputEnvelope = {
+    data: coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInput | coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInput[]
     skipDuplicates?: boolean
   }
 
-  export type habit_insightsCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    habit_id: string
-    habit_label: string
-    evidence: string
-    counsel: string
-    full_text: string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    recorded_at?: Date | string
-    previous_habit_id?: string | null
-    status?: string
-    date_created?: Date | string | null
+  export type coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    id: string
+    headline?: string | null
+    counsel?: string | null
+    evidence?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
+    delivered?: boolean
+    delivered_at?: Date | string | null
+    date_created?: Date | string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
-    users: usersCreateNestedOneWithoutHabit_insightsInput
-    tranasctions?: tranasctionsCreateNestedOneWithoutHabit_insightsInput
-    directus_users_habit_insights_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput
-    habit_snapshot_links?: habit_snapshot_insightsCreateNestedManyWithoutInsight_refInput
+    users: usersCreateNestedOneWithoutCoach_briefingsInput
+    habit_snapshots?: habit_snapshotsCreateNestedOneWithoutCoach_briefingsInput
+    directus_users_coach_briefings_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutCoach_briefings_coach_briefings_user_createdTodirectus_usersInput
   }
 
-  export type habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    habit_id: string
+  export type coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    id: string
     owner: number
-    habit_label: string
-    evidence: string
-    counsel: string
-    full_text: string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: string | null
-    recorded_at?: Date | string
-    previous_habit_id?: string | null
-    id?: number
-    status?: string
-    date_created?: Date | string | null
+    headline?: string | null
+    counsel?: string | null
+    evidence?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
+    snapshot?: number | null
+    delivered?: boolean
+    delivered_at?: Date | string | null
+    date_created?: Date | string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     user_created?: string | null
-    habit_snapshot_links?: habit_snapshot_insightsUncheckedCreateNestedManyWithoutInsight_refInput
   }
 
-  export type habit_insightsCreateOrConnectWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    where: habit_insightsWhereUniqueInput
-    create: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput>
+  export type coach_briefingsCreateOrConnectWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    where: coach_briefingsWhereUniqueInput
+    create: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput>
   }
 
-  export type habit_insightsCreateManyDirectus_users_habit_insights_user_updatedTodirectus_usersInputEnvelope = {
-    data: habit_insightsCreateManyDirectus_users_habit_insights_user_updatedTodirectus_usersInput | habit_insightsCreateManyDirectus_users_habit_insights_user_updatedTodirectus_usersInput[]
+  export type coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInputEnvelope = {
+    data: coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInput | coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInput[]
     skipDuplicates?: boolean
   }
 
@@ -74874,6 +75608,113 @@ export namespace Prisma {
 
   export type habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_updatedTodirectus_usersInputEnvelope = {
     data: habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput | habit_snapshotsCreateManyDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type directus_rolesCreateWithoutDirectus_usersInput = {
+    id: string
+    name: string
+    icon?: string
+    description?: string | null
+    directus_access?: directus_accessCreateNestedManyWithoutDirectus_rolesInput
+    directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_rolesInput
+    directus_roles?: directus_rolesCreateNestedOneWithoutOther_directus_rolesInput
+    other_directus_roles?: directus_rolesCreateNestedManyWithoutDirectus_rolesInput
+    directus_settings?: directus_settingsCreateNestedManyWithoutDirectus_rolesInput
+    directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_rolesInput
+  }
+
+  export type directus_rolesUncheckedCreateWithoutDirectus_usersInput = {
+    id: string
+    name: string
+    icon?: string
+    description?: string | null
+    parent?: string | null
+    directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_rolesInput
+    directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_rolesInput
+    other_directus_roles?: directus_rolesUncheckedCreateNestedManyWithoutDirectus_rolesInput
+    directus_settings?: directus_settingsUncheckedCreateNestedManyWithoutDirectus_rolesInput
+    directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_rolesInput
+  }
+
+  export type directus_rolesCreateOrConnectWithoutDirectus_usersInput = {
+    where: directus_rolesWhereUniqueInput
+    create: XOR<directus_rolesCreateWithoutDirectus_usersInput, directus_rolesUncheckedCreateWithoutDirectus_usersInput>
+  }
+
+  export type directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
+    id: string
+    key: string
+    name?: string | null
+    item: string
+    hash?: string | null
+    date_created?: Date | string | null
+    date_updated?: Date | string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
+    directus_revisions?: directus_revisionsCreateNestedManyWithoutDirectus_versionsInput
+    directus_collections: directus_collectionsCreateNestedOneWithoutDirectus_versionsInput
+    directus_users_directus_versions_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutDirectus_versions_directus_versions_user_updatedTodirectus_usersInput
+  }
+
+  export type directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
+    id: string
+    key: string
+    name?: string | null
+    collection: string
+    item: string
+    hash?: string | null
+    date_created?: Date | string | null
+    date_updated?: Date | string | null
+    user_updated?: string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
+    directus_revisions?: directus_revisionsUncheckedCreateNestedManyWithoutDirectus_versionsInput
+  }
+
+  export type directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
+    where: directus_versionsWhereUniqueInput
+    create: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput>
+  }
+
+  export type directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInputEnvelope = {
+    data: directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInput | directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
+    id: string
+    key: string
+    name?: string | null
+    item: string
+    hash?: string | null
+    date_created?: Date | string | null
+    date_updated?: Date | string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
+    directus_revisions?: directus_revisionsCreateNestedManyWithoutDirectus_versionsInput
+    directus_collections: directus_collectionsCreateNestedOneWithoutDirectus_versionsInput
+    directus_users_directus_versions_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutDirectus_versions_directus_versions_user_createdTodirectus_usersInput
+  }
+
+  export type directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
+    id: string
+    key: string
+    name?: string | null
+    collection: string
+    item: string
+    hash?: string | null
+    date_created?: Date | string | null
+    date_updated?: Date | string | null
+    user_created?: string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
+    directus_revisions?: directus_revisionsUncheckedCreateNestedManyWithoutDirectus_versionsInput
+  }
+
+  export type directus_versionsCreateOrConnectWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
+    where: directus_versionsWhereUniqueInput
+    create: XOR<directus_versionsCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput, directus_versionsUncheckedCreateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput>
+  }
+
+  export type directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInputEnvelope = {
+    data: directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInput | directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInput[]
     skipDuplicates?: boolean
   }
 
@@ -75026,61 +75867,6 @@ export namespace Prisma {
   export type alertsUpdateManyWithWhereWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput = {
     where: alertsScalarWhereInput
     data: XOR<alertsUpdateManyMutationInput, alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput>
-  }
-
-  export type coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    where: coach_briefingsWhereUniqueInput
-    update: XOR<coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput>
-    create: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput>
-  }
-
-  export type coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    where: coach_briefingsWhereUniqueInput
-    data: XOR<coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput>
-  }
-
-  export type coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    where: coach_briefingsScalarWhereInput
-    data: XOR<coach_briefingsUpdateManyMutationInput, coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput>
-  }
-
-  export type coach_briefingsScalarWhereInput = {
-    AND?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
-    OR?: coach_briefingsScalarWhereInput[]
-    NOT?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
-    id?: UuidFilter<"coach_briefings"> | string
-    owner?: IntFilter<"coach_briefings"> | number
-    headline?: StringFilter<"coach_briefings"> | string
-    counsel?: StringFilter<"coach_briefings"> | string
-    evidence?: StringNullableFilter<"coach_briefings"> | string | null
-    trigger?: StringNullableFilter<"coach_briefings"> | string | null
-    delivered?: BoolFilter<"coach_briefings"> | boolean
-    delivered_at?: DateTimeNullableFilter<"coach_briefings"> | Date | string | null
-    date_created?: DateTimeFilter<"coach_briefings"> | Date | string
-    insight_hash?: StringFilter<"coach_briefings"> | string
-    metadata?: JsonNullableFilter<"coach_briefings">
-    snapshot?: IntNullableFilter<"coach_briefings"> | number | null
-    status?: StringFilter<"coach_briefings"> | string
-    date_updated?: DateTimeNullableFilter<"coach_briefings"> | Date | string | null
-    sort?: IntNullableFilter<"coach_briefings"> | number | null
-    user_created?: UuidNullableFilter<"coach_briefings"> | string | null
-    user_updated?: UuidNullableFilter<"coach_briefings"> | string | null
-  }
-
-  export type coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    where: coach_briefingsWhereUniqueInput
-    update: XOR<coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput>
-    create: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput>
-  }
-
-  export type coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    where: coach_briefingsWhereUniqueInput
-    data: XOR<coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput>
-  }
-
-  export type coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    where: coach_briefingsScalarWhereInput
-    data: XOR<coach_briefingsUpdateManyMutationInput, coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput>
   }
 
   export type directus_accessUpsertWithWhereUniqueWithoutDirectus_usersInput = {
@@ -75367,6 +76153,124 @@ export namespace Prisma {
     data: XOR<directus_sharesUpdateManyMutationInput, directus_sharesUncheckedUpdateManyWithoutDirectus_usersInput>
   }
 
+  export type coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
+    where: coach_briefingsWhereUniqueInput
+    update: XOR<coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput>
+    create: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput>
+  }
+
+  export type coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
+    where: coach_briefingsWhereUniqueInput
+    data: XOR<coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput, coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput>
+  }
+
+  export type coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
+    where: coach_briefingsScalarWhereInput
+    data: XOR<coach_briefingsUpdateManyMutationInput, coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput>
+  }
+
+  export type coach_briefingsScalarWhereInput = {
+    AND?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
+    OR?: coach_briefingsScalarWhereInput[]
+    NOT?: coach_briefingsScalarWhereInput | coach_briefingsScalarWhereInput[]
+    id?: UuidFilter<"coach_briefings"> | string
+    owner?: IntFilter<"coach_briefings"> | number
+    headline?: StringNullableFilter<"coach_briefings"> | string | null
+    counsel?: StringNullableFilter<"coach_briefings"> | string | null
+    evidence?: StringNullableFilter<"coach_briefings"> | string | null
+    user_question?: StringNullableFilter<"coach_briefings"> | string | null
+    agent_answer?: StringNullableFilter<"coach_briefings"> | string | null
+    question_hash?: StringNullableFilter<"coach_briefings"> | string | null
+    question_embedding?: JsonNullableFilter<"coach_briefings">
+    insight_hash?: StringFilter<"coach_briefings"> | string
+    insights_used?: JsonNullableFilter<"coach_briefings">
+    answer_version?: IntFilter<"coach_briefings"> | number
+    snapshot?: IntNullableFilter<"coach_briefings"> | number | null
+    delivered?: BoolFilter<"coach_briefings"> | boolean
+    delivered_at?: DateTimeNullableFilter<"coach_briefings"> | Date | string | null
+    date_created?: DateTimeFilter<"coach_briefings"> | Date | string
+    date_updated?: DateTimeNullableFilter<"coach_briefings"> | Date | string | null
+    status?: StringFilter<"coach_briefings"> | string
+    sort?: IntNullableFilter<"coach_briefings"> | number | null
+    user_created?: UuidNullableFilter<"coach_briefings"> | string | null
+    user_updated?: UuidNullableFilter<"coach_briefings"> | string | null
+  }
+
+  export type coach_briefingsUpsertWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    where: coach_briefingsWhereUniqueInput
+    update: XOR<coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput>
+    create: XOR<coach_briefingsCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedCreateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput>
+  }
+
+  export type coach_briefingsUpdateWithWhereUniqueWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    where: coach_briefingsWhereUniqueInput
+    data: XOR<coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput, coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput>
+  }
+
+  export type coach_briefingsUpdateManyWithWhereWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    where: coach_briefingsScalarWhereInput
+    data: XOR<coach_briefingsUpdateManyMutationInput, coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput>
+  }
+
+  export type habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput = {
+    where: habit_snapshotsWhereUniqueInput
+    update: XOR<habit_snapshotsUpdateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput, habit_snapshotsUncheckedUpdateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput>
+    create: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput>
+  }
+
+  export type habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput = {
+    where: habit_snapshotsWhereUniqueInput
+    data: XOR<habit_snapshotsUpdateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput, habit_snapshotsUncheckedUpdateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput>
+  }
+
+  export type habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput = {
+    where: habit_snapshotsScalarWhereInput
+    data: XOR<habit_snapshotsUpdateManyMutationInput, habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput>
+  }
+
+  export type habit_snapshotsScalarWhereInput = {
+    AND?: habit_snapshotsScalarWhereInput | habit_snapshotsScalarWhereInput[]
+    OR?: habit_snapshotsScalarWhereInput[]
+    NOT?: habit_snapshotsScalarWhereInput | habit_snapshotsScalarWhereInput[]
+    id?: IntFilter<"habit_snapshots"> | number
+    snapshot_id?: StringFilter<"habit_snapshots"> | string
+    owner?: IntFilter<"habit_snapshots"> | number
+    context_data?: JsonFilter<"habit_snapshots">
+    summary_data?: JsonFilter<"habit_snapshots">
+    trigger?: StringNullableFilter<"habit_snapshots"> | string | null
+    date_created?: DateTimeFilter<"habit_snapshots"> | Date | string
+    date_updated?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
+    sort?: IntNullableFilter<"habit_snapshots"> | number | null
+    status?: StringFilter<"habit_snapshots"> | string
+    user_created?: UuidNullableFilter<"habit_snapshots"> | string | null
+    user_updated?: UuidNullableFilter<"habit_snapshots"> | string | null
+    flags?: JsonNullableFilter<"habit_snapshots">
+    frequent_merchants?: JsonNullableFilter<"habit_snapshots">
+    generated_at?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
+    insight_labels?: JsonNullableFilter<"habit_snapshots">
+    insights_count?: IntNullableFilter<"habit_snapshots"> | number | null
+    snapshot_hash?: StringNullableFilter<"habit_snapshots"> | string | null
+    spending_by_medium?: JsonNullableFilter<"habit_snapshots">
+    top_categories?: JsonNullableFilter<"habit_snapshots">
+    transaction_id?: UuidNullableFilter<"habit_snapshots"> | string | null
+  }
+
+  export type habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
+    where: habit_snapshotsWhereUniqueInput
+    update: XOR<habit_snapshotsUpdateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput, habit_snapshotsUncheckedUpdateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput>
+    create: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput>
+  }
+
+  export type habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
+    where: habit_snapshotsWhereUniqueInput
+    data: XOR<habit_snapshotsUpdateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput, habit_snapshotsUncheckedUpdateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput>
+  }
+
+  export type habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
+    where: habit_snapshotsScalarWhereInput
+    data: XOR<habit_snapshotsUpdateManyMutationInput, habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput>
+  }
+
   export type directus_rolesUpsertWithoutDirectus_usersInput = {
     update: XOR<directus_rolesUpdateWithoutDirectus_usersInput, directus_rolesUncheckedUpdateWithoutDirectus_usersInput>
     create: XOR<directus_rolesCreateWithoutDirectus_usersInput, directus_rolesUncheckedCreateWithoutDirectus_usersInput>
@@ -75434,121 +76338,6 @@ export namespace Prisma {
   export type directus_versionsUpdateManyWithWhereWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
     where: directus_versionsScalarWhereInput
     data: XOR<directus_versionsUpdateManyMutationInput, directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput>
-  }
-
-  export type habit_insightsUpsertWithWhereUniqueWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    where: habit_insightsWhereUniqueInput
-    update: XOR<habit_insightsUpdateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput, habit_insightsUncheckedUpdateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput>
-    create: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput>
-  }
-
-  export type habit_insightsUpdateWithWhereUniqueWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    where: habit_insightsWhereUniqueInput
-    data: XOR<habit_insightsUpdateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput, habit_insightsUncheckedUpdateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput>
-  }
-
-  export type habit_insightsUpdateManyWithWhereWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    where: habit_insightsScalarWhereInput
-    data: XOR<habit_insightsUpdateManyMutationInput, habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput>
-  }
-
-  export type habit_insightsScalarWhereInput = {
-    AND?: habit_insightsScalarWhereInput | habit_insightsScalarWhereInput[]
-    OR?: habit_insightsScalarWhereInput[]
-    NOT?: habit_insightsScalarWhereInput | habit_insightsScalarWhereInput[]
-    habit_id?: StringFilter<"habit_insights"> | string
-    owner?: IntFilter<"habit_insights"> | number
-    habit_label?: StringFilter<"habit_insights"> | string
-    evidence?: StringFilter<"habit_insights"> | string
-    counsel?: StringFilter<"habit_insights"> | string
-    full_text?: StringFilter<"habit_insights"> | string
-    metrics?: JsonNullableFilter<"habit_insights">
-    recent_transactions?: JsonNullableFilter<"habit_insights">
-    transaction_id?: UuidNullableFilter<"habit_insights"> | string | null
-    recorded_at?: DateTimeFilter<"habit_insights"> | Date | string
-    previous_habit_id?: StringNullableFilter<"habit_insights"> | string | null
-    id?: IntFilter<"habit_insights"> | number
-    status?: StringFilter<"habit_insights"> | string
-    date_created?: DateTimeNullableFilter<"habit_insights"> | Date | string | null
-    date_updated?: DateTimeNullableFilter<"habit_insights"> | Date | string | null
-    sort?: IntNullableFilter<"habit_insights"> | number | null
-    user_created?: UuidNullableFilter<"habit_insights"> | string | null
-    user_updated?: UuidNullableFilter<"habit_insights"> | string | null
-  }
-
-  export type habit_insightsUpsertWithWhereUniqueWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    where: habit_insightsWhereUniqueInput
-    update: XOR<habit_insightsUpdateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput, habit_insightsUncheckedUpdateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput>
-    create: XOR<habit_insightsCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput, habit_insightsUncheckedCreateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput>
-  }
-
-  export type habit_insightsUpdateWithWhereUniqueWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    where: habit_insightsWhereUniqueInput
-    data: XOR<habit_insightsUpdateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput, habit_insightsUncheckedUpdateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput>
-  }
-
-  export type habit_insightsUpdateManyWithWhereWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    where: habit_insightsScalarWhereInput
-    data: XOR<habit_insightsUpdateManyMutationInput, habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput>
-  }
-
-  export type habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput = {
-    where: habit_snapshotsWhereUniqueInput
-    update: XOR<habit_snapshotsUpdateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput, habit_snapshotsUncheckedUpdateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput>
-    create: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput>
-  }
-
-  export type habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput = {
-    where: habit_snapshotsWhereUniqueInput
-    data: XOR<habit_snapshotsUpdateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput, habit_snapshotsUncheckedUpdateWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput>
-  }
-
-  export type habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput = {
-    where: habit_snapshotsScalarWhereInput
-    data: XOR<habit_snapshotsUpdateManyMutationInput, habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput>
-  }
-
-  export type habit_snapshotsScalarWhereInput = {
-    AND?: habit_snapshotsScalarWhereInput | habit_snapshotsScalarWhereInput[]
-    OR?: habit_snapshotsScalarWhereInput[]
-    NOT?: habit_snapshotsScalarWhereInput | habit_snapshotsScalarWhereInput[]
-    id?: IntFilter<"habit_snapshots"> | number
-    snapshot_id?: StringFilter<"habit_snapshots"> | string
-    owner?: IntFilter<"habit_snapshots"> | number
-    context_data?: JsonFilter<"habit_snapshots">
-    summary_data?: JsonFilter<"habit_snapshots">
-    trigger?: StringNullableFilter<"habit_snapshots"> | string | null
-    date_created?: DateTimeFilter<"habit_snapshots"> | Date | string
-    date_updated?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
-    sort?: IntNullableFilter<"habit_snapshots"> | number | null
-    status?: StringFilter<"habit_snapshots"> | string
-    user_created?: UuidNullableFilter<"habit_snapshots"> | string | null
-    user_updated?: UuidNullableFilter<"habit_snapshots"> | string | null
-    flags?: JsonNullableFilter<"habit_snapshots">
-    frequent_merchants?: JsonNullableFilter<"habit_snapshots">
-    generated_at?: DateTimeNullableFilter<"habit_snapshots"> | Date | string | null
-    insight_labels?: JsonNullableFilter<"habit_snapshots">
-    insights_count?: IntNullableFilter<"habit_snapshots"> | number | null
-    snapshot_hash?: StringNullableFilter<"habit_snapshots"> | string | null
-    spending_by_medium?: JsonNullableFilter<"habit_snapshots">
-    top_categories?: JsonNullableFilter<"habit_snapshots">
-    transaction_id?: UuidNullableFilter<"habit_snapshots"> | string | null
-  }
-
-  export type habit_snapshotsUpsertWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
-    where: habit_snapshotsWhereUniqueInput
-    update: XOR<habit_snapshotsUpdateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput, habit_snapshotsUncheckedUpdateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput>
-    create: XOR<habit_snapshotsCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput, habit_snapshotsUncheckedCreateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput>
-  }
-
-  export type habit_snapshotsUpdateWithWhereUniqueWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
-    where: habit_snapshotsWhereUniqueInput
-    data: XOR<habit_snapshotsUpdateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput, habit_snapshotsUncheckedUpdateWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput>
-  }
-
-  export type habit_snapshotsUpdateManyWithWhereWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput = {
-    where: habit_snapshotsScalarWhereInput
-    data: XOR<habit_snapshotsUpdateManyMutationInput, habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput>
   }
 
   export type sms_messagesUpsertWithWhereUniqueWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput = {
@@ -75719,8 +76508,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -75735,12 +76522,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
-    directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -75775,8 +76562,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -75791,11 +76576,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -75834,8 +76619,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -75850,12 +76633,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
-    directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -75890,8 +76673,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -75906,11 +76687,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -76037,8 +76818,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -76053,12 +76832,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
-    directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -76093,8 +76872,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -76109,11 +76886,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -76158,8 +76935,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -76174,12 +76949,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
-    directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -76214,8 +76989,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -76230,11 +77003,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -76331,6 +77104,7 @@ export namespace Prisma {
     alerts?: alertsCreateNestedManyWithoutUsersInput
     coach_briefings?: coach_briefingsCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesCreateNestedManyWithoutUsersInput
     tranasctions?: tranasctionsCreateNestedManyWithoutUsersInput
   }
@@ -76348,6 +77122,7 @@ export namespace Prisma {
     alerts?: alertsUncheckedCreateNestedManyWithoutUsersInput
     coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsUncheckedCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesUncheckedCreateNestedManyWithoutUsersInput
     tranasctions?: tranasctionsUncheckedCreateNestedManyWithoutUsersInput
   }
@@ -76355,285 +77130,6 @@ export namespace Prisma {
   export type usersCreateOrConnectWithoutHabit_insightsInput = {
     where: usersWhereUniqueInput
     create: XOR<usersCreateWithoutHabit_insightsInput, usersUncheckedCreateWithoutHabit_insightsInput>
-  }
-
-  export type tranasctionsCreateWithoutHabit_insightsInput = {
-    id: string
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    amount?: number | null
-    type?: string | null
-    target_party?: string | null
-    currency?: string | null
-    medium?: string | null
-    description?: string | null
-    comments?: string | null
-    date_of_transaction?: Date | string | null
-    category?: string | null
-    analyzed_at?: Date | string | null
-    analyzed_version?: number | null
-    analysis_notes?: string | null
-    alerts?: alertsCreateNestedManyWithoutTranasctionsInput
-    sms_messages?: sms_messagesCreateNestedOneWithoutTranasctionsInput
-    users?: usersCreateNestedOneWithoutTranasctionsInput
-  }
-
-  export type tranasctionsUncheckedCreateWithoutHabit_insightsInput = {
-    id: string
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    amount?: number | null
-    type?: string | null
-    target_party?: string | null
-    currency?: string | null
-    medium?: string | null
-    description?: string | null
-    comments?: string | null
-    date_of_transaction?: Date | string | null
-    category?: string | null
-    owner?: number | null
-    original_sms?: number | null
-    analyzed_at?: Date | string | null
-    analyzed_version?: number | null
-    analysis_notes?: string | null
-    alerts?: alertsUncheckedCreateNestedManyWithoutTranasctionsInput
-  }
-
-  export type tranasctionsCreateOrConnectWithoutHabit_insightsInput = {
-    where: tranasctionsWhereUniqueInput
-    create: XOR<tranasctionsCreateWithoutHabit_insightsInput, tranasctionsUncheckedCreateWithoutHabit_insightsInput>
-  }
-
-  export type directus_usersCreateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput = {
-    id: string
-    first_name?: string | null
-    last_name?: string | null
-    email?: string | null
-    password?: string | null
-    location?: string | null
-    title?: string | null
-    description?: string | null
-    tags?: NullableJsonNullValueInput | InputJsonValue
-    avatar?: string | null
-    language?: string | null
-    tfa_secret?: string | null
-    status?: string
-    token?: string | null
-    last_access?: Date | string | null
-    last_page?: string | null
-    provider?: string
-    external_identifier?: string | null
-    auth_data?: NullableJsonNullValueInput | InputJsonValue
-    email_notifications?: boolean | null
-    appearance?: string | null
-    theme_dark?: string | null
-    theme_light?: string | null
-    theme_light_overrides?: NullableJsonNullValueInput | InputJsonValue
-    theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
-    text_direction?: string
-    alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
-    alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
-    directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
-    directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
-    directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
-    directus_dashboards?: directus_dashboardsCreateNestedManyWithoutDirectus_usersInput
-    directus_files_directus_files_modified_byTodirectus_users?: directus_filesCreateNestedManyWithoutDirectus_users_directus_files_modified_byTodirectus_usersInput
-    directus_files_directus_files_uploaded_byTodirectus_users?: directus_filesCreateNestedManyWithoutDirectus_users_directus_files_uploaded_byTodirectus_usersInput
-    directus_flows?: directus_flowsCreateNestedManyWithoutDirectus_usersInput
-    directus_notifications_directus_notifications_recipientTodirectus_users?: directus_notificationsCreateNestedManyWithoutDirectus_users_directus_notifications_recipientTodirectus_usersInput
-    directus_notifications_directus_notifications_senderTodirectus_users?: directus_notificationsCreateNestedManyWithoutDirectus_users_directus_notifications_senderTodirectus_usersInput
-    directus_operations?: directus_operationsCreateNestedManyWithoutDirectus_usersInput
-    directus_panels?: directus_panelsCreateNestedManyWithoutDirectus_usersInput
-    directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
-    directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
-    directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
-    directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
-    sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
-    sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
-  }
-
-  export type directus_usersUncheckedCreateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput = {
-    id: string
-    first_name?: string | null
-    last_name?: string | null
-    email?: string | null
-    password?: string | null
-    location?: string | null
-    title?: string | null
-    description?: string | null
-    tags?: NullableJsonNullValueInput | InputJsonValue
-    avatar?: string | null
-    language?: string | null
-    tfa_secret?: string | null
-    status?: string
-    role?: string | null
-    token?: string | null
-    last_access?: Date | string | null
-    last_page?: string | null
-    provider?: string
-    external_identifier?: string | null
-    auth_data?: NullableJsonNullValueInput | InputJsonValue
-    email_notifications?: boolean | null
-    appearance?: string | null
-    theme_dark?: string | null
-    theme_light?: string | null
-    theme_light_overrides?: NullableJsonNullValueInput | InputJsonValue
-    theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
-    text_direction?: string
-    alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
-    alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
-    directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
-    directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
-    directus_dashboards?: directus_dashboardsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_files_directus_files_modified_byTodirectus_users?: directus_filesUncheckedCreateNestedManyWithoutDirectus_users_directus_files_modified_byTodirectus_usersInput
-    directus_files_directus_files_uploaded_byTodirectus_users?: directus_filesUncheckedCreateNestedManyWithoutDirectus_users_directus_files_uploaded_byTodirectus_usersInput
-    directus_flows?: directus_flowsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_notifications_directus_notifications_recipientTodirectus_users?: directus_notificationsUncheckedCreateNestedManyWithoutDirectus_users_directus_notifications_recipientTodirectus_usersInput
-    directus_notifications_directus_notifications_senderTodirectus_users?: directus_notificationsUncheckedCreateNestedManyWithoutDirectus_users_directus_notifications_senderTodirectus_usersInput
-    directus_operations?: directus_operationsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_panels?: directus_panelsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
-    sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
-    sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
-  }
-
-  export type directus_usersCreateOrConnectWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput = {
-    where: directus_usersWhereUniqueInput
-    create: XOR<directus_usersCreateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput, directus_usersUncheckedCreateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput>
-  }
-
-  export type directus_usersCreateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput = {
-    id: string
-    first_name?: string | null
-    last_name?: string | null
-    email?: string | null
-    password?: string | null
-    location?: string | null
-    title?: string | null
-    description?: string | null
-    tags?: NullableJsonNullValueInput | InputJsonValue
-    avatar?: string | null
-    language?: string | null
-    tfa_secret?: string | null
-    status?: string
-    token?: string | null
-    last_access?: Date | string | null
-    last_page?: string | null
-    provider?: string
-    external_identifier?: string | null
-    auth_data?: NullableJsonNullValueInput | InputJsonValue
-    email_notifications?: boolean | null
-    appearance?: string | null
-    theme_dark?: string | null
-    theme_light?: string | null
-    theme_light_overrides?: NullableJsonNullValueInput | InputJsonValue
-    theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
-    text_direction?: string
-    alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
-    alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
-    directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
-    directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
-    directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
-    directus_dashboards?: directus_dashboardsCreateNestedManyWithoutDirectus_usersInput
-    directus_files_directus_files_modified_byTodirectus_users?: directus_filesCreateNestedManyWithoutDirectus_users_directus_files_modified_byTodirectus_usersInput
-    directus_files_directus_files_uploaded_byTodirectus_users?: directus_filesCreateNestedManyWithoutDirectus_users_directus_files_uploaded_byTodirectus_usersInput
-    directus_flows?: directus_flowsCreateNestedManyWithoutDirectus_usersInput
-    directus_notifications_directus_notifications_recipientTodirectus_users?: directus_notificationsCreateNestedManyWithoutDirectus_users_directus_notifications_recipientTodirectus_usersInput
-    directus_notifications_directus_notifications_senderTodirectus_users?: directus_notificationsCreateNestedManyWithoutDirectus_users_directus_notifications_senderTodirectus_usersInput
-    directus_operations?: directus_operationsCreateNestedManyWithoutDirectus_usersInput
-    directus_panels?: directus_panelsCreateNestedManyWithoutDirectus_usersInput
-    directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
-    directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
-    directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
-    directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
-    sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
-    sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
-  }
-
-  export type directus_usersUncheckedCreateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput = {
-    id: string
-    first_name?: string | null
-    last_name?: string | null
-    email?: string | null
-    password?: string | null
-    location?: string | null
-    title?: string | null
-    description?: string | null
-    tags?: NullableJsonNullValueInput | InputJsonValue
-    avatar?: string | null
-    language?: string | null
-    tfa_secret?: string | null
-    status?: string
-    role?: string | null
-    token?: string | null
-    last_access?: Date | string | null
-    last_page?: string | null
-    provider?: string
-    external_identifier?: string | null
-    auth_data?: NullableJsonNullValueInput | InputJsonValue
-    email_notifications?: boolean | null
-    appearance?: string | null
-    theme_dark?: string | null
-    theme_light?: string | null
-    theme_light_overrides?: NullableJsonNullValueInput | InputJsonValue
-    theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
-    text_direction?: string
-    alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
-    alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
-    directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
-    directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
-    directus_dashboards?: directus_dashboardsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_files_directus_files_modified_byTodirectus_users?: directus_filesUncheckedCreateNestedManyWithoutDirectus_users_directus_files_modified_byTodirectus_usersInput
-    directus_files_directus_files_uploaded_byTodirectus_users?: directus_filesUncheckedCreateNestedManyWithoutDirectus_users_directus_files_uploaded_byTodirectus_usersInput
-    directus_flows?: directus_flowsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_notifications_directus_notifications_recipientTodirectus_users?: directus_notificationsUncheckedCreateNestedManyWithoutDirectus_users_directus_notifications_recipientTodirectus_usersInput
-    directus_notifications_directus_notifications_senderTodirectus_users?: directus_notificationsUncheckedCreateNestedManyWithoutDirectus_users_directus_notifications_senderTodirectus_usersInput
-    directus_operations?: directus_operationsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_panels?: directus_panelsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
-    sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
-    sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
-  }
-
-  export type directus_usersCreateOrConnectWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput = {
-    where: directus_usersWhereUniqueInput
-    create: XOR<directus_usersCreateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput, directus_usersUncheckedCreateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput>
   }
 
   export type habit_snapshot_insightsCreateWithoutInsight_refInput = {
@@ -76682,6 +77178,7 @@ export namespace Prisma {
     alerts?: alertsUpdateManyWithoutUsersNestedInput
     coach_briefings?: coach_briefingsUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUpdateManyWithoutUsersNestedInput
     tranasctions?: tranasctionsUpdateManyWithoutUsersNestedInput
   }
@@ -76699,305 +77196,9 @@ export namespace Prisma {
     alerts?: alertsUncheckedUpdateManyWithoutUsersNestedInput
     coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUncheckedUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUncheckedUpdateManyWithoutUsersNestedInput
     tranasctions?: tranasctionsUncheckedUpdateManyWithoutUsersNestedInput
-  }
-
-  export type tranasctionsUpsertWithoutHabit_insightsInput = {
-    update: XOR<tranasctionsUpdateWithoutHabit_insightsInput, tranasctionsUncheckedUpdateWithoutHabit_insightsInput>
-    create: XOR<tranasctionsCreateWithoutHabit_insightsInput, tranasctionsUncheckedCreateWithoutHabit_insightsInput>
-    where?: tranasctionsWhereInput
-  }
-
-  export type tranasctionsUpdateToOneWithWhereWithoutHabit_insightsInput = {
-    where?: tranasctionsWhereInput
-    data: XOR<tranasctionsUpdateWithoutHabit_insightsInput, tranasctionsUncheckedUpdateWithoutHabit_insightsInput>
-  }
-
-  export type tranasctionsUpdateWithoutHabit_insightsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    amount?: NullableFloatFieldUpdateOperationsInput | number | null
-    type?: NullableStringFieldUpdateOperationsInput | string | null
-    target_party?: NullableStringFieldUpdateOperationsInput | string | null
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    medium?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    comments?: NullableStringFieldUpdateOperationsInput | string | null
-    date_of_transaction?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    analyzed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    analyzed_version?: NullableIntFieldUpdateOperationsInput | number | null
-    analysis_notes?: NullableStringFieldUpdateOperationsInput | string | null
-    alerts?: alertsUpdateManyWithoutTranasctionsNestedInput
-    sms_messages?: sms_messagesUpdateOneWithoutTranasctionsNestedInput
-    users?: usersUpdateOneWithoutTranasctionsNestedInput
-  }
-
-  export type tranasctionsUncheckedUpdateWithoutHabit_insightsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    amount?: NullableFloatFieldUpdateOperationsInput | number | null
-    type?: NullableStringFieldUpdateOperationsInput | string | null
-    target_party?: NullableStringFieldUpdateOperationsInput | string | null
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    medium?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    comments?: NullableStringFieldUpdateOperationsInput | string | null
-    date_of_transaction?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    owner?: NullableIntFieldUpdateOperationsInput | number | null
-    original_sms?: NullableIntFieldUpdateOperationsInput | number | null
-    analyzed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    analyzed_version?: NullableIntFieldUpdateOperationsInput | number | null
-    analysis_notes?: NullableStringFieldUpdateOperationsInput | string | null
-    alerts?: alertsUncheckedUpdateManyWithoutTranasctionsNestedInput
-  }
-
-  export type directus_usersUpsertWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput = {
-    update: XOR<directus_usersUpdateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput, directus_usersUncheckedUpdateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput>
-    create: XOR<directus_usersCreateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput, directus_usersUncheckedCreateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput>
-    where?: directus_usersWhereInput
-  }
-
-  export type directus_usersUpdateToOneWithWhereWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput = {
-    where?: directus_usersWhereInput
-    data: XOR<directus_usersUpdateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput, directus_usersUncheckedUpdateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput>
-  }
-
-  export type directus_usersUpdateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    first_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: NullableJsonNullValueInput | InputJsonValue
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
-    tfa_secret?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    last_access?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    last_page?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: StringFieldUpdateOperationsInput | string
-    external_identifier?: NullableStringFieldUpdateOperationsInput | string | null
-    auth_data?: NullableJsonNullValueInput | InputJsonValue
-    email_notifications?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    appearance?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_dark?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_light?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_light_overrides?: NullableJsonNullValueInput | InputJsonValue
-    theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
-    text_direction?: StringFieldUpdateOperationsInput | string
-    alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
-    alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
-    directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
-    directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
-    directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
-    directus_dashboards?: directus_dashboardsUpdateManyWithoutDirectus_usersNestedInput
-    directus_files_directus_files_modified_byTodirectus_users?: directus_filesUpdateManyWithoutDirectus_users_directus_files_modified_byTodirectus_usersNestedInput
-    directus_files_directus_files_uploaded_byTodirectus_users?: directus_filesUpdateManyWithoutDirectus_users_directus_files_uploaded_byTodirectus_usersNestedInput
-    directus_flows?: directus_flowsUpdateManyWithoutDirectus_usersNestedInput
-    directus_notifications_directus_notifications_recipientTodirectus_users?: directus_notificationsUpdateManyWithoutDirectus_users_directus_notifications_recipientTodirectus_usersNestedInput
-    directus_notifications_directus_notifications_senderTodirectus_users?: directus_notificationsUpdateManyWithoutDirectus_users_directus_notifications_senderTodirectus_usersNestedInput
-    directus_operations?: directus_operationsUpdateManyWithoutDirectus_usersNestedInput
-    directus_panels?: directus_panelsUpdateManyWithoutDirectus_usersNestedInput
-    directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
-    directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
-    directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
-    directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
-    sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
-    sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
-  }
-
-  export type directus_usersUncheckedUpdateWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    first_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: NullableJsonNullValueInput | InputJsonValue
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
-    tfa_secret?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    last_access?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    last_page?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: StringFieldUpdateOperationsInput | string
-    external_identifier?: NullableStringFieldUpdateOperationsInput | string | null
-    auth_data?: NullableJsonNullValueInput | InputJsonValue
-    email_notifications?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    appearance?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_dark?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_light?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_light_overrides?: NullableJsonNullValueInput | InputJsonValue
-    theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
-    text_direction?: StringFieldUpdateOperationsInput | string
-    alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
-    alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
-    directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
-    directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
-    directus_dashboards?: directus_dashboardsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_files_directus_files_modified_byTodirectus_users?: directus_filesUncheckedUpdateManyWithoutDirectus_users_directus_files_modified_byTodirectus_usersNestedInput
-    directus_files_directus_files_uploaded_byTodirectus_users?: directus_filesUncheckedUpdateManyWithoutDirectus_users_directus_files_uploaded_byTodirectus_usersNestedInput
-    directus_flows?: directus_flowsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_notifications_directus_notifications_recipientTodirectus_users?: directus_notificationsUncheckedUpdateManyWithoutDirectus_users_directus_notifications_recipientTodirectus_usersNestedInput
-    directus_notifications_directus_notifications_senderTodirectus_users?: directus_notificationsUncheckedUpdateManyWithoutDirectus_users_directus_notifications_senderTodirectus_usersNestedInput
-    directus_operations?: directus_operationsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_panels?: directus_panelsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
-    sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
-    sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
-  }
-
-  export type directus_usersUpsertWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput = {
-    update: XOR<directus_usersUpdateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput, directus_usersUncheckedUpdateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput>
-    create: XOR<directus_usersCreateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput, directus_usersUncheckedCreateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput>
-    where?: directus_usersWhereInput
-  }
-
-  export type directus_usersUpdateToOneWithWhereWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput = {
-    where?: directus_usersWhereInput
-    data: XOR<directus_usersUpdateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput, directus_usersUncheckedUpdateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput>
-  }
-
-  export type directus_usersUpdateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    first_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: NullableJsonNullValueInput | InputJsonValue
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
-    tfa_secret?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    last_access?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    last_page?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: StringFieldUpdateOperationsInput | string
-    external_identifier?: NullableStringFieldUpdateOperationsInput | string | null
-    auth_data?: NullableJsonNullValueInput | InputJsonValue
-    email_notifications?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    appearance?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_dark?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_light?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_light_overrides?: NullableJsonNullValueInput | InputJsonValue
-    theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
-    text_direction?: StringFieldUpdateOperationsInput | string
-    alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
-    alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
-    directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
-    directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
-    directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
-    directus_dashboards?: directus_dashboardsUpdateManyWithoutDirectus_usersNestedInput
-    directus_files_directus_files_modified_byTodirectus_users?: directus_filesUpdateManyWithoutDirectus_users_directus_files_modified_byTodirectus_usersNestedInput
-    directus_files_directus_files_uploaded_byTodirectus_users?: directus_filesUpdateManyWithoutDirectus_users_directus_files_uploaded_byTodirectus_usersNestedInput
-    directus_flows?: directus_flowsUpdateManyWithoutDirectus_usersNestedInput
-    directus_notifications_directus_notifications_recipientTodirectus_users?: directus_notificationsUpdateManyWithoutDirectus_users_directus_notifications_recipientTodirectus_usersNestedInput
-    directus_notifications_directus_notifications_senderTodirectus_users?: directus_notificationsUpdateManyWithoutDirectus_users_directus_notifications_senderTodirectus_usersNestedInput
-    directus_operations?: directus_operationsUpdateManyWithoutDirectus_usersNestedInput
-    directus_panels?: directus_panelsUpdateManyWithoutDirectus_usersNestedInput
-    directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
-    directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
-    directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
-    directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
-    sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
-    sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
-  }
-
-  export type directus_usersUncheckedUpdateWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    first_name?: NullableStringFieldUpdateOperationsInput | string | null
-    last_name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: NullableJsonNullValueInput | InputJsonValue
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    language?: NullableStringFieldUpdateOperationsInput | string | null
-    tfa_secret?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    last_access?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    last_page?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: StringFieldUpdateOperationsInput | string
-    external_identifier?: NullableStringFieldUpdateOperationsInput | string | null
-    auth_data?: NullableJsonNullValueInput | InputJsonValue
-    email_notifications?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    appearance?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_dark?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_light?: NullableStringFieldUpdateOperationsInput | string | null
-    theme_light_overrides?: NullableJsonNullValueInput | InputJsonValue
-    theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
-    text_direction?: StringFieldUpdateOperationsInput | string
-    alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
-    alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
-    directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
-    directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
-    directus_dashboards?: directus_dashboardsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_files_directus_files_modified_byTodirectus_users?: directus_filesUncheckedUpdateManyWithoutDirectus_users_directus_files_modified_byTodirectus_usersNestedInput
-    directus_files_directus_files_uploaded_byTodirectus_users?: directus_filesUncheckedUpdateManyWithoutDirectus_users_directus_files_uploaded_byTodirectus_usersNestedInput
-    directus_flows?: directus_flowsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_notifications_directus_notifications_recipientTodirectus_users?: directus_notificationsUncheckedUpdateManyWithoutDirectus_users_directus_notifications_recipientTodirectus_usersNestedInput
-    directus_notifications_directus_notifications_senderTodirectus_users?: directus_notificationsUncheckedUpdateManyWithoutDirectus_users_directus_notifications_senderTodirectus_usersNestedInput
-    directus_operations?: directus_operationsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_panels?: directus_panelsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
-    sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
-    sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
 
   export type habit_snapshot_insightsUpsertWithWhereUniqueWithoutInsight_refInput = {
@@ -77027,19 +77228,109 @@ export namespace Prisma {
     created_at?: DateTimeNullableFilter<"habit_snapshot_insights"> | Date | string | null
   }
 
+  export type usersCreateWithoutHabit_processing_cursorsInput = {
+    status?: string
+    date_created?: Date | string | null
+    date_updated?: Date | string | null
+    whatsapp_number?: string | null
+    name?: string | null
+    approx_age?: number | null
+    approx_bank_balance?: number | null
+    sms_app_api_key?: NullableJsonNullValueInput | InputJsonValue
+    alerts?: alertsCreateNestedManyWithoutUsersInput
+    coach_briefings?: coach_briefingsCreateNestedManyWithoutUsersInput
+    habit_insights?: habit_insightsCreateNestedManyWithoutUsersInput
+    habit_snapshots?: habit_snapshotsCreateNestedManyWithoutUsersInput
+    sms_messages?: sms_messagesCreateNestedManyWithoutUsersInput
+    tranasctions?: tranasctionsCreateNestedManyWithoutUsersInput
+  }
+
+  export type usersUncheckedCreateWithoutHabit_processing_cursorsInput = {
+    id?: number
+    status?: string
+    date_created?: Date | string | null
+    date_updated?: Date | string | null
+    whatsapp_number?: string | null
+    name?: string | null
+    approx_age?: number | null
+    approx_bank_balance?: number | null
+    sms_app_api_key?: NullableJsonNullValueInput | InputJsonValue
+    alerts?: alertsUncheckedCreateNestedManyWithoutUsersInput
+    coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutUsersInput
+    habit_insights?: habit_insightsUncheckedCreateNestedManyWithoutUsersInput
+    habit_snapshots?: habit_snapshotsUncheckedCreateNestedManyWithoutUsersInput
+    sms_messages?: sms_messagesUncheckedCreateNestedManyWithoutUsersInput
+    tranasctions?: tranasctionsUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type usersCreateOrConnectWithoutHabit_processing_cursorsInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutHabit_processing_cursorsInput, usersUncheckedCreateWithoutHabit_processing_cursorsInput>
+  }
+
+  export type usersUpsertWithoutHabit_processing_cursorsInput = {
+    update: XOR<usersUpdateWithoutHabit_processing_cursorsInput, usersUncheckedUpdateWithoutHabit_processing_cursorsInput>
+    create: XOR<usersCreateWithoutHabit_processing_cursorsInput, usersUncheckedCreateWithoutHabit_processing_cursorsInput>
+    where?: usersWhereInput
+  }
+
+  export type usersUpdateToOneWithWhereWithoutHabit_processing_cursorsInput = {
+    where?: usersWhereInput
+    data: XOR<usersUpdateWithoutHabit_processing_cursorsInput, usersUncheckedUpdateWithoutHabit_processing_cursorsInput>
+  }
+
+  export type usersUpdateWithoutHabit_processing_cursorsInput = {
+    status?: StringFieldUpdateOperationsInput | string
+    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    whatsapp_number?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    approx_age?: NullableIntFieldUpdateOperationsInput | number | null
+    approx_bank_balance?: NullableFloatFieldUpdateOperationsInput | number | null
+    sms_app_api_key?: NullableJsonNullValueInput | InputJsonValue
+    alerts?: alertsUpdateManyWithoutUsersNestedInput
+    coach_briefings?: coach_briefingsUpdateManyWithoutUsersNestedInput
+    habit_insights?: habit_insightsUpdateManyWithoutUsersNestedInput
+    habit_snapshots?: habit_snapshotsUpdateManyWithoutUsersNestedInput
+    sms_messages?: sms_messagesUpdateManyWithoutUsersNestedInput
+    tranasctions?: tranasctionsUpdateManyWithoutUsersNestedInput
+  }
+
+  export type usersUncheckedUpdateWithoutHabit_processing_cursorsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    whatsapp_number?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    approx_age?: NullableIntFieldUpdateOperationsInput | number | null
+    approx_bank_balance?: NullableFloatFieldUpdateOperationsInput | number | null
+    sms_app_api_key?: NullableJsonNullValueInput | InputJsonValue
+    alerts?: alertsUncheckedUpdateManyWithoutUsersNestedInput
+    coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutUsersNestedInput
+    habit_insights?: habit_insightsUncheckedUpdateManyWithoutUsersNestedInput
+    habit_snapshots?: habit_snapshotsUncheckedUpdateManyWithoutUsersNestedInput
+    sms_messages?: sms_messagesUncheckedUpdateManyWithoutUsersNestedInput
+    tranasctions?: tranasctionsUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
   export type coach_briefingsCreateWithoutHabit_snapshotsInput = {
     id: string
-    headline: string
-    counsel: string
+    headline?: string | null
+    counsel?: string | null
     evidence?: string | null
-    trigger?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
     delivered?: boolean
     delivered_at?: Date | string | null
     date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     users: usersCreateNestedOneWithoutCoach_briefingsInput
     directus_users_coach_briefings_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutCoach_briefings_coach_briefings_user_createdTodirectus_usersInput
@@ -77049,17 +77340,21 @@ export namespace Prisma {
   export type coach_briefingsUncheckedCreateWithoutHabit_snapshotsInput = {
     id: string
     owner: number
-    headline: string
-    counsel: string
+    headline?: string | null
+    counsel?: string | null
     evidence?: string | null
-    trigger?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
     delivered?: boolean
     delivered_at?: Date | string | null
     date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     user_created?: string | null
     user_updated?: string | null
@@ -77110,6 +77405,7 @@ export namespace Prisma {
     alerts?: alertsCreateNestedManyWithoutUsersInput
     coach_briefings?: coach_briefingsCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesCreateNestedManyWithoutUsersInput
     tranasctions?: tranasctionsCreateNestedManyWithoutUsersInput
   }
@@ -77127,6 +77423,7 @@ export namespace Prisma {
     alerts?: alertsUncheckedCreateNestedManyWithoutUsersInput
     coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsUncheckedCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesUncheckedCreateNestedManyWithoutUsersInput
     tranasctions?: tranasctionsUncheckedCreateNestedManyWithoutUsersInput
   }
@@ -77165,8 +77462,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -77181,12 +77476,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -77221,8 +77516,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -77237,11 +77530,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -77280,8 +77573,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -77296,12 +77587,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -77336,8 +77627,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -77352,11 +77641,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -77421,6 +77710,7 @@ export namespace Prisma {
     alerts?: alertsUpdateManyWithoutUsersNestedInput
     coach_briefings?: coach_briefingsUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUpdateManyWithoutUsersNestedInput
     tranasctions?: tranasctionsUpdateManyWithoutUsersNestedInput
   }
@@ -77438,6 +77728,7 @@ export namespace Prisma {
     alerts?: alertsUncheckedUpdateManyWithoutUsersNestedInput
     coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUncheckedUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUncheckedUpdateManyWithoutUsersNestedInput
     tranasctions?: tranasctionsUncheckedUpdateManyWithoutUsersNestedInput
   }
@@ -77482,8 +77773,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -77498,12 +77787,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -77538,8 +77827,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -77554,11 +77841,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -77603,8 +77890,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -77619,12 +77904,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -77659,8 +77944,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -77675,11 +77958,11 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -77691,20 +77974,15 @@ export namespace Prisma {
     counsel: string
     full_text: string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
     recorded_at?: Date | string
+    updated_at?: Date | string
+    superseded?: boolean
     previous_habit_id?: string | null
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    sort?: number | null
     users: usersCreateNestedOneWithoutHabit_insightsInput
-    tranasctions?: tranasctionsCreateNestedOneWithoutHabit_insightsInput
-    directus_users_habit_insights_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput
-    directus_users_habit_insights_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput
   }
 
   export type habit_insightsUncheckedCreateWithoutHabit_snapshot_linksInput = {
+    id?: number
     habit_id: string
     owner: number
     habit_label: string
@@ -77712,17 +77990,10 @@ export namespace Prisma {
     counsel: string
     full_text: string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: string | null
     recorded_at?: Date | string
+    updated_at?: Date | string
+    superseded?: boolean
     previous_habit_id?: string | null
-    id?: number
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    sort?: number | null
-    user_created?: string | null
-    user_updated?: string | null
   }
 
   export type habit_insightsCreateOrConnectWithoutHabit_snapshot_linksInput = {
@@ -77802,20 +78073,15 @@ export namespace Prisma {
     counsel?: StringFieldUpdateOperationsInput | string
     full_text?: StringFieldUpdateOperationsInput | string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
     recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    superseded?: BoolFieldUpdateOperationsInput | boolean
     previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
     users?: usersUpdateOneRequiredWithoutHabit_insightsNestedInput
-    tranasctions?: tranasctionsUpdateOneWithoutHabit_insightsNestedInput
-    directus_users_habit_insights_user_createdTodirectus_users?: directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersNestedInput
-    directus_users_habit_insights_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersNestedInput
   }
 
   export type habit_insightsUncheckedUpdateWithoutHabit_snapshot_linksInput = {
+    id?: IntFieldUpdateOperationsInput | number
     habit_id?: StringFieldUpdateOperationsInput | string
     owner?: IntFieldUpdateOperationsInput | number
     habit_label?: StringFieldUpdateOperationsInput | string
@@ -77823,17 +78089,10 @@ export namespace Prisma {
     counsel?: StringFieldUpdateOperationsInput | string
     full_text?: StringFieldUpdateOperationsInput | string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    superseded?: BoolFieldUpdateOperationsInput | boolean
     previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type habit_snapshotsUpsertWithoutHabit_snapshot_insightsInput = {
@@ -77909,6 +78168,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsCreateNestedOneWithoutUsersInput
     tranasctions?: tranasctionsCreateNestedManyWithoutUsersInput
   }
 
@@ -77926,6 +78186,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsUncheckedCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsUncheckedCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedCreateNestedOneWithoutUsersInput
     tranasctions?: tranasctionsUncheckedCreateNestedManyWithoutUsersInput
   }
 
@@ -77963,8 +78224,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -77979,13 +78238,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
 
@@ -78019,8 +78278,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -78035,12 +78292,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
 
@@ -78078,8 +78335,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -78094,13 +78349,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
   }
 
@@ -78134,8 +78389,6 @@ export namespace Prisma {
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -78150,12 +78403,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
   }
 
@@ -78182,7 +78435,6 @@ export namespace Prisma {
     analyzed_version?: number | null
     analysis_notes?: string | null
     alerts?: alertsCreateNestedManyWithoutTranasctionsInput
-    habit_insights?: habit_insightsCreateNestedManyWithoutTranasctionsInput
     users?: usersCreateNestedOneWithoutTranasctionsInput
   }
 
@@ -78205,7 +78457,6 @@ export namespace Prisma {
     analyzed_version?: number | null
     analysis_notes?: string | null
     alerts?: alertsUncheckedCreateNestedManyWithoutTranasctionsInput
-    habit_insights?: habit_insightsUncheckedCreateNestedManyWithoutTranasctionsInput
   }
 
   export type tranasctionsCreateOrConnectWithoutSms_messagesInput = {
@@ -78242,6 +78493,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUpdateOneWithoutUsersNestedInput
     tranasctions?: tranasctionsUpdateManyWithoutUsersNestedInput
   }
 
@@ -78259,6 +78511,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUncheckedUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUncheckedUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedUpdateOneWithoutUsersNestedInput
     tranasctions?: tranasctionsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
@@ -78302,8 +78555,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -78318,13 +78569,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
 
@@ -78358,8 +78609,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -78374,12 +78623,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
 
@@ -78423,8 +78672,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -78439,13 +78686,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
   }
 
@@ -78479,8 +78726,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -78495,12 +78740,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
   }
 
@@ -78603,57 +78848,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type habit_insightsCreateWithoutTranasctionsInput = {
-    habit_id: string
-    habit_label: string
-    evidence: string
-    counsel: string
-    full_text: string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    recorded_at?: Date | string
-    previous_habit_id?: string | null
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    sort?: number | null
-    users: usersCreateNestedOneWithoutHabit_insightsInput
-    directus_users_habit_insights_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput
-    directus_users_habit_insights_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshot_links?: habit_snapshot_insightsCreateNestedManyWithoutInsight_refInput
-  }
-
-  export type habit_insightsUncheckedCreateWithoutTranasctionsInput = {
-    habit_id: string
-    owner: number
-    habit_label: string
-    evidence: string
-    counsel: string
-    full_text: string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    recorded_at?: Date | string
-    previous_habit_id?: string | null
-    id?: number
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    sort?: number | null
-    user_created?: string | null
-    user_updated?: string | null
-    habit_snapshot_links?: habit_snapshot_insightsUncheckedCreateNestedManyWithoutInsight_refInput
-  }
-
-  export type habit_insightsCreateOrConnectWithoutTranasctionsInput = {
-    where: habit_insightsWhereUniqueInput
-    create: XOR<habit_insightsCreateWithoutTranasctionsInput, habit_insightsUncheckedCreateWithoutTranasctionsInput>
-  }
-
-  export type habit_insightsCreateManyTranasctionsInputEnvelope = {
-    data: habit_insightsCreateManyTranasctionsInput | habit_insightsCreateManyTranasctionsInput[]
-    skipDuplicates?: boolean
-  }
-
   export type sms_messagesCreateWithoutTranasctionsInput = {
     status?: string
     date_created?: Date | string | null
@@ -78707,6 +78901,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesCreateNestedManyWithoutUsersInput
   }
 
@@ -78724,6 +78919,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsUncheckedCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsUncheckedCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesUncheckedCreateNestedManyWithoutUsersInput
   }
 
@@ -78746,22 +78942,6 @@ export namespace Prisma {
   export type alertsUpdateManyWithWhereWithoutTranasctionsInput = {
     where: alertsScalarWhereInput
     data: XOR<alertsUpdateManyMutationInput, alertsUncheckedUpdateManyWithoutTranasctionsInput>
-  }
-
-  export type habit_insightsUpsertWithWhereUniqueWithoutTranasctionsInput = {
-    where: habit_insightsWhereUniqueInput
-    update: XOR<habit_insightsUpdateWithoutTranasctionsInput, habit_insightsUncheckedUpdateWithoutTranasctionsInput>
-    create: XOR<habit_insightsCreateWithoutTranasctionsInput, habit_insightsUncheckedCreateWithoutTranasctionsInput>
-  }
-
-  export type habit_insightsUpdateWithWhereUniqueWithoutTranasctionsInput = {
-    where: habit_insightsWhereUniqueInput
-    data: XOR<habit_insightsUpdateWithoutTranasctionsInput, habit_insightsUncheckedUpdateWithoutTranasctionsInput>
-  }
-
-  export type habit_insightsUpdateManyWithWhereWithoutTranasctionsInput = {
-    where: habit_insightsScalarWhereInput
-    data: XOR<habit_insightsUpdateManyMutationInput, habit_insightsUncheckedUpdateManyWithoutTranasctionsInput>
   }
 
   export type sms_messagesUpsertWithoutTranasctionsInput = {
@@ -78834,6 +79014,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUpdateManyWithoutUsersNestedInput
   }
 
@@ -78851,6 +79032,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUncheckedUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUncheckedUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUncheckedUpdateManyWithoutUsersNestedInput
   }
 
@@ -78915,17 +79097,21 @@ export namespace Prisma {
 
   export type coach_briefingsCreateWithoutUsersInput = {
     id: string
-    headline: string
-    counsel: string
+    headline?: string | null
+    counsel?: string | null
     evidence?: string | null
-    trigger?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
     delivered?: boolean
     delivered_at?: Date | string | null
     date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     habit_snapshots?: habit_snapshotsCreateNestedOneWithoutCoach_briefingsInput
     directus_users_coach_briefings_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutCoach_briefings_coach_briefings_user_createdTodirectus_usersInput
@@ -78934,18 +79120,22 @@ export namespace Prisma {
 
   export type coach_briefingsUncheckedCreateWithoutUsersInput = {
     id: string
-    headline: string
-    counsel: string
+    headline?: string | null
+    counsel?: string | null
     evidence?: string | null
-    trigger?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
+    snapshot?: number | null
     delivered?: boolean
     delivered_at?: Date | string | null
     date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: number | null
-    status?: string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     user_created?: string | null
     user_updated?: string | null
@@ -78968,37 +79158,25 @@ export namespace Prisma {
     counsel: string
     full_text: string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
     recorded_at?: Date | string
+    updated_at?: Date | string
+    superseded?: boolean
     previous_habit_id?: string | null
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    sort?: number | null
-    tranasctions?: tranasctionsCreateNestedOneWithoutHabit_insightsInput
-    directus_users_habit_insights_user_createdTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersInput
-    directus_users_habit_insights_user_updatedTodirectus_users?: directus_usersCreateNestedOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersInput
     habit_snapshot_links?: habit_snapshot_insightsCreateNestedManyWithoutInsight_refInput
   }
 
   export type habit_insightsUncheckedCreateWithoutUsersInput = {
+    id?: number
     habit_id: string
     habit_label: string
     evidence: string
     counsel: string
     full_text: string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: string | null
     recorded_at?: Date | string
+    updated_at?: Date | string
+    superseded?: boolean
     previous_habit_id?: string | null
-    id?: number
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    sort?: number | null
-    user_created?: string | null
-    user_updated?: string | null
     habit_snapshot_links?: habit_snapshot_insightsUncheckedCreateNestedManyWithoutInsight_refInput
   }
 
@@ -79071,6 +79249,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type habit_processing_cursorsCreateWithoutUsersInput = {
+    last_transaction_at?: Date | string | null
+    last_run_at?: Date | string | null
+    last_trigger?: string | null
+    last_analysis_version?: number | null
+    notes?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type habit_processing_cursorsUncheckedCreateWithoutUsersInput = {
+    last_transaction_at?: Date | string | null
+    last_run_at?: Date | string | null
+    last_trigger?: string | null
+    last_analysis_version?: number | null
+    notes?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type habit_processing_cursorsCreateOrConnectWithoutUsersInput = {
+    where: habit_processing_cursorsWhereUniqueInput
+    create: XOR<habit_processing_cursorsCreateWithoutUsersInput, habit_processing_cursorsUncheckedCreateWithoutUsersInput>
+  }
+
   export type sms_messagesCreateWithoutUsersInput = {
     status?: string
     date_created?: Date | string | null
@@ -79134,7 +79337,6 @@ export namespace Prisma {
     analyzed_version?: number | null
     analysis_notes?: string | null
     alerts?: alertsCreateNestedManyWithoutTranasctionsInput
-    habit_insights?: habit_insightsCreateNestedManyWithoutTranasctionsInput
     sms_messages?: sms_messagesCreateNestedOneWithoutTranasctionsInput
   }
 
@@ -79157,7 +79359,6 @@ export namespace Prisma {
     analyzed_version?: number | null
     analysis_notes?: string | null
     alerts?: alertsUncheckedCreateNestedManyWithoutTranasctionsInput
-    habit_insights?: habit_insightsUncheckedCreateNestedManyWithoutTranasctionsInput
   }
 
   export type tranasctionsCreateOrConnectWithoutUsersInput = {
@@ -79218,6 +79419,24 @@ export namespace Prisma {
     data: XOR<habit_insightsUpdateManyMutationInput, habit_insightsUncheckedUpdateManyWithoutUsersInput>
   }
 
+  export type habit_insightsScalarWhereInput = {
+    AND?: habit_insightsScalarWhereInput | habit_insightsScalarWhereInput[]
+    OR?: habit_insightsScalarWhereInput[]
+    NOT?: habit_insightsScalarWhereInput | habit_insightsScalarWhereInput[]
+    id?: IntFilter<"habit_insights"> | number
+    habit_id?: StringFilter<"habit_insights"> | string
+    owner?: IntFilter<"habit_insights"> | number
+    habit_label?: StringFilter<"habit_insights"> | string
+    evidence?: StringFilter<"habit_insights"> | string
+    counsel?: StringFilter<"habit_insights"> | string
+    full_text?: StringFilter<"habit_insights"> | string
+    metrics?: JsonNullableFilter<"habit_insights">
+    recorded_at?: DateTimeFilter<"habit_insights"> | Date | string
+    updated_at?: DateTimeFilter<"habit_insights"> | Date | string
+    superseded?: BoolFilter<"habit_insights"> | boolean
+    previous_habit_id?: StringNullableFilter<"habit_insights"> | string | null
+  }
+
   export type habit_snapshotsUpsertWithWhereUniqueWithoutUsersInput = {
     where: habit_snapshotsWhereUniqueInput
     update: XOR<habit_snapshotsUpdateWithoutUsersInput, habit_snapshotsUncheckedUpdateWithoutUsersInput>
@@ -79232,6 +79451,37 @@ export namespace Prisma {
   export type habit_snapshotsUpdateManyWithWhereWithoutUsersInput = {
     where: habit_snapshotsScalarWhereInput
     data: XOR<habit_snapshotsUpdateManyMutationInput, habit_snapshotsUncheckedUpdateManyWithoutUsersInput>
+  }
+
+  export type habit_processing_cursorsUpsertWithoutUsersInput = {
+    update: XOR<habit_processing_cursorsUpdateWithoutUsersInput, habit_processing_cursorsUncheckedUpdateWithoutUsersInput>
+    create: XOR<habit_processing_cursorsCreateWithoutUsersInput, habit_processing_cursorsUncheckedCreateWithoutUsersInput>
+    where?: habit_processing_cursorsWhereInput
+  }
+
+  export type habit_processing_cursorsUpdateToOneWithWhereWithoutUsersInput = {
+    where?: habit_processing_cursorsWhereInput
+    data: XOR<habit_processing_cursorsUpdateWithoutUsersInput, habit_processing_cursorsUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type habit_processing_cursorsUpdateWithoutUsersInput = {
+    last_transaction_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_run_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    last_analysis_version?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type habit_processing_cursorsUncheckedUpdateWithoutUsersInput = {
+    last_transaction_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_run_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    last_analysis_version?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type sms_messagesUpsertWithWhereUniqueWithoutUsersInput = {
@@ -79278,6 +79528,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesCreateNestedManyWithoutUsersInput
     tranasctions?: tranasctionsCreateNestedManyWithoutUsersInput
   }
@@ -79295,6 +79546,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUncheckedCreateNestedManyWithoutUsersInput
     habit_insights?: habit_insightsUncheckedCreateNestedManyWithoutUsersInput
     habit_snapshots?: habit_snapshotsUncheckedCreateNestedManyWithoutUsersInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedCreateNestedOneWithoutUsersInput
     sms_messages?: sms_messagesUncheckedCreateNestedManyWithoutUsersInput
     tranasctions?: tranasctionsUncheckedCreateNestedManyWithoutUsersInput
   }
@@ -79321,7 +79573,6 @@ export namespace Prisma {
     analyzed_at?: Date | string | null
     analyzed_version?: number | null
     analysis_notes?: string | null
-    habit_insights?: habit_insightsCreateNestedManyWithoutTranasctionsInput
     sms_messages?: sms_messagesCreateNestedOneWithoutTranasctionsInput
     users?: usersCreateNestedOneWithoutTranasctionsInput
   }
@@ -79345,7 +79596,6 @@ export namespace Prisma {
     analyzed_at?: Date | string | null
     analyzed_version?: number | null
     analysis_notes?: string | null
-    habit_insights?: habit_insightsUncheckedCreateNestedManyWithoutTranasctionsInput
   }
 
   export type tranasctionsCreateOrConnectWithoutAlertsInput = {
@@ -79381,8 +79631,6 @@ export namespace Prisma {
     theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
     text_direction?: string
     alerts_alerts_user_updatedTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -79397,13 +79645,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -79437,8 +79685,6 @@ export namespace Prisma {
     theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
     text_direction?: string
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -79453,12 +79699,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -79496,8 +79742,6 @@ export namespace Prisma {
     theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -79512,13 +79756,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesCreateNestedManyWithoutDirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     directus_roles?: directus_rolesCreateNestedOneWithoutDirectus_usersInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -79552,8 +79796,6 @@ export namespace Prisma {
     theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
     text_direction?: string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedCreateNestedManyWithoutDirectus_users_alerts_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     directus_access?: directus_accessUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedCreateNestedManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersInput
@@ -79568,12 +79810,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_sessions?: directus_sessionsUncheckedCreateNestedManyWithoutDirectus_usersInput
     directus_shares?: directus_sharesUncheckedCreateNestedManyWithoutDirectus_usersInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedCreateNestedManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedCreateNestedManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedCreateNestedManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedCreateNestedManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedCreateNestedManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersInput
   }
@@ -79606,6 +79848,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUpdateManyWithoutUsersNestedInput
     tranasctions?: tranasctionsUpdateManyWithoutUsersNestedInput
   }
@@ -79623,6 +79866,7 @@ export namespace Prisma {
     coach_briefings?: coach_briefingsUncheckedUpdateManyWithoutUsersNestedInput
     habit_insights?: habit_insightsUncheckedUpdateManyWithoutUsersNestedInput
     habit_snapshots?: habit_snapshotsUncheckedUpdateManyWithoutUsersNestedInput
+    habit_processing_cursors?: habit_processing_cursorsUncheckedUpdateOneWithoutUsersNestedInput
     sms_messages?: sms_messagesUncheckedUpdateManyWithoutUsersNestedInput
     tranasctions?: tranasctionsUncheckedUpdateManyWithoutUsersNestedInput
   }
@@ -79655,7 +79899,6 @@ export namespace Prisma {
     analyzed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     analyzed_version?: NullableIntFieldUpdateOperationsInput | number | null
     analysis_notes?: NullableStringFieldUpdateOperationsInput | string | null
-    habit_insights?: habit_insightsUpdateManyWithoutTranasctionsNestedInput
     sms_messages?: sms_messagesUpdateOneWithoutTranasctionsNestedInput
     users?: usersUpdateOneWithoutTranasctionsNestedInput
   }
@@ -79679,7 +79922,6 @@ export namespace Prisma {
     analyzed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     analyzed_version?: NullableIntFieldUpdateOperationsInput | number | null
     analysis_notes?: NullableStringFieldUpdateOperationsInput | string | null
-    habit_insights?: habit_insightsUncheckedUpdateManyWithoutTranasctionsNestedInput
   }
 
   export type directus_usersUpsertWithoutAlerts_alerts_user_createdTodirectus_usersInput = {
@@ -79721,8 +79963,6 @@ export namespace Prisma {
     theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -79737,13 +79977,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -79777,8 +80017,6 @@ export namespace Prisma {
     theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -79793,12 +80031,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -79842,8 +80080,6 @@ export namespace Prisma {
     theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -79858,13 +80094,13 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
+    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     directus_roles?: directus_rolesUpdateOneWithoutDirectus_usersNestedInput
     directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
     directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
-    habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -79898,8 +80134,6 @@ export namespace Prisma {
     theme_dark_overrides?: NullableJsonNullValueInput | InputJsonValue
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -79914,12 +80148,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -81873,8 +82107,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -81889,12 +82121,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -81928,8 +82160,6 @@ export namespace Prisma {
     text_direction?: StringFieldUpdateOperationsInput | string
     alerts_alerts_user_createdTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_createdTodirectus_usersNestedInput
     alerts_alerts_user_updatedTodirectus_users?: alertsUncheckedUpdateManyWithoutDirectus_users_alerts_user_updatedTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
-    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     directus_access?: directus_accessUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_comments_directus_comments_user_createdTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_createdTodirectus_usersNestedInput
     directus_comments_directus_comments_user_updatedTodirectus_users?: directus_commentsUncheckedUpdateManyWithoutDirectus_users_directus_comments_user_updatedTodirectus_usersNestedInput
@@ -81944,12 +82174,12 @@ export namespace Prisma {
     directus_presets?: directus_presetsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_sessions?: directus_sessionsUncheckedUpdateManyWithoutDirectus_usersNestedInput
     directus_shares?: directus_sharesUncheckedUpdateManyWithoutDirectus_usersNestedInput
-    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
-    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_createdTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_insights_habit_insights_user_updatedTodirectus_users?: habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_createdTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersNestedInput
+    coach_briefings_coach_briefings_user_updatedTodirectus_users?: coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_createdTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_createdTodirectus_usersNestedInput
     habit_snapshots_habit_snapshots_user_updatedTodirectus_users?: habit_snapshotsUncheckedUpdateManyWithoutDirectus_users_habit_snapshots_user_updatedTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_createdTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersNestedInput
+    directus_versions_directus_versions_user_updatedTodirectus_users?: directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersNestedInput
     sms_messages_sms_messages_user_createdTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_createdTodirectus_usersNestedInput
     sms_messages_sms_messages_user_updatedTodirectus_users?: sms_messagesUncheckedUpdateManyWithoutDirectus_users_sms_messages_user_updatedTodirectus_usersNestedInput
   }
@@ -82071,44 +82301,6 @@ export namespace Prisma {
     category?: string | null
     merchant?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
-  }
-
-  export type coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    id: string
-    owner: number
-    headline: string
-    counsel: string
-    evidence?: string | null
-    trigger?: string | null
-    delivered?: boolean
-    delivered_at?: Date | string | null
-    date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: number | null
-    status?: string
-    date_updated?: Date | string | null
-    sort?: number | null
-    user_updated?: string | null
-  }
-
-  export type coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    id: string
-    owner: number
-    headline: string
-    counsel: string
-    evidence?: string | null
-    trigger?: string | null
-    delivered?: boolean
-    delivered_at?: Date | string | null
-    date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: number | null
-    status?: string
-    date_updated?: Date | string | null
-    sort?: number | null
-    user_created?: string | null
   }
 
   export type directus_accessCreateManyDirectus_usersInput = {
@@ -82309,68 +82501,48 @@ export namespace Prisma {
     max_uses?: number | null
   }
 
-  export type directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
+  export type coach_briefingsCreateManyDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
     id: string
-    key: string
-    name?: string | null
-    collection: string
-    item: string
-    hash?: string | null
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    user_updated?: string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-  }
-
-  export type directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
-    id: string
-    key: string
-    name?: string | null
-    collection: string
-    item: string
-    hash?: string | null
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    user_created?: string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-  }
-
-  export type habit_insightsCreateManyDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    habit_id: string
     owner: number
-    habit_label: string
-    evidence: string
-    counsel: string
-    full_text: string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: string | null
-    recorded_at?: Date | string
-    previous_habit_id?: string | null
-    id?: number
-    status?: string
-    date_created?: Date | string | null
+    headline?: string | null
+    counsel?: string | null
+    evidence?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
+    snapshot?: number | null
+    delivered?: boolean
+    delivered_at?: Date | string | null
+    date_created?: Date | string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     user_updated?: string | null
   }
 
-  export type habit_insightsCreateManyDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    habit_id: string
+  export type coach_briefingsCreateManyDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    id: string
     owner: number
-    habit_label: string
-    evidence: string
-    counsel: string
-    full_text: string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: string | null
-    recorded_at?: Date | string
-    previous_habit_id?: string | null
-    id?: number
-    status?: string
-    date_created?: Date | string | null
+    headline?: string | null
+    counsel?: string | null
+    evidence?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
+    snapshot?: number | null
+    delivered?: boolean
+    delivered_at?: Date | string | null
+    date_created?: Date | string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     user_created?: string | null
   }
@@ -82419,6 +82591,32 @@ export namespace Prisma {
     spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     top_categories?: NullableJsonNullValueInput | InputJsonValue
     transaction_id?: string | null
+  }
+
+  export type directus_versionsCreateManyDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
+    id: string
+    key: string
+    name?: string | null
+    collection: string
+    item: string
+    hash?: string | null
+    date_created?: Date | string | null
+    date_updated?: Date | string | null
+    user_updated?: string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type directus_versionsCreateManyDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
+    id: string
+    key: string
+    name?: string | null
+    collection: string
+    item: string
+    hash?: string | null
+    date_created?: Date | string | null
+    date_updated?: Date | string | null
+    user_created?: string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type sms_messagesCreateManyDirectus_users_sms_messages_user_createdTodirectus_usersInput = {
@@ -82601,120 +82799,6 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     merchant?: NullableStringFieldUpdateOperationsInput | string | null
     details?: NullableJsonNullValueInput | InputJsonValue
-  }
-
-  export type coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
-    delivered?: BoolFieldUpdateOperationsInput | boolean
-    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    users?: usersUpdateOneRequiredWithoutCoach_briefingsNestedInput
-    habit_snapshots?: habit_snapshotsUpdateOneWithoutCoach_briefingsNestedInput
-    directus_users_coach_briefings_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutCoach_briefings_coach_briefings_user_updatedTodirectus_usersNestedInput
-  }
-
-  export type coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    owner?: IntFieldUpdateOperationsInput | number
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
-    delivered?: BoolFieldUpdateOperationsInput | boolean
-    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
-    status?: StringFieldUpdateOperationsInput | string
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    owner?: IntFieldUpdateOperationsInput | number
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
-    delivered?: BoolFieldUpdateOperationsInput | boolean
-    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
-    status?: StringFieldUpdateOperationsInput | string
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
-    delivered?: BoolFieldUpdateOperationsInput | boolean
-    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    users?: usersUpdateOneRequiredWithoutCoach_briefingsNestedInput
-    habit_snapshots?: habit_snapshotsUpdateOneWithoutCoach_briefingsNestedInput
-    directus_users_coach_briefings_user_createdTodirectus_users?: directus_usersUpdateOneWithoutCoach_briefings_coach_briefings_user_createdTodirectus_usersNestedInput
-  }
-
-  export type coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    owner?: IntFieldUpdateOperationsInput | number
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
-    delivered?: BoolFieldUpdateOperationsInput | boolean
-    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
-    status?: StringFieldUpdateOperationsInput | string
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    owner?: IntFieldUpdateOperationsInput | number
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
-    delivered?: BoolFieldUpdateOperationsInput | boolean
-    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
-    status?: StringFieldUpdateOperationsInput | string
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type directus_accessUpdateWithoutDirectus_usersInput = {
@@ -83336,206 +83420,140 @@ export namespace Prisma {
     max_uses?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
-  export type directus_versionsUpdateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
+  export type coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    item?: StringFieldUpdateOperationsInput | string
-    hash?: NullableStringFieldUpdateOperationsInput | string | null
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-    directus_revisions?: directus_revisionsUpdateManyWithoutDirectus_versionsNestedInput
-    directus_collections?: directus_collectionsUpdateOneRequiredWithoutDirectus_versionsNestedInput
-    directus_users_directus_versions_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutDirectus_versions_directus_versions_user_updatedTodirectus_usersNestedInput
-  }
-
-  export type directus_versionsUncheckedUpdateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    collection?: StringFieldUpdateOperationsInput | string
-    item?: StringFieldUpdateOperationsInput | string
-    hash?: NullableStringFieldUpdateOperationsInput | string | null
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-    directus_revisions?: directus_revisionsUncheckedUpdateManyWithoutDirectus_versionsNestedInput
-  }
-
-  export type directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    collection?: StringFieldUpdateOperationsInput | string
-    item?: StringFieldUpdateOperationsInput | string
-    hash?: NullableStringFieldUpdateOperationsInput | string | null
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-  }
-
-  export type directus_versionsUpdateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    item?: StringFieldUpdateOperationsInput | string
-    hash?: NullableStringFieldUpdateOperationsInput | string | null
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-    directus_revisions?: directus_revisionsUpdateManyWithoutDirectus_versionsNestedInput
-    directus_collections?: directus_collectionsUpdateOneRequiredWithoutDirectus_versionsNestedInput
-    directus_users_directus_versions_user_createdTodirectus_users?: directus_usersUpdateOneWithoutDirectus_versions_directus_versions_user_createdTodirectus_usersNestedInput
-  }
-
-  export type directus_versionsUncheckedUpdateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    collection?: StringFieldUpdateOperationsInput | string
-    item?: StringFieldUpdateOperationsInput | string
-    hash?: NullableStringFieldUpdateOperationsInput | string | null
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-    directus_revisions?: directus_revisionsUncheckedUpdateManyWithoutDirectus_versionsNestedInput
-  }
-
-  export type directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    collection?: StringFieldUpdateOperationsInput | string
-    item?: StringFieldUpdateOperationsInput | string
-    hash?: NullableStringFieldUpdateOperationsInput | string | null
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
-    delta?: NullableJsonNullValueInput | InputJsonValue
-  }
-
-  export type habit_insightsUpdateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    habit_id?: StringFieldUpdateOperationsInput | string
-    habit_label?: StringFieldUpdateOperationsInput | string
-    evidence?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    full_text?: StringFieldUpdateOperationsInput | string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
-    users?: usersUpdateOneRequiredWithoutHabit_insightsNestedInput
-    tranasctions?: tranasctionsUpdateOneWithoutHabit_insightsNestedInput
-    directus_users_habit_insights_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshot_links?: habit_snapshot_insightsUpdateManyWithoutInsight_refNestedInput
+    users?: usersUpdateOneRequiredWithoutCoach_briefingsNestedInput
+    habit_snapshots?: habit_snapshotsUpdateOneWithoutCoach_briefingsNestedInput
+    directus_users_coach_briefings_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutCoach_briefings_coach_briefings_user_updatedTodirectus_usersNestedInput
   }
 
-  export type habit_insightsUncheckedUpdateWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    habit_id?: StringFieldUpdateOperationsInput | string
+  export type coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
     owner?: IntFieldUpdateOperationsInput | number
-    habit_label?: StringFieldUpdateOperationsInput | string
-    evidence?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    full_text?: StringFieldUpdateOperationsInput | string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
+    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
-    habit_snapshot_links?: habit_snapshot_insightsUncheckedUpdateManyWithoutInsight_refNestedInput
-  }
-
-  export type habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_createdTodirectus_usersInput = {
-    habit_id?: StringFieldUpdateOperationsInput | string
-    owner?: IntFieldUpdateOperationsInput | number
-    habit_label?: StringFieldUpdateOperationsInput | string
-    evidence?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    full_text?: StringFieldUpdateOperationsInput | string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type habit_insightsUpdateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    habit_id?: StringFieldUpdateOperationsInput | string
-    habit_label?: StringFieldUpdateOperationsInput | string
-    evidence?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    full_text?: StringFieldUpdateOperationsInput | string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_createdTodirectus_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    owner?: IntFieldUpdateOperationsInput | number
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
+    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
-    users?: usersUpdateOneRequiredWithoutHabit_insightsNestedInput
-    tranasctions?: tranasctionsUpdateOneWithoutHabit_insightsNestedInput
-    directus_users_habit_insights_user_createdTodirectus_users?: directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersNestedInput
-    habit_snapshot_links?: habit_snapshot_insightsUpdateManyWithoutInsight_refNestedInput
+    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type habit_insightsUncheckedUpdateWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    habit_id?: StringFieldUpdateOperationsInput | string
-    owner?: IntFieldUpdateOperationsInput | number
-    habit_label?: StringFieldUpdateOperationsInput | string
-    evidence?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    full_text?: StringFieldUpdateOperationsInput | string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type coach_briefingsUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    users?: usersUpdateOneRequiredWithoutCoach_briefingsNestedInput
+    habit_snapshots?: habit_snapshotsUpdateOneWithoutCoach_briefingsNestedInput
+    directus_users_coach_briefings_user_createdTodirectus_users?: directus_usersUpdateOneWithoutCoach_briefings_coach_briefings_user_createdTodirectus_usersNestedInput
+  }
+
+  export type coach_briefingsUncheckedUpdateWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    owner?: IntFieldUpdateOperationsInput | number
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
+    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
+    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
-    habit_snapshot_links?: habit_snapshot_insightsUncheckedUpdateManyWithoutInsight_refNestedInput
   }
 
-  export type habit_insightsUncheckedUpdateManyWithoutDirectus_users_habit_insights_user_updatedTodirectus_usersInput = {
-    habit_id?: StringFieldUpdateOperationsInput | string
+  export type coach_briefingsUncheckedUpdateManyWithoutDirectus_users_coach_briefings_user_updatedTodirectus_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
     owner?: IntFieldUpdateOperationsInput | number
-    habit_label?: StringFieldUpdateOperationsInput | string
-    evidence?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    full_text?: StringFieldUpdateOperationsInput | string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
-    recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
+    evidence?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
+    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_created?: DateTimeFieldUpdateOperationsInput | Date | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -83682,6 +83700,88 @@ export namespace Prisma {
     spending_by_medium?: NullableJsonNullValueInput | InputJsonValue
     top_categories?: NullableJsonNullValueInput | InputJsonValue
     transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type directus_versionsUpdateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    item?: StringFieldUpdateOperationsInput | string
+    hash?: NullableStringFieldUpdateOperationsInput | string | null
+    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
+    directus_revisions?: directus_revisionsUpdateManyWithoutDirectus_versionsNestedInput
+    directus_collections?: directus_collectionsUpdateOneRequiredWithoutDirectus_versionsNestedInput
+    directus_users_directus_versions_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutDirectus_versions_directus_versions_user_updatedTodirectus_usersNestedInput
+  }
+
+  export type directus_versionsUncheckedUpdateWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    collection?: StringFieldUpdateOperationsInput | string
+    item?: StringFieldUpdateOperationsInput | string
+    hash?: NullableStringFieldUpdateOperationsInput | string | null
+    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
+    directus_revisions?: directus_revisionsUncheckedUpdateManyWithoutDirectus_versionsNestedInput
+  }
+
+  export type directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_createdTodirectus_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    collection?: StringFieldUpdateOperationsInput | string
+    item?: StringFieldUpdateOperationsInput | string
+    hash?: NullableStringFieldUpdateOperationsInput | string | null
+    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type directus_versionsUpdateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    item?: StringFieldUpdateOperationsInput | string
+    hash?: NullableStringFieldUpdateOperationsInput | string | null
+    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
+    directus_revisions?: directus_revisionsUpdateManyWithoutDirectus_versionsNestedInput
+    directus_collections?: directus_collectionsUpdateOneRequiredWithoutDirectus_versionsNestedInput
+    directus_users_directus_versions_user_createdTodirectus_users?: directus_usersUpdateOneWithoutDirectus_versions_directus_versions_user_createdTodirectus_usersNestedInput
+  }
+
+  export type directus_versionsUncheckedUpdateWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    collection?: StringFieldUpdateOperationsInput | string
+    item?: StringFieldUpdateOperationsInput | string
+    hash?: NullableStringFieldUpdateOperationsInput | string | null
+    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_created?: NullableStringFieldUpdateOperationsInput | string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
+    directus_revisions?: directus_revisionsUncheckedUpdateManyWithoutDirectus_versionsNestedInput
+  }
+
+  export type directus_versionsUncheckedUpdateManyWithoutDirectus_users_directus_versions_user_updatedTodirectus_usersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    collection?: StringFieldUpdateOperationsInput | string
+    item?: StringFieldUpdateOperationsInput | string
+    hash?: NullableStringFieldUpdateOperationsInput | string | null
+    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_created?: NullableStringFieldUpdateOperationsInput | string | null
+    delta?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type sms_messagesUpdateWithoutDirectus_users_sms_messages_user_createdTodirectus_usersInput = {
@@ -83859,17 +83959,21 @@ export namespace Prisma {
   export type coach_briefingsCreateManyHabit_snapshotsInput = {
     id: string
     owner: number
-    headline: string
-    counsel: string
+    headline?: string | null
+    counsel?: string | null
     evidence?: string | null
-    trigger?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
     delivered?: boolean
     delivered_at?: Date | string | null
     date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     user_created?: string | null
     user_updated?: string | null
@@ -83884,17 +83988,21 @@ export namespace Prisma {
 
   export type coach_briefingsUpdateWithoutHabit_snapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
     evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
     delivered?: BoolFieldUpdateOperationsInput | boolean
     delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     users?: usersUpdateOneRequiredWithoutCoach_briefingsNestedInput
     directus_users_coach_briefings_user_createdTodirectus_users?: directus_usersUpdateOneWithoutCoach_briefings_coach_briefings_user_createdTodirectus_usersNestedInput
@@ -83904,17 +84012,21 @@ export namespace Prisma {
   export type coach_briefingsUncheckedUpdateWithoutHabit_snapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
     owner?: IntFieldUpdateOperationsInput | number
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
     evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
     delivered?: BoolFieldUpdateOperationsInput | boolean
     delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83923,17 +84035,21 @@ export namespace Prisma {
   export type coach_briefingsUncheckedUpdateManyWithoutHabit_snapshotsInput = {
     id?: StringFieldUpdateOperationsInput | string
     owner?: IntFieldUpdateOperationsInput | number
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
     evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
     delivered?: BoolFieldUpdateOperationsInput | boolean
     delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83997,7 +84113,6 @@ export namespace Prisma {
     analyzed_version?: NullableIntFieldUpdateOperationsInput | number | null
     analysis_notes?: NullableStringFieldUpdateOperationsInput | string | null
     alerts?: alertsUpdateManyWithoutTranasctionsNestedInput
-    habit_insights?: habit_insightsUpdateManyWithoutTranasctionsNestedInput
     users?: usersUpdateOneWithoutTranasctionsNestedInput
   }
 
@@ -84020,7 +84135,6 @@ export namespace Prisma {
     analyzed_version?: NullableIntFieldUpdateOperationsInput | number | null
     analysis_notes?: NullableStringFieldUpdateOperationsInput | string | null
     alerts?: alertsUncheckedUpdateManyWithoutTranasctionsNestedInput
-    habit_insights?: habit_insightsUncheckedUpdateManyWithoutTranasctionsNestedInput
   }
 
   export type tranasctionsUncheckedUpdateManyWithoutSms_messagesInput = {
@@ -84066,26 +84180,6 @@ export namespace Prisma {
     category?: string | null
     merchant?: string | null
     details?: NullableJsonNullValueInput | InputJsonValue
-  }
-
-  export type habit_insightsCreateManyTranasctionsInput = {
-    habit_id: string
-    owner: number
-    habit_label: string
-    evidence: string
-    counsel: string
-    full_text: string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    recorded_at?: Date | string
-    previous_habit_id?: string | null
-    id?: number
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    sort?: number | null
-    user_created?: string | null
-    user_updated?: string | null
   }
 
   export type alertsUpdateWithoutTranasctionsInput = {
@@ -84162,67 +84256,6 @@ export namespace Prisma {
     details?: NullableJsonNullValueInput | InputJsonValue
   }
 
-  export type habit_insightsUpdateWithoutTranasctionsInput = {
-    habit_id?: StringFieldUpdateOperationsInput | string
-    habit_label?: StringFieldUpdateOperationsInput | string
-    evidence?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    full_text?: StringFieldUpdateOperationsInput | string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    users?: usersUpdateOneRequiredWithoutHabit_insightsNestedInput
-    directus_users_habit_insights_user_createdTodirectus_users?: directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersNestedInput
-    directus_users_habit_insights_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersNestedInput
-    habit_snapshot_links?: habit_snapshot_insightsUpdateManyWithoutInsight_refNestedInput
-  }
-
-  export type habit_insightsUncheckedUpdateWithoutTranasctionsInput = {
-    habit_id?: StringFieldUpdateOperationsInput | string
-    owner?: IntFieldUpdateOperationsInput | number
-    habit_label?: StringFieldUpdateOperationsInput | string
-    evidence?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    full_text?: StringFieldUpdateOperationsInput | string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
-    habit_snapshot_links?: habit_snapshot_insightsUncheckedUpdateManyWithoutInsight_refNestedInput
-  }
-
-  export type habit_insightsUncheckedUpdateManyWithoutTranasctionsInput = {
-    habit_id?: StringFieldUpdateOperationsInput | string
-    owner?: IntFieldUpdateOperationsInput | number
-    habit_label?: StringFieldUpdateOperationsInput | string
-    evidence?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
-    full_text?: StringFieldUpdateOperationsInput | string
-    metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type alertsCreateManyUsersInput = {
     id?: number
     status?: string
@@ -84250,41 +84283,39 @@ export namespace Prisma {
 
   export type coach_briefingsCreateManyUsersInput = {
     id: string
-    headline: string
-    counsel: string
+    headline?: string | null
+    counsel?: string | null
     evidence?: string | null
-    trigger?: string | null
+    user_question?: string | null
+    agent_answer?: string | null
+    question_hash?: string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash: string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: number
+    snapshot?: number | null
     delivered?: boolean
     delivered_at?: Date | string | null
     date_created?: Date | string
-    insight_hash: string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: number | null
-    status?: string
     date_updated?: Date | string | null
+    status?: string
     sort?: number | null
     user_created?: string | null
     user_updated?: string | null
   }
 
   export type habit_insightsCreateManyUsersInput = {
+    id?: number
     habit_id: string
     habit_label: string
     evidence: string
     counsel: string
     full_text: string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: string | null
     recorded_at?: Date | string
+    updated_at?: Date | string
+    superseded?: boolean
     previous_habit_id?: string | null
-    id?: number
-    status?: string
-    date_created?: Date | string | null
-    date_updated?: Date | string | null
-    sort?: number | null
-    user_created?: string | null
-    user_updated?: string | null
   }
 
   export type habit_snapshotsCreateManyUsersInput = {
@@ -84423,17 +84454,21 @@ export namespace Prisma {
 
   export type coach_briefingsUpdateWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
     evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
     delivered?: BoolFieldUpdateOperationsInput | boolean
     delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    status?: StringFieldUpdateOperationsInput | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     habit_snapshots?: habit_snapshotsUpdateOneWithoutCoach_briefingsNestedInput
     directus_users_coach_briefings_user_createdTodirectus_users?: directus_usersUpdateOneWithoutCoach_briefings_coach_briefings_user_createdTodirectus_usersNestedInput
@@ -84442,18 +84477,22 @@ export namespace Prisma {
 
   export type coach_briefingsUncheckedUpdateWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
     evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
+    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
     delivered?: BoolFieldUpdateOperationsInput | boolean
     delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
-    status?: StringFieldUpdateOperationsInput | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84461,18 +84500,22 @@ export namespace Prisma {
 
   export type coach_briefingsUncheckedUpdateManyWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    headline?: StringFieldUpdateOperationsInput | string
-    counsel?: StringFieldUpdateOperationsInput | string
+    headline?: NullableStringFieldUpdateOperationsInput | string | null
+    counsel?: NullableStringFieldUpdateOperationsInput | string | null
     evidence?: NullableStringFieldUpdateOperationsInput | string | null
-    trigger?: NullableStringFieldUpdateOperationsInput | string | null
+    user_question?: NullableStringFieldUpdateOperationsInput | string | null
+    agent_answer?: NullableStringFieldUpdateOperationsInput | string | null
+    question_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    question_embedding?: NullableJsonNullValueInput | InputJsonValue
+    insight_hash?: StringFieldUpdateOperationsInput | string
+    insights_used?: NullableJsonNullValueInput | InputJsonValue
+    answer_version?: IntFieldUpdateOperationsInput | number
+    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
     delivered?: BoolFieldUpdateOperationsInput | boolean
     delivered_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     date_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    insight_hash?: StringFieldUpdateOperationsInput | string
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    snapshot?: NullableIntFieldUpdateOperationsInput | number | null
-    status?: StringFieldUpdateOperationsInput | string
     date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     user_created?: NullableStringFieldUpdateOperationsInput | string | null
     user_updated?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84485,58 +84528,40 @@ export namespace Prisma {
     counsel?: StringFieldUpdateOperationsInput | string
     full_text?: StringFieldUpdateOperationsInput | string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
     recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    superseded?: BoolFieldUpdateOperationsInput | boolean
     previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    tranasctions?: tranasctionsUpdateOneWithoutHabit_insightsNestedInput
-    directus_users_habit_insights_user_createdTodirectus_users?: directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_createdTodirectus_usersNestedInput
-    directus_users_habit_insights_user_updatedTodirectus_users?: directus_usersUpdateOneWithoutHabit_insights_habit_insights_user_updatedTodirectus_usersNestedInput
     habit_snapshot_links?: habit_snapshot_insightsUpdateManyWithoutInsight_refNestedInput
   }
 
   export type habit_insightsUncheckedUpdateWithoutUsersInput = {
+    id?: IntFieldUpdateOperationsInput | number
     habit_id?: StringFieldUpdateOperationsInput | string
     habit_label?: StringFieldUpdateOperationsInput | string
     evidence?: StringFieldUpdateOperationsInput | string
     counsel?: StringFieldUpdateOperationsInput | string
     full_text?: StringFieldUpdateOperationsInput | string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    superseded?: BoolFieldUpdateOperationsInput | boolean
     previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
     habit_snapshot_links?: habit_snapshot_insightsUncheckedUpdateManyWithoutInsight_refNestedInput
   }
 
   export type habit_insightsUncheckedUpdateManyWithoutUsersInput = {
+    id?: IntFieldUpdateOperationsInput | number
     habit_id?: StringFieldUpdateOperationsInput | string
     habit_label?: StringFieldUpdateOperationsInput | string
     evidence?: StringFieldUpdateOperationsInput | string
     counsel?: StringFieldUpdateOperationsInput | string
     full_text?: StringFieldUpdateOperationsInput | string
     metrics?: NullableJsonNullValueInput | InputJsonValue
-    recent_transactions?: NullableJsonNullValueInput | InputJsonValue
-    transaction_id?: NullableStringFieldUpdateOperationsInput | string | null
     recorded_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    superseded?: BoolFieldUpdateOperationsInput | boolean
     previous_habit_id?: NullableStringFieldUpdateOperationsInput | string | null
-    id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    date_created?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sort?: NullableIntFieldUpdateOperationsInput | number | null
-    user_created?: NullableStringFieldUpdateOperationsInput | string | null
-    user_updated?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type habit_snapshotsUpdateWithoutUsersInput = {
@@ -84681,7 +84706,6 @@ export namespace Prisma {
     analyzed_version?: NullableIntFieldUpdateOperationsInput | number | null
     analysis_notes?: NullableStringFieldUpdateOperationsInput | string | null
     alerts?: alertsUpdateManyWithoutTranasctionsNestedInput
-    habit_insights?: habit_insightsUpdateManyWithoutTranasctionsNestedInput
     sms_messages?: sms_messagesUpdateOneWithoutTranasctionsNestedInput
   }
 
@@ -84704,7 +84728,6 @@ export namespace Prisma {
     analyzed_version?: NullableIntFieldUpdateOperationsInput | number | null
     analysis_notes?: NullableStringFieldUpdateOperationsInput | string | null
     alerts?: alertsUncheckedUpdateManyWithoutTranasctionsNestedInput
-    habit_insights?: habit_insightsUncheckedUpdateManyWithoutTranasctionsNestedInput
   }
 
   export type tranasctionsUncheckedUpdateManyWithoutUsersInput = {

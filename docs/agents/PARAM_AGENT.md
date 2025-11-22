@@ -25,13 +25,16 @@ Param is like a **financial detective** - examines every transaction, identifies
 
 ## What's New in the Unified Runtime (Nov 2025)
 
-- **Versioned analysis runs** – `runAnalyst` (`src/runtime/param/analyst-agent.ts`) now tracks an `ANALYSIS_VERSION` per transaction and skips work when the stored `analyzed_version` already matches, so nightly jobs stay fast while still allowing forced replays.
+- **Versioned analysis runs** – `runAnalyst` still tracks an `ANALYSIS_VERSION` per transaction and skips work when the stored `analyzed_version` already matches, so nightly jobs stay fast while still allowing forced replays.
   - Transactions are marked with `analyzed_at` timestamp and `analyzed_version` integer via PATCH `/api/transactions/:id`
   - Dry-run mode (`dryRun: true`) reports impact without writing changes
   - Force re-analysis with `reanalyzeAll: true` to bypass version checks
 - **Direct API persistence** – Insights are written through `syncHabitToApi` and transactions are patched via `/api/transactions/:id`, meaning the docs + dashboards always reflect the latest evidence without manual exports.
   - Uses `HabitInsight` typed interface: `{ habitLabel, evidence, counsel, fullText }`
   - Multi-user support via optional `ownerId` parameter
+- **Incremental insight reuse (NEW)** – Param no longer wipes the slate every run. Matching habits (case-insensitive labels) are updated in place, unmatched ones are marked `superseded`, and only truly new bullets get new IDs.
+- **Database-backed snapshots (NEW)** – Every run upserts a structured record into `habit_snapshots` with `context_data`, `summary_data`, and a deterministic `snapshot_id` hash so Chatur can reload the full context without touching JSON files.
+- **Daily freshness + rate limiting (NEW)** – Param records `last_run_at` inside `habit_processing_cursors` and uses `PARAM_MAX_RUNS_PER_DAY` / `PARAM_RATE_LIMIT_HOURS` to skip redundant runs, while Chatur can still force a replay when the cursor is >24h old or when manual triggers fire.
 - **Automatic coach handoff** – After every successful analysis, the agent calls `runCoach` with the latest/previous insights (passed from `loadExistingInsights`), keeping Chatur's playbook in sync without separate schedulers.
   - Trigger reason recorded as `"analyst"` in coach session metadata
   - Continues even if coach handoff fails (non-blocking error handling)
@@ -124,17 +127,35 @@ parseHabitInsight(line)
   → Throws if no valid structure detected
 ```
 
-**Step 6: Persist Insights to API**
+**Step 6: Persist Insights Incrementally**
 
 ```
-persistHabitsToApi(insights)
-  → For each HabitInsight:
-    - Call syncHabitToApi({ habitLabel, evidence, counsel, fullText, owner })
-    - Inserts/updates record in habit_insights table
-    - Non-blocking: continues if one fails
+persistInsightsToDatabase(insights, previousInsights)
+  → Build case-insensitive map of current active habits
+  → If label matches: UPDATE in place (keep habit_id, mark superseded=false)
+  → If no match: CREATE new habit_id (UUID) with recorded_at/updated_at timestamps
+  → Remaining unmatched previous entries are marked superseded=true
 ```
 
-**Step 7: Mark Transactions Analyzed**
+Key outcomes:
+
+- Eliminates churn by reusing `habit_id` for long-lived habits
+- Only emits `superseded` entries for habits that truly disappeared
+- Returns `{ created, updated, superseded }` so downstream systems know what changed
+
+**Step 7: Persist Habit Snapshot**
+
+```
+persistHabitSnapshot({ ownerId, stats, insights, transactions, trigger })
+  → Build summary payload (totals, categories, savings rate)
+  → Capture context: last 25 tx, latest + previous insights
+  → Hash canonical payload → deterministic snapshot_id & snapshot_hash
+  → UPSERT into habit_snapshots with context_data + summary_data JSON blobs
+```
+
+Snapshots now live entirely in PostgreSQL (no `/data/generated` JSON files) and are keyed by a repeatable hash, so Chatur can reload the exact metrics set that produced a briefing.
+
+**Step 8: Mark Transactions Analyzed**
 
 ```
 markTransactionsAsAnalyzed(transactionsToAnalyze, ANALYSIS_VERSION)
@@ -144,7 +165,7 @@ markTransactionsAsAnalyzed(transactionsToAnalyze, ANALYSIS_VERSION)
     - Non-blocking: continues if one fails
 ```
 
-**Step 8: Hand Off to Coach (if successful)**
+**Step 9: Hand Off to Coach (if successful)**
 
 ```
 runCoach({ latestInsights, previousInsights, trigger: "analyst" })
@@ -1117,6 +1138,241 @@ DEV_USER_ID=2
 
 ---
 
+## Param Trigger Remapping (Updated Nov 2025)
+
+### New Trigger Model
+
+**Old**: Param runs automatically after every transaction  
+**New**: Param triggered **only by Chatur**, **once per day maximum**
+
+```typescript
+// Old (auto-run): Would analyze on every transaction
+runAnalyst({ reanalyzeAll: false });
+
+// New (Chatur-triggered, once daily):
+const lastRun = await getLastAnalysisRun(userId); // Check last 24h
+if (!lastRun || isOlderThanOneDay(lastRun)) {
+  const result = await runAnalyst({
+    ownerId: userId,
+    reanalyzeAll: false, // Only new transactions
+  });
+  await recordAnalysisRun(userId, result);
+}
+```
+
+**Benefits**:
+
+- ✅ 90% fewer LLM calls (1 per day vs many per day)
+- ✅ Less API/database load
+- ✅ More meaningful analysis (weekly/daily patterns vs immediate)
+- ✅ Better cache hit rate
+
+### Smart Incremental Analysis
+
+**Old**: Re-analyze all transactions every time  
+**New**: Only analyze new transactions, reuse old insights
+
+```typescript
+// Load only NEW transactions (not seen in previous analysis_version)
+const newTransactions = await prisma.tranasctions.findMany({
+  where: {
+    owner: userId,
+    analyzed_version: { not: ANALYSIS_VERSION },
+  },
+});
+
+// Reuse old analyses for existing patterns
+const existingInsights = await loadExistingInsights(userId);
+// Merge new findings with old insights instead of replacing
+const mergedInsights = mergeWithExisting(newInsights, existingInsights);
+```
+
+**Benefits**:
+
+- ✅ Only new transactions processed (50-80% faster)
+- ✅ Existing insights retained and enhanced, not discarded
+- ✅ Continuous context (old + new = complete picture)
+
+### Update Instead of Create
+
+**Old**: Create new insight for every category each run  
+**New**: Update existing insight if same category detected
+
+```typescript
+// Find if insight already exists for this category
+const existing = await prisma.habit_insights.findFirst({
+  where: {
+    owner: userId,
+    habit_label: "Overspending on Food", // Same pattern
+  },
+  orderBy: { recorded_at: "desc" },
+});
+
+if (existing) {
+  // Update with new evidence, maintain history
+  await prisma.habit_insights.update({
+    where: { id: existing.id },
+    data: {
+      evidence: newEvidence, // New data
+      counsel: updatedCounsel, // Refreshed advice
+      updated_at: now(),
+      version: existing.version + 1,
+    },
+  });
+} else {
+  // Create new only if truly new pattern
+  await prisma.habit_insights.create({ data: newInsight });
+}
+```
+
+**Benefits**:
+
+- ✅ No duplicate insights for same patterns
+- ✅ Versioned history per insight (can compare trends)
+- ✅ Cleaner DB (fewer rows)
+
+---
+
+## Coach Briefings as Conversation Storage (New Nov 2025)
+
+### Purpose Redefined
+
+**Old**: One-way briefings generated by Param  
+**New**: Q&A conversation log (Chatur responses + context)
+
+```typescript
+// When user asks Chatur a question:
+const userQuestion = "Should I buy a laptop?";
+
+// 1. Check if similar question answered recently
+const cachedAnswer = await findSimilarQuestion(userQuestion, userId);
+if (cachedAnswer && isRecent(cachedAnswer.askedAt)) {
+  // Reuse cached answer
+  return cachedAnswer.answer;
+}
+
+// 2. Generate new answer with relevant context
+const insights = await prisma.habit_insights.findMany({
+  where: { owner: userId },
+  orderBy: { recorded_at: "desc" },
+  take: 5,
+});
+
+const answer = await generateCoachResponse(userQuestion, insights);
+
+// 3. Store Q&A for future reference
+await prisma.coach_briefings.create({
+  data: {
+    owner: userId,
+    question: userQuestion,
+    answer: answer,
+    context_insights_hash: hashInsights(insights),
+    question_hash: hashQuestion(userQuestion),
+    created_at: now(),
+    reused_count: 0,
+    triggered_by: "chatur",
+  },
+});
+
+return answer;
+```
+
+### Smart Deduplication in Briefings
+
+**Detection**: Hash-based question similarity + embedding distance
+
+```typescript
+async function findSimilarQuestion(
+  userQuestion: string,
+  userId: number,
+  threshold: number = 0.85
+) {
+  const questionHash = hashQuestion(userQuestion);
+
+  // Exact match first (fast)
+  const exactMatch = await prisma.coach_briefings.findFirst({
+    where: {
+      owner: userId,
+      question_hash: questionHash,
+      created_at: { gte: oneDayAgo() },
+    },
+  });
+
+  if (exactMatch) {
+    // Increment reuse counter
+    await prisma.coach_briefings.update({
+      where: { id: exactMatch.id },
+      data: { reused_count: { increment: 1 } },
+    });
+    return exactMatch;
+  }
+
+  // Semantic similarity (if new question)
+  const embedding = await getEmbedding(userQuestion);
+  const similar = await findSemanticallySimilar(embedding, userId, threshold);
+
+  if (similar && similar.context_insights_hash === currentInsightHash) {
+    // Context hasn't changed, reuse answer
+    return similar;
+  }
+
+  return null;
+}
+```
+
+### Context Invalidation
+
+```typescript
+// New insights invalidate old Q&A answers
+// (Same question but different financial situation = new answer)
+
+const oldBriefing = await findCachedAnswer(userQuestion);
+if (oldBriefing) {
+  const oldContext = oldBriefing.context_insights_hash;
+  const newContext = await hashCurrentInsights(userId);
+
+  if (oldContext !== newContext) {
+    // Context changed → invalidate old answer
+    await prisma.coach_briefings.update({
+      where: { id: oldBriefing.id },
+      data: { valid_until: now() }, // Mark expired
+    });
+
+    // Generate new answer
+    return generateNewCoachResponse(userQuestion);
+  }
+
+  // Same context → reuse answer
+  return oldBriefing.answer;
+}
+```
+
+### Storage Schema Update
+
+**coach_briefings**: Now stores full conversations
+
+```prisma
+model coach_briefings {
+  id                      String    @id @db.Uuid
+  owner                   Int
+  question                String    @db.Text              // User's question
+  answer                  String    @db.Text              // Coach's response
+  question_hash           String    @db.VarChar(64)       // For dedup
+  context_insights_hash   String    @db.VarChar(64)       // Invalidation
+  triggered_by            String    @default("chatur")    // Only "chatur"
+  reused_count            Int       @default(0)           // How many times reused
+  valid_until             DateTime? @db.Timestamptz(6)    // Expiry marker
+  created_at              DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at              DateTime? @db.Timestamptz(6)
+
+  @@index([owner, created_at])
+  @@index([question_hash, owner])
+  @@index([context_insights_hash])
+}
+```
+
+---
+
 ## Related Agent Changes (Nov 2025)
 
 ### Mill (Chatbot) Updates
@@ -1132,8 +1388,10 @@ DEV_USER_ID=2
 - **Router-seeded sessions** – `ConversationalCoach` slots into `ConversationRouter`, cold-starts with Param's insights
 - **Structured guidance loop** – Responses generated via JSON schema capturing `nextQuestion`, goal metadata, and `shouldEscalateToMill` flags
 - **Resilient LLM calls** – Uses circuit breaker + exponential backoff (overload-specific retries) and rule-based fallbacks
+- **Now triggers Param** – Checks if daily analysis needed before responding to user questions
+- **Smart caching** – Checks coach_briefings for similar questions before generating new response
 
-**Key Integration**: Chatur receives `latestInsights` and `previousInsights` from Param's automatic handoff, builds coaching plans on evidence.
+**Key Integration**: Chatur triggers Param (if 24h+ since last run), gets insights, generates/retrieves cached answer, stores in coach_briefings.
 
 ### Sera (Shopping Assistant) Updates
 

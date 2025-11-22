@@ -4,21 +4,12 @@
       "collection": "habit_snapshots",
       "meta": {
         "icon": "timeline",
-        "display_template": "{{ snapshot_id }}",
+        "display_template": "Snapshot #{{ id }}",
         "sort_field": "generated_at"
       }
     }
   ],
   "fields": [
-    {
-      "collection": "habit_snapshots",
-      "field": "snapshot_id",
-      "meta": {
-        "interface": "input",
-        "display": "formatted-value",
-        "width": "half"
-      }
-    },
     {
       "collection": "habit_snapshots",
       "field": "owner",
@@ -42,7 +33,7 @@
     },
     {
       "collection": "habit_snapshots",
-      "field": "transaction_id",
+      "field": "snapshot_hash",
       "meta": {
         "interface": "input",
         "display": "formatted-value",
@@ -51,61 +42,7 @@
     },
     {
       "collection": "habit_snapshots",
-      "field": "top_categories",
-      "meta": {
-        "interface": "code",
-        "options": {
-          "language": "json"
-        },
-        "display": "formatted-json",
-        "width": "full"
-      }
-    },
-    {
-      "collection": "habit_snapshots",
-      "field": "frequent_merchants",
-      "meta": {
-        "interface": "code",
-        "options": {
-          "language": "json"
-        },
-        "display": "formatted-json",
-        "width": "full"
-      }
-    },
-    {
-      "collection": "habit_snapshots",
-      "field": "spending_by_medium",
-      "meta": {
-        "interface": "code",
-        "options": {
-          "language": "json"
-        },
-        "display": "formatted-json",
-        "width": "full"
-      }
-    },
-    {
-      "collection": "habit_snapshots",
-      "field": "flags",
-      "meta": {
-        "interface": "tags",
-        "display": "badges",
-        "width": "half"
-      }
-    },
-    {
-      "collection": "habit_snapshots",
-      "field": "insights_count",
-      "meta": {
-        "interface": "numeric",
-        "display": "formatted-value",
-        "width": "half"
-      }
-    },
-    {
-      "collection": "habit_snapshots",
-      "field": "insight_labels",
+      "field": "metrics",
       "meta": {
         "interface": "code",
         "options": {

@@ -126,15 +126,19 @@ exports.Prisma.Coach_briefingsScalarFieldEnum = {
   headline: 'headline',
   counsel: 'counsel',
   evidence: 'evidence',
-  trigger: 'trigger',
+  user_question: 'user_question',
+  agent_answer: 'agent_answer',
+  question_hash: 'question_hash',
+  question_embedding: 'question_embedding',
+  insight_hash: 'insight_hash',
+  insights_used: 'insights_used',
+  answer_version: 'answer_version',
+  snapshot: 'snapshot',
   delivered: 'delivered',
   delivered_at: 'delivered_at',
   date_created: 'date_created',
-  insight_hash: 'insight_hash',
-  metadata: 'metadata',
-  snapshot: 'snapshot',
-  status: 'status',
   date_updated: 'date_updated',
+  status: 'status',
   sort: 'sort',
   user_created: 'user_created',
   user_updated: 'user_updated'
@@ -555,6 +559,7 @@ exports.Prisma.Directus_webhooksScalarFieldEnum = {
 };
 
 exports.Prisma.Habit_insightsScalarFieldEnum = {
+  id: 'id',
   habit_id: 'habit_id',
   owner: 'owner',
   habit_label: 'habit_label',
@@ -562,17 +567,21 @@ exports.Prisma.Habit_insightsScalarFieldEnum = {
   counsel: 'counsel',
   full_text: 'full_text',
   metrics: 'metrics',
-  recent_transactions: 'recent_transactions',
-  transaction_id: 'transaction_id',
   recorded_at: 'recorded_at',
-  previous_habit_id: 'previous_habit_id',
-  id: 'id',
-  status: 'status',
-  date_created: 'date_created',
-  date_updated: 'date_updated',
-  sort: 'sort',
-  user_created: 'user_created',
-  user_updated: 'user_updated'
+  updated_at: 'updated_at',
+  superseded: 'superseded',
+  previous_habit_id: 'previous_habit_id'
+};
+
+exports.Prisma.Habit_processing_cursorsScalarFieldEnum = {
+  owner: 'owner',
+  last_transaction_at: 'last_transaction_at',
+  last_run_at: 'last_run_at',
+  last_trigger: 'last_trigger',
+  last_analysis_version: 'last_analysis_version',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.Habit_snapshotsScalarFieldEnum = {
@@ -746,6 +755,7 @@ exports.Prisma.ModelName = {
   directus_versions: 'directus_versions',
   directus_webhooks: 'directus_webhooks',
   habit_insights: 'habit_insights',
+  habit_processing_cursors: 'habit_processing_cursors',
   habit_snapshots: 'habit_snapshots',
   habit_snapshot_insights: 'habit_snapshot_insights',
   sms_messages: 'sms_messages',

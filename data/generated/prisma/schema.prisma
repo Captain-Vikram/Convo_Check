@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/prisma"
+  output   = "."
 }
 
 datasource db {
@@ -11,18 +11,22 @@ datasource db {
 model coach_briefings {
   id                                                          String           @id @db.Uuid
   owner                                                       Int
-  headline                                                    String
-  counsel                                                     String
+  headline                                                    String?
+  counsel                                                     String?
   evidence                                                    String?
-  trigger                                                     String?          @db.VarChar(64)
+  user_question                                               String?          @db.Text
+  agent_answer                                                String?          @db.Text
+  question_hash                                               String?          @db.VarChar(255)
+  question_embedding                                          Json?            @db.Json
+  insight_hash                                                String           @db.VarChar(255)
+  insights_used                                               Json?            @db.Json
+  answer_version                                              Int              @default(1)
+  snapshot                                                    Int?
   delivered                                                   Boolean          @default(false)
   delivered_at                                                DateTime?        @db.Timestamptz(6)
   date_created                                                DateTime         @default(now()) @db.Timestamptz(6)
-  insight_hash                                                String           @db.VarChar(255)
-  metadata                                                    Json?            @db.Json
-  snapshot                                                    Int?
-  status                                                      String           @default("draft") @db.VarChar(255)
   date_updated                                                DateTime?        @db.Timestamptz(6)
+  status                                                      String           @default("draft") @db.VarChar(255)
   sort                                                        Int?
   user_created                                                String?          @db.Uuid
   user_updated                                                String?          @db.Uuid
@@ -33,7 +37,7 @@ model coach_briefings {
 
   @@index([insight_hash])
   @@index([owner, date_created])
-  @@index([owner, delivered])
+  @@index([question_hash], map: "idx_coach_briefings_question_hash")
 }
 
 model shopping_wishlist {
@@ -488,8 +492,6 @@ model directus_users {
   text_direction                                                          String                   @default("auto") @db.VarChar(255)
   alerts_alerts_user_createdTodirectus_users                              alerts[]                 @relation("alerts_user_createdTodirectus_users")
   alerts_alerts_user_updatedTodirectus_users                              alerts[]                 @relation("alerts_user_updatedTodirectus_users")
-  coach_briefings_coach_briefings_user_createdTodirectus_users            coach_briefings[]        @relation("coach_briefings_user_createdTodirectus_users")
-  coach_briefings_coach_briefings_user_updatedTodirectus_users            coach_briefings[]        @relation("coach_briefings_user_updatedTodirectus_users")
   directus_access                                                         directus_access[]
   directus_comments_directus_comments_user_createdTodirectus_users        directus_comments[]      @relation("directus_comments_user_createdTodirectus_users")
   directus_comments_directus_comments_user_updatedTodirectus_users        directus_comments[]      @relation("directus_comments_user_updatedTodirectus_users")
@@ -504,13 +506,13 @@ model directus_users {
   directus_presets                                                        directus_presets[]
   directus_sessions                                                       directus_sessions[]
   directus_shares                                                         directus_shares[]
+  coach_briefings_coach_briefings_user_createdTodirectus_users            coach_briefings[]        @relation("coach_briefings_user_createdTodirectus_users")
+  coach_briefings_coach_briefings_user_updatedTodirectus_users            coach_briefings[]        @relation("coach_briefings_user_updatedTodirectus_users")
+  habit_snapshots_habit_snapshots_user_createdTodirectus_users            habit_snapshots[]        @relation("habit_snapshots_user_createdTodirectus_users")
+  habit_snapshots_habit_snapshots_user_updatedTodirectus_users            habit_snapshots[]        @relation("habit_snapshots_user_updatedTodirectus_users")
   directus_roles                                                          directus_roles?          @relation(fields: [role], references: [id], onUpdate: NoAction, map: "directus_users_role_foreign")
   directus_versions_directus_versions_user_createdTodirectus_users        directus_versions[]      @relation("directus_versions_user_createdTodirectus_users")
   directus_versions_directus_versions_user_updatedTodirectus_users        directus_versions[]      @relation("directus_versions_user_updatedTodirectus_users")
-  habit_insights_habit_insights_user_createdTodirectus_users              habit_insights[]         @relation("habit_insights_user_createdTodirectus_users")
-  habit_insights_habit_insights_user_updatedTodirectus_users              habit_insights[]         @relation("habit_insights_user_updatedTodirectus_users")
-  habit_snapshots_habit_snapshots_user_createdTodirectus_users            habit_snapshots[]        @relation("habit_snapshots_user_createdTodirectus_users")
-  habit_snapshots_habit_snapshots_user_updatedTodirectus_users            habit_snapshots[]        @relation("habit_snapshots_user_updatedTodirectus_users")
   sms_messages_sms_messages_user_createdTodirectus_users                  sms_messages[]           @relation("sms_messages_user_createdTodirectus_users")
   sms_messages_sms_messages_user_updatedTodirectus_users                  sms_messages[]           @relation("sms_messages_user_updatedTodirectus_users")
 }
@@ -549,33 +551,37 @@ model directus_webhooks {
 }
 
 model habit_insights {
-  habit_id                                                   String                    @unique @db.VarChar(255)
-  owner                                                      Int
-  habit_label                                                String
-  evidence                                                   String
-  counsel                                                    String
-  full_text                                                  String
-  metrics                                                    Json?                     @db.Json
-  recent_transactions                                        Json?                     @db.Json
-  transaction_id                                             String?                   @db.Uuid
-  recorded_at                                                DateTime                  @default(now()) @db.Timestamptz(6)
-  previous_habit_id                                          String?                   @db.VarChar(255)
-  id                                                         Int                       @id @default(autoincrement())
-  status                                                     String                    @default("draft") @db.VarChar(255)
-  date_created                                               DateTime?                 @default(now()) @db.Timestamptz(6)
-  date_updated                                               DateTime?                 @db.Timestamptz(6)
-  sort                                                       Int?
-  user_created                                               String?                   @db.Uuid
-  user_updated                                               String?                   @db.Uuid
-  users                                                      users                     @relation(fields: [owner], references: [id], onDelete: Cascade, map: "habit_insights_owner_foreign")
-  tranasctions                                               tranasctions?             @relation(fields: [transaction_id], references: [id], map: "habit_insights_transaction_foreign")
-  directus_users_habit_insights_user_createdTodirectus_users directus_users?           @relation("habit_insights_user_createdTodirectus_users", fields: [user_created], references: [id], onUpdate: NoAction, map: "habit_insights_user_created_foreign")
-  directus_users_habit_insights_user_updatedTodirectus_users directus_users?           @relation("habit_insights_user_updatedTodirectus_users", fields: [user_updated], references: [id], onUpdate: NoAction, map: "habit_insights_user_updated_foreign")
-  habit_snapshot_links                                       habit_snapshot_insights[]
+  id                   Int                       @id @default(autoincrement())
+  habit_id             String                    @unique @db.VarChar(255)
+  owner                Int
+  habit_label          String
+  evidence             String
+  counsel              String
+  full_text            String
+  metrics              Json?                     @db.Json
+  recorded_at          DateTime                  @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime                  @default(now()) @updatedAt @db.Timestamptz(6)
+  superseded           Boolean                   @default(false)
+  previous_habit_id    String?                   @db.VarChar(255)
+  users                users                     @relation(fields: [owner], references: [id], onDelete: Cascade, map: "habit_insights_owner_foreign")
+  habit_snapshot_links habit_snapshot_insights[]
 
-  @@index([owner, date_created])
   @@index([owner, recorded_at])
-  @@index([transaction_id])
+  @@index([owner, superseded, updated_at], map: "idx_habit_insights_state")
+}
+
+model habit_processing_cursors {
+  owner                 Int       @id
+  last_transaction_at   DateTime? @db.Timestamptz(6)
+  last_run_at           DateTime? @db.Timestamptz(6)
+  last_trigger          String?   @db.VarChar(64)
+  last_analysis_version Int?
+  notes                 Json?     @db.Json
+  created_at            DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime? @updatedAt @db.Timestamptz(6)
+  users                 users     @relation(fields: [owner], references: [id], onDelete: Cascade, map: "habit_processing_cursors_owner_foreign")
+
+  @@index([last_run_at], map: "idx_habit_processing_cursors_last_run")
 }
 
 model habit_snapshots {
@@ -648,49 +654,49 @@ model sms_messages {
 }
 
 model tranasctions {
-  id                  String           @id @db.Uuid
-  status              String           @default("draft") @db.VarChar(255)
-  date_created        DateTime?        @db.Timestamptz(6)
-  date_updated        DateTime?        @db.Timestamptz(6)
-  amount              Float?           @db.Real
-  type                String?          @db.VarChar(255)
-  target_party        String?          @db.VarChar(255)
-  currency            String?          @db.VarChar(255)
-  medium              String?          @db.VarChar(255)
+  id                  String        @id @db.Uuid
+  status              String        @default("draft") @db.VarChar(255)
+  date_created        DateTime?     @db.Timestamptz(6)
+  date_updated        DateTime?     @db.Timestamptz(6)
+  amount              Float?        @db.Real
+  type                String?       @db.VarChar(255)
+  target_party        String?       @db.VarChar(255)
+  currency            String?       @db.VarChar(255)
+  medium              String?       @db.VarChar(255)
   description         String?
   comments            String?
-  date_of_transaction DateTime?        @db.Timestamptz(6)
-  category            String?          @db.VarChar(255)
+  date_of_transaction DateTime?     @db.Timestamptz(6)
+  category            String?       @db.VarChar(255)
   owner               Int?
   original_sms        Int?
-  analyzed_at         DateTime?        @db.Timestamptz(6)
+  analyzed_at         DateTime?     @db.Timestamptz(6)
   analyzed_version    Int?
-  analysis_notes      String?          @db.VarChar(1024)
+  analysis_notes      String?       @db.VarChar(1024)
   alerts              alerts[]
-  habit_insights      habit_insights[]
-  sms_messages        sms_messages?    @relation(fields: [original_sms], references: [id], onUpdate: NoAction, map: "tranasctions_original_sms_foreign")
-  users               users?           @relation(fields: [owner], references: [id], onUpdate: NoAction, map: "tranasctions_owner_foreign")
+  sms_messages        sms_messages? @relation(fields: [original_sms], references: [id], onUpdate: NoAction, map: "tranasctions_original_sms_foreign")
+  users               users?        @relation(fields: [owner], references: [id], onUpdate: NoAction, map: "tranasctions_owner_foreign")
 
   @@index([analyzed_version], map: "idx_tranasctions_analysis_version")
   @@index([owner, analyzed_at], map: "idx_tranasctions_analyzed_at")
 }
 
 model users {
-  id                  Int               @id @default(autoincrement())
-  status              String            @default("draft") @db.VarChar(255)
-  date_created        DateTime?         @db.Timestamptz(6)
-  date_updated        DateTime?         @db.Timestamptz(6)
-  whatsapp_number     String?           @db.VarChar(255)
-  name                String?           @db.VarChar(255)
-  approx_age          Int?
-  approx_bank_balance Float?            @db.Real
-  sms_app_api_key     Json?             @db.Json
-  alerts              alerts[]
-  coach_briefings     coach_briefings[]
-  habit_insights      habit_insights[]
-  habit_snapshots     habit_snapshots[]
-  sms_messages        sms_messages[]
-  tranasctions        tranasctions[]
+  id                       Int                       @id @default(autoincrement())
+  status                   String                    @default("draft") @db.VarChar(255)
+  date_created             DateTime?                 @db.Timestamptz(6)
+  date_updated             DateTime?                 @db.Timestamptz(6)
+  whatsapp_number          String?                   @db.VarChar(255)
+  name                     String?                   @db.VarChar(255)
+  approx_age               Int?
+  approx_bank_balance      Float?                    @db.Real
+  sms_app_api_key          Json?                     @db.Json
+  alerts                   alerts[]
+  coach_briefings          coach_briefings[]
+  habit_insights           habit_insights[]
+  habit_snapshots          habit_snapshots[]
+  habit_processing_cursors habit_processing_cursors?
+  sms_messages             sms_messages[]
+  tranasctions             tranasctions[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

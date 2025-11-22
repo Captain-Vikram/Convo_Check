@@ -1,8 +1,10 @@
+import { createHash, randomUUID } from "node:crypto";
+
+import { Prisma } from "../../../../data/generated/prisma";
 import { logger } from "../shared/logger";
 import { analystAgent } from "@/agents/analyst";
 import { loadTransactions } from "./transactions-loader";
 import type { NormalizedTransaction } from "../dev/transaction-normalizer";
-import { runCoach } from "../chatur/coach-agent";
 import { callLLM } from "../shared/llm-client";
 import { prisma } from "@/lib/prisma";
 
@@ -92,6 +94,8 @@ export interface RunAnalystOptions {
   dryRun?: boolean;
   /** Optional user ID for multi-user filtering (defaults to DEV_USER_ID) */
   ownerId?: number;
+  /** Trigger source for logging/scheduling */
+  trigger?: "manual" | "chatur" | "daily";
 }
 
 export interface AnalystRunResult {
@@ -99,64 +103,124 @@ export interface AnalystRunResult {
   totalTransactions: number;
   analyzedTransactions: number;
   insightsGenerated: number;
+  insightsSuperseded: number;
+  insightsUpdated: number;
+  newInsightsAvailable: boolean;
   message: string;
+  cursor?: HabitProcessingCursorState | null;
   error?: Error;
+}
+
+interface HabitProcessingCursorState {
+  owner: number;
+  lastTransactionAt: Date | null;
+  lastRunAt: Date | null;
+  lastTrigger?: string | null;
+  lastAnalysisVersion?: number | null;
 }
 
 /** Current version of analysis logic - increment when model/logic changes */
 const ANALYSIS_VERSION = 1;
+const HOURS_IN_MS = 60 * 60 * 1000;
+
+function parseRateLimitWindow(perDayRaw?: string, hoursRaw?: string, fallbackHours = 24): number {
+  if (perDayRaw) {
+    const parsed = Number(perDayRaw);
+    if (Number.isFinite(parsed) && parsed > 0) {
+      return Math.max((24 / parsed) * HOURS_IN_MS, HOURS_IN_MS);
+    }
+  }
+
+  if (hoursRaw) {
+    const parsed = Number(hoursRaw);
+    if (Number.isFinite(parsed) && parsed > 0) {
+      return Math.max(parsed * HOURS_IN_MS, HOURS_IN_MS);
+    }
+  }
+
+  return fallbackHours * HOURS_IN_MS;
+}
+
+function getParamRateLimitMs(): number {
+  return parseRateLimitWindow(
+    process.env.PARAM_MAX_RUNS_PER_DAY ?? process.env.MAX_RUNS_PER_DAY,
+    process.env.PARAM_RATE_LIMIT_HOURS,
+    24,
+  );
+}
+
+interface StoredHabitInsight extends HabitInsight {
+  id: number;
+  habitId: string;
+  superseded: boolean;
+}
+
+function resolveOwnerId(ownerId?: number): number {
+  if (typeof ownerId === "number" && Number.isFinite(ownerId)) {
+    return ownerId;
+  }
+
+  const configured = process.env.DEV_USER_ID ? parseInt(process.env.DEV_USER_ID, 10) : NaN;
+  return Number.isFinite(configured) ? configured : 1;
+}
 
 export async function runAnalyst(options: RunAnalystOptions = {}): Promise<AnalystRunResult> {
   const { reanalyzeAll = false, dryRun = false } = options;
-  
-  logger.debug("analyst-agent", "Starting analyst run", { reanalyzeAll, dryRun });
+  const ownerId = resolveOwnerId(options.ownerId);
+  const trigger = options.trigger ?? "manual";
 
+  logger.debug("analyst-agent", "Starting analyst run", { ownerId, reanalyzeAll, dryRun, trigger });
+
+  const cursor = await loadProcessingCursor(ownerId);
   const transactions = await loadTransactions();
 
   if (transactions.length === 0) {
-    const placeholder: HabitInsight = {
-      habitLabel: "Insufficient History",
-      evidence: "0 logged transactions",
-      counsel: "Log more activity to unlock insights.",
-      fullText:
-        "- Habit Label: Insufficient History; Evidence: 0 logged transactions; Counsel: Log more activity to unlock insights.",
-    };
-    
-    if (!dryRun) {
-      await persistHabitsToApi([placeholder]);
-      logger.warn("analyst-agent", "No transactions found. Wrote placeholder habit insight to DB");
-    }
-    
-    return {
-      status: "skipped",
-      totalTransactions: 0,
-      analyzedTransactions: 0,
-      insightsGenerated: 0,
-      message: "No transactions available for analysis",
-    };
+    return handleEmptyHistory(dryRun);
   }
 
-  // Filter transactions based on analysis tracking
-  const transactionsToAnalyze = reanalyzeAll 
-    ? transactions 
-    : transactions.filter(tx => !tx.meta?.analyzedAt || tx.meta?.analyzedVersion !== ANALYSIS_VERSION);
+  const lastProcessedAt = reanalyzeAll ? undefined : cursor?.lastTransactionAt ?? null;
+  const transactionsToAnalyze = selectTransactionsForAnalysis(transactions, lastProcessedAt, reanalyzeAll);
 
-  if (transactionsToAnalyze.length === 0) {
-    logger.info("analyst-agent", "All transactions already analyzed", {
-      total: transactions.length,
-      version: ANALYSIS_VERSION,
-    });
-    
+  const lastRunAt = cursor?.lastRunAt ?? null;
+  const withinRateLimit = Boolean(
+    lastRunAt &&
+    Date.now() - lastRunAt.getTime() < getParamRateLimitMs() &&
+    trigger !== "manual" &&
+    !reanalyzeAll,
+  );
+
+  if (withinRateLimit && transactionsToAnalyze.length === 0) {
     return {
       status: "skipped",
       totalTransactions: transactions.length,
       analyzedTransactions: 0,
       insightsGenerated: 0,
-      message: `All ${transactions.length} transactions already analyzed (v${ANALYSIS_VERSION})`,
+      insightsSuperseded: 0,
+      insightsUpdated: 0,
+      newInsightsAvailable: false,
+      message: `Rate limited: last run at ${lastRunAt?.toISOString() ?? "unknown"}`,
+      cursor,
+    };
+  }
+
+  if (transactionsToAnalyze.length === 0 && !reanalyzeAll) {
+    return {
+      status: "skipped",
+      totalTransactions: transactions.length,
+      analyzedTransactions: 0,
+      insightsGenerated: 0,
+      insightsSuperseded: 0,
+      insightsUpdated: 0,
+      newInsightsAvailable: false,
+      message: lastProcessedAt
+        ? `No new transactions since ${lastProcessedAt.toISOString()}`
+        : "No eligible transactions to analyze",
+      cursor,
     };
   }
 
   logger.debug("analyst-agent", "Analyzing transactions", {
+    ownerId,
     total: transactions.length,
     toAnalyze: transactionsToAnalyze.length,
     reanalyzeAll,
@@ -169,14 +233,18 @@ export async function runAnalyst(options: RunAnalystOptions = {}): Promise<Analy
       totalTransactions: transactions.length,
       analyzedTransactions: transactionsToAnalyze.length,
       insightsGenerated: 0,
+      insightsSuperseded: 0,
+      insightsUpdated: 0,
+      newInsightsAvailable: false,
       message: `Dry run: Would analyze ${transactionsToAnalyze.length} of ${transactions.length} transactions`,
+      cursor,
     };
   }
 
   try {
-    const previousInsights = await loadExistingInsights();
+  const previousInsights: StoredHabitInsight[] = await loadExistingInsights(ownerId);
     const stats = buildAnalysisStats(transactionsToAnalyze);
-    const prompt = buildAnalystPrompt(stats);
+    const prompt = buildAnalystPrompt(stats, previousInsights);
     const rawOutput = await callLanguageModel(prompt);
     const bulletLines = normalizeBulletLines(rawOutput);
     let insights: HabitInsight[];
@@ -187,26 +255,47 @@ export async function runAnalyst(options: RunAnalystOptions = {}): Promise<Analy
       logger.error("analyst-agent", "Failed to parse bullet lines", error, { bulletLines });
       throw error;
     }
-    
-    await persistHabitsToApi(insights);
-    logger.debug("analyst-agent", `Updated habits narrative with ${insights.length} insights`);
 
-    // Mark transactions as analyzed
-    await markTransactionsAsAnalyzed(transactionsToAnalyze, ANALYSIS_VERSION);
-    logger.debug("analyst-agent", `Marked ${transactionsToAnalyze.length} transactions as analyzed (v${ANALYSIS_VERSION})`);
+    const persistenceResult = await persistInsightsToDatabase(ownerId, insights, previousInsights);
+    await persistHabitSnapshot({
+      ownerId,
+      stats,
+      insights,
+      transactions: transactionsToAnalyze,
+      previousInsights,
+      trigger,
+    });
+    logger.debug("analyst-agent", "Persisted insights", persistenceResult);
 
-    try {
-      await runCoach({ latestInsights: insights, previousInsights, trigger: "analyst" });
-    } catch (error) {
-      logger.error("analyst-agent", "Failed to hand off insights to Coach", error);
+    if (transactionsToAnalyze.length > 0) {
+      await markTransactionsAsAnalyzed(transactionsToAnalyze, ANALYSIS_VERSION);
+      logger.debug(
+        "analyst-agent",
+        `Marked ${transactionsToAnalyze.length} transactions as analyzed (v${ANALYSIS_VERSION})`,
+      );
     }
+
+    const latestTransactionAt = getLatestTransactionTimestamp(transactionsToAnalyze) ?? lastProcessedAt ?? null;
+    const updatedCursor = await saveProcessingCursor(ownerId, {
+      lastTransactionAt: latestTransactionAt,
+      lastRunAt: new Date(),
+      lastTrigger: trigger,
+      lastAnalysisVersion: ANALYSIS_VERSION,
+    });
 
     return {
       status: "success",
       totalTransactions: transactions.length,
       analyzedTransactions: transactionsToAnalyze.length,
-      insightsGenerated: insights.length,
-      message: `Analyzed ${transactionsToAnalyze.length} transactions, generated ${insights.length} insights`,
+      insightsGenerated: persistenceResult.created,
+      insightsSuperseded: persistenceResult.superseded,
+      insightsUpdated: persistenceResult.updated,
+      newInsightsAvailable:
+        persistenceResult.created > 0 ||
+        persistenceResult.superseded > 0 ||
+        persistenceResult.updated > 0,
+      message: `Analyzed ${transactionsToAnalyze.length} transactions, generated ${persistenceResult.created} insights`,
+      cursor: updatedCursor,
     };
   } catch (error) {
     logger.error("analyst-agent", "Analysis failed", error);
@@ -215,10 +304,114 @@ export async function runAnalyst(options: RunAnalystOptions = {}): Promise<Analy
       totalTransactions: transactions.length,
       analyzedTransactions: 0,
       insightsGenerated: 0,
+      insightsSuperseded: 0,
+      insightsUpdated: 0,
+      newInsightsAvailable: false,
       message: `Analysis failed: ${error instanceof Error ? error.message : String(error)}`,
+      cursor,
       error: error instanceof Error ? error : new Error(String(error)),
     };
   }
+}
+
+function handleEmptyHistory(dryRun: boolean): AnalystRunResult {
+  return {
+    status: "skipped",
+    totalTransactions: 0,
+    analyzedTransactions: 0,
+    insightsGenerated: 0,
+    insightsSuperseded: 0,
+    insightsUpdated: 0,
+    newInsightsAvailable: false,
+    message: dryRun ? "Dry run: no transactions available" : "No transactions available for analysis",
+    cursor: null,
+  };
+}
+
+function selectTransactionsForAnalysis(
+  transactions: NormalizedTransaction[],
+  lastProcessedAt?: Date | null,
+  reanalyzeAll?: boolean,
+): NormalizedTransaction[] {
+  if (reanalyzeAll || !lastProcessedAt) {
+    return transactions;
+  }
+
+  return transactions.filter((tx) => {
+    const timestamp = parseTransactionTimestamp(tx);
+    if (!timestamp) {
+      return false;
+    }
+    return timestamp > lastProcessedAt;
+  });
+}
+
+function parseTransactionTimestamp(tx: NormalizedTransaction): Date | null {
+  const source = tx.recordedAt ?? tx.eventDate ?? null;
+  if (!source) {
+    return null;
+  }
+
+  const timestamp = new Date(source);
+  return Number.isNaN(timestamp.getTime()) ? null : timestamp;
+}
+
+function getLatestTransactionTimestamp(transactions: NormalizedTransaction[]): Date | null {
+  let latest: Date | null = null;
+  for (const tx of transactions) {
+    const timestamp = parseTransactionTimestamp(tx);
+    if (!timestamp) {
+      continue;
+    }
+    if (!latest || timestamp > latest) {
+      latest = timestamp;
+    }
+  }
+  return latest;
+}
+
+async function loadProcessingCursor(ownerId: number): Promise<HabitProcessingCursorState | null> {
+  try {
+    const record = await prisma.habit_processing_cursors.findUnique({ where: { owner: ownerId } });
+    return record ? mapCursorRecord(record) : null;
+  } catch (error) {
+    logger.error("analyst-agent", "Failed to load processing cursor", error, { ownerId });
+    return null;
+  }
+}
+
+async function saveProcessingCursor(
+  ownerId: number,
+  data: Partial<HabitProcessingCursorState>,
+): Promise<HabitProcessingCursorState> {
+  const payload = {
+    last_transaction_at: data.lastTransactionAt ?? null,
+    last_run_at: data.lastRunAt ?? new Date(),
+    last_trigger: data.lastTrigger ?? null,
+    last_analysis_version: data.lastAnalysisVersion ?? null,
+  };
+
+  const record = await prisma.habit_processing_cursors.upsert({
+    where: { owner: ownerId },
+    update: payload,
+    create: {
+      owner: ownerId,
+      created_at: new Date(),
+      ...payload,
+    },
+  });
+
+  return mapCursorRecord(record);
+}
+
+function mapCursorRecord(record: any): HabitProcessingCursorState {
+  return {
+    owner: record.owner,
+    lastTransactionAt: record.last_transaction_at ? new Date(record.last_transaction_at) : null,
+    lastRunAt: record.last_run_at ? new Date(record.last_run_at) : null,
+    lastTrigger: record.last_trigger,
+    lastAnalysisVersion: record.last_analysis_version,
+  };
 }
 
 /**
@@ -411,7 +604,7 @@ function buildAnalysisStats(transactions: NormalizedTransaction[]): AnalysisStat
   };
 }
 
-function buildAnalystPrompt(stats: AnalysisStats): string {
+function buildAnalystPrompt(stats: AnalysisStats, previousInsights?: HabitInsight[]): string {
   const payload = buildPromptPayload(stats);
   const lines: string[] = [];
   lines.push("Apply the Insight Protocol to create bullet habit insights for this user.");
@@ -421,7 +614,14 @@ function buildAnalystPrompt(stats: AnalysisStats): string {
   lines.push(
     `Last 30 days: ${stats.last30DayTransactions} tx | spend ${roundNumber(stats.last30DayExpenseTotal)} | income ${roundNumber(stats.last30DayIncomeTotal)} | savings rate ${roundNumber(stats.savingsRate30d)}.`,
   );
-  lines.push("Ground every insight in the JSON metrics below. Do not invent figures.");
+  if (previousInsights && previousInsights.length > 0) {
+    lines.push("Previous insights (update or extend these if still relevant):");
+    previousInsights.slice(0, 5).forEach((insight, index) => {
+      lines.push(`${index + 1}. ${insight.fullText}`);
+    });
+  }
+
+  lines.push("Ground every insight in the JSON metrics below. Reuse prior insights when still accurate and mark stale ones as superseded.");
   lines.push(
     "Example format: - Dining Discipline | Evidence: Dining spend 42% of expenses | Recommendation: Set a weekly dining cap.",
   );
@@ -492,52 +692,277 @@ async function callLanguageModel(prompt: string): Promise<string> {
   return (result.text ?? "").trim();
 }
 
-/**
- * Persist habit insights to API (database)
- */
-async function persistHabitsToApi(insights: HabitInsight[]): Promise<void> {
-  const ownerId = process.env.DEV_USER_ID ? parseInt(process.env.DEV_USER_ID, 10) : undefined;
-  
-  for (const insight of insights) {
-    try {
-      const data: any = {
-        habit_label: insight.habitLabel,
-        evidence: insight.evidence,
-        counsel: insight.counsel,
-        full_text: insight.fullText,
-      };
-      
-      if (ownerId) {
-        data.owner = ownerId;
-      }
-      
-      await prisma.habit_insights.create({ data });
-    } catch (error) {
-      logger.error("analyst-agent", "Failed to save habit insight to DB", error, { habitLabel: insight.habitLabel });
-      // Continue with other insights even if one fails
+interface PersistedInsightSummary {
+  created: number;
+  superseded: number;
+  updated: number;
+  insightIds: string[];
+}
+
+async function persistInsightsToDatabase(
+  ownerId: number,
+  insights: HabitInsight[],
+  previousInsights: StoredHabitInsight[],
+): Promise<PersistedInsightSummary> {
+  if (insights.length === 0) {
+    return { created: 0, superseded: 0, updated: 0, insightIds: [] };
+  }
+
+  const now = new Date();
+  const activePrevious = previousInsights.filter((insight) => !insight.superseded);
+  const previousMap = new Map<string, StoredHabitInsight>();
+  for (const insight of activePrevious) {
+    const key = normalizeHabitLabel(insight.habitLabel);
+    if (key) {
+      previousMap.set(key, insight);
     }
   }
+
+  const createdIds: string[] = [];
+  let updatedCount = 0;
+
+  for (const insight of insights) {
+    const normalizedLabel = normalizeHabitLabel(insight.habitLabel);
+    const previousMatch = normalizedLabel ? previousMap.get(normalizedLabel) : undefined;
+
+    if (previousMatch) {
+      try {
+        await prisma.habit_insights.update({
+          where: { id: previousMatch.id },
+          data: {
+            habit_label: insight.habitLabel,
+            evidence: insight.evidence,
+            counsel: insight.counsel,
+            full_text: insight.fullText,
+            updated_at: now,
+            superseded: false,
+          },
+        });
+        updatedCount += 1;
+        if (normalizedLabel) {
+          previousMap.delete(normalizedLabel);
+        }
+        continue;
+      } catch (error) {
+        logger.error("analyst-agent", "Failed to update habit insight", error, {
+          ownerId,
+          habitLabel: insight.habitLabel,
+        });
+      }
+    }
+
+    const habitId = randomUUID();
+    try {
+      await prisma.habit_insights.create({
+        data: {
+          owner: ownerId,
+          habit_id: habitId,
+          habit_label: insight.habitLabel,
+          evidence: insight.evidence,
+          counsel: insight.counsel,
+          full_text: insight.fullText,
+          recorded_at: now,
+          updated_at: now,
+          superseded: false,
+          previous_habit_id: previousMatch?.habitId ?? null,
+        },
+      });
+      createdIds.push(habitId);
+    } catch (error) {
+      logger.error("analyst-agent", "Failed to persist habit insight", error, {
+        ownerId,
+        habitLabel: insight.habitLabel,
+      });
+    }
+  }
+
+  const remainingPrevious = Array.from(previousMap.values());
+  if (remainingPrevious.length > 0) {
+    try {
+      await prisma.habit_insights.updateMany({
+        where: { id: { in: remainingPrevious.map((entry) => entry.id) } },
+        data: { superseded: true, updated_at: now },
+      });
+    } catch (error) {
+      logger.error("analyst-agent", "Failed to mark stale insights", error, {
+        ownerId,
+        count: remainingPrevious.length,
+      });
+    }
+  }
+
+  return {
+    created: createdIds.length,
+    superseded: remainingPrevious.length,
+    updated: updatedCount,
+    insightIds: createdIds,
+  };
+}
+
+interface HabitSnapshotPersistOptions {
+  ownerId: number;
+  stats: AnalysisStats;
+  insights: HabitInsight[];
+  transactions: NormalizedTransaction[];
+  previousInsights: StoredHabitInsight[];
+  trigger: RunAnalystOptions["trigger"] | string;
+}
+
+const MAX_CONTEXT_TRANSACTIONS = 25;
+const MAX_CONTEXT_INSIGHTS = 10;
+
+function toJsonValue(value: unknown): Prisma.InputJsonValue {
+  return JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
+}
+
+async function persistHabitSnapshot(options: HabitSnapshotPersistOptions): Promise<void> {
+  if (options.insights.length === 0) {
+    return;
+  }
+
+  const payload = buildHabitSnapshotPayload(options);
+
+  try {
+    await prisma.habit_snapshots.upsert({
+      where: { snapshot_id: payload.snapshotId },
+      update: {
+        context_data: payload.contextData,
+        summary_data: payload.summaryData,
+        snapshot_hash: payload.snapshotHash,
+        generated_at: payload.generatedAt,
+        insight_labels: payload.insightLabels,
+        insights_count: payload.insightCount,
+        trigger: options.trigger ?? "manual",
+      },
+      create: {
+        snapshot_id: payload.snapshotId,
+        owner: options.ownerId,
+        context_data: payload.contextData,
+        summary_data: payload.summaryData,
+        snapshot_hash: payload.snapshotHash,
+        generated_at: payload.generatedAt,
+        insight_labels: payload.insightLabels,
+        insights_count: payload.insightCount,
+        trigger: options.trigger ?? "manual",
+      },
+    });
+  } catch (error) {
+    logger.error("analyst-agent", "Failed to persist habit snapshot", error, {
+      ownerId: options.ownerId,
+    });
+  }
+}
+
+interface HabitSnapshotPayload {
+  snapshotId: string;
+  snapshotHash: string;
+  summaryData: Prisma.InputJsonValue;
+  contextData: Prisma.InputJsonValue;
+  generatedAt: Date;
+  insightLabels: string[];
+  insightCount: number;
+}
+
+function buildHabitSnapshotPayload(options: HabitSnapshotPersistOptions): HabitSnapshotPayload {
+  const generatedAt = new Date();
+  const summaryMetrics = buildPromptPayload(options.stats);
+  const insightLabels = options.insights.map((insight) => insight.habitLabel);
+  const contextTransactions = options.transactions
+    .slice(-MAX_CONTEXT_TRANSACTIONS)
+    .map(simplifyTransactionForSnapshot);
+
+  const recentInsights = options.insights.slice(0, MAX_CONTEXT_INSIGHTS).map((insight) => ({
+    label: insight.habitLabel,
+    evidence: insight.evidence,
+    counsel: insight.counsel,
+  }));
+
+  const priorInsights = options.previousInsights
+    .filter((insight) => !insight.superseded)
+    .slice(0, MAX_CONTEXT_INSIGHTS)
+    .map((insight) => ({
+      label: insight.habitLabel,
+      counsel: insight.counsel,
+    }));
+
+  const summaryData = toJsonValue({
+    metrics: summaryMetrics,
+    insightsCount: options.insights.length,
+    lastRunTrigger: options.trigger ?? "manual",
+    analyzedTransactions: options.transactions.length,
+  });
+
+  const contextData = toJsonValue({
+    ownerId: options.ownerId,
+    generatedAt: generatedAt.toISOString(),
+    trigger: options.trigger ?? "manual",
+    transactionsAnalyzed: contextTransactions,
+    recentInsights,
+    previousInsights: priorInsights,
+  });
+
+  const canonical = {
+    ownerId: options.ownerId,
+    summaryData,
+    contextData,
+  };
+
+  const snapshotHash = createHash("sha256")
+    .update(JSON.stringify(canonical))
+    .digest("hex");
+
+  return {
+    snapshotId: snapshotHash,
+    snapshotHash,
+    summaryData,
+    contextData,
+    generatedAt,
+    insightLabels,
+    insightCount: options.insights.length,
+  };
+}
+
+function simplifyTransactionForSnapshot(transaction: NormalizedTransaction) {
+  return {
+    id: transaction.id,
+    amount: transaction.amount,
+    direction: transaction.direction,
+    category: transaction.category,
+    recordedAt: transaction.recordedAt ?? transaction.eventDate ?? null,
+    targetParty: transaction.meta?.targetParty ?? null,
+    tags: transaction.tags,
+  };
+}
+
+function normalizeHabitLabel(label?: string | null): string | null {
+  if (!label) {
+    return null;
+  }
+  const normalized = label.trim().toLowerCase();
+  return normalized.length > 0 ? normalized : null;
 }
 
 /**
  * Load existing insights from database via Prisma
  */
-async function loadExistingInsights(): Promise<HabitInsight[]> {
+async function loadExistingInsights(ownerId: number): Promise<StoredHabitInsight[]> {
   try {
-    const ownerId = process.env.DEV_USER_ID ? parseInt(process.env.DEV_USER_ID, 10) : undefined;
     const habits = await prisma.habit_insights.findMany({
-      where: ownerId ? { owner: ownerId } : undefined,
-      orderBy: { date_created: 'desc' },
+      where: { owner: ownerId, superseded: false },
+      orderBy: { updated_at: "desc" },
     });
-    
-    return habits.map((habit: any) => ({
-      habitLabel: habit.habit_label || "",
-      evidence: habit.evidence || "",
-      counsel: habit.counsel || "",
-      fullText: habit.full_text || "",
+
+    return habits.map((habit) => ({
+      id: habit.id,
+      habitId: habit.habit_id ?? `habit-${habit.id}`,
+      habitLabel: habit.habit_label ?? "",
+      evidence: habit.evidence ?? "",
+      counsel: habit.counsel ?? "",
+      fullText: habit.full_text ?? "",
+      superseded: habit.superseded ?? false,
     }));
   } catch (error) {
-    logger.error("analyst-agent", "Failed to load habits from DB", error);
+    logger.error("analyst-agent", "Failed to load habits from DB", error, { ownerId });
     return [];
   }
 }

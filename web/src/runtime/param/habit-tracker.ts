@@ -181,6 +181,24 @@ export async function analyzeTransactionHabit(
     ownerId,
   );
 
+  const metricsPayload = {
+    habitType: habitEntry.habitType,
+    spendingPattern: habitEntry.spendingPattern,
+    frequency: habitEntry.frequency,
+    riskLevel: habitEntry.riskLevel,
+    averageAmount: habitEntry.averageAmount,
+    totalSpent: habitEntry.totalSpent,
+    transactionCount: habitEntry.transactionCount,
+    context: {
+      habitId: habitEntry.habitId,
+      transactionId: habitEntry.transactionId,
+      targetParty: habitEntry.targetParty,
+      category: habitEntry.category,
+      recentTransactions: habitEntry.recentTransactions,
+      previousHabitId: habitEntry.previousHabitId,
+    },
+  } satisfies Record<string, unknown>;
+
   // Sync habit to database via Prisma
   try {
     await prisma.habit_insights.create({
@@ -190,23 +208,7 @@ export async function analyzeTransactionHabit(
         evidence: `Transaction: ${habitEntry.transactionId}, Amount: ${habitEntry.transactionAmount}, Type: ${habitEntry.habitType}`,
         counsel: habitEntry.suggestions,
         full_text: `${habitEntry.spendingPattern}. Frequency: ${habitEntry.frequency}. Risk: ${habitEntry.riskLevel}`,
-        metrics: {
-          habitType: habitEntry.habitType,
-          spendingPattern: habitEntry.spendingPattern,
-          frequency: habitEntry.frequency,
-          riskLevel: habitEntry.riskLevel,
-          averageAmount: habitEntry.averageAmount,
-          totalSpent: habitEntry.totalSpent,
-          transactionCount: habitEntry.transactionCount,
-        },
-        recent_transactions: {
-          habitId: habitEntry.habitId,
-          targetParty: habitEntry.targetParty,
-          category: habitEntry.category,
-          recentTransactions: habitEntry.recentTransactions,
-          previousHabitId: habitEntry.previousHabitId,
-        },
-        transaction_id: habitEntry.transactionId,
+        metrics: metricsPayload,
         recorded_at: habitEntry.recordedAt,
         previous_habit_id: habitEntry.previousHabitId || null,
         owner: ownerId,
@@ -695,37 +697,54 @@ async function loadRecentHabits(count: number, ownerId: number): Promise<HabitEn
   try {
     const habits = await prisma.habit_insights.findMany({
       where: { owner: ownerId },
-      orderBy: { date_created: 'desc' },
+      orderBy: [
+        { updated_at: 'desc' },
+        { recorded_at: 'desc' },
+      ],
       take: count,
     });
     
     // Convert DB format to HabitEntry
-    const habitEntries: HabitEntry[] = habits.map((habit: any) => ({
-      habitId: habit.habit_id || habit.id?.toString() || "",
-      recordedAt: habit.date_created?.toISOString() || new Date().toISOString(),
-      transactionId: habit.transaction_id?.toString() || "",
-      transactionDate: habit.date_created?.toISOString() || "",
-      transactionAmount: habit.metrics?.averageAmount || 0,
-      transactionType: "debit",
-      targetParty: habit.recent_transactions?.targetParty || "",
-      category: habit.recent_transactions?.category || "",
-      spendingPattern: habit.metrics?.spendingPattern || "",
-      frequency: habit.metrics?.frequency || "",
-      averageAmount: habit.metrics?.averageAmount || 0,
-      totalSpent: habit.metrics?.totalSpent || 0,
-      transactionCount: habit.metrics?.transactionCount || 0,
-      habitType: habit.metrics?.habitType || "",
-      riskLevel: habit.metrics?.riskLevel || "",
-      suggestions: habit.counsel || "",
-      recentTransactions: habit.recent_transactions?.recentTransactions || "",
-      previousHabitId: habit.previous_habit_id || "",
-    })).reverse();
+    const habitEntries: HabitEntry[] = habits
+      .map((habit) => {
+        const metrics = (habit.metrics ?? {}) as Record<string, any>;
+        const context = extractHabitContext(metrics.context);
+
+        return {
+          habitId: habit.habit_id || habit.id.toString(),
+          recordedAt: habit.recorded_at?.toISOString() || new Date().toISOString(),
+          transactionId: String(context.transactionId ?? ""),
+          transactionDate: habit.recorded_at?.toISOString() || "",
+          transactionAmount: Number(metrics.averageAmount ?? 0),
+          transactionType: "debit",
+          targetParty: String(context.targetParty ?? ""),
+          category: String(context.category ?? ""),
+          spendingPattern: String(metrics.spendingPattern ?? ""),
+          frequency: String(metrics.frequency ?? ""),
+          averageAmount: Number(metrics.averageAmount ?? 0),
+          totalSpent: Number(metrics.totalSpent ?? 0),
+          transactionCount: Number(metrics.transactionCount ?? 0),
+          habitType: String(metrics.habitType ?? ""),
+          riskLevel: String(metrics.riskLevel ?? ""),
+          suggestions: habit.counsel || "",
+          recentTransactions: String(context.recentTransactions ?? ""),
+          previousHabitId: habit.previous_habit_id || String(context.previousHabitId ?? ""),
+        } satisfies HabitEntry;
+      })
+      .reverse();
     
     return habitEntries;
   } catch (error) {
     logger.error("habit-tracker", "Failed to load habits from DB", error);
     return [];
   }
+}
+
+function extractHabitContext(candidate: unknown): Record<string, any> {
+  if (candidate && typeof candidate === "object" && !Array.isArray(candidate)) {
+    return candidate as Record<string, any>;
+  }
+  return {};
 }
 
 /**

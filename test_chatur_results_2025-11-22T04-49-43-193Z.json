@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "baseUrl": "http://localhost:3000",
+    "userId": "2",
+    "timestamp": "2025-11-22T04-49-43-193Z"
+  },
+  "summary": {
+    "passed": 0,
+    "failed": 7,
+    "skipped": 0
+  },
+  "results": [
+    {
+      "testName": "Chatur: SIP definition / websearch",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "2",
+        "message": "Explain SIP investment in simple terms"
+      },
+      "timestamp": "2025-11-22T04:49:32.585Z",
+      "status": "FAILED",
+      "response": null,
+      "error": "request to http://localhost:3000/api/agent failed, reason: "
+    },
+    {
+      "testName": "Chatur: Budget split 50/30/20",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "2",
+        "message": "Calculate budget split for monthly income 40000"
+      },
+      "timestamp": "2025-11-22T04:49:34.120Z",
+      "status": "FAILED",
+      "response": null,
+      "error": "request to http://localhost:3000/api/agent failed, reason: "
+    },
+    {
+      "testName": "Chatur: SIP calculation 2000/12%/5yr",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "2",
+        "message": "Calculate SIP: Invest 2000 per month at 12% for 5 years"
+      },
+      "timestamp": "2025-11-22T04:49:35.632Z",
+      "status": "FAILED",
+      "response": null,
+      "error": "request to http://localhost:3000/api/agent failed, reason: "
+    },
+    {
+      "testName": "Chatur: Loan EMI 500k/8.5%/60",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "2",
+        "message": "Calculate EMI for loan 500000 at 8.5% for 60 months"
+      },
+      "timestamp": "2025-11-22T04:49:37.141Z",
+      "status": "FAILED",
+      "response": null,
+      "error": "request to http://localhost:3000/api/agent failed, reason: "
+    },
+    {
+      "testName": "Chatur: Context start - saving intent",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "2",
+        "message": "I want to save for a phone. My monthly income is 40000."
+      },
+      "timestamp": "2025-11-22T04:49:38.654Z",
+      "status": "FAILED",
+      "response": null,
+      "error": "request to http://localhost:3000/api/agent failed, reason: "
+    },
+    {
+      "testName": "Chatur: Context follow-up referencing prior info",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "2",
+        "message": "How much should I save monthly to buy a 30000 phone in 3 months?"
+      },
+      "timestamp": "2025-11-22T04:49:40.175Z",
+      "status": "FAILED",
+      "response": null,
+      "error": "request to http://localhost:3000/api/agent failed, reason: "
+    },
+    {
+      "testName": "Chatur: Decision + EMI",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "2",
+        "message": "Should I buy a phone now or save and invest? Calculate EMI if I take a 30000 loan for 12 months at 10%"
+      },
+      "timestamp": "2025-11-22T04:49:41.686Z",
+      "status": "FAILED",
+      "response": null,
+      "error": "request to http://localhost:3000/api/agent failed, reason: "
+    }
+  ]
+}

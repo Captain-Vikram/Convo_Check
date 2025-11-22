@@ -3,6 +3,14 @@
     {
       "path": "/api/sms/process-queue?secret=${CRON_SECRET}",
       "schedule": "*/1 * * * *"
+    },
+    {
+      "path": "/api/analyst/daily?secret=${CRON_SECRET}",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/chatur/daily?secret=${CRON_SECRET}",
+      "schedule": "15 6 * * *"
     }
   ]
 }

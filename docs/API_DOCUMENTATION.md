@@ -354,154 +354,19 @@ Mark briefing as delivered.
 
 ---
 
-## 6. Wishlist API (NEW)
+## 6. Wishlist Persistence (Internal)
 
-### GET /api/wishlist
+Wishlist CRUD is now handled entirely inside the Sera runtime through Prisma, **without any REST surface area**.
 
-Fetch user's product wishlist.
+- **Table**: `shopping_wishlist`
+- **Implementation**: `src/runtime/sera/wishlist-manager.ts`
+- **Operations**:
+  - `listWishlist(ownerId)` → returns ordered wishlist rows filtered by owner or inferred persona
+  - `addToWishlist(item)` → inserts a row with metadata from SerpAPI results and user-provided target price
+  - `updateWishlistItem(id, updates)` → mutates price/notes/metadata columns
+  - `removeWishlistItem(id)` / `clearWishlist(owner)` → housekeeping helpers
 
-**Query Parameters:**
-
-- `owner` (number, required for services) - User ID
-- `limit` (number, default: 50, max: 100)
-- `sortBy` (string) - `date_added|current_price|name`
-- `order` (string) - `asc|desc`
-
-**Response:**
-
-```json
-{
-  "items": [
-    {
-      "id": "uuid",
-      "owner": 2,
-      "name": "Wireless Headphones",
-      "link": "https://amazon.in/...",
-      "currentPrice": "₹4,999",
-      "desiredPrice": "₹3,500",
-      "rating": "4.5/5",
-      "source": "Amazon.in",
-      "dateAdded": "2025-11-14T10:30:00Z",
-      "createdAt": "2025-11-14T10:30:00Z",
-      "updatedAt": "2025-11-14T10:30:00Z"
-    }
-  ],
-  "count": 1,
-  "owner": 2
-}
-```
-
-### POST /api/wishlist
-
-Add item to wishlist.
-
-**Body:**
-
-```json
-{
-  "owner": 2,
-  "name": "Product Name",
-  "link": "https://store.com/product",
-  "currentPrice": "₹4,999",
-  "desiredPrice": "₹3,500",
-  "rating": "4.5/5",
-  "source": "Amazon.in"
-}
-```
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "item": {
-    /* full item object */
-  }
-}
-```
-
-### GET /api/wishlist/[id]
-
-Get a single wishlist item.
-
-**Response:**
-
-```json
-{
-  "id": "uuid",
-  "owner": 2,
-  "name": "Product Name",
-  "link": "https://...",
-  "currentPrice": "₹4,999",
-  "desiredPrice": "₹3,500",
-  "rating": "4.5/5",
-  "source": "Amazon.in",
-  "dateAdded": "2025-11-14T10:30:00Z",
-  "createdAt": "2025-11-14T10:30:00Z",
-  "updatedAt": "2025-11-14T10:30:00Z"
-}
-```
-
-### PATCH /api/wishlist/[id]
-
-Update wishlist item.
-
-**Body (all optional):**
-
-```json
-{
-  "name": "Updated Name",
-  "currentPrice": "₹4,299",
-  "desiredPrice": "₹3,000",
-  "rating": "4.7/5"
-}
-```
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "item": {
-    /* updated item */
-  }
-}
-```
-
-### DELETE /api/wishlist/[id]
-
-Remove item from wishlist.
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "message": "Wishlist item removed",
-  "deletedItem": {
-    "id": "uuid",
-    "name": "Product Name"
-  }
-}
-```
-
-### DELETE /api/wishlist
-
-Clear all wishlist items for a user.
-
-**Query Parameters:**
-
-- `owner` (number, required for services) - User ID
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "deletedCount": 5,
-  "message": "Cleared 5 items from wishlist"
-}
-```
+The CLI agents invoke these helpers directly, so there is no API gateway or authentication layer to document.
 
 ---
 
@@ -694,21 +559,24 @@ Directus-compatible:
 
 ---
 
-## Client Libraries
+## Client Helpers
 
-### Wishlist API Client (JavaScript/TypeScript)
+### Wishlist Manager (JavaScript/TypeScript)
+
+Wishlist operations now call Prisma directly. You can reuse the same helper Sera uses:
 
 ```typescript
-import { createWishlistApiClient } from "./wishlist-api-client";
+import {
+  addToWishlist,
+  getWishlist,
+  updateWishlistItem,
+  removeWishlistItem,
+  clearWishlist,
+  disconnectWishlist,
+} from "src/runtime/sera/wishlist-manager";
 
-const client = createWishlistApiClient({
-  baseUrl: "http://localhost:3000",
-  apiKey: process.env.API_KEY,
-  userId: 2,
-});
-
-// Add item
-const item = await client.addToWishlist({
+await addToWishlist({
+  owner: 2,
   name: "Product",
   link: "https://...",
   currentPrice: "₹999",
@@ -716,16 +584,14 @@ const item = await client.addToWishlist({
   source: "Amazon",
 });
 
-// Get wishlist
-const { items } = await client.getWishlist();
+const items = await getWishlist(2);
 
-// Update item
-await client.updateWishlistItem(id, {
-  currentPrice: "₹899",
-});
+await updateWishlistItem(items[0].id!, { currentPrice: "₹899" });
 
-// Remove item
-await client.removeWishlistItem(id);
+await removeWishlistItem(items[0].id!);
+
+// When shutting down long-lived scripts
+await disconnectWishlist();
 ```
 
 ---

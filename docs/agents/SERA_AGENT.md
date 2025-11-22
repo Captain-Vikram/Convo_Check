@@ -35,7 +35,7 @@ Sera is like that friend who **knows all the best stores**, remembers your prefe
 ## What's New in the Unified Runtime (Nov 2025)
 
 - **Modular search stack** – `SeraAgent` now delegates lookups to the typed `SeraSearchAdapter`/`search-planner`, which handle Google Shopping calls, contextual `getProductDetails`, and Amazon URL reverse-lookups before the LLM ever runs.
-- **Wishlist brain built-in** – The new `WishlistController` watches every utterance for “add/view” intents, supports pending actions when the user shares a bare Amazon link, and persists through `wishlist-api-client`, so wishlist edits feel instant.
+- **Wishlist brain built-in** – The new `WishlistController` watches every utterance for “add/view” intents, supports pending actions when the user shares a bare Amazon link, and persists directly through Prisma, so wishlist edits feel instant.
 - **Router-ready sessions** – `hydrateSession`/`snapshotSession` let the shared `ConversationRouter` persist Sera conversations the same way as Mill/Chatur, meaning `/api/agent` can hop users into shopping mode without losing their last search results.
 
 **Why it’s better**: shopping requests are faster, wishlist flows need fewer clarifications, and Sera now plugs directly into the same entrypoint as every other agent.
@@ -234,7 +234,7 @@ searchShopping({
 
 **Returns**: Success confirmation with saved item details
 
-**Database**: Calls `POST /api/wishlist` via wishlist-api-client
+**Database**: Persists via Prisma directly to `shopping_wishlist`
 
 #### 4. `viewWishlist`
 
@@ -248,7 +248,7 @@ searchShopping({
 - Rating, source
 - Date added
 
-**Database**: Calls `GET /api/wishlist` via wishlist-api-client
+**Database**: Reads via Prisma directly from `shopping_wishlist`
 
 #### 5. `getProductDetails`
 
@@ -556,20 +556,15 @@ Let me know what works for you! 💰"
 
 ### Database Integration
 
-**Technology**: REST API (no direct database access)
+**Technology**: Direct Prisma access (no REST hop)
 
-**API Endpoints Used**:
+**Data Access Layer**:
 
-- `POST /api/wishlist` - Add item
-- `GET /api/wishlist` - View all items
-- `GET /api/wishlist/[id]` - Get single item
-- `PATCH /api/wishlist/[id]` - Update item
-- `DELETE /api/wishlist/[id]` - Remove item
-- `DELETE /api/wishlist` - Clear all
+- `src/runtime/sera/wishlist-manager.ts` instantiates `PrismaClient`
+- CRUD helpers operate on `shopping_wishlist`
+- Owner context inferred from CLI persona when missing
 
-**Client**: `src/runtime/sera/wishlist-api-client.ts`
-
-**Authentication**: Uses SERVICE_API_TOKEN for API calls
+**Authentication**: Shares the same DATABASE_URL credentials as other agents
 
 ### Wishlist Item Schema
 
@@ -592,28 +587,24 @@ Let me know what works for you! 💰"
 ### Data Flow
 
 ```
-Sera Agent → wishlist-manager.ts → wishlist-api-client.ts → REST API → PostgreSQL
+Sera Agent → wishlist-manager.ts (Prisma) → PostgreSQL
 ```
 
 **Add to Wishlist**:
 
 1. User selects product from search
 2. Sera calls `addToWishlist()` in wishlist-manager
-3. Manager calls `wishlistApiClient.addToWishlist()`
-4. API client sends `POST /api/wishlist`
-5. Web server validates & stores in PostgreSQL
-6. Success response sent back to Sera
-7. Sera confirms to user
+3. Manager normalizes prices/meta and writes via Prisma
+4. Row stored in `shopping_wishlist`
+5. Result returned to Sera for confirmation
 
 **View Wishlist**:
 
 1. User asks "show my wishlist"
 2. Sera calls `getWishlist()` in wishlist-manager
-3. Manager calls `wishlistApiClient.getWishlist()`
-4. API client sends `GET /api/wishlist`
-5. Web server fetches from PostgreSQL
-6. Items returned to Sera
-7. Sera formats and displays to user
+3. Manager resolves owner + fetches rows with Prisma
+4. Items returned to Sera
+5. Sera formats and displays to user
 
 ### Migration Note
 
@@ -623,13 +614,13 @@ Sera Agent → wishlist-manager.ts → wishlist-api-client.ts → REST API → P
 
 ---
 
-## Technical Architecture
+### Technical Architecture
 
 ### External Services
 
 - **SerpAPI**: Google Shopping search results (SERPAPI_KEY)
 - **Google Gemini**: Powers conversational AI (SERA_GEMINI_API_KEY)
-- **PostgreSQL**: Stores wishlist data (via web API)
+- **PostgreSQL**: Stores wishlist data (direct Prisma access)
 
 ### Runtime Structure
 
@@ -637,16 +628,15 @@ Sera Agent → wishlist-manager.ts → wishlist-api-client.ts → REST API → P
 - **Runtime Logic**: `src/runtime/sera/sera-agent.ts`
 - **System Prompt**: `src/runtime/sera/system-prompt.ts`
 - **Tools**: `src/tools/sera.ts`
-- **Wishlist Manager**: `src/runtime/sera/wishlist-manager.ts`
-- **API Client**: `src/runtime/sera/wishlist-api-client.ts`
+- **Wishlist Manager**: `src/runtime/sera/wishlist-manager.ts` (Prisma CRUD)
 - **Search Service**: `src/runtime/sera/services/search-service.ts`
 - **Amazon Search**: `src/runtime/sera/sera-search.ts`
 
-### API Integration
+### Data Access
 
-- **Web API**: REST endpoints at `/api/wishlist`
-- **Authentication**: Bearer token (SERVICE_API_TOKEN)
-- **User Context**: DEV_USER_ID for CLI usage
+- **Database**: Prisma client pointed at `shopping_wishlist`
+- **Authentication**: DATABASE_URL credentials (no bearer token)
+- **User Context**: DEV_USER_ID or persona inference within manager
 
 ---
 
@@ -666,7 +656,7 @@ Sera is the **shopping companion** that helps users make informed purchase decis
 
 ### System Dependencies
 
-- **Depends on**: SerpAPI (product search), Web API (wishlist storage)
+- **Depends on**: SerpAPI (product search), PostgreSQL (wishlist storage via Prisma)
 - **Depended on by**: Users (shopping), Mill (transfers), Chatur (purchase decisions)
 
 ### Data Flow Position

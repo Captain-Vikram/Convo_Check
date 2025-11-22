@@ -50,7 +50,7 @@ async function fetchUserInsights(userId: string): Promise<HabitInsight[]> {
     if (isNaN(ownerId)) return [];
 
     const insights = await prisma.habit_insights.findMany({
-      where: { owner: ownerId, status: "published" },
+      where: { owner: ownerId, superseded: false },
       orderBy: { recorded_at: "desc" },
       take: 5,
     });

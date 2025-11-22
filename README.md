@@ -225,8 +225,8 @@ See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for complete API reference.
 - `POST /api/transactions` - Log new transaction
 - `GET /api/habits` - Get habit insights
 - `GET /api/coach-briefings` - Get coaching advice
-- `GET /api/wishlist` - View shopping wishlist
 - `POST /api/sms/process-queue` - Process SMS (cron job)
+- _Wishlist items are managed directly through Prisma (no public REST API)_
 
 ### SMS Processing (Cron Job)
 
@@ -278,7 +278,6 @@ Convo_Check/
 │   │           ├── alerts/       # Alerts CRUD
 │   │           ├── habits/       # Habit insights CRUD
 │   │           ├── coach-briefings/  # Coaching CRUD
-│   │           ├── wishlist/     # Shopping wishlist CRUD
 │   │           └── sms/          # SMS processing cron
 │   ├── middleware.ts             # Authentication
 │   └── package.json
@@ -350,7 +349,7 @@ Convo_Check/
 5. **Sera presents**: Product table with prices, ratings, stores
 6. **Sera helps decide**: Compares options, explains specs
 7. **User chooses**: "Add the first one to wishlist"
-8. **Sera saves**: Calls `POST /api/wishlist` via REST API
+8. **Sera saves**: Persists the item directly via Prisma into `shopping_wishlist`
 9. **Sera offers**: "Want to check if it fits your budget with Chatur?"
 
 ### Background: SMS Processing

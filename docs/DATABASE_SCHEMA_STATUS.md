@@ -236,8 +236,8 @@ last_checked: DateTime?             // ✅ Last price check
 
 **Code Location:**
 
-- `web/src/runtime/sera/wishlist-manager.ts`
-- `web/src/runtime/sera/sera-agent.ts`
+- `src/runtime/sera/wishlist-manager.ts`
+- `src/runtime/sera/sera-agent.ts`
 
 ---
 
@@ -247,20 +247,14 @@ last_checked: DateTime?             // ✅ Last price check
 
 ```
 POST /api/agent              - Universal agent router (Mill, Chatur, Dev, Sera)
-POST /api/mill-proxy         - Direct Mill agent access
 POST /api/sms/ingest         - Ingest SMS for transaction extraction
 POST /api/sms/process-queue  - Process queued SMS messages
-POST /api/analyst/auto-run   - Trigger Param agent analysis
 ```
 
-### Wishlist Routes
+### Wishlist Access
 
-```
-GET    /api/wishlist         - Get all wishlist items
-POST   /api/wishlist         - Add wishlist item
-PATCH  /api/wishlist/[id]    - Update wishlist item
-DELETE /api/wishlist/[id]    - Delete wishlist item
-```
+Handled entirely in-process through Prisma helpers (`src/runtime/sera/wishlist-manager.ts`).
+There is no REST entry point exposed by Next.js for wishlist CRUD.
 
 ### Utility Routes
 

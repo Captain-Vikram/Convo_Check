@@ -1,0 +1,885 @@
+[
+  {
+    "testName": "SMS Ingestion",
+    "url": "http://localhost:3000/api/sms/ingest",
+    "method": "POST",
+    "requestBody": {
+      "userPhone": "919619183585",
+      "smsBody": "You spent Rs 1250 at Amazon on 15-Nov-2025. -HDFC Bank",
+      "receivedAt": "2025-11-21T15:31:42.879Z"
+    },
+    "timestamp": "2025-11-21T15:31:42.880Z",
+    "status": "FAILED",
+    "response": null,
+    "error": "HTTP 401 - {\"error\":\"Unauthorized\"}"
+  },
+  {
+    "testName": "SMS Queue Processing",
+    "url": "http://localhost:3000/api/sms/process-queue",
+    "method": "POST",
+    "requestBody": null,
+    "timestamp": "2025-11-21T15:31:42.910Z",
+    "status": "FAILED",
+    "response": null,
+    "error": "HTTP 405 - "
+  },
+  {
+    "testName": "Mill Agent: 'I spent 250 rupees on groceries today'",
+    "url": "http://localhost:3000/api/agent",
+    "method": "POST",
+    "requestBody": {
+      "userId": "2",
+      "message": "I spent 250 rupees on groceries today"
+    },
+    "timestamp": "2025-11-21T15:31:42.920Z",
+    "status": "PASSED",
+    "response": {
+      "agent": "mill",
+      "message": "Got it! Could you tell me the amount and what it was for? 💸",
+      "sessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+      "completed": false,
+      "context": {
+        "activeAgent": "mill",
+        "conversationHistory": [
+          {
+            "agent": "mill",
+            "userMessage": "I spent 250 rupees on groceries today",
+            "agentResponse": "Got it! Could you tell me the amount and what it was for? 💸",
+            "timestamp": "2025-11-21T15:31:46.843Z"
+          }
+        ],
+        "updatedAt": "2025-11-21T15:31:46.843Z",
+        "millSessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+        "millSession": {
+          "sessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+          "startedAt": "2025-11-21T15:31:43.170Z",
+          "messages": [
+            {
+              "role": "user",
+              "content": "I spent 250 rupees on groceries today",
+              "timestamp": "2025-11-21T15:31:43.170Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Got it! Could you tell me the amount and what it was for? 💸",
+              "timestamp": "2025-11-21T15:31:46.843Z"
+            }
+          ],
+          "state": "active",
+          "intent": "logging",
+          "collectedInfo": {},
+          "pendingAction": "log_transaction"
+        }
+      }
+    },
+    "error": null
+  },
+  {
+    "testName": "Mill Agent: 'What did I spend yesterday?'",
+    "url": "http://localhost:3000/api/agent",
+    "method": "POST",
+    "requestBody": {
+      "userId": "2",
+      "message": "What did I spend yesterday?"
+    },
+    "timestamp": "2025-11-21T15:31:46.849Z",
+    "status": "PASSED",
+    "response": {
+      "agent": "mill",
+      "message": "Let me fetch your spending data for you! 📊",
+      "completed": false,
+      "sessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+      "context": {
+        "activeAgent": "mill",
+        "conversationHistory": [
+          {
+            "agent": "mill",
+            "userMessage": "I spent 250 rupees on groceries today",
+            "agentResponse": "Got it! Could you tell me the amount and what it was for? 💸",
+            "timestamp": "2025-11-21T15:31:46.843Z"
+          },
+          {
+            "agent": "mill",
+            "userMessage": "What did I spend yesterday?",
+            "agentResponse": "Let me fetch your spending data for you! 📊",
+            "timestamp": "2025-11-21T15:31:50.571Z"
+          }
+        ],
+        "updatedAt": "2025-11-21T15:31:50.572Z",
+        "millSessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+        "millSession": {
+          "sessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+          "startedAt": "2025-11-21T15:31:43.170Z",
+          "messages": [
+            {
+              "role": "user",
+              "content": "I spent 250 rupees on groceries today",
+              "timestamp": "2025-11-21T15:31:43.170Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Got it! Could you tell me the amount and what it was for? 💸",
+              "timestamp": "2025-11-21T15:31:46.843Z"
+            },
+            {
+              "role": "user",
+              "content": "What did I spend yesterday?",
+              "timestamp": "2025-11-21T15:31:46.855Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Let me fetch your spending data for you! 📊",
+              "timestamp": "2025-11-21T15:31:50.571Z"
+            }
+          ],
+          "state": "active",
+          "intent": "query",
+          "collectedInfo": {},
+          "pendingAction": "query_data"
+        }
+      }
+    },
+    "error": null
+  },
+  {
+    "testName": "Mill Agent: 'Show me my total spending this month'",
+    "url": "http://localhost:3000/api/agent",
+    "method": "POST",
+    "requestBody": {
+      "userId": "2",
+      "message": "Show me my total spending this month"
+    },
+    "timestamp": "2025-11-21T15:31:50.577Z",
+    "status": "PASSED",
+    "response": {
+      "agent": "mill",
+      "message": "Let me fetch your spending data for you! 📊",
+      "completed": false,
+      "sessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+      "context": {
+        "activeAgent": "mill",
+        "conversationHistory": [
+          {
+            "agent": "mill",
+            "userMessage": "I spent 250 rupees on groceries today",
+            "agentResponse": "Got it! Could you tell me the amount and what it was for? 💸",
+            "timestamp": "2025-11-21T15:31:46.843Z"
+          },
+          {
+            "agent": "mill",
+            "userMessage": "What did I spend yesterday?",
+            "agentResponse": "Let me fetch your spending data for you! 📊",
+            "timestamp": "2025-11-21T15:31:50.571Z"
+          },
+          {
+            "agent": "mill",
+            "userMessage": "Show me my total spending this month",
+            "agentResponse": "Let me fetch your spending data for you! 📊",
+            "timestamp": "2025-11-21T15:31:54.299Z"
+          }
+        ],
+        "updatedAt": "2025-11-21T15:31:54.299Z",
+        "millSessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+        "millSession": {
+          "sessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+          "startedAt": "2025-11-21T15:31:43.170Z",
+          "messages": [
+            {
+              "role": "user",
+              "content": "I spent 250 rupees on groceries today",
+              "timestamp": "2025-11-21T15:31:43.170Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Got it! Could you tell me the amount and what it was for? 💸",
+              "timestamp": "2025-11-21T15:31:46.843Z"
+            },
+            {
+              "role": "user",
+              "content": "What did I spend yesterday?",
+              "timestamp": "2025-11-21T15:31:46.855Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Let me fetch your spending data for you! 📊",
+              "timestamp": "2025-11-21T15:31:50.571Z"
+            },
+            {
+              "role": "user",
+              "content": "Show me my total spending this month",
+              "timestamp": "2025-11-21T15:31:50.582Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Let me fetch your spending data for you! 📊",
+              "timestamp": "2025-11-21T15:31:54.299Z"
+            }
+          ],
+          "state": "active",
+          "intent": "query",
+          "collectedInfo": {},
+          "pendingAction": "query_data"
+        }
+      }
+    },
+    "error": null
+  },
+  {
+    "testName": "Chatur Agent: 'How can I save more money?'",
+    "url": "http://localhost:3000/api/agent",
+    "method": "POST",
+    "requestBody": {
+      "userId": "2",
+      "message": "How can I save more money?"
+    },
+    "timestamp": "2025-11-21T15:31:54.304Z",
+    "status": "PASSED",
+    "response": {
+      "agent": "chatur",
+      "message": "Perfect! I'm Chatur, your financial coach. Let's work on your financial goals. 🎯",
+      "completed": false,
+      "switched": true,
+      "newAgent": "chatur",
+      "sessionId": "aaee4a3c-279c-4a1a-b431-fb4375dae892",
+      "context": {
+        "activeAgent": "chatur",
+        "conversationHistory": [
+          {
+            "agent": "mill",
+            "userMessage": "I spent 250 rupees on groceries today",
+            "agentResponse": "Got it! Could you tell me the amount and what it was for? 💸",
+            "timestamp": "2025-11-21T15:31:46.843Z"
+          },
+          {
+            "agent": "mill",
+            "userMessage": "What did I spend yesterday?",
+            "agentResponse": "Let me fetch your spending data for you! 📊",
+            "timestamp": "2025-11-21T15:31:50.571Z"
+          },
+          {
+            "agent": "mill",
+            "userMessage": "Show me my total spending this month",
+            "agentResponse": "Let me fetch your spending data for you! 📊",
+            "timestamp": "2025-11-21T15:31:54.299Z"
+          }
+        ],
+        "updatedAt": "2025-11-21T15:31:54.312Z",
+        "millSessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+        "millSession": {
+          "sessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+          "startedAt": "2025-11-21T15:31:43.170Z",
+          "messages": [
+            {
+              "role": "user",
+              "content": "I spent 250 rupees on groceries today",
+              "timestamp": "2025-11-21T15:31:43.170Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Got it! Could you tell me the amount and what it was for? 💸",
+              "timestamp": "2025-11-21T15:31:46.843Z"
+            },
+            {
+              "role": "user",
+              "content": "What did I spend yesterday?",
+              "timestamp": "2025-11-21T15:31:46.855Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Let me fetch your spending data for you! 📊",
+              "timestamp": "2025-11-21T15:31:50.571Z"
+            },
+            {
+              "role": "user",
+              "content": "Show me my total spending this month",
+              "timestamp": "2025-11-21T15:31:50.582Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Let me fetch your spending data for you! 📊",
+              "timestamp": "2025-11-21T15:31:54.299Z"
+            },
+            {
+              "role": "user",
+              "content": "How can I save more money?",
+              "timestamp": "2025-11-21T15:31:54.312Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Great question! Let me connect you with Chatur, our financial coach who specializes in personalized advice. 💡",
+              "timestamp": "2025-11-21T15:31:54.312Z"
+            }
+          ],
+          "state": "completed",
+          "intent": "general",
+          "collectedInfo": {},
+          "pendingAction": "query_data"
+        },
+        "chaturSessionId": "aaee4a3c-279c-4a1a-b431-fb4375dae892",
+        "chaturSession": {
+          "sessionId": "aaee4a3c-279c-4a1a-b431-fb4375dae892",
+          "startedAt": "2025-11-21T15:31:54.312Z",
+          "insights": [
+            {
+              "habit_label": "Overspending on Food",
+              "evidence": "₹8,000 spent (40% of total)",
+              "counsel": "Set ₹6,000 monthly cap",
+              "fullText": "Overspending on Food: ₹8,000 spent (40% of total). Counsel: Set ₹6,000 monthly cap."
+            },
+            {
+              "habit_label": "Good Savings Rate",
+              "evidence": "Saved 20% of income last month",
+              "counsel": "Maintain current savings habit",
+              "fullText": "Good Savings Rate: Saved 20% of income last month. Counsel: Maintain current savings habit."
+            }
+          ],
+          "messages": [
+            {
+              "role": "assistant",
+              "content": "Perfect! I'm Chatur, your financial coach. Let's work on your financial goals. 🎯",
+              "timestamp": "2025-11-21T15:31:54.312Z"
+            }
+          ],
+          "state": "active",
+          "collectedInfo": {},
+          "currentQuestion": "Perfect! I'm Chatur, your financial coach. Let's work on your financial goals. 🎯"
+        }
+      }
+    },
+    "error": null
+  },
+  {
+    "testName": "Chatur Agent: 'Give me tips to reduce my food expenses'",
+    "url": "http://localhost:3000/api/agent",
+    "method": "POST",
+    "requestBody": {
+      "userId": "2",
+      "message": "Give me tips to reduce my food expenses"
+    },
+    "timestamp": "2025-11-21T15:31:54.316Z",
+    "status": "PASSED",
+    "response": {
+      "agent": "chatur",
+      "message": "That's a great focus area! 🎯 I see you spent 💰₹8,000 on food last month, which is 40% of your total spending. To help you cut back, aim for the recommended cap of 💰₹6,000. Try meal prepping, cooking more at home, and planning your grocery trips to avoid impulse buys. This will boost your already good 20% savings rate! 🚀",
+      "completed": false,
+      "sessionId": "aaee4a3c-279c-4a1a-b431-fb4375dae892",
+      "context": {
+        "activeAgent": "chatur",
+        "conversationHistory": [
+          {
+            "agent": "mill",
+            "userMessage": "I spent 250 rupees on groceries today",
+            "agentResponse": "Got it! Could you tell me the amount and what it was for? 💸",
+            "timestamp": "2025-11-21T15:31:46.843Z"
+          },
+          {
+            "agent": "mill",
+            "userMessage": "What did I spend yesterday?",
+            "agentResponse": "Let me fetch your spending data for you! 📊",
+            "timestamp": "2025-11-21T15:31:50.571Z"
+          },
+          {
+            "agent": "mill",
+            "userMessage": "Show me my total spending this month",
+            "agentResponse": "Let me fetch your spending data for you! 📊",
+            "timestamp": "2025-11-21T15:31:54.299Z"
+          },
+          {
+            "agent": "chatur",
+            "userMessage": "Give me tips to reduce my food expenses",
+            "agentResponse": "That's a great focus area! 🎯 I see you spent 💰₹8,000 on food last month, which is 40% of your total spending. To help you cut back, aim for the recommended cap of 💰₹6,000. Try meal prepping, cooking more at home, and planning your grocery trips to avoid impulse buys. This will boost your already good 20% savings rate! 🚀",
+            "timestamp": "2025-11-21T15:31:59.029Z"
+          }
+        ],
+        "updatedAt": "2025-11-21T15:31:59.029Z",
+        "millSessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+        "millSession": {
+          "sessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+          "startedAt": "2025-11-21T15:31:43.170Z",
+          "messages": [
+            {
+              "role": "user",
+              "content": "I spent 250 rupees on groceries today",
+              "timestamp": "2025-11-21T15:31:43.170Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Got it! Could you tell me the amount and what it was for? 💸",
+              "timestamp": "2025-11-21T15:31:46.843Z"
+            },
+            {
+              "role": "user",
+              "content": "What did I spend yesterday?",
+              "timestamp": "2025-11-21T15:31:46.855Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Let me fetch your spending data for you! 📊",
+              "timestamp": "2025-11-21T15:31:50.571Z"
+            },
+            {
+              "role": "user",
+              "content": "Show me my total spending this month",
+              "timestamp": "2025-11-21T15:31:50.582Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Let me fetch your spending data for you! 📊",
+              "timestamp": "2025-11-21T15:31:54.299Z"
+            },
+            {
+              "role": "user",
+              "content": "How can I save more money?",
+              "timestamp": "2025-11-21T15:31:54.312Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Great question! Let me connect you with Chatur, our financial coach who specializes in personalized advice. 💡",
+              "timestamp": "2025-11-21T15:31:54.312Z"
+            }
+          ],
+          "state": "completed",
+          "intent": "general",
+          "collectedInfo": {},
+          "pendingAction": "query_data"
+        },
+        "chaturSessionId": "aaee4a3c-279c-4a1a-b431-fb4375dae892",
+        "chaturSession": {
+          "sessionId": "aaee4a3c-279c-4a1a-b431-fb4375dae892",
+          "startedAt": "2025-11-21T15:31:54.312Z",
+          "insights": [
+            {
+              "habit_label": "Overspending on Food",
+              "evidence": "₹8,000 spent (40% of total)",
+              "counsel": "Set ₹6,000 monthly cap",
+              "fullText": "Overspending on Food: ₹8,000 spent (40% of total). Counsel: Set ₹6,000 monthly cap."
+            },
+            {
+              "habit_label": "Good Savings Rate",
+              "evidence": "Saved 20% of income last month",
+              "counsel": "Maintain current savings habit",
+              "fullText": "Good Savings Rate: Saved 20% of income last month. Counsel: Maintain current savings habit."
+            }
+          ],
+          "messages": [
+            {
+              "role": "assistant",
+              "content": "Perfect! I'm Chatur, your financial coach. Let's work on your financial goals. 🎯",
+              "timestamp": "2025-11-21T15:31:54.312Z"
+            },
+            {
+              "role": "user",
+              "content": "Give me tips to reduce my food expenses",
+              "timestamp": "2025-11-21T15:31:54.324Z"
+            },
+            {
+              "role": "assistant",
+              "content": "That's a great focus area! 🎯 I see you spent 💰₹8,000 on food last month, which is 40% of your total spending. To help you cut back, aim for the recommended cap of 💰₹6,000. Try meal prepping, cooking more at home, and planning your grocery trips to avoid impulse buys. This will boost your already good 20% savings rate! 🚀",
+              "timestamp": "2025-11-21T15:31:59.029Z"
+            }
+          ],
+          "state": "active",
+          "collectedInfo": {
+            "primaryGoal": "reduce_spending",
+            "problemArea": "food",
+            "timeline": "immediate",
+            "constraints": "budget_amount"
+          },
+          "currentQuestion": "What's one small change you think you could make this week to start reducing your food expenses?"
+        }
+      }
+    },
+    "error": null
+  },
+  {
+    "testName": "Chatur Agent: 'Help me create a budget'",
+    "url": "http://localhost:3000/api/agent",
+    "method": "POST",
+    "requestBody": {
+      "userId": "2",
+      "message": "Help me create a budget"
+    },
+    "timestamp": "2025-11-21T15:31:59.033Z",
+    "status": "PASSED",
+    "response": {
+      "agent": "chatur",
+      "message": "Great idea! Creating a budget is key to managing your money effectively. Since we're focusing on food, let's start there. To build a full budget, could you share your average monthly income and your other top 2-3 spending categories? This will help us allocate funds smartly and maintain your excellent 20% savings rate! 🎯",
+      "completed": false,
+      "sessionId": "aaee4a3c-279c-4a1a-b431-fb4375dae892",
+      "context": {
+        "activeAgent": "chatur",
+        "conversationHistory": [
+          {
+            "agent": "mill",
+            "userMessage": "I spent 250 rupees on groceries today",
+            "agentResponse": "Got it! Could you tell me the amount and what it was for? 💸",
+            "timestamp": "2025-11-21T15:31:46.843Z"
+          },
+          {
+            "agent": "mill",
+            "userMessage": "What did I spend yesterday?",
+            "agentResponse": "Let me fetch your spending data for you! 📊",
+            "timestamp": "2025-11-21T15:31:50.571Z"
+          },
+          {
+            "agent": "mill",
+            "userMessage": "Show me my total spending this month",
+            "agentResponse": "Let me fetch your spending data for you! 📊",
+            "timestamp": "2025-11-21T15:31:54.299Z"
+          },
+          {
+            "agent": "chatur",
+            "userMessage": "Give me tips to reduce my food expenses",
+            "agentResponse": "That's a great focus area! 🎯 I see you spent 💰₹8,000 on food last month, which is 40% of your total spending. To help you cut back, aim for the recommended cap of 💰₹6,000. Try meal prepping, cooking more at home, and planning your grocery trips to avoid impulse buys. This will boost your already good 20% savings rate! 🚀",
+            "timestamp": "2025-11-21T15:31:59.029Z"
+          },
+          {
+            "agent": "chatur",
+            "userMessage": "Help me create a budget",
+            "agentResponse": "Great idea! Creating a budget is key to managing your money effectively. Since we're focusing on food, let's start there. To build a full budget, could you share your average monthly income and your other top 2-3 spending categories? This will help us allocate funds smartly and maintain your excellent 20% savings rate! 🎯",
+            "timestamp": "2025-11-21T15:32:02.599Z"
+          }
+        ],
+        "updatedAt": "2025-11-21T15:32:02.599Z",
+        "millSessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+        "millSession": {
+          "sessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+          "startedAt": "2025-11-21T15:31:43.170Z",
+          "messages": [
+            {
+              "role": "user",
+              "content": "I spent 250 rupees on groceries today",
+              "timestamp": "2025-11-21T15:31:43.170Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Got it! Could you tell me the amount and what it was for? 💸",
+              "timestamp": "2025-11-21T15:31:46.843Z"
+            },
+            {
+              "role": "user",
+              "content": "What did I spend yesterday?",
+              "timestamp": "2025-11-21T15:31:46.855Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Let me fetch your spending data for you! 📊",
+              "timestamp": "2025-11-21T15:31:50.571Z"
+            },
+            {
+              "role": "user",
+              "content": "Show me my total spending this month",
+              "timestamp": "2025-11-21T15:31:50.582Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Let me fetch your spending data for you! 📊",
+              "timestamp": "2025-11-21T15:31:54.299Z"
+            },
+            {
+              "role": "user",
+              "content": "How can I save more money?",
+              "timestamp": "2025-11-21T15:31:54.312Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Great question! Let me connect you with Chatur, our financial coach who specializes in personalized advice. 💡",
+              "timestamp": "2025-11-21T15:31:54.312Z"
+            }
+          ],
+          "state": "completed",
+          "intent": "general",
+          "collectedInfo": {},
+          "pendingAction": "query_data"
+        },
+        "chaturSessionId": "aaee4a3c-279c-4a1a-b431-fb4375dae892",
+        "chaturSession": {
+          "sessionId": "aaee4a3c-279c-4a1a-b431-fb4375dae892",
+          "startedAt": "2025-11-21T15:31:54.312Z",
+          "insights": [
+            {
+              "habit_label": "Overspending on Food",
+              "evidence": "₹8,000 spent (40% of total)",
+              "counsel": "Set ₹6,000 monthly cap",
+              "fullText": "Overspending on Food: ₹8,000 spent (40% of total). Counsel: Set ₹6,000 monthly cap."
+            },
+            {
+              "habit_label": "Good Savings Rate",
+              "evidence": "Saved 20% of income last month",
+              "counsel": "Maintain current savings habit",
+              "fullText": "Good Savings Rate: Saved 20% of income last month. Counsel: Maintain current savings habit."
+            }
+          ],
+          "messages": [
+            {
+              "role": "assistant",
+              "content": "Perfect! I'm Chatur, your financial coach. Let's work on your financial goals. 🎯",
+              "timestamp": "2025-11-21T15:31:54.312Z"
+            },
+            {
+              "role": "user",
+              "content": "Give me tips to reduce my food expenses",
+              "timestamp": "2025-11-21T15:31:54.324Z"
+            },
+            {
+              "role": "assistant",
+              "content": "That's a great focus area! 🎯 I see you spent 💰₹8,000 on food last month, which is 40% of your total spending. To help you cut back, aim for the recommended cap of 💰₹6,000. Try meal prepping, cooking more at home, and planning your grocery trips to avoid impulse buys. This will boost your already good 20% savings rate! 🚀",
+              "timestamp": "2025-11-21T15:31:59.029Z"
+            },
+            {
+              "role": "user",
+              "content": "Help me create a budget",
+              "timestamp": "2025-11-21T15:31:59.038Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Great idea! Creating a budget is key to managing your money effectively. Since we're focusing on food, let's start there. To build a full budget, could you share your average monthly income and your other top 2-3 spending categories? This will help us allocate funds smartly and maintain your excellent 20% savings rate! 🎯",
+              "timestamp": "2025-11-21T15:32:02.599Z"
+            }
+          ],
+          "state": "active",
+          "collectedInfo": {
+            "primaryGoal": "reduce_spending",
+            "problemArea": "food",
+            "timeline": "immediate",
+            "constraints": "budget_amount"
+          },
+          "currentQuestion": "What's your average monthly income and your top 2-3 other spending categories?"
+        }
+      }
+    },
+    "error": null
+  },
+  {
+    "testName": "Analyst Auto-Run (Habit Analysis)",
+    "url": "http://localhost:3000/api/analyst/auto-run",
+    "method": "POST",
+    "requestBody": null,
+    "timestamp": "2025-11-21T15:32:02.604Z",
+    "status": "FAILED",
+    "response": null,
+    "error": "HTTP 401 - {\"error\":\"Unauthorized. Valid SERVICE_API_TOKEN required.\"}"
+  },
+  {
+    "testName": "Sera Agent: 'I want to buy a laptop under 50000 rupees'",
+    "url": "http://localhost:3000/api/agent",
+    "method": "POST",
+    "requestBody": {
+      "userId": "2",
+      "message": "I want to buy a laptop under 50000 rupees"
+    },
+    "timestamp": "2025-11-21T15:32:02.613Z",
+    "status": "PASSED",
+    "response": {
+      "agent": "sera",
+      "message": "Ooh, a new laptop! How exciting! 🤩 I can totally help you find a fantastic one under ₹50,000.\n\nTo make sure I find the perfect match, could you tell me a little more?\n\n*   What will you mostly be using the laptop for? (e.g., studies, work, gaming, general browsing, creative tasks?)\n*   Are there any specific features that are super important to you, like screen size, storage (SSD vs HDD), RAM, or battery life?\n*   Any particular brands you love or want to avoid?\n\nOnce I have a better idea, I'll hunt down the best deals for you! ✨",
+      "completed": false,
+      "switched": true,
+      "newAgent": "sera",
+      "sessionId": "sera_1763739122619_i3gu8f",
+      "context": {
+        "activeAgent": "sera",
+        "conversationHistory": [
+          {
+            "agent": "mill",
+            "userMessage": "I spent 250 rupees on groceries today",
+            "agentResponse": "Got it! Could you tell me the amount and what it was for? 💸",
+            "timestamp": "2025-11-21T15:31:46.843Z"
+          },
+          {
+            "agent": "mill",
+            "userMessage": "What did I spend yesterday?",
+            "agentResponse": "Let me fetch your spending data for you! 📊",
+            "timestamp": "2025-11-21T15:31:50.571Z"
+          },
+          {
+            "agent": "mill",
+            "userMessage": "Show me my total spending this month",
+            "agentResponse": "Let me fetch your spending data for you! 📊",
+            "timestamp": "2025-11-21T15:31:54.299Z"
+          },
+          {
+            "agent": "chatur",
+            "userMessage": "Give me tips to reduce my food expenses",
+            "agentResponse": "That's a great focus area! 🎯 I see you spent 💰₹8,000 on food last month, which is 40% of your total spending. To help you cut back, aim for the recommended cap of 💰₹6,000. Try meal prepping, cooking more at home, and planning your grocery trips to avoid impulse buys. This will boost your already good 20% savings rate! 🚀",
+            "timestamp": "2025-11-21T15:31:59.029Z"
+          },
+          {
+            "agent": "chatur",
+            "userMessage": "Help me create a budget",
+            "agentResponse": "Great idea! Creating a budget is key to managing your money effectively. Since we're focusing on food, let's start there. To build a full budget, could you share your average monthly income and your other top 2-3 spending categories? This will help us allocate funds smartly and maintain your excellent 20% savings rate! 🎯",
+            "timestamp": "2025-11-21T15:32:02.599Z"
+          },
+          {
+            "agent": "sera",
+            "userMessage": "I want to buy a laptop under 50000 rupees",
+            "agentResponse": "Ooh, a new laptop! How exciting! 🤩 I can totally help you find a fantastic one under ₹50,000.\n\nTo make sure I find the perfect match, could you tell me a little more?\n\n*   What will you mostly be using the laptop for? (e.g., studies, work, gaming, general browsing, creative tasks?)\n*   Are there any specific features that are super important to you, like screen size, storage (SSD vs HDD), RAM, or battery life?\n*   Any particular brands you love or want to avoid?\n\nOnce I have a better idea, I'll hunt down the best deals for you! ✨",
+            "timestamp": "2025-11-21T15:32:04.923Z"
+          }
+        ],
+        "updatedAt": "2025-11-21T15:32:04.923Z",
+        "millSessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+        "millSession": {
+          "sessionId": "77152820-1585-47ef-b881-1f805ef783eb",
+          "startedAt": "2025-11-21T15:31:43.170Z",
+          "messages": [
+            {
+              "role": "user",
+              "content": "I spent 250 rupees on groceries today",
+              "timestamp": "2025-11-21T15:31:43.170Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Got it! Could you tell me the amount and what it was for? 💸",
+              "timestamp": "2025-11-21T15:31:46.843Z"
+            },
+            {
+              "role": "user",
+              "content": "What did I spend yesterday?",
+              "timestamp": "2025-11-21T15:31:46.855Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Let me fetch your spending data for you! 📊",
+              "timestamp": "2025-11-21T15:31:50.571Z"
+            },
+            {
+              "role": "user",
+              "content": "Show me my total spending this month",
+              "timestamp": "2025-11-21T15:31:50.582Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Let me fetch your spending data for you! 📊",
+              "timestamp": "2025-11-21T15:31:54.299Z"
+            },
+            {
+              "role": "user",
+              "content": "How can I save more money?",
+              "timestamp": "2025-11-21T15:31:54.312Z"
+            },
+            {
+              "role": "assistant",
+              "content": "Great question! Let me connect you with Chatur, our financial coach who specializes in personalized advice. 💡",
+              "timestamp": "2025-11-21T15:31:54.312Z"
+            }
+          ],
+          "state": "completed",
+          "intent": "general",
+          "collectedInfo": {},
+          "pendingAction": "query_data"
+        },
+        "seraSessionId": "sera_1763739122619_i3gu8f",
+        "seraSession": {
+          "sessionId": "sera_1763739122619_i3gu8f",
+          "messages": [
+            {
+              "role": "user",
+              "content": "I want to buy a laptop under 50000 rupees"
+            },
+            {
+              "role": "assistant",
+              "content": "Ooh, a new laptop! How exciting! 🤩 I can totally help you find a fantastic one under ₹50,000.\n\nTo make sure I find the perfect match, could you tell me a little more?\n\n*   What will you mostly be using the laptop for? (e.g., studies, work, gaming, general browsing, creative tasks?)\n*   Are there any specific features that are super important to you, like screen size, storage (SSD vs HDD), RAM, or battery life?\n*   Any particular brands you love or want to avoid?\n\nOnce I have a better idea, I'll hunt down the best deals for you! ✨"
+            }
+          ],
+          "createdAt": "2025-11-21T15:32:02.619Z",
+          "lastWishlistReference": "top"
+        }
+      }
+    },
+    "error": null
+  },
+  {
+    "testName": "Add Wishlist Item",
+    "url": "http://localhost:3000/api/wishlist",
+    "method": "POST",
+    "requestBody": {
+      "name": "Test Laptop",
+      "url": "https://example.com/laptop",
+      "currentPrice": 45000,
+      "targetPrice": 40000,
+      "currency": "INR",
+      "priority": "high"
+    },
+    "timestamp": "2025-11-21T15:32:04.928Z",
+    "status": "FAILED",
+    "response": null,
+    "error": "HTTP 401 - {\"error\":\"Unauthorized\"}"
+  },
+  {
+    "testName": "Get Wishlist Items",
+    "url": "http://localhost:3000/api/wishlist?limit=10",
+    "method": "GET",
+    "requestBody": null,
+    "timestamp": "2025-11-21T15:32:04.936Z",
+    "status": "FAILED",
+    "response": null,
+    "error": "HTTP 401 - {\"error\":\"Unauthorized\"}"
+  },
+  {
+    "testName": "Grounded Search",
+    "url": "http://localhost:3000/api/grounded-search",
+    "method": "POST",
+    "requestBody": {
+      "query": "best budget smartphones in India",
+      "num": 5
+    },
+    "timestamp": "2025-11-21T15:32:04.945Z",
+    "status": "PASSED",
+    "response": {
+      "provider": "serpapi",
+      "cached": false,
+      "query": "best budget smart[redacted] in India",
+      "snippets": [
+        {
+          "title": "The 9 best AI contract review software tools for 2025",
+          "snippet": "Compare the Best AI Contract Review Tools for 2025 ; LegalFly, Bulk AI review, auto-redrafting, sensitive-data redaction, multilingual & ...",
+          "url": "https://www.legalfly.com/post/9-best-ai-contract-review-software-tools-for-2025",
+          "provider": "serpapi",
+          "source": "LegalFly",
+          "publishedAt": "2025-08-21T18:30:00.000Z",
+          "confidence": 0.85
+        },
+        {
+          "title": "Top 10 AI Document Redaction Tools in 2025",
+          "snippet": "Short Description: PDFelement Pro is an affordable AI-powered PDF redaction tool for small to medium businesses, offering intuitive ...",
+          "url": "https://www.devopsschool.com/blog/top-10-ai-document-redaction-tools-in-2025-features-pros-cons-comparison/",
+          "provider": "serpapi",
+          "source": "Devopsschool.com",
+          "publishedAt": "2025-09-12T18:30:00.000Z",
+          "confidence": 0.84
+        },
+        {
+          "title": "Best AI Redaction Software for Freelancers of 2025",
+          "snippet": "Reviewing contracts and spotting red flags has never been easier. Smart Review works straight out of the box and requires no technical expertise to get started.",
+          "url": "https://sourceforge.net/software/ai-redaction/for-freelance/",
+          "provider": "serpapi",
+          "source": "SourceForge",
+          "confidence": 0.4
+        },
+        {
+          "title": "Best Free PDF Redaction Software",
+          "snippet": "WPS Office is a high performing, yet considerably more affordable solution, fully compatible and comparable to Microsoft PowerPoint, Excel and Word. The WPS ...",
+          "url": "https://sourceforge.net/software/pdf-redaction/free-version/",
+          "provider": "serpapi",
+          "source": "SourceForge",
+          "confidence": 0.4
+        }
+      ]
+    },
+    "error": null
+  },
+  {
+    "testName": "Mill Proxy Call",
+    "url": "http://localhost:3000/api/mill-proxy",
+    "method": "POST",
+    "requestBody": {
+      "userId": "2",
+      "message": "Log transaction: coffee 150 rupees"
+    },
+    "timestamp": "2025-11-21T15:32:05.012Z",
+    "status": "FAILED",
+    "response": null,
+    "error": "HTTP 500 - {\"error\":\"Unexpected token '<', \\\"<!DOCTYPE \\\"... is not valid JSON\"}"
+  }
+]
