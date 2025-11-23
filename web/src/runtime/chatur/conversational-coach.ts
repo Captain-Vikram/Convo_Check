@@ -165,8 +165,28 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
     // Check if conversation is complete
     if (result.completed) {
       session.state = "completed";
-      // const guidance = await this.generateFinalGuidance(session);
-      return { message: result.message, completed: true };
+      
+      // If the result itself contains guidance fields (from JSON output), use them
+      let guidance: CoachGuidance | undefined;
+      if (result.extractedInfo && (result.extractedInfo as any).headline) {
+          guidance = {
+              headline: (result.extractedInfo as any).headline,
+              counsel: (result.extractedInfo as any).counsel || result.message,
+              evidence: (result.extractedInfo as any).evidence || "Conversation-based",
+              conversationSummary: session.messages.filter(m => m.role === "user").map(m => m.content).join(" | ")
+          };
+      } else if ((result as any).headline) { // Check if result has top-level guidance fields
+           guidance = {
+              headline: (result as any).headline,
+              counsel: (result as any).counsel || result.message,
+              evidence: (result as any).evidence || "Conversation-based",
+              conversationSummary: session.messages.filter(m => m.role === "user").map(m => m.content).join(" | ")
+          };
+      } else {
+          guidance = await this.generateFinalGuidance(session);
+      }
+
+      return { message: result.message, completed: true, guidance };
     }
 
     // Update current question
@@ -353,6 +373,17 @@ KEY RULES:
       }
 
       const parsed = JSON.parse(jsonText.slice(startIdx, endIdx + 1));
+      
+      // Check if this is a "decision" response (Coach Briefing format)
+      if (parsed.decision || parsed.headline) {
+          return {
+              message: parsed.counsel || parsed.message || "Here is my advice.",
+              completed: true, // Briefings usually end the turn
+              extractedInfo: parsed, // Pass the whole object as info so we can extract guidance
+              shouldEscalateToMill: false
+          };
+      }
+
       return {
         message: parsed.message ?? text,
         completed: parsed.completed ?? false,

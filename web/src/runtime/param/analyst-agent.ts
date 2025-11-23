@@ -371,37 +371,23 @@ function getLatestTransactionTimestamp(transactions: NormalizedTransaction[]): D
 }
 
 async function loadProcessingCursor(ownerId: number): Promise<HabitProcessingCursorState | null> {
-  try {
-    const record = await prisma.habit_processing_cursors.findUnique({ where: { owner: ownerId } });
-    return record ? mapCursorRecord(record) : null;
-  } catch (error) {
-    logger.error("analyst-agent", "Failed to load processing cursor", error, { ownerId });
-    return null;
-  }
+  // Table habit_processing_cursors does not exist, so we return null to force analysis of all transactions
+  // or we could implement a different storage mechanism later.
+  return null;
 }
 
 async function saveProcessingCursor(
   ownerId: number,
   data: Partial<HabitProcessingCursorState>,
 ): Promise<HabitProcessingCursorState> {
-  const payload = {
-    last_transaction_at: data.lastTransactionAt ?? null,
-    last_run_at: data.lastRunAt ?? new Date(),
-    last_trigger: data.lastTrigger ?? null,
-    last_analysis_version: data.lastAnalysisVersion ?? null,
+  // Table habit_processing_cursors does not exist, so we just return the data as if it was saved.
+  return {
+    owner: ownerId,
+    lastTransactionAt: data.lastTransactionAt ?? null,
+    lastRunAt: data.lastRunAt ?? new Date(),
+    lastTrigger: data.lastTrigger ?? null,
+    lastAnalysisVersion: data.lastAnalysisVersion ?? null,
   };
-
-  const record = await prisma.habit_processing_cursors.upsert({
-    where: { owner: ownerId },
-    update: payload,
-    create: {
-      owner: ownerId,
-      created_at: new Date(),
-      ...payload,
-    },
-  });
-
-  return mapCursorRecord(record);
 }
 
 function mapCursorRecord(record: any): HabitProcessingCursorState {
@@ -1007,6 +993,25 @@ function parseHabitInsight(line: string): HabitInsight {
     return { ...simple, fullText: line };
   }
 
+  // Fallback: Try to split by pipes if structured parsing failed
+  const parts = withoutBullet.split("|").map(p => p.trim());
+  if (parts.length >= 3) {
+      const habitLabel = parts[0];
+      const evidence = parts[1].replace(/^(Evidence|Ev):?\s*/i, "");
+      const counsel = parts[2].replace(/^(Recommendation|Rec|Counsel):?\s*/i, "");
+      return { habitLabel, evidence, counsel, fullText: line };
+  }
+
+  // Last resort: just use the whole line as counsel if it looks like a sentence
+  if (withoutBullet.length > 20) {
+      return {
+          habitLabel: "General Observation",
+          evidence: "Observed from recent transactions",
+          counsel: withoutBullet,
+          fullText: line
+      };
+  }
+
   throw new Error(
     "Language model output did not match the expected Habit Label/Evidence/Counsel structure.",
   );
@@ -1241,7 +1246,3 @@ function roundNumber(value: number): number {
   return Number.isFinite(value) ? Number(value.toFixed(2)) : 0;
 }
 
-runAnalyst().catch((error) => {
-  console.error("[analyst] Failed to generate habits narrative", error);
-  process.exitCode = 1;
-});

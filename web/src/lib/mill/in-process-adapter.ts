@@ -11,9 +11,19 @@ import type { SpendingSummaryResult } from "@/tools/query-spending-summary";
 import type { HabitInsight } from "@/runtime/param/analyst-agent";
 import { runAnalyst } from "@/runtime/param/analyst-agent";
 import type { LogCashTransactionPayload } from "@/tools/log-cash-transaction";
+import type { CoachBriefing } from "@/runtime/chatur/coach-agent";
 import { randomUUID } from "node:crypto";
+import * as fs from "fs";
+import * as path from "path";
 
 const conversationRouter = new ConversationRouter(getConversationStore());
+
+function logDebug(message: string, data?: any) {
+  const logPath = path.join(process.cwd(), "debug.log");
+  const timestamp = new Date().toISOString();
+  const line = `[${timestamp}] ${message} ${data ? JSON.stringify(data) : ""}\n`;
+  fs.appendFileSync(logPath, line);
+}
 
 export interface AgentEntryRequest {
   userId: string;
@@ -54,8 +64,11 @@ async function fetchUserInsights(userId: string): Promise<HabitInsight[]> {
 
     // Trigger analyst run for fresh data
     try {
-      await runAnalyst({ ownerId, trigger: "chatur" });
+      logDebug(`[fetchUserInsights] Running analyst for owner ${ownerId}...`);
+      const result = await runAnalyst({ ownerId, trigger: "chatur" });
+      logDebug(`[fetchUserInsights] Analyst result:`, result);
     } catch (e) {
+      logDebug(`[fetchUserInsights] Failed to run analyst`, e);
       console.error("Failed to run analyst", e);
     }
 
@@ -117,7 +130,7 @@ async function saveCoachBriefing(userId: string, briefing: CoachBriefing): Promi
         id: randomUUID(),
         owner: ownerId,
         headline: briefing.headline || "Coach Advice",
-        counsel: briefing.counsel || briefing.message || "",
+        counsel: briefing.counsel || "",
         evidence: briefing.evidence || "",
         status: "Active",
         date_created: new Date(),

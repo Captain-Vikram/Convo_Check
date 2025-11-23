@@ -78,7 +78,12 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
     }
 
     if (session.state !== "active") {
-      throw new Error(`Mill conversation ${sessionId} is ${session.state}`);
+      // If session is already completed/abandoned but router still routed here,
+      // return completed so router can clean up.
+      return {
+        message: "Session previously ended.",
+        completed: true,
+      };
     }
 
     const normalizedInput = normalizeAgentInput(userMessage);
@@ -302,6 +307,19 @@ KEY RULES:
       }
 
       const parsed = JSON.parse(jsonText.slice(startIdx, endIdx + 1));
+
+      // Handle tool_code (legacy/alternative format)
+      if (parsed.tool_code && typeof parsed.tool_code === 'string') {
+        if (parsed.tool_code.includes('query_spending_summary')) {
+           return {
+             message: parsed.message || "Checking that for you...",
+             intent: "query",
+             action: "query_data",
+             extractedInfo: {},
+           };
+        }
+      }
+
       return {
         message: parsed.message ?? text,
         intent: parsed.intent,
