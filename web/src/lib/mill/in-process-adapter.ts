@@ -224,19 +224,36 @@ export async function processAgentMessage(
     throw new Error("Either message or attachments are required");
   }
 
-  const agentInput: AgentInput = {
-    text: req.message ?? "",
-    attachments: hasAttachments ? req.attachments : undefined,
-  };
+  // Special-case: structured sms_ingest_event payloads
+  let isSmsIngestEvent = false;
+  let parsedSmsEvent: any = null;
+  try {
+    if (hasMessage && req.message?.trim().startsWith("{")) {
+      const candidate = JSON.parse(req.message as string);
+      if (candidate && candidate.type === "sms_ingest_event" && candidate.analysis) {
+        isSmsIngestEvent = true;
+        parsedSmsEvent = candidate;
+      }
+    }
+  } catch (err) {
+    // not JSON or not the expected shape - fall back to plain text
+  }
 
-  const response = await conversationRouter.continueConversation(
-    req.userId,
-    agentInput,
-    {
-      ...req.options,
-      onInsightsAvailable: req.options?.onInsightsAvailable ?? (() => fetchUserInsights(req.userId)),
-      onQueryReady: req.options?.onQueryReady ?? (() => fetchFinancialSummary(req.userId)),
-      onTransactionReady: req.options?.onTransactionReady ?? (async (payload) => {
+  const agentInput: AgentInput = isSmsIngestEvent
+    ? {
+        text: buildSmsIngestPrompt(parsedSmsEvent),
+      }
+    : {
+        text: req.message ?? "",
+        attachments: hasAttachments ? req.attachments : undefined,
+      };
+
+  // Shared options for routing callbacks
+  const routerOptions: ConversationRouterOptions = {
+    ...req.options,
+    onInsightsAvailable: req.options?.onInsightsAvailable ?? (() => fetchUserInsights(req.userId)),
+    onQueryReady: req.options?.onQueryReady ?? (() => fetchFinancialSummary(req.userId)),
+    onTransactionReady: req.options?.onTransactionReady ?? (async (payload) => {
         // Route Mill transaction logging through Dev pipeline so dedupe/alerts/persistence are unified.
         try {
           const ownerId = parseInt(req.userId, 10);
@@ -256,11 +273,18 @@ export async function processAgentMessage(
           return;
         }
       }),
-      onRecentTransactionsReady: () => fetchRecentTransactions(req.userId),
-      onPastBriefingsReady: () => fetchPastBriefings(req.userId),
-      onCoachBriefingReady: (briefing) => saveCoachBriefing(req.userId, briefing),
-    },
-  );
+    onRecentTransactionsReady: () => fetchRecentTransactions(req.userId),
+    onPastBriefingsReady: () => fetchPastBriefings(req.userId),
+    onCoachBriefingReady: (briefing) => saveCoachBriefing(req.userId, briefing),
+  };
+
+  // If this is an sms_ingest_event, start a fresh conversation so Mill greets and asks consent.
+  let response: any;
+  if (isSmsIngestEvent) {
+    response = await conversationRouter.startConversation(req.userId, agentInput, routerOptions);
+  } else {
+    response = await conversationRouter.continueConversation(req.userId, agentInput, routerOptions);
+  }
 
   const context = await conversationRouter.getContext(req.userId);
   const sessionId =
@@ -310,3 +334,42 @@ export async function processAgentMessage(
 }
 
 export default processAgentMessage;
+
+/**
+ * Build a concise, user-facing prompt from a structured sms_ingest_event.
+ */
+function buildSmsIngestPrompt(event: any): string {
+  try {
+    const analysis = event.analysis || {};
+    const status = analysis.status || "draft";
+    const data = analysis.data || {};
+    const missing = Array.isArray(analysis.missing) ? analysis.missing : [];
+    const confidence = analysis.confidence || "medium";
+    const original = analysis.original_text || event.original_text || "";
+
+    const parts: string[] = [];
+    parts.push(`Dev produced a draft from an incoming SMS (status: ${status}; confidence: ${confidence}).`);
+
+    if (data.merchant || data.amount || data.currency || data.method || data.date) {
+      const merchant = data.merchant ? `${data.merchant}` : "an unknown merchant";
+      const amount = typeof data.amount === "number" ? `${data.currency || "INR"} ${data.amount}` : "an unknown amount";
+      const method = data.method ? ` via ${data.method}` : "";
+      parts.push(`It looks like ${amount} at ${merchant}${method} on ${data.date ?? "an unknown date"}.`);
+    } else if (original) {
+      parts.push(`Raw message: "${original}"`);
+    }
+
+    if (missing.length > 0) {
+      parts.push(`The following fields are missing: ${missing.join(", ")}.`);
+    }
+
+    parts.push("Please ask the user to confirm and provide any missing details. Once the user confirms, persist the final transaction via Dev.");
+
+    // Friendly opening to encourage Mill to ask consent
+    parts.push("Suggested: Hey, Dev just pinged me — would you like me to log this transaction? Is that all, or can I get more details (category, memo)?");
+
+    return parts.join(" ");
+  } catch (err) {
+    return `Dev produced a draft from an SMS. Please ask the user to confirm details and persist via Dev.`;
+  }
+}
