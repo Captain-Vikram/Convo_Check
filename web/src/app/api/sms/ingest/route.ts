@@ -90,29 +90,26 @@ export async function POST(request: Request) {
   const explicitSenderName = normalizeBodyString(body.senderName);
   const isFinancialFlag = normalizeBodyString(body.is_financial ?? body.isFinancial ?? undefined);
 
-  // Phase 1: send raw SMS to Dev for classification (no DB writes).
+    // Phase 1: send raw SMS to Dev for classification (no DB writes).
   try {
-    const draft = await analyzeRawSMS(message);
+    const analysis = await analyzeRawSMS(message);
 
-    // Build a friendly prompt for Mill to engage the user.
-    let millPrompt: string;
+    // Build a structured event so the adapter and Mill can detect it reliably.
+    const event = {
+      type: "sms_ingest_event",
+      analysis: analysis,
+      original_text: message,
+    } as const;
 
-    if ((draft as any).status === "unparseable") {
-      millPrompt = `I received an SMS but Dev could not parse it reliably. Raw message: "${message}". Please ask the user for more information and attempt to extract transaction details.`;
-    } else {
-      const d = (draft as any).data;
-      const missing = (draft as any).missing || [];
-      const confidence = (draft as any).confidence || "medium";
-      millPrompt = `Dev produced a draft transaction from an SMS. Draft: ${JSON.stringify(d)}. Missing fields: ${JSON.stringify(missing)}. Confidence: ${confidence}. Please ask the user to confirm or provide the missing information. Once the user confirms, persist the final transaction.`;
-    }
-
-    // Trigger Mill to start a conversation with the user about this draft.
+    // Trigger Mill via the in-process adapter. We send the structured event
+    // as a JSON string so the adapter's JSON detector will start a Mill
+    // conversation using the sms-ingest UX.
     const millResp = await processAgentMessage({
       userId: String(userContext.userId),
-      message: millPrompt,
+      message: JSON.stringify(event),
     });
 
-    return NextResponse.json({ status: "drafted", draft, mill: millResp }, { status: 202 });
+    return NextResponse.json({ status: "drafted", analysis, mill: millResp }, { status: 202 });
   } catch (err) {
     return NextResponse.json({ error: "Failed to classify SMS" }, { status: 500 });
   }

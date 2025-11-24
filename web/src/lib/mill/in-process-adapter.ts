@@ -366,7 +366,15 @@ function buildSmsIngestPrompt(event: any): string {
     parts.push("Please ask the user to confirm and provide any missing details. Once the user confirms, persist the final transaction via Dev.");
 
     // Friendly opening to encourage Mill to ask consent
-    parts.push("Suggested: Hey, Dev just pinged me — would you like me to log this transaction? Is that all, or can I get more details (category, memo)?");
+    // Use the exact wording the user requested as the opening line.
+    const method = data.method ? data.method.toUpperCase() : "UPI";
+    const merchantLabel = data.merchant ? `${data.merchant}` : "Unknown Merchant";
+    const amountLabel = typeof data.amount === "number" ? `${data.currency || "INR"} ${data.amount}` : "an amount";
+    const originalText = original || (analysis.data && analysis.data.raw) || "";
+
+    parts.push(
+      `Hey, I saw that Dev told me you had a transaction through ${method} for ${amountLabel} at ${merchantLabel}. Would you like to log that in with the message: '${originalText}'? Is that all, or can I get more data?`
+    );
 
     return parts.join(" ");
   } catch (err) {
