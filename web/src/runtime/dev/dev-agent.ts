@@ -27,6 +27,7 @@ import {
   type AlertRecord,
 } from "./alert-manager";
 import { prisma } from "@/lib/prisma";
+import { callLLM } from "@/runtime/shared/llm-client";
 
 export interface AnalystMetadata {
   transactionId: string;
@@ -241,7 +242,8 @@ export async function createDevAgentEnvironment(
   options: FileSystemDevToolOptions = {},
 ): Promise<DevAgentEnvironment> {
   const baseDir = options.baseDir ?? join(process.cwd(), "data");
-  const seededTransactions = await loadSeedTransactionsFromApi();
+  // No external seed-loader: keep seeded transactions empty and rely on DB
+  const seededTransactions: NormalizedTransaction[] = [];
 
   const knownTransactionIds = new Set<string>();
 
@@ -428,6 +430,98 @@ export async function createFileSystemDevTools(
 }
 
 /**
+ * Analyze raw SMS text and return a draft transaction object with any missing fields.
+ * This does NOT write to the database.
+ */
+export async function analyzeRawSMS(text: string): Promise<{ status: "draft"; data: Record<string, any>; missing: string[]; confidence: "low" | "medium" | "high" } | { status: "unparseable" }> {
+  const systemPrompt = `You are an assistant that extracts structured transaction data from a single SMS message. Return a JSON object or the string null. The JSON object must include keys: amount (number), currency (string), type ("credit"|"debit"), description (string), merchant (string|null), date (ISO-8601|null), category (string|null). Also include a 'confidence' field (low|medium|high) and an array 'missing' listing missing keys. If the message cannot be parsed as a financial transaction, respond with null.`;
+
+  const userPrompt = `SMS: ${text}`;
+
+  try {
+    const result = await callLLM("agent2", { messages: [{ role: "system", content: systemPrompt }, { role: "user", content: userPrompt }], temperature: 0.1 });
+    const textOut = (result as any)?.text ?? (result as any)?.output ?? "";
+    if (!textOut || typeof textOut !== "string") return { status: "unparseable" };
+
+    let parsed: any = null;
+    try {
+      parsed = JSON.parse(textOut.trim());
+    } catch (err) {
+      const m = textOut.match(/```json\s*([\s\S]*?)```/i);
+      if (m && m[1]) {
+        try {
+          parsed = JSON.parse(m[1].trim());
+        } catch (err2) {
+          return { status: "unparseable" };
+        }
+      } else {
+        return { status: "unparseable" };
+      }
+    }
+
+    if (!parsed) return { status: "unparseable" };
+
+    const required = ["amount", "currency", "type", "description"];
+    const missing: string[] = [];
+    for (const k of required) {
+      if (parsed[k] === undefined || parsed[k] === null || parsed[k] === "") missing.push(k);
+    }
+
+    const confidence = (parsed.confidence && ["low", "medium", "high"].includes(parsed.confidence)) ? parsed.confidence : "medium";
+
+    const data = {
+      amount: parsed.amount ?? null,
+      currency: parsed.currency ?? "INR",
+      type: parsed.type ?? null,
+      description: parsed.description ?? text,
+      merchant: parsed.merchant ?? parsed.targetParty ?? null,
+      date: parsed.date ?? null,
+      category: parsed.category ?? null,
+      raw: text,
+    };
+
+    return { status: "draft", data, missing, confidence };
+  } catch (err) {
+    devLogger.error("analyzeRawSMS failed", { error: err });
+    return { status: "unparseable" };
+  }
+}
+
+/**
+ * Commit a finalized transaction payload to the system. This runs the Dev pipeline
+ * (dedupe, persistence, analyst triggering). Pass `ownerId` to associate with user.
+ */
+export async function commitTransaction(ownerId: number, payload: any): Promise<any> {
+  try {
+    const tools = await createFileSystemDevTools();
+    const categorization = { flavor: "unknown", inferredCategory: payload.category ?? "Uncategorized" } as any;
+
+    // Construct minimal LogCashTransactionPayload shape expected by runDevPipeline
+    const normalizedPayload: any = {
+      id: payload.id ?? randomUUID(),
+      amount: payload.amount,
+      description: payload.description ?? payload.raw ?? "",
+      category: payload.category ?? payload.inferredCategory ?? "Uncategorized",
+      direction: payload.type === "credit" ? "income" : "expense",
+      eventDate: payload.date ? payload.date.slice(0, 10) : new Date().toISOString().slice(0, 10),
+      eventTime: payload.date ? payload.date.slice(11, 19) : undefined,
+      meta: {},
+    };
+
+    const result = await runDevPipeline(normalizedPayload, categorization, {
+      tools,
+      meta: { ownerId },
+      alertManager: undefined,
+    } as any);
+
+    return result;
+  } catch (err) {
+    devLogger.error("commitTransaction failed", { error: err, ownerId, payload });
+    throw err;
+  }
+}
+
+/**
  * Build duplicate key using SHA-256 hash for fast comparison
  * Uses normalized transaction fields to detect duplicates
  */
@@ -606,11 +700,17 @@ export async function computeSpendingSummary(ownerId: number) {
  */
 export async function fetchHabitInsights(ownerId: number, limit = 5) {
   try {
-    return await prisma.habit_insights.findMany({
-      where: { owner: ownerId, superseded: false },
-      orderBy: { recorded_at: "desc" },
-      take: limit,
-    });
+    // Use a raw SQL query to avoid Prisma trying to select DB columns
+    // that may be absent in the live database (e.g. `updated_at`).
+    const rows = await prisma.$queryRaw`
+      SELECT id, habit_id, owner, habit_label, evidence, counsel, full_text, metrics, recorded_at, superseded, previous_habit_id
+      FROM habit_insights
+      WHERE owner = ${ownerId} AND coalesce(superseded, false) = false
+      ORDER BY recorded_at DESC
+      LIMIT ${limit}
+    `;
+
+    return Array.isArray(rows) ? rows : [];
   } catch (err) {
     devLogger.error("fetchHabitInsights failed", { ownerId, error: err });
     return [];
@@ -624,26 +724,26 @@ export async function fetchHabitInsights(ownerId: number, limit = 5) {
 export async function persistSyntheticHabitInsight(ownerId: number, insight: { habitLabel: string; evidence: string; counsel: string; fullText?: string; }) {
   try {
     const habitId = randomUUID();
-    await prisma.habit_insights.create({
-      data: {
-        owner: ownerId,
-        habit_id: habitId,
-        habit_label: insight.habitLabel,
-        evidence: insight.evidence,
-        counsel: insight.counsel,
-        full_text: insight.fullText ?? `${insight.evidence}. Suggested: ${insight.counsel}`,
-        recorded_at: new Date(),
-        superseded: false,
-        previous_habit_id: null,
-      },
-    });
+    // Insert via raw SQL to avoid Prisma attempting to set/read missing
+    // `updated_at` or other columns present in the generated client but
+    // absent from the live database.
+    const fullText = insight.fullText ?? `${insight.evidence}. Suggested: ${insight.counsel}`;
+    const inserted: any = await prisma.$queryRaw`
+      INSERT INTO habit_insights (habit_id, owner, habit_label, evidence, counsel, full_text, recorded_at, superseded, previous_habit_id)
+      VALUES (${habitId}, ${ownerId}, ${insight.habitLabel}, ${insight.evidence}, ${insight.counsel}, ${fullText}, now(), false, null)
+      RETURNING id, habit_id, owner, habit_label, evidence, counsel, full_text, metrics, recorded_at, superseded, previous_habit_id
+    `;
+
+    // Some Prisma variants return the row as first element or as the value itself
+    const row = Array.isArray(inserted) ? inserted[0] : inserted;
 
     return {
       habitId,
       habitLabel: insight.habitLabel,
       evidence: insight.evidence,
       counsel: insight.counsel,
-      fullText: insight.fullText ?? `${insight.evidence}. Suggested: ${insight.counsel}`,
+      fullText,
+      persisted: row ?? null,
     };
   } catch (err) {
     devLogger.error("persistSyntheticHabitInsight failed", { ownerId, error: err });

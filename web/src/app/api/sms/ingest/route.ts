@@ -3,7 +3,8 @@ import { timingSafeEqual } from "node:crypto";
 
 import { prisma } from "@/lib/prisma";
 import { getUserContext } from "@/lib/auth-middleware";
-import { enqueueSmsProcessingJob } from "@/lib/sms-processor";
+import processAgentMessage from "@/lib/mill/in-process-adapter";
+import { analyzeRawSMS } from "@/runtime/dev/dev-agent";
 
 interface SmsIngestRequestBody {
   sender?: unknown;
@@ -89,38 +90,32 @@ export async function POST(request: Request) {
   const explicitSenderName = normalizeBodyString(body.senderName);
   const isFinancialFlag = normalizeBodyString(body.is_financial ?? body.isFinancial ?? undefined);
 
-  const smsRecord = await prisma.sms_messages.create({
-    data: {
-      status: "queued",
-      date_created: new Date(),
-      raw_text: message,
-      sender_name: sender,
-      time: resolvedTimestamp,
-      receiver_phone_number: receiver,
-      owner: userContext.userId,
-    },
-    select: { id: true },
-  });
+  // Phase 1: send raw SMS to Dev for classification (no DB writes).
+  try {
+    const draft = await analyzeRawSMS(message);
 
-  await enqueueSmsProcessingJob({
-    smsMessageId: smsRecord.id,
-    userId: userContext.userId as number, // Safe: userContext is non-null and has userId
-    sender,
-    senderName: explicitSenderName ?? sender,
-    message,
-    timestampIso: resolvedTimestamp.toISOString(),
-    datePart: datePart ?? fallbackDate,
-    timePart: timePart ?? fallbackTime,
-    isFinancialFlag,
-  });
+    // Build a friendly prompt for Mill to engage the user.
+    let millPrompt: string;
 
-  return NextResponse.json(
-    {
-      status: "queued",
-      smsMessageId: smsRecord.id,
-    },
-    { status: 202 },
-  );
+    if ((draft as any).status === "unparseable") {
+      millPrompt = `I received an SMS but Dev could not parse it reliably. Raw message: "${message}". Please ask the user for more information and attempt to extract transaction details.`;
+    } else {
+      const d = (draft as any).data;
+      const missing = (draft as any).missing || [];
+      const confidence = (draft as any).confidence || "medium";
+      millPrompt = `Dev produced a draft transaction from an SMS. Draft: ${JSON.stringify(d)}. Missing fields: ${JSON.stringify(missing)}. Confidence: ${confidence}. Please ask the user to confirm or provide the missing information. Once the user confirms, persist the final transaction.`;
+    }
+
+    // Trigger Mill to start a conversation with the user about this draft.
+    const millResp = await processAgentMessage({
+      userId: String(userContext.userId),
+      message: millPrompt,
+    });
+
+    return NextResponse.json({ status: "drafted", draft, mill: millResp }, { status: 202 });
+  } catch (err) {
+    return NextResponse.json({ error: "Failed to classify SMS" }, { status: 500 });
+  }
 }
 
 function normalizeHeaderValue(value: string | null): string | null {

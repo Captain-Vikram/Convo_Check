@@ -1,6 +1,44 @@
 import { createDevAgentEnvironment, runDevPipeline } from "@/runtime/dev/dev-agent";
 import { categorizeTransaction } from "@/runtime/shared/categorize";
-import { extractWithRegex, extractBatchWithRegex, type DevExtraction } from "@/runtime/dev/sms-regex-extractor";
+import { callLLM } from "@/runtime/shared/llm-client";
+
+async function parseSmsWithLLM(message: string, timestampMs?: number): Promise<DevExtraction | null> {
+  const systemPrompt = `You are a JSON extractor that converts a single financial SMS message into a structured JSON object.
+Output MUST be either a single valid JSON object or the string null.
+Do NOT include any surrounding explanation. The JSON object must have these keys exactly: amount (number), type (\"credit\" or \"debit\"), targetParty (string), currency (string), medium (\"upi\"|\"card\"|\"bank\"|\"other\"), category (string), description (string), date_of_transaction (ISO-8601 string).
+If the message is not a financial transaction, output null.`;
+
+  const userMessage = `SMS: ${message}\n\nIf a date/time is present, return it as ISO-8601 in date_of_transaction. If absent, use current time.`;
+
+  try {
+    const result = await callLLM("agent2", { messages: [ { role: "system", content: systemPrompt }, { role: "user", content: userMessage } ], temperature: 0.1 });
+    const text = (result as any)?.text ?? (result as any)?.output ?? "";
+
+    if (!text || typeof text !== "string") return null;
+
+    // Try direct parse
+    try {
+      const parsed = JSON.parse(text.trim());
+      return parsed as DevExtraction;
+    } catch (err) {
+      // Try extracting a JSON code block
+      const m = text.match(/```json\s*([\s\S]*?)```/i);
+      if (m && m[1]) {
+        try {
+          const parsed = JSON.parse(m[1].trim());
+          return parsed as DevExtraction;
+        } catch (err2) {
+          return null;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("[sms-processor] callLLM failed", err);
+    return null;
+  }
+
+  return null;
+}
 // TEMP: sms-log.ts deleted - state is now in database
 // import { createSmsLog, type SmsLog } from "../../../src/runtime/dev/sms-log";
 import type { Prisma } from "../../../data/generated/prisma";
@@ -29,6 +67,18 @@ interface SmsMessage {
   date?: string;
   time?: string;
   is_financial?: string;
+}
+
+// DevExtraction shape (previously provided by sms-regex-extractor)
+export interface DevExtraction {
+  amount: number;
+  type: "credit" | "debit";
+  targetParty: string;
+  currency: string;
+  medium: "upi" | "card" | "bank" | "other";
+  category: string;
+  description: string;
+  date_of_transaction: string;
 }
 
 type ProcessSmsMessageOutcome =
@@ -363,16 +413,22 @@ export async function processSmsMessageLocal(
     return { status: "skipped", reason: "non-financial" };
   }
 
-  // Use regex extractor (single message)
+  // LLM-based extraction (single message). If LLM cannot parse, skip the SMS.
   const timestampMs = message.timestamp ? Date.parse(message.timestamp) : undefined;
-  const extraction = extractWithRegex(message.message, timestampMs);
-  const extractions = extraction ? [extraction] : [];
+  let extraction: DevExtraction | null = null;
 
-  if (!extractions || extractions.length === 0) {
+  try {
+    extraction = await parseSmsWithLLM(message.message, timestampMs);
+  } catch (err) {
+    console.warn("[sms-processor] LLM extraction failed; skipping SMS", err);
+    extraction = null;
+  }
+
+  if (!extraction) {
     return { status: "skipped", reason: "non-financial" };
   }
 
-  const extraction0 = extractions[0];
+  const extraction0 = extraction;
 
   let tools = options.devEnvironment?.tools;
   let environment = options.devEnvironment;
@@ -493,7 +549,7 @@ function resolveEventOverrides(timestamp: string): any {
 
 function buildHeuristics(message: any, extraction: DevExtraction): string[] {
   const heuristics = new Set<string>();
-  heuristics.add("source:sms-regex");
+  heuristics.add("source:sms-llm");
   heuristics.add(`medium:${extraction.medium}`);
   heuristics.add(`date_of_transaction:${extraction.date_of_transaction}`);
   if (extraction.targetParty.length > 0) heuristics.add(`target:${extraction.targetParty}`);
