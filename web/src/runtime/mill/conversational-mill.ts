@@ -139,9 +139,48 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
     if (result.action === "query_data") {
       if (options.onQueryReady) {
         const queryResult = await options.onQueryReady();
+        // Allow the agent to integrate the tool output and produce a final agentic JSON response.
+        try {
+          const toolOutput = JSON.stringify(queryResult ?? {} , null, 2);
+          const messages: any[] = [
+            { role: "system", content: this.getMillSystemPrompt() },
+            {
+              role: "user",
+              content: `The tool "query_spending_summary" returned the following JSON:\n\n${toolOutput}\n\nPlease produce a final response following the agent RESPONSE FORMAT (JSON) used by Mill. The response should be concise, friendly, and incorporate the tool output into the message field so the API consumer can see the agentic reply. Return only a JSON object.`,
+            },
+          ];
+
+          const llmResult = await this.callLLM({ messages });
+          const finalText = (llmResult.text ?? "").trim();
+          const parsed = this.parseMillResponse(finalText);
+
+          // If parsing succeeded and there's a message, return it along with payload
+          if (parsed && parsed.message) {
+            session.state = "completed";
+            // push assistant message into history
+            session.messages.push({ role: "assistant", content: parsed.message, timestamp: new Date().toISOString() });
+            const mappedAction = parsed.action === "log_transaction" ? "transaction_logged"
+              : parsed.action === "query_data" ? "data_retrieved"
+              : parsed.action === "escalate_to_coach" ? "escalate_to_coach"
+              : undefined;
+
+            return {
+              message: parsed.message,
+              completed: true,
+              action: mappedAction,
+              payload: queryResult,
+            };
+          }
+        } catch (e) {
+          // if LLM integration fails, fall back to returning a compact summary
+          console.error("Failed to integrate tool output with LLM", e);
+        }
+
+        // Fallback: attach a short human-friendly summary of the query result to the message
+        const summaryText = this.formatSpendingSummary(queryResult as SpendingSummaryResult | undefined);
         session.state = "completed";
         return {
-          message: result.message,
+          message: `${result.message}\n\n${summaryText}`.trim(),
           completed: true,
           action: "data_retrieved",
           payload: queryResult,
@@ -491,5 +530,38 @@ KEY RULES:
     }
 
     return baseType;
+  }
+
+  /**
+   * Build a compact human-friendly summary for a SpendingSummaryResult
+   */
+  private formatSpendingSummary(result?: SpendingSummaryResult | null): string {
+    if (!result) return "No data available.";
+
+    const lines: string[] = [];
+    lines.push(`Total income: ${result.totalIncome}`);
+    lines.push(`Total expense: ${result.totalExpense}`);
+    lines.push(`Net balance: ${result.netBalance}`);
+    lines.push(`Transactions: ${result.transactionCount}`);
+
+    if (result.topCategories && result.topCategories.length > 0) {
+      const cats = result.topCategories.map((c) => `${c.category} (${c.totalSpent})`).slice(0, 5);
+      lines.push(`Top categories: ${cats.join(", ")}`);
+    }
+
+    if (result.recentTransactions && result.recentTransactions.length > 0) {
+      const recent = result.recentTransactions.slice(0, 3).map((t) => `${t.direction} ${t.amount} — ${t.description}`).join("; ");
+      lines.push(`Recent: ${recent}`);
+    }
+
+    if (result.paramInsights && result.paramInsights.length > 0) {
+      lines.push(`Insights: ${result.paramInsights.slice(0,3).join("; ")}`);
+    }
+
+    if (result.coachAdvice) {
+      lines.push(`Coach: ${result.coachAdvice}`);
+    }
+
+    return lines.join(" | ");
   }
 }

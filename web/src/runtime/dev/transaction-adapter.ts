@@ -16,7 +16,7 @@ export interface HabitTransaction {
   time: string;
   amount: number;
   currency: string;
-  type: "debit" | "credit" | "income" | "expense";
+  type: "debit" | "credit";
   targetParty: string;
   description: string;
   category: string;
@@ -83,7 +83,7 @@ export class TransactionAdapter {
       time: this.transaction.eventTime || "00:00:00",
       amount: this.transaction.amount,
       currency: this.transaction.currency,
-      type: this.transaction.direction,
+      type: this.transaction.direction === "income" ? "credit" : "debit",
       targetParty: this.transaction.meta.targetParty || "",
       description: this.transaction.description,
       category: this.transaction.category,

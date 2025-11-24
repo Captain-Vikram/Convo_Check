@@ -5,7 +5,17 @@
  * Handles common Indian payment SMS patterns from banks and UPI apps.
  */
 
-import type { DevExtraction } from "./dev-llm-parser";
+// Define DevExtraction locally to avoid dependency on the LLM-based parser.
+export interface DevExtraction {
+  amount: number;
+  type: "credit" | "debit";
+  targetParty: string;
+  currency: string;
+  medium: "upi" | "card" | "bank" | "other";
+  category: string;
+  description: string;
+  date_of_transaction: string;
+}
 
 interface SMSPattern {
   regex: RegExp;

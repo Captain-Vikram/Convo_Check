@@ -61,7 +61,7 @@ export function createLogCashTransactionTool(
     amount: z.number(),
     description: z.string().min(1),
     category_suggestion: z.string().min(1),
-    direction: z.enum(["expense", "income"]),
+    type: z.enum(["debit", "credit"]),
     raw_text: z.string().min(1),
   });
 

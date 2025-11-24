@@ -6,7 +6,7 @@ import {
   performSerpGroundedSearch,
   type GroundedSearchInput,
   type GroundingIntent,
-} from "convo-check/src/tools/grounded-search-shared";
+} from "../../../tools/grounded-search-shared";
 
 type GroundedSearchRequest = Omit<GroundedSearchInput, "query"> & {
   query: string;

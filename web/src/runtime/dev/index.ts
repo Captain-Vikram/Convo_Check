@@ -5,6 +5,6 @@
  */
 
 export * from "./dev-agent";
-export * from "./dev-sms-agent";
-export * from "./dev-llm-parser";
+// LLM-based SMS parser and the thin SMS agent removed to reduce runtime bloat.
+// SMS processing now uses the regex extractor directly.
 export * from "./transaction-normalizer";

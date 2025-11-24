@@ -21,7 +21,7 @@ export async function loadTransactions(
     return records.map(record => {
       // Map debit/credit to expense/income for Analyst compatibility
       let direction: NormalizedTransaction["direction"] = "expense";
-      if (record.type === "credit" || record.type === "income") {
+      if (record.type === "credit") {
         direction = "income";
       } else {
         direction = "expense";

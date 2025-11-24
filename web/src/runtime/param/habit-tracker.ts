@@ -27,7 +27,7 @@ export interface Transaction {
   time: string;
   amount: number;
   currency: string;
-  type: "debit" | "credit" | "income" | "expense";
+  type: "debit" | "credit";
   targetParty: string;
   description: string;
   category: string;
@@ -511,9 +511,7 @@ function buildHabitEntry(
   const previousHabitId = previousHabits.length > 0 && previousHabits[0] ? previousHabits[0].habitId : "";
 
   // Calculate aggregates (simple running totals)
-  const totalSpent = transaction.type === "debit" || transaction.type === "expense"
-    ? transaction.amount
-    : 0;
+  const totalSpent = transaction.type === "debit" ? transaction.amount : 0;
   
   return {
     habitId,
@@ -569,8 +567,8 @@ async function buildHabitSnapshot(
   }));
   
   // Calculate aggregates
-  const debits = allTransactions.filter(t => t.type === "debit" || t.type === "expense");
-  const credits = allTransactions.filter(t => t.type === "credit" || t.type === "income");
+  const debits = allTransactions.filter(t => t.type === "debit");
+  const credits = allTransactions.filter(t => t.type === "credit");
   
   const totalDebits = debits.reduce((sum, t) => sum + t.amount, 0);
   const totalCredits = credits.reduce((sum, t) => sum + t.amount, 0);
@@ -674,7 +672,7 @@ async function loadRecentTransactions(
         time: tx.eventTime || "00:00:00",
         amount: tx.amount,
         currency: tx.currency || "INR",
-        type: (tx.direction === "income" ? "credit" : "debit") as "credit" | "debit" | "income" | "expense",
+        type: (tx.direction === "income" ? "credit" : "debit") as "credit" | "debit",
         targetParty: tx.meta.targetParty || "",
         description: tx.description,
         category: tx.category,
@@ -697,10 +695,7 @@ async function loadRecentHabits(count: number, ownerId: number): Promise<HabitEn
   try {
     const habits = await prisma.habit_insights.findMany({
       where: { owner: ownerId },
-      orderBy: [
-        { updated_at: 'desc' },
-        { recorded_at: 'desc' },
-      ],
+      orderBy: { recorded_at: 'desc' },
       take: count,
     });
     

@@ -103,7 +103,7 @@ type CoachBriefingRecord = Prisma.coach_briefingsGetPayload<{ select: typeof BRI
 interface HabitInsightRecord extends HabitInsight {
   id: number;
   habitId: string;
-  updatedAt: Date;
+  updatedAt?: Date | null;
   recordedAt: Date;
 }
 
@@ -185,17 +185,20 @@ async function ensureInsightFreshness(ownerId: number): Promise<FreshInsightsRes
 }
 
 function getLatestInsightUpdatedAt(insights: HabitInsightRecord[]): Date | null {
-  if (insights.length === 0) {
-    return null;
+  let latest: Date | null = null;
+  for (const insight of insights) {
+    const raw = insight.updatedAt as Date | string | null | undefined;
+    const updated = raw ? (raw instanceof Date ? raw : new Date(raw)) : null;
+    if (!latest) {
+      latest = updated;
+      continue;
+    }
+    if (updated && updated.getTime() > latest.getTime()) {
+      latest = updated;
+    }
   }
 
-  return insights.reduce<Date | null>((latest, insight) => {
-    const updated = insight.updatedAt;
-    if (!latest || (updated && updated > latest)) {
-      return updated;
-    }
-    return latest;
-  }, null);
+  return latest;
 }
 
 export async function runCoach(options: CoachRunOptions = {}): Promise<CoachBriefing | null> {
@@ -429,10 +432,18 @@ async function loadHabitInsights(ownerId: number): Promise<HabitInsightRecord[]>
   try {
     const habits = await prisma.habit_insights.findMany({
       where: { owner: ownerId, superseded: false },
-      orderBy: [
-        { updated_at: "desc" },
-        { recorded_at: "desc" },
-      ],
+      orderBy: { recorded_at: "desc" },
+      select: {
+        id: true,
+        habit_id: true,
+        habit_label: true,
+        evidence: true,
+        counsel: true,
+        full_text: true,
+        recorded_at: true,
+        superseded: true,
+        previous_habit_id: true,
+      },
     });
 
     return habits.map((habit) => ({
@@ -443,7 +454,7 @@ async function loadHabitInsights(ownerId: number): Promise<HabitInsightRecord[]>
       counsel: habit.counsel ?? "",
       fullText: habit.full_text ?? "",
       recordedAt: habit.recorded_at ?? new Date(),
-      updatedAt: habit.updated_at ?? habit.recorded_at ?? new Date(),
+      updatedAt: habit.recorded_at ?? null,
     }));
   } catch (error) {
     logger.error("coach-agent", "Failed to load habits from database", error, { ownerId });

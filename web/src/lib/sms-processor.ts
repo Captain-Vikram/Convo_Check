@@ -1,9 +1,6 @@
-import { createDevAgentEnvironment } from "@/runtime/dev/dev-agent";
-import {
-  processSmsMessage,
-  type ProcessSmsMessageOutcome,
-  type SmsMessage,
-} from "@/runtime/dev/dev-sms-agent";
+import { createDevAgentEnvironment, runDevPipeline } from "@/runtime/dev/dev-agent";
+import { categorizeTransaction } from "@/runtime/shared/categorize";
+import { extractWithRegex, extractBatchWithRegex, type DevExtraction } from "@/runtime/dev/sms-regex-extractor";
 // TEMP: sms-log.ts deleted - state is now in database
 // import { createSmsLog, type SmsLog } from "../../../src/runtime/dev/sms-log";
 import type { Prisma } from "../../../data/generated/prisma";
@@ -23,6 +20,22 @@ interface SmsProcessingJob {
   timePart: string;
   isFinancialFlag?: string | null;
 }
+
+interface SmsMessage {
+  sender: string;
+  senderName?: string;
+  message: string;
+  timestamp?: string;
+  date?: string;
+  time?: string;
+  is_financial?: string;
+}
+
+type ProcessSmsMessageOutcome =
+  | { status: "processed"; result: any }
+  | { status: "duplicate"; pendingId: number; duplicateOf: any; candidate?: any }
+  | { status: "suppressed"; reason: string; duplicateOf: any; candidate?: any }
+  | { status: "skipped"; reason: string };
 
 type DevEnvironment = Awaited<ReturnType<typeof createDevAgentEnvironment>>;
 
@@ -173,7 +186,7 @@ export async function processQueuedSmsMessage(
     return { status: "skipped", details: "already_processed" };
   }
 
-  const smsPayload: SmsMessage = {
+  const smsPayload: any = {
     sender: job.sender,
     senderName: job.senderName,
     message: job.message,
@@ -186,9 +199,8 @@ export async function processQueuedSmsMessage(
   let outcome: ProcessSmsMessageOutcome;
 
   try {
-    outcome = await processSmsMessage(smsPayload, {
+    outcome = await processSmsMessageLocal(smsPayload, {
       devEnvironment: environment,
-      // smsLog: smsLog ?? undefined,
       meta: { originalSmsId: job.smsMessageId },
     });
   } catch (error: unknown) {
@@ -282,9 +294,8 @@ async function handleJob(job: SmsProcessingJob): Promise<void> {
   let outcome: ProcessSmsMessageOutcome;
 
   try {
-    outcome = await processSmsMessage(smsPayload, {
+    outcome = await processSmsMessageLocal(smsPayload, {
       devEnvironment: environment,
-      // smsLog: smsLog ?? undefined,
       meta: { originalSmsId: job.smsMessageId },
     });
   } catch (error: unknown) {
@@ -329,6 +340,193 @@ async function handleJob(job: SmsProcessingJob): Promise<void> {
       reason: outcome.reason,
     });
   }
+}
+
+/**
+ * Local replacement for the removed `dev-sms-agent.processSmsMessage`.
+ * Uses the regex extractor only (no LLM calls).
+ */
+export async function processSmsMessageLocal(
+  message: {
+    sender: string;
+    senderName?: string;
+    message: string;
+    timestamp?: string;
+    date?: string;
+    time?: string;
+    is_financial?: string;
+  },
+  options: { devEnvironment?: DevEnvironment; meta?: Record<string, any>; now?: string; defaultCurrency?: string } = {},
+): Promise<ProcessSmsMessageOutcome> {
+  // Basic financial check
+  if (!isFinancial(message as any)) {
+    return { status: "skipped", reason: "non-financial" };
+  }
+
+  // Use regex extractor (single message)
+  const timestampMs = message.timestamp ? Date.parse(message.timestamp) : undefined;
+  const extraction = extractWithRegex(message.message, timestampMs);
+  const extractions = extraction ? [extraction] : [];
+
+  if (!extractions || extractions.length === 0) {
+    return { status: "skipped", reason: "non-financial" };
+  }
+
+  const extraction0 = extractions[0];
+
+  let tools = options.devEnvironment?.tools;
+  let environment = options.devEnvironment;
+  if (!tools) {
+    if (!environment) {
+      environment = await createDevAgentEnvironment();
+    }
+    tools = environment.tools;
+  }
+
+  if (!tools) {
+    throw new Error("Dev tools unavailable for SMS processing");
+  }
+
+  const payload = {
+    amount: extraction0.amount,
+    description: extraction0.description,
+    category_suggestion: extraction0.category ?? "",
+    type: extraction0.type === "credit" ? "credit" : "debit",
+    raw_text: message.message,
+  };
+
+  const categorization = categorizeTransaction(payload.description, payload.amount);
+  if (!payload.category_suggestion || payload.category_suggestion.length === 0) {
+    payload.category_suggestion = categorization.inferredCategory;
+  }
+
+  const eventDetails = resolveEventOverrides(extraction0.date_of_transaction);
+  const extraHeuristics = buildHeuristics(message as any, extraction0);
+  if (typeof options.meta?.originalSmsId === "number") {
+    extraHeuristics.push(`original-sms:${options.meta.originalSmsId}`);
+  }
+  const extraTags = buildTagsFromExtraction(extraction0);
+
+  const pipelineMeta: NonNullable<any> = {
+    ...(options.meta ?? {}),
+  };
+
+  if (extraction0.targetParty && extraction0.targetParty.length > 0) {
+    pipelineMeta.targetParty = extraction0.targetParty;
+  }
+
+  if (extraction0.medium && extraction0.medium.length > 0) {
+    pipelineMeta.medium = extraction0.medium;
+  }
+
+  const pipelineOptions: any = {
+    tools,
+    ...(environment?.alertManager ? { alertManager: environment.alertManager } : {}),
+    source: "web-sms-ingest",
+    defaultCurrency: extraction0.currency,
+    extraHeuristics,
+    extraTags,
+    meta: pipelineMeta,
+  };
+
+  if (options.now) {
+    pipelineOptions.now = options.now;
+  }
+
+  if (!pipelineOptions.defaultCurrency && options.defaultCurrency) {
+    pipelineOptions.defaultCurrency = options.defaultCurrency;
+  }
+
+  if (eventDetails.eventDate) {
+    pipelineOptions.eventDateOverride = eventDetails.eventDate;
+  }
+
+  if (eventDetails.eventTime !== undefined) {
+    pipelineOptions.eventTimeOverride = eventDetails.eventTime;
+  }
+
+  const result = await runDevPipeline(payload as any, categorization, pipelineOptions);
+
+  if (result.status === "suppressed") {
+    return {
+      status: "suppressed",
+      candidate: result.normalized,
+      duplicateOf: result.duplicateOf,
+      reason: result.reason,
+    };
+  }
+
+  if (result.status === "duplicate") {
+    return {
+      status: "duplicate",
+      pendingId: Number(result.pendingId),
+      candidate: result.normalized,
+      duplicateOf: result.duplicateOf,
+    };
+  }
+
+  const loggedResult: any = result;
+
+  return { status: "processed", result: loggedResult };
+}
+
+// Helpers copied/adapted from previous SMS agent implementation
+function isFinancial(message: { message: string; is_financial?: string }): boolean {
+  const explicit = message.is_financial?.toLowerCase();
+  if (explicit === "true") return true;
+  if (explicit === "false") return false;
+  const body = message.message.toLowerCase();
+  return /rs\.|inr|credited|debited|dr\.|cr\./.test(body);
+}
+
+function resolveEventOverrides(timestamp: string): any {
+  if (!timestamp) return {};
+  const parsed = Date.parse(timestamp);
+  if (Number.isNaN(parsed)) return {};
+  const date = new Date(parsed);
+  const overrides: any = {};
+  overrides.eventDate = formatDatePart(date);
+  const timePart = formatTimePart(date);
+  if (timePart) overrides.eventTime = timePart;
+  return overrides;
+}
+
+function buildHeuristics(message: any, extraction: DevExtraction): string[] {
+  const heuristics = new Set<string>();
+  heuristics.add("source:sms-regex");
+  heuristics.add(`medium:${extraction.medium}`);
+  heuristics.add(`date_of_transaction:${extraction.date_of_transaction}`);
+  if (extraction.targetParty.length > 0) heuristics.add(`target:${extraction.targetParty}`);
+  if (message.sender) heuristics.add(`sender:${message.sender}`);
+  if (message.senderName) heuristics.add(`sender-name:${message.senderName}`);
+  if (message.timestamp) heuristics.add(`payload-ts:${message.timestamp}`);
+  if (message.date) heuristics.add(`payload-date:${message.date}`);
+  if (message.time) heuristics.add(`payload-time:${message.time}`);
+  return Array.from(heuristics);
+}
+
+function buildTagsFromExtraction(extraction: DevExtraction): string[] {
+  const tags = new Set<string>();
+  tags.add("sms-ingest");
+  tags.add(`medium-${extraction.medium}`);
+  tags.add(`type-${extraction.type}`);
+  return Array.from(tags);
+}
+
+function formatDatePart(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
+function formatTimePart(date: Date): string | undefined {
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+  const seconds = date.getUTCSeconds();
+  if (hours === 0 && minutes === 0 && seconds === 0) return undefined;
+  return `${formatTwoDigits(hours)}:${formatTwoDigits(minutes)}`;
+}
+
+function formatTwoDigits(v: number): string {
+  return v.toString().padStart(2, "0");
 }
 
 async function markJobAsProcessing(job: SmsProcessingJob): Promise<boolean> {

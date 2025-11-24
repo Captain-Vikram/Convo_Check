@@ -250,10 +250,37 @@ export async function runAnalyst(options: RunAnalystOptions = {}): Promise<Analy
     let insights: HabitInsight[];
 
     try {
-      insights = bulletLines.map(parseHabitInsight);
+      insights = bulletLines.map(parseHabitInsight).filter(Boolean) as HabitInsight[];
+      // If the language model failed to produce structured insights, fall back
+      // to a simple heuristic-based insight so we persist at least one useful hint.
+      if (insights.length === 0) {
+        logger.warn("analyst-agent", "No structured insights parsed; generating heuristic insight", { bulletLines });
+        const topCategory = stats.categoryBySpend && stats.categoryBySpend.length > 0 ? stats.categoryBySpend[0] : null;
+        if (topCategory && stats.totalExpense > 0) {
+          const heuristic: HabitInsight = {
+            habitLabel: `${topCategory.category} spend`,
+            evidence: `Spent ${roundNumber(topCategory.totalSpend)} in ${topCategory.category} (top category).`,
+            counsel: `Consider reviewing ${topCategory.category} and setting a limit or substitution to reduce spend.`,
+            fullText: `Spending concentrated in ${topCategory.category}: ${roundNumber(topCategory.totalSpend)} total spent. Recommend setting a cap or finding cheaper alternatives.`,
+          };
+          insights = [heuristic];
+        }
+      }
     } catch (error) {
       logger.error("analyst-agent", "Failed to parse bullet lines", error, { bulletLines });
-      throw error;
+      // Instead of throwing (which fails the whole analysis), attempt heuristic fallback
+      const topCategory = stats.categoryBySpend && stats.categoryBySpend.length > 0 ? stats.categoryBySpend[0] : null;
+      if (topCategory && stats.totalExpense > 0) {
+        const heuristic: HabitInsight = {
+          habitLabel: `${topCategory.category} spend`,
+          evidence: `Spent ${roundNumber(topCategory.totalSpend)} in ${topCategory.category} (top category).`,
+          counsel: `Consider reviewing ${topCategory.category} and setting a limit or substitution to reduce spend.`,
+          fullText: `Spending concentrated in ${topCategory.category}: ${roundNumber(topCategory.totalSpend)} total spent. Recommend setting a cap or finding cheaper alternatives.`,
+        };
+        insights = [heuristic];
+      } else {
+        throw error;
+      }
     }
 
     const persistenceResult = await persistInsightsToDatabase(ownerId, insights, previousInsights);
@@ -407,31 +434,18 @@ async function markTransactionsAsAnalyzed(
   transactions: NormalizedTransaction[],
   version: number,
 ): Promise<void> {
-  const serviceToken = process.env.SERVICE_API_TOKEN;
-  const baseUrl = process.env.MILL_API_BASE_URL ?? "http://localhost:3000";
-  const analyzedAt = new Date().toISOString();
+  const analyzedAt = new Date();
 
   for (const tx of transactions) {
     try {
-      const response = await fetch(`${baseUrl}/api/transactions/${tx.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          ...(serviceToken ? { Authorization: `Bearer ${serviceToken}` } : {}),
-        },
-        body: JSON.stringify({
+      await prisma.tranasctions.update({
+        where: { id: tx.id },
+        data: {
           analyzed_at: analyzedAt,
           analyzed_version: version,
           analysis_notes: `Analyzed by param agent v${version}`,
-        }),
+        },
       });
-
-      if (!response.ok) {
-        logger.debug("analyst-agent", `Failed to mark transaction ${tx.id} as analyzed`, {
-          status: response.status,
-          statusText: response.statusText,
-        });
-      }
     } catch (error) {
       logger.error("analyst-agent", `Error marking transaction ${tx.id} as analyzed`, error);
     }
@@ -720,7 +734,6 @@ async function persistInsightsToDatabase(
             evidence: insight.evidence,
             counsel: insight.counsel,
             full_text: insight.fullText,
-            updated_at: now,
             superseded: false,
           },
         });
@@ -748,7 +761,6 @@ async function persistInsightsToDatabase(
           counsel: insight.counsel,
           full_text: insight.fullText,
           recorded_at: now,
-          updated_at: now,
           superseded: false,
           previous_habit_id: previousMatch?.habitId ?? null,
         },
@@ -767,7 +779,7 @@ async function persistInsightsToDatabase(
     try {
       await prisma.habit_insights.updateMany({
         where: { id: { in: remainingPrevious.map((entry) => entry.id) } },
-        data: { superseded: true, updated_at: now },
+        data: { superseded: true },
       });
     } catch (error) {
       logger.error("analyst-agent", "Failed to mark stale insights", error, {
@@ -937,7 +949,7 @@ async function loadExistingInsights(ownerId: number): Promise<StoredHabitInsight
   try {
     const habits = await prisma.habit_insights.findMany({
       where: { owner: ownerId, superseded: false },
-      orderBy: { updated_at: "desc" },
+      orderBy: { recorded_at: "desc" },
     });
 
     return habits.map((habit) => ({
