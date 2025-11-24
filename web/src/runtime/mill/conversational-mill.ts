@@ -7,12 +7,7 @@ import type { AgentInput } from "../shared/multimodal";
 import { normalizeAgentInput, summarizeInputForHistory, buildMultimodalContent } from "../shared/multimodal";
 import type { LogCashTransactionPayload } from "@/tools/log-cash-transaction";
 import type { SpendingSummaryResult } from "@/tools/query-spending-summary";
-import { createFinancialCalculatorTool } from "@/tools/financial-calculator";
 
-/**
- * Mill's conversational session for transaction logging and financial queries
- * Mill specializes in: transaction logging, data retrieval, coordinating other agents
- */
 export interface MillConversation extends ConversationSession<{
   transactionAmount?: number;
   transactionDescription?: string;

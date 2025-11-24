@@ -1,4 +1,5 @@
 import type { NormalizedTransaction } from "./transaction-normalizer";
+import { prisma } from "@/lib/prisma";
 
 export type BehaviorRiskLevel = "low" | "moderate" | "high";
 export type BehaviorClassification =
@@ -138,39 +139,47 @@ export class BehaviorProfileCache {
         return this.cache;
       }
 
-      // Behavior profiles not implemented with Prisma yet
-      // TODO: Load habits from prisma.habit_insights and build profiles
-      const habits: any[] = [];
-      
-      if (!habits || habits.length === 0) {
+      // Load habit insights from the DB via Prisma and build profiles
+      try {
+        const habits = await prisma.habit_insights.findMany({
+          orderBy: { recorded_at: "desc" },
+          take: 1000,
+        });
+
+        if (!habits || habits.length === 0) {
+          this.cache = EMPTY_PROFILES;
+          this.cacheTimestamp = now;
+          return EMPTY_PROFILES;
+        }
+
+        const profiles: BehaviorProfiles = {
+          categories: new Map<string, BehaviorAggregate>(),
+          targets: new Map<string, BehaviorAggregate>(),
+        };
+
+        for (const habit of habits) {
+          const metadata = (habit.metrics && typeof habit.metrics === "object") ? habit.metrics as any : {};
+          const category = metadata.category || habit.habit_label || "";
+          const targetParty = metadata.targetParty || "";
+
+          if (category) {
+            updateAggregateFromApiHabit(profiles.categories, category.toLowerCase(), habit as any);
+          }
+
+          if (targetParty) {
+            updateAggregateFromApiHabit(profiles.targets, targetParty.toLowerCase(), habit as any);
+          }
+        }
+
+        this.cache = profiles;
+        this.cacheTimestamp = now;
+        return profiles;
+      } catch (err) {
+        console.error("[behavior-profile] Failed to load habits from DB via Prisma", err);
         this.cache = EMPTY_PROFILES;
         this.cacheTimestamp = now;
         return EMPTY_PROFILES;
       }
-
-      // Build profiles from API data
-      const profiles: BehaviorProfiles = {
-        categories: new Map<string, BehaviorAggregate>(),
-        targets: new Map<string, BehaviorAggregate>(),
-      };
-
-      for (const habit of habits) {
-        const metadata = habit.metadata || {};
-        const category = metadata.category || habit.habit_label || "";
-        const targetParty = metadata.targetParty || "";
-        
-        if (category) {
-          updateAggregateFromApiHabit(profiles.categories, category.toLowerCase(), habit);
-        }
-        
-        if (targetParty) {
-          updateAggregateFromApiHabit(profiles.targets, targetParty.toLowerCase(), habit);
-        }
-      }
-
-      this.cache = profiles;
-      this.cacheTimestamp = now;
-      return profiles;
     } catch (error) {
       console.error("[behavior-profile] Failed to load habits from API", error);
       if (this.cache) {

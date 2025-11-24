@@ -313,7 +313,7 @@ export async function createDevAgentEnvironment(
             const dbType = transaction.direction === "income" ? "credit" : "debit";
             const dateOfTx = transaction.eventTime ? new Date(`${transaction.eventDate}T${transaction.eventTime}`) : new Date(transaction.eventDate);
 
-            await prisma.tranasctions.create({
+              await prisma.tranasctions.create({
               data: {
                 id: transaction.id,
                 owner: ownerId,
@@ -529,7 +529,7 @@ async function loadSeedTransactionsFromApi(): Promise<NormalizedTransaction[]> {
  */
 export async function fetchStoredTransactions(ownerId: number, limit = 50): Promise<any[]> {
   try {
-    return await prisma.tranasctions.findMany({
+      return await prisma.tranasctions.findMany({
       where: { owner: ownerId, status: "Active" },
       orderBy: { date_of_transaction: "desc" },
       take: limit,

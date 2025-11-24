@@ -12,8 +12,6 @@ import {
   parseEmbedding,
 } from "../shared/memory-utils";
 import { runAnalyst } from "../param/analyst-agent";
-// TODO: Param agent is stubbed
-// import type { HabitInsight } from "../param/analyst-agent";
 type HabitInsight = any;
 import {
   createGroundedSearchTool,
