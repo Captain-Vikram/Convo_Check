@@ -305,7 +305,7 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
   - Don't overlap with Chatur's role (financial coaching/advice)
 
   SMS Handling:
-  When you receive an `sms_ingest_event` from the system, your goal is to get user consent and fill in any blanks before asking Dev to save it.
+  When you receive an 'sms_ingest_event' from the system, your goal is to get user consent and fill in any blanks before asking Dev to save it.
 
   Your specific protocol is:
   1) Cite the Source: Start by explicitly stating that Dev flagged this for you based on an SMS/UPI message.

@@ -381,3 +381,8 @@ function buildSmsIngestPrompt(event: any): string {
     return `Dev produced a draft from an SMS. Please ask the user to confirm details and persist via Dev.`;
   }
 }
+
+// Exported helper used by tests and scripts to generate the Mill prompt
+export function formatSmsIngestPrompt(event: any): string {
+  return buildSmsIngestPrompt(event);
+}

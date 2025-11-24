@@ -4,7 +4,8 @@ import { timingSafeEqual } from "node:crypto";
 import { prisma } from "@/lib/prisma";
 import { getUserContext } from "@/lib/auth-middleware";
 import processAgentMessage from "@/lib/mill/in-process-adapter";
-import { analyzeRawSMS } from "@/runtime/dev/dev-agent";
+import { analyzeRawSMS, createFileSystemDevTools, runDevPipeline } from "@/runtime/dev/dev-agent";
+import { categorizeTransaction } from "@/runtime/shared/categorize";
 
 interface SmsIngestRequestBody {
   sender?: unknown;
@@ -89,8 +90,25 @@ export async function POST(request: Request) {
 
   const explicitSenderName = normalizeBodyString(body.senderName);
   const isFinancialFlag = normalizeBodyString(body.is_financial ?? body.isFinancial ?? undefined);
+  // Phase 0: store the raw SMS in the `sms_messages` table (best-effort).
+  // We create a queued record so the existing cron/queue can also inspect it.
+  try {
+    await prisma.sms_messages.create({
+      data: {
+        status: "queued",
+        raw_text: message,
+        sender_name: sender ?? explicitSenderName ?? undefined,
+        time: resolvedTimestamp,
+        receiver_phone_number: receiver ?? undefined,
+        owner: Number(userContext.userId),
+      },
+    });
+  } catch (err) {
+    // Do not abort ingest on DB failure; log for investigation.
+    console.error("[sms/ingest] Failed to persist sms_messages row", err);
+  }
 
-    // Phase 1: send raw SMS to Dev for classification (no DB writes).
+  // Phase 1: send raw SMS to Dev for classification (no DB writes).
   try {
     const analysis = await analyzeRawSMS(message);
 
@@ -108,6 +126,44 @@ export async function POST(request: Request) {
       userId: String(userContext.userId),
       message: JSON.stringify(event),
     });
+
+    // Optionally schedule an automatic commit of the draft if no user reply.
+    // Callers can request this behavior by adding `?auto_commit_after=<seconds>`
+    // to the ingest URL. If omitted or <=0, no auto-commit is scheduled.
+    try {
+      const url = new URL(request.url);
+      const autoCommitParam = url.searchParams.get("auto_commit_after");
+      const autoSeconds = autoCommitParam ? Number(autoCommitParam) : 0;
+
+      if (autoSeconds > 0) {
+        const ownerId = Number(userContext.userId);
+        // Safely extract draft data only when analysis indicates a draft
+        const draft = (analysis && (analysis as any).status === 'draft') ? ((analysis as any).data ?? {}) : {};
+        // Build a minimal payload for Dev pipeline from analysis
+        const payload = {
+          amount: typeof draft.amount === "number" ? draft.amount : 0,
+          description: draft.merchant ? String(draft.merchant) : String(message).slice(0, 200),
+          category_suggestion: draft.category ?? "Uncategorized",
+          type: (draft.direction === "income") ? "credit" : "debit",
+          raw_text: message,
+        } as any;
+
+        // Schedule delayed commit — server process must remain alive for this to run.
+        setTimeout(async () => {
+          try {
+            const tools = await createFileSystemDevTools();
+            const categorization = categorizeTransaction(payload.description ?? "", payload.amount ?? 0);
+            await runDevPipeline(payload, categorization, { tools, meta: { ownerId } } as any);
+            // best-effort: ignore result/errors, Dev pipeline will log
+          } catch (err) {
+            // swallow errors to avoid unhandled rejection in request lifecycle
+            console.error("auto-commit failed", err);
+          }
+        }, Math.max(1000, Math.floor(autoSeconds * 1000)));
+      }
+    } catch (err) {
+      console.error("Failed to schedule auto-commit", err);
+    }
 
     return NextResponse.json({ status: "drafted", analysis, mill: millResp }, { status: 202 });
   } catch (err) {
