@@ -10,13 +10,16 @@
     "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint . --ext ts,tsx"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.940.0",
+    "axios": "^1.13.2",
     "convo-check": "file:..",
     "jose": "^6.1.0",
     "next": "16.0.1",
     "prisma": "^6.0.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "redis": "^5.9.0"
+    "redis": "^5.9.0",
+    "wacloud": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",
