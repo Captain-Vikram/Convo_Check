@@ -281,8 +281,13 @@ export class ConversationRouter {
   ): Promise<{ agent: ActiveAgent; message: string; sessionId: string }> {
     const normalizedInput = normalizeAgentInput(firstInput);
     const firstMessage = normalizedInput.text;
-    // Determine which agent should handle this
-    const agent = this.routeInitialMessage(firstMessage);
+    let agent = this.routeInitialMessage(firstMessage);
+    if (Array.isArray(normalizedInput.attachments) && normalizedInput.attachments.length > 0) {
+      const hasMedia = normalizedInput.attachments.some((a) => a.type === "image" || a.type === "audio");
+      if (hasMedia) {
+        agent = "mill";
+      }
+    }
 
     const context: ConversationContext = {
       activeAgent: agent,

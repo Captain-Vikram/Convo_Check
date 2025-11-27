@@ -341,10 +341,20 @@ export async function createDevAgentEnvironment(
       });
     },
     async sendToAnalyst(metadata) {
-      // TODO: Param agent (habit tracker) is stubbed due to schema mismatch
-      // When implemented, this would analyze transaction patterns
-      devLogger.warn("[dev-agent] sendToAnalyst called but Param agent is stubbed - skipping habit analysis");
-      return;
+      // Attempt to invoke in-process Param analyst for developer environments.
+      // Prefer an explicit DEV_USER_ID environment override when available.
+      try {
+        devLogger.debug("[dev-agent] sendToAnalyst invoked", { metadata });
+
+        const envOwner = process.env.DEV_USER_ID ? Number(process.env.DEV_USER_ID) : undefined;
+        const ownerId = typeof envOwner === "number" && !Number.isNaN(envOwner) ? envOwner : undefined;
+
+        // Call runAnalyst and await so callers expecting fresh insights see them.
+        await runAnalyst({ ownerId, trigger: "manual" });
+        devLogger.debug("[dev-agent] sendToAnalyst completed runAnalyst", { ownerId });
+      } catch (err) {
+        devLogger.error("[dev-agent] sendToAnalyst failed to run analyst", { error: err, metadata });
+      }
     },
   };
 

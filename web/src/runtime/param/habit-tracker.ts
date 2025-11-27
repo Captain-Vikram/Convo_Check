@@ -150,7 +150,7 @@ export async function analyzeTransactionHabit(
   options: HabitTrackerOptions = {},
 ): Promise<{ habitEntry: HabitEntry; snapshot: HabitSnapshot }> {
   const lookbackCount = options.lookbackCount ?? 5;
-  const model = options.model ?? "gemini-2.0-flash-exp";
+  const model = options.model ?? process.env.ANALYST_GEMINI_MODEL ?? "gemini-2.0-flash-exp";
   const ownerId = options.ownerId ?? (process.env.DEV_USER_ID ? Number(process.env.DEV_USER_ID) : undefined);
 
   if (!ownerId) {
@@ -274,7 +274,7 @@ export async function initializeHabitsFromTransactions(
   console.log("🔄 Initializing habits from existing transactions...");
 
   // Fetch all transactions from database via loadTransactions (which uses Prisma)
-  const normalizedTransactions = await loadTransactions();
+  const normalizedTransactions = await loadTransactions({ ownerId });
   
   if (normalizedTransactions.length === 0) {
     console.log("⚠️  No transactions found");
@@ -337,6 +337,11 @@ async function analyzeWithLLM(
   behaviorSummary: string;
 }> {
   const prompt = buildAnalysisPrompt(transaction, recentTransactions, previousHabits);
+
+  // Ensure Google Generative AI key is available — allow using ANALYST_GEMINI_API_KEY as a fallback
+  if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY && process.env.ANALYST_GEMINI_API_KEY) {
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY = process.env.ANALYST_GEMINI_API_KEY;
+  }
 
   try {
     const { text } = await generateText({
@@ -659,7 +664,7 @@ async function loadRecentTransactions(
   ownerId: number,
 ): Promise<Transaction[]> {
   try {
-    const normalizedTransactions = await loadTransactions();
+    const normalizedTransactions = await loadTransactions({ ownerId });
     
     // Convert to Transaction format and take most recent
     const transactions: Transaction[] = normalizedTransactions

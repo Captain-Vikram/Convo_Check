@@ -4,7 +4,10 @@ import { getCircuitBreaker, withRetry } from "../shared/error-handling";
 import { BaseConversationalAgent, type ConversationSession, type ConversationOptions } from "../shared/base-agent";
 import type { CoreMessage } from "ai";
 import type { AgentInput } from "../shared/multimodal";
-import { normalizeAgentInput, summarizeInputForHistory, buildMultimodalContent } from "../shared/multimodal";
+import { normalizeAgentInput, summarizeInputForHistory, buildMultimodalContent, buildGoogleMultimodalContent } from "../shared/multimodal";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { generateText } from "ai";
+import { getAgentConfig } from "@/config";
 import type { LogCashTransactionPayload } from "@/tools/log-cash-transaction";
 import type { SpendingSummaryResult } from "@/tools/query-spending-summary";
 
@@ -145,7 +148,11 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
             },
           ];
 
-          const llmResult = await this.callLLM({ messages });
+          // Use Google provider directly for Mill here as well
+          const { apiKey: _apiKey_for_tool, model: _model_for_tool } = getAgentConfig("agent1");
+          const _provider_for_tool = createGoogleGenerativeAI({ apiKey: _apiKey_for_tool });
+          const _llmModel_for_tool = _provider_for_tool(_model_for_tool);
+          const llmResult = await generateText({ model: _llmModel_for_tool, messages, providerOptions: { google: { structuredOutputs: false } } });
           const finalText = (llmResult.text ?? "").trim();
           const parsed = this.parseMillResponse(finalText);
 
@@ -221,10 +228,73 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
     ];
 
     if (latestInput) {
-      messages.push({
-        role: "user",
-        content: buildMultimodalContent(latestInput),
-      });
+      const isGoogle = !!process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+
+      if (isGoogle) {
+        // Try to send Google-compatible structured file parts first (type: 'file').
+        try {
+          const googleContent = await buildGoogleMultimodalContent(latestInput);
+          messages.push({ role: "user", content: googleContent });
+        } catch (err) {
+          console.warn("[Mill] Google multimodal conversion failed, falling back to text:", err);
+          // Fallback to previous behavior of flattening structured parts into text
+          const multimodal = buildMultimodalContent(latestInput);
+          let contentToSend: any = multimodal;
+          if (Array.isArray(multimodal)) {
+            const lines: string[] = multimodal.map((part) => {
+              try {
+                if (!part) return "";
+                if (typeof part === "string") return part;
+                if (part.type === "text") return part.text ?? "";
+                if (part.type === "image") {
+                  const label = part.name ?? part.imageUrl ?? part.imageBase64 ? (part.imageUrl ? part.imageUrl : part.name ?? "image") : "image";
+                  return `[IMAGE] ${label} ${part.mimeType ? `(${part.mimeType})` : ""}`;
+                }
+                if (part.type === "input_audio" || part.type === "audio") {
+                  const url = part.audioUrl ?? (part.audio && part.audio.url) ?? undefined;
+                  return url ? `[AUDIO] ${url} ${part.mimeType ? `(${part.mimeType})` : ""}` : "[AUDIO ATTACHMENT]";
+                }
+                return JSON.stringify(part);
+              } catch {
+                return "";
+              }
+            }).filter(Boolean);
+
+            contentToSend = lines.join("\n");
+          }
+
+          messages.push({ role: "user", content: contentToSend });
+        }
+      } else {
+        // Non-Google providers: preserve prior approach (flatten structured parts to text)
+        const multimodal = buildMultimodalContent(latestInput);
+        let contentToSend: any = multimodal;
+
+        if (Array.isArray(multimodal)) {
+          const lines: string[] = multimodal.map((part) => {
+            try {
+              if (!part) return "";
+              if (typeof part === "string") return part;
+              if (part.type === "text") return part.text ?? "";
+              if (part.type === "image") {
+                const label = part.name ?? part.imageUrl ?? part.imageBase64 ? (part.imageUrl ? part.imageUrl : part.name ?? "image") : "image";
+                return `[IMAGE] ${label} ${part.mimeType ? `(${part.mimeType})` : ""}`;
+              }
+              if (part.type === "input_audio" || part.type === "audio") {
+                const url = part.audioUrl ?? (part.audio && part.audio.url) ?? undefined;
+                return url ? `[AUDIO] ${url} ${part.mimeType ? `(${part.mimeType})` : ""}` : "[AUDIO ATTACHMENT]";
+              }
+              return JSON.stringify(part);
+            } catch {
+              return "";
+            }
+          }).filter(Boolean);
+
+          contentToSend = lines.join("\n");
+        }
+
+        messages.push({ role: "user", content: contentToSend });
+      }
     }
 
     try {
@@ -232,8 +302,15 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
         async () => {
           return withRetry(
             async () => {
-              const result = await this.callLLM({
+              // Call Google provider directly for Mill to ensure correct multimodal handling
+              const { apiKey, model } = getAgentConfig("agent1");
+              const provider = createGoogleGenerativeAI({ apiKey });
+              const llmModel = provider(model);
+
+              const result = await generateText({
+                model: llmModel,
                 messages: messages as CoreMessage[],
+                providerOptions: { google: { structuredOutputs: false } },
               });
 
               const text = (result.text ?? "").trim();
