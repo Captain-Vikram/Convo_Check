@@ -120,42 +120,54 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.AlertsScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  sort: 'sort',
+  date_created: 'date_created',
+  date_updated: 'date_updated',
+  user_created: 'user_created',
+  user_updated: 'user_updated',
+  owner: 'owner',
+  transaction_id: 'transaction_id',
+  alert_type: 'alert_type',
+  severity: 'severity',
+  rule_id: 'rule_id',
+  alert_status: 'alert_status',
+  acknowledged_at: 'acknowledged_at',
+  acknowledged_by: 'acknowledged_by',
+  message: 'message',
+  confidence: 'confidence',
+  threshold_value: 'threshold_value',
+  actual_value: 'actual_value',
+  deviation_percentage: 'deviation_percentage',
+  category: 'category',
+  merchant: 'merchant',
+  details: 'details'
+};
+
 exports.Prisma.Coach_briefingsScalarFieldEnum = {
   id: 'id',
   owner: 'owner',
   headline: 'headline',
   counsel: 'counsel',
   evidence: 'evidence',
+  delivered: 'delivered',
+  delivered_at: 'delivered_at',
+  date_created: 'date_created',
+  insight_hash: 'insight_hash',
+  snapshot: 'snapshot',
   user_question: 'user_question',
   agent_answer: 'agent_answer',
   question_hash: 'question_hash',
   question_embedding: 'question_embedding',
-  insight_hash: 'insight_hash',
   insights_used: 'insights_used',
   answer_version: 'answer_version',
-  snapshot: 'snapshot',
-  delivered: 'delivered',
-  delivered_at: 'delivered_at',
-  date_created: 'date_created',
-  date_updated: 'date_updated',
   status: 'status',
   sort: 'sort',
+  date_updated: 'date_updated',
   user_created: 'user_created',
   user_updated: 'user_updated'
-};
-
-exports.Prisma.Shopping_wishlistScalarFieldEnum = {
-  id: 'id',
-  owner: 'owner',
-  name: 'name',
-  link: 'link',
-  current_price: 'current_price',
-  desired_price: 'desired_price',
-  rating: 'rating',
-  source: 'source',
-  date_added: 'date_added',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
 };
 
 exports.Prisma.Directus_accessScalarFieldEnum = {
@@ -559,7 +571,6 @@ exports.Prisma.Directus_webhooksScalarFieldEnum = {
 };
 
 exports.Prisma.Habit_insightsScalarFieldEnum = {
-  id: 'id',
   habit_id: 'habit_id',
   owner: 'owner',
   habit_label: 'habit_label',
@@ -567,21 +578,25 @@ exports.Prisma.Habit_insightsScalarFieldEnum = {
   counsel: 'counsel',
   full_text: 'full_text',
   metrics: 'metrics',
+  recent_transactions: 'recent_transactions',
+  transaction_id: 'transaction_id',
   recorded_at: 'recorded_at',
-  updated_at: 'updated_at',
-  superseded: 'superseded',
-  previous_habit_id: 'previous_habit_id'
+  previous_habit_id: 'previous_habit_id',
+  id: 'id',
+  status: 'status',
+  date_created: 'date_created',
+  date_updated: 'date_updated',
+  sort: 'sort',
+  user_created: 'user_created',
+  user_updated: 'user_updated'
 };
 
-exports.Prisma.Habit_processing_cursorsScalarFieldEnum = {
-  owner: 'owner',
-  last_transaction_at: 'last_transaction_at',
-  last_run_at: 'last_run_at',
-  last_trigger: 'last_trigger',
-  last_analysis_version: 'last_analysis_version',
-  notes: 'notes',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+exports.Prisma.Habit_snapshot_insightsScalarFieldEnum = {
+  id: 'id',
+  snapshot: 'snapshot',
+  insight: 'insight',
+  confidence: 'confidence',
+  created_at: 'created_at'
 };
 
 exports.Prisma.Habit_snapshotsScalarFieldEnum = {
@@ -608,12 +623,18 @@ exports.Prisma.Habit_snapshotsScalarFieldEnum = {
   transaction_id: 'transaction_id'
 };
 
-exports.Prisma.Habit_snapshot_insightsScalarFieldEnum = {
+exports.Prisma.Shopping_wishlistScalarFieldEnum = {
   id: 'id',
-  snapshot: 'snapshot',
-  insight: 'insight',
-  confidence: 'confidence',
-  created_at: 'created_at'
+  owner: 'owner',
+  name: 'name',
+  link: 'link',
+  current_price: 'current_price',
+  desired_price: 'desired_price',
+  rating: 'rating',
+  source: 'source',
+  date_added: 'date_added',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.Sms_messagesScalarFieldEnum = {
@@ -667,30 +688,15 @@ exports.Prisma.UsersScalarFieldEnum = {
   sms_app_api_key: 'sms_app_api_key'
 };
 
-exports.Prisma.AlertsScalarFieldEnum = {
+exports.Prisma.Wa_messagesScalarFieldEnum = {
   id: 'id',
   status: 'status',
-  sort: 'sort',
   date_created: 'date_created',
   date_updated: 'date_updated',
-  user_created: 'user_created',
-  user_updated: 'user_updated',
   owner: 'owner',
-  transaction_id: 'transaction_id',
-  alert_type: 'alert_type',
-  severity: 'severity',
-  rule_id: 'rule_id',
-  alert_status: 'alert_status',
-  acknowledged_at: 'acknowledged_at',
-  acknowledged_by: 'acknowledged_by',
-  message: 'message',
-  confidence: 'confidence',
-  threshold_value: 'threshold_value',
-  actual_value: 'actual_value',
-  deviation_percentage: 'deviation_percentage',
-  category: 'category',
-  merchant: 'merchant',
-  details: 'details'
+  text: 'text',
+  direction: 'direction',
+  wamid: 'wamid'
 };
 
 exports.Prisma.SortOrder = {
@@ -725,8 +731,8 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
+  alerts: 'alerts',
   coach_briefings: 'coach_briefings',
-  shopping_wishlist: 'shopping_wishlist',
   directus_access: 'directus_access',
   directus_activity: 'directus_activity',
   directus_collections: 'directus_collections',
@@ -755,13 +761,13 @@ exports.Prisma.ModelName = {
   directus_versions: 'directus_versions',
   directus_webhooks: 'directus_webhooks',
   habit_insights: 'habit_insights',
-  habit_processing_cursors: 'habit_processing_cursors',
-  habit_snapshots: 'habit_snapshots',
   habit_snapshot_insights: 'habit_snapshot_insights',
+  habit_snapshots: 'habit_snapshots',
+  shopping_wishlist: 'shopping_wishlist',
   sms_messages: 'sms_messages',
   tranasctions: 'tranasctions',
   users: 'users',
-  alerts: 'alerts'
+  wa_messages: 'wa_messages'
 };
 
 /**

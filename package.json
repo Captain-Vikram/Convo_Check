@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"src/**/*.ts\"",
     "schema:introspect": "tsx scripts/introspect-schema.ts",
-    "db": "prisma db pull --schema=./data/introspected-schema.prisma --force && prisma generate --schema=./data/introspected-schema.prisma"
+    "db": "npx prisma db pull --schema=./data/introspected-schema.prisma --force && npx prisma generate --schema=./data/introspected-schema.prisma"
   },
   "keywords": [
     "cli",
