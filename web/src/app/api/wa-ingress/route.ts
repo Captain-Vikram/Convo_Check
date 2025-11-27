@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
 const POST = async (req: NextRequest) => {
   try {
     const body = (await req.json()) as WhatsAppWebhook;
+    console.log(JSON.stringify(body));
     const result = await processWhatsAppWebhook(body);
 
     if (!result.success) {
@@ -58,3 +59,38 @@ const POST = async (req: NextRequest) => {
 };
 
 export { POST };
+
+const lmao = {
+  object: "whatsapp_business_account",
+  entry: [
+    {
+      id: "1306973550907006",
+      changes: [
+        {
+          value: {
+            messaging_product: "whatsapp",
+            metadata: {
+              display_phone_number: "919819245576",
+              phone_number_id: "760703340470175",
+            },
+            contacts: [{ profile: { name: "Yash" }, wa_id: "919324612161" }],
+            messages: [
+              {
+                from: "919324612161",
+                id: "wamid.HBgMOTE5MzI0NjEyMTYxFQIAEhggQUM2NERDQzhCNjU1N0NCOThBQ0MwOEI2MkZGOTFDQjgA",
+                timestamp: "1764233844",
+                type: "image",
+                image: {
+                  mime_type: "image/jpeg",
+                  sha256: "zFn4nOtnqUWoS6t7Xo6+NI1B7shvfKppqkikwWPS8+o=",
+                  id: "667221642994050",
+                },
+              },
+            ],
+          },
+          field: "messages",
+        },
+      ],
+    },
+  ],
+};
