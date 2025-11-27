@@ -172,7 +172,7 @@ export async function runAnalyst(options: RunAnalystOptions = {}): Promise<Analy
   logger.debug("analyst-agent", "Starting analyst run", { ownerId, reanalyzeAll, dryRun, trigger });
 
   const cursor = await loadProcessingCursor(ownerId);
-  const transactions = await loadTransactions();
+  const transactions = await loadTransactions({ ownerId, cursor: cursor?.lastTransactionAt ?? undefined });
 
   if (transactions.length === 0) {
     return handleEmptyHistory(dryRun);
@@ -310,6 +310,9 @@ export async function runAnalyst(options: RunAnalystOptions = {}): Promise<Analy
       lastAnalysisVersion: ANALYSIS_VERSION,
     });
 
+    // Implicit cursor saved via transaction `analyzed_at` updates — log for observability
+    console.log(`Cursor saved implicitly via analyzed_at for owner ${ownerId}: ${new Date().toISOString()}`);
+
     return {
       status: "success",
       totalTransactions: transactions.length,
@@ -398,23 +401,44 @@ function getLatestTransactionTimestamp(transactions: NormalizedTransaction[]): D
 }
 
 async function loadProcessingCursor(ownerId: number): Promise<HabitProcessingCursorState | null> {
-  // Table habit_processing_cursors does not exist, so we return null to force analysis of all transactions
-  // or we could implement a different storage mechanism later.
-  return null;
+  try {
+    // Derive cursor from the latest analyzed_at timestamp on transactions for this owner
+    const result = await prisma.tranasctions.aggregate({
+      where: { owner: ownerId },
+      _max: { analyzed_at: true },
+    });
+
+    const lastAnalyzedAt = result._max?.analyzed_at ?? null;
+
+    return {
+      owner: ownerId,
+      lastTransactionAt: lastAnalyzedAt ?? null,
+      lastRunAt: null,
+      lastTrigger: null,
+      lastAnalysisVersion: null,
+    };
+  } catch (error) {
+    logger.error("analyst-agent", "Failed to load processing cursor from DB", error, { ownerId });
+    return null;
+  }
 }
 
 async function saveProcessingCursor(
   ownerId: number,
   data: Partial<HabitProcessingCursorState>,
 ): Promise<HabitProcessingCursorState> {
-  // Table habit_processing_cursors does not exist, so we just return the data as if it was saved.
-  return {
+  // Cursor is derived from transaction `analyzed_at` field; no persistent cursor table used.
+  // Return the authoritative cursor state as if saved so callers can continue to operate.
+  const state: HabitProcessingCursorState = {
     owner: ownerId,
     lastTransactionAt: data.lastTransactionAt ?? null,
     lastRunAt: data.lastRunAt ?? new Date(),
     lastTrigger: data.lastTrigger ?? null,
     lastAnalysisVersion: data.lastAnalysisVersion ?? null,
   };
+
+  logger.debug("analyst-agent", "Cursor (implicit) saved via analyzed_at", { ownerId, state });
+  return state;
 }
 
 function mapCursorRecord(record: any): HabitProcessingCursorState {
@@ -734,7 +758,7 @@ async function persistInsightsToDatabase(
             evidence: insight.evidence,
             counsel: insight.counsel,
             full_text: insight.fullText,
-            superseded: false,
+            status: "draft",
           },
         });
         updatedCount += 1;
@@ -761,7 +785,7 @@ async function persistInsightsToDatabase(
           counsel: insight.counsel,
           full_text: insight.fullText,
           recorded_at: now,
-          superseded: false,
+          status: "draft",
           previous_habit_id: previousMatch?.habitId ?? null,
         },
       });
@@ -771,6 +795,24 @@ async function persistInsightsToDatabase(
         ownerId,
         habitLabel: insight.habitLabel,
       });
+        // Fallback: attempt raw SQL insert to support mismatched Prisma schema
+        try {
+          const inserted: any = await prisma.$queryRaw`
+            INSERT INTO habit_insights (habit_id, owner, habit_label, evidence, counsel, full_text, recorded_at, previous_habit_id)
+            VALUES (${habitId}, ${ownerId}, ${insight.habitLabel}, ${insight.evidence}, ${insight.counsel}, ${insight.fullText}, ${now}, ${previousMatch?.habitId ?? null})
+            RETURNING id, habit_id, owner, habit_label, evidence, counsel, full_text, recorded_at, previous_habit_id
+          `;
+
+          const row = Array.isArray(inserted) ? inserted[0] : inserted;
+          if (row) {
+            createdIds.push(habitId);
+          }
+        } catch (fallbackErr) {
+          logger.error("analyst-agent", "Raw SQL fallback failed to persist habit insight", fallbackErr, {
+            ownerId,
+            habitLabel: insight.habitLabel,
+          });
+        }
     }
   }
 
@@ -779,7 +821,7 @@ async function persistInsightsToDatabase(
     try {
       await prisma.habit_insights.updateMany({
         where: { id: { in: remainingPrevious.map((entry) => entry.id) } },
-        data: { superseded: true },
+        data: { status: "superseded" },
       });
     } catch (error) {
       logger.error("analyst-agent", "Failed to mark stale insights", error, {
@@ -821,31 +863,32 @@ async function persistHabitSnapshot(options: HabitSnapshotPersistOptions): Promi
   const payload = buildHabitSnapshotPayload(options);
 
   try {
-    await prisma.habit_snapshots.upsert({
-      where: { snapshot_id: payload.snapshotId },
-      update: {
-        context_data: payload.contextData,
-        summary_data: payload.summaryData,
-        snapshot_hash: payload.snapshotHash,
-        generated_at: payload.generatedAt,
-        insight_labels: payload.insightLabels,
-        insights_count: payload.insightCount,
-        status: "Active",
-        trigger: options.trigger ?? "manual",
-      },
-      create: {
-        snapshot_id: payload.snapshotId,
-        owner: options.ownerId,
-        context_data: payload.contextData,
-        summary_data: payload.summaryData,
-        snapshot_hash: payload.snapshotHash,
-        generated_at: payload.generatedAt,
-        insight_labels: payload.insightLabels,
-        insights_count: payload.insightCount,
-        status: "Active",
-        trigger: options.trigger ?? "manual",
-      },
-    });
+    // Persist snapshot into consolidated `habit_insights` as a master record.
+    const masterHabitId = `master_${payload.snapshotId}`;
+    try {
+      // Use raw SQL directly here as the canonical persistence path. This
+      // avoids relying on generated Prisma input types which may be out of
+      // sync with the runtime DB schema (snake_case fields, additional
+      // columns, or non-unique flags).
+      const existing: any[] = await prisma.$queryRaw`
+        SELECT id FROM "habit_insights" WHERE snapshot_hash = ${payload.snapshotHash} LIMIT 1
+      `;
+
+      if (existing && existing.length > 0) {
+        await prisma.$queryRaw`
+          UPDATE "habit_insights"
+          SET context_data = ${payload.contextData}, summary_data = ${payload.summaryData}, insight_labels = ${payload.insightLabels}, insights_count = ${payload.insightCount}, generated_at = ${payload.generatedAt}, status = 'Active', date_updated = now(), trigger = ${options.trigger ?? 'manual'}
+          WHERE id = ${existing[0].id}
+        `;
+      } else {
+        await prisma.$queryRaw`
+          INSERT INTO "habit_insights" (habit_id, owner, context_data, summary_data, snapshot_hash, generated_at, insight_labels, insights_count, status, trigger, recorded_at)
+          VALUES (${masterHabitId}, ${options.ownerId}, ${payload.contextData}, ${payload.summaryData}, ${payload.snapshotHash}, ${payload.generatedAt}, ${payload.insightLabels}, ${payload.insightCount}, 'Active', ${options.trigger ?? 'manual'}, ${payload.generatedAt})
+        `;
+      }
+    } catch (rawErr) {
+      logger.error("analyst-agent", "Failed to persist habit snapshot (raw SQL)", rawErr, { ownerId: options.ownerId });
+    }
   } catch (error) {
     logger.error("analyst-agent", "Failed to persist habit snapshot", error, {
       ownerId: options.ownerId,
@@ -948,7 +991,7 @@ function normalizeHabitLabel(label?: string | null): string | null {
 async function loadExistingInsights(ownerId: number): Promise<StoredHabitInsight[]> {
   try {
     const habits = await prisma.habit_insights.findMany({
-      where: { owner: ownerId, superseded: false },
+      where: { owner: ownerId, status: "draft" },
       orderBy: { recorded_at: "desc" },
     });
 
@@ -959,7 +1002,7 @@ async function loadExistingInsights(ownerId: number): Promise<StoredHabitInsight
       evidence: habit.evidence ?? "",
       counsel: habit.counsel ?? "",
       fullText: habit.full_text ?? "",
-      superseded: habit.superseded ?? false,
+      superseded: habit.status ? habit.status !== "draft" : false,
     }));
   } catch (error) {
     logger.error("analyst-agent", "Failed to load habits from DB", error, { ownerId });

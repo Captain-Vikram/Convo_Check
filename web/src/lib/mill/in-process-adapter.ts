@@ -7,15 +7,12 @@ import {
 import type { AgentAttachment, AgentInput } from "@/runtime/shared/multimodal";
 import { getConversationStore } from "./conversation-store";
 import { fetchStoredTransactions, fetchCoachBriefings, computeSpendingSummary, fetchHabitInsights, createCoachBriefing, persistSyntheticHabitInsight } from "@/runtime/dev/dev-agent";
-// import { prisma } from "@/lib/prisma";
 import type { SpendingSummaryResult } from "@/tools/query-spending-summary";
 import type { HabitInsight } from "@/runtime/param/analyst-agent";
 import { runAnalyst } from "@/runtime/param/analyst-agent";
-// import type { LogCashTransactionPayload } from "@/tools/log-cash-transaction";
 import type { CoachBriefing } from "@/runtime/chatur/coach-agent";
 import { runDevPipeline, createFileSystemDevTools } from "@/runtime/dev/dev-agent";
 import { categorizeTransaction } from "@/runtime/shared/categorize";
-// randomUUID not needed here; Dev helpers will create IDs when persisting
 import * as fs from "fs";
 import * as path from "path";
 

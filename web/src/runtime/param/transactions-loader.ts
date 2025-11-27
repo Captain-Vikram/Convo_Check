@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 
 export interface LoadTransactionsOptions {
   filePath?: string;
+  ownerId?: number;
+  cursor?: Date | null;
 }
 
 export async function loadTransactions(
@@ -12,9 +14,20 @@ export async function loadTransactions(
   void options;
 
   try {
+    const where: any = { status: "Active" };
+    if (typeof options.ownerId === 'number') {
+      where.owner = options.ownerId;
+    }
+    if (options.cursor) {
+      // Only load transactions created after the cursor. Comparing against
+      // `date_created` (recordedAt) ensures we don't exclude same-day
+      // transactions whose `date_of_transaction` is midnight.
+      where.date_created = { gt: options.cursor };
+    }
+
     const records = await prisma.tranasctions.findMany({
-      where: { status: "Active" },
-      orderBy: { date_created: 'desc' },
+      where,
+      orderBy: { date_of_transaction: 'asc' },
     });
     
     // Map DB records to NormalizedTransaction format
