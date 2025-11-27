@@ -141,18 +141,22 @@ async function ensureInsightFreshness(ownerId: number): Promise<FreshInsightsRes
   const latestUpdatedAt = getLatestInsightUpdatedAt(insights);
 
   try {
-    const cursor = await prisma.habit_processing_cursors.findUnique({
-      where: { owner: ownerId },
-      select: { last_transaction_at: true, last_run_at: true },
-    });
+    // The `habit_processing_cursors` model may not be present in the generated Prisma client
+    // (schema drift between `data/latest_schema.prisma` and generated client). Use a raw
+    // query here so the code compiles even if the typed client doesn't expose the model.
+    const rows = await prisma.$queryRaw<Array<{ last_transaction_at: string | null; last_run_at: string | null }>>(
+      Prisma.sql`SELECT last_transaction_at, last_run_at FROM habit_processing_cursors WHERE owner = ${ownerId} LIMIT 1`,
+    );
+
+    const cursor = rows && rows.length > 0 ? rows[0] : null;
 
     const now = new Date();
     const lastRunTooOld = !cursor?.last_run_at
       ? true
-      : now.getTime() - cursor.last_run_at.getTime() > DAILY_REFRESH_INTERVAL_MS;
+      : now.getTime() - new Date(cursor.last_run_at).getTime() > DAILY_REFRESH_INTERVAL_MS;
     const hasNewTransactions = Boolean(
       cursor?.last_transaction_at &&
-      (!latestUpdatedAt || cursor.last_transaction_at > latestUpdatedAt),
+      (!latestUpdatedAt || new Date(cursor.last_transaction_at) > latestUpdatedAt),
     );
     const needsRefresh = hasNewTransactions || lastRunTooOld;
     const forceReplay = lastRunTooOld && !hasNewTransactions;
@@ -429,7 +433,9 @@ function buildCoachPrompt(
 async function loadHabitInsights(ownerId: number): Promise<HabitInsightRecord[]> {
   try {
     const habits = await prisma.habit_insights.findMany({
-      where: { owner: ownerId, superseded: false },
+      // Use `status` string field instead of legacy `superseded` boolean.
+      // Keep query selective and order by most recent.
+      where: { owner: ownerId, status: { not: "superseded" } },
       orderBy: { recorded_at: "desc" },
       select: {
         id: true,
@@ -439,7 +445,7 @@ async function loadHabitInsights(ownerId: number): Promise<HabitInsightRecord[]>
         counsel: true,
         full_text: true,
         recorded_at: true,
-        superseded: true,
+        status: true,
         previous_habit_id: true,
       },
     });

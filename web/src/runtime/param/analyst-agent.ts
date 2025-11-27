@@ -863,31 +863,32 @@ async function persistHabitSnapshot(options: HabitSnapshotPersistOptions): Promi
   const payload = buildHabitSnapshotPayload(options);
 
   try {
-    await prisma.habit_snapshots.upsert({
-      where: { snapshot_id: payload.snapshotId },
-      update: {
-        context_data: payload.contextData,
-        summary_data: payload.summaryData,
-        snapshot_hash: payload.snapshotHash,
-        generated_at: payload.generatedAt,
-        insight_labels: payload.insightLabels,
-        insights_count: payload.insightCount,
-        status: "Active",
-        trigger: options.trigger ?? "manual",
-      },
-      create: {
-        snapshot_id: payload.snapshotId,
-        owner: options.ownerId,
-        context_data: payload.contextData,
-        summary_data: payload.summaryData,
-        snapshot_hash: payload.snapshotHash,
-        generated_at: payload.generatedAt,
-        insight_labels: payload.insightLabels,
-        insights_count: payload.insightCount,
-        status: "Active",
-        trigger: options.trigger ?? "manual",
-      },
-    });
+    // Persist snapshot into consolidated `habit_insights` as a master record.
+    const masterHabitId = `master_${payload.snapshotId}`;
+    try {
+      // Use raw SQL directly here as the canonical persistence path. This
+      // avoids relying on generated Prisma input types which may be out of
+      // sync with the runtime DB schema (snake_case fields, additional
+      // columns, or non-unique flags).
+      const existing: any[] = await prisma.$queryRaw`
+        SELECT id FROM "habit_insights" WHERE snapshot_hash = ${payload.snapshotHash} LIMIT 1
+      `;
+
+      if (existing && existing.length > 0) {
+        await prisma.$queryRaw`
+          UPDATE "habit_insights"
+          SET context_data = ${payload.contextData}, summary_data = ${payload.summaryData}, insight_labels = ${payload.insightLabels}, insights_count = ${payload.insightCount}, generated_at = ${payload.generatedAt}, status = 'Active', date_updated = now(), trigger = ${options.trigger ?? 'manual'}
+          WHERE id = ${existing[0].id}
+        `;
+      } else {
+        await prisma.$queryRaw`
+          INSERT INTO "habit_insights" (habit_id, owner, context_data, summary_data, snapshot_hash, generated_at, insight_labels, insights_count, status, trigger, recorded_at)
+          VALUES (${masterHabitId}, ${options.ownerId}, ${payload.contextData}, ${payload.summaryData}, ${payload.snapshotHash}, ${payload.generatedAt}, ${payload.insightLabels}, ${payload.insightCount}, 'Active', ${options.trigger ?? 'manual'}, ${payload.generatedAt})
+        `;
+      }
+    } catch (rawErr) {
+      logger.error("analyst-agent", "Failed to persist habit snapshot (raw SQL)", rawErr, { ownerId: options.ownerId });
+    }
   } catch (error) {
     logger.error("analyst-agent", "Failed to persist habit snapshot", error, {
       ownerId: options.ownerId,

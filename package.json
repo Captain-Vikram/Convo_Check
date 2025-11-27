@@ -30,9 +30,11 @@
   "license": "MIT",
   "dependencies": {
     "@ai-sdk/google": "^2.0.23",
+    "@aws-sdk/client-s3": "^3.940.0",
     "@fastify/cors": "^11.1.0",
     "@prisma/client": "^6.18.0",
     "ai": "^5.0.76",
+    "axios": "^1.13.2",
     "dotenv": "^17.2.3",
     "fastify": "^5.6.1",
     "node-fetch": "^3.3.2",
@@ -42,11 +44,12 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@types/node": "^24.8.1",
+    "@types/node": "^24.10.1",
     "@types/pg": "^8.15.6",
     "@typescript-eslint/eslint-plugin": "^8.46.1",
     "@typescript-eslint/parser": "^8.46.1",
     "eslint": "^9.37.0",
+    "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }
