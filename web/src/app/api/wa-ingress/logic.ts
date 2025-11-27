@@ -4,6 +4,7 @@ import { WhatsAppWebhook } from "@/lib/wa/types";
 import { getPublicMediaUrlFromWhatsApp } from "@/lib/wa/whatsAppMedia";
 import { AgentAttachmentType } from "@/runtime/shared/multimodal";
 import { randomUUID } from "crypto";
+import { wacloud } from "@/lib/wacloud";
 
 interface ProcessWhatsAppWebhookResult {
   success: boolean;
@@ -54,7 +55,7 @@ export async function processWhatsAppWebhook(
       if (audio) {
         mimeType = audio.mimeType;
         mediaURL = audio.url;
-        text = "I have attached an audio recording"
+        text = "I have attached an audio recording";
         mediaType = "audio";
       }
     }
@@ -140,15 +141,29 @@ export async function processWhatsAppWebhook(
       ],
     })
       .then(async (res) => {
-        console.log(res);
+        try {
+          const waresponse = await wacloud.sendMessage({
+            to: phoneNumber,
+            message: res.message || "HELLO WORLD",
+            enableLinkPreview: false,
+          });
 
-        // wacloud.sendMessage({
-        //   to: phoneNumber,
-        //   message: res.message || "HELLO WORLD",
-        //   enableLinkPreview: false,
-        // }).catch((err)=> {
-        //   console.log(err.response);
-        // });
+          prisma.wa_messages.create({
+            data: {
+              id: randomUUID(),
+              date_created: new Date(),
+              wamid: waresponse.wamid,
+              direction: "out",
+              users: {
+                connect: {
+                  id: userId,
+                },
+              },
+            },
+          });
+        } catch (err2) {
+          console.error(err2);
+        }
       })
       .catch((err) => {
         console.error(err);

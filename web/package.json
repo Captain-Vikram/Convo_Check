@@ -19,7 +19,7 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "redis": "^5.9.0",
-    "wacloud": "^0.0.8"
+    "wacloud": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",
