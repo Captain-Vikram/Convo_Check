@@ -2,7 +2,6 @@ import processAgentMessage from "@/lib/mill/in-process-adapter";
 import { prisma } from "@/lib/prisma";
 import { WhatsAppWebhook } from "@/lib/wa/types";
 import { getPublicMediaUrlFromWhatsApp } from "@/lib/wa/whatsAppMedia";
-import { wacloud } from "@/lib/wacloud";
 import { AgentAttachmentType } from "@/runtime/shared/multimodal";
 import { randomUUID } from "crypto";
 
@@ -143,12 +142,6 @@ export async function processWhatsAppWebhook(
       .then(async (res) => {
         console.log(res);
 
-        // console.log({
-        //   to: phoneNumber,
-        //   message: res.message || "HELLO WORLD",
-        //   enableLinkPreview: false,
-        // });
-
         // wacloud.sendMessage({
         //   to: phoneNumber,
         //   message: res.message || "HELLO WORLD",
@@ -173,39 +166,3 @@ export async function processWhatsAppWebhook(
     };
   }
 }
-
-const lmao = {
-  object: "whatsapp_business_account",
-  entry: [
-    {
-      id: "1306973550907006",
-      changes: [
-        {
-          value: {
-            messaging_product: "whatsapp",
-            metadata: {
-              display_phone_number: "919819245576",
-              phone_number_id: "760703340470175",
-            },
-            contacts: [{ profile: { name: "Yash" }, wa_id: "919324612161" }],
-            messages: [
-              {
-                from: "919324612161",
-                id: "wamid.HBgMOTE5MzI0NjEyMTYxFQIAEhggQUM0MTBEM0JFQ0ExRjk3REJCODNFQ0VBMjhEOTY4NkYA",
-                timestamp: "1764237510",
-                type: "audio",
-                audio: {
-                  mime_type: "audio/ogg; codecs=opus",
-                  sha256: "j1L+RNrrAW9fR7TbMHiNHUw947Q4hn0IqDHZ+AhKmFo=",
-                  id: "833441336196310",
-                  voice: true,
-                },
-              },
-            ],
-          },
-          field: "messages",
-        },
-      ],
-    },
-  ],
-};
