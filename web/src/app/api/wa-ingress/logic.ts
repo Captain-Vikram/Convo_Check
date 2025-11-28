@@ -141,10 +141,13 @@ export async function processWhatsAppWebhook(
       ],
     })
       .then(async (res) => {
+
+        console.log(res);
+
         try {
           const waresponse = await wacloud.sendMessage({
             to: phoneNumber,
-            message: res.message || "HELLO WORLD",
+            message: res.message || "Failed to see message",
             enableLinkPreview: false,
           });
 
