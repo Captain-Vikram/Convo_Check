@@ -19,6 +19,22 @@ import { prisma } from "@/lib/prisma";
 import { logger } from "../shared/logger";
 import { loadTransactions } from "./transactions-loader";
 
+// Small helper to retry Prisma operations when the query engine isn't ready.
+async function prismaWithRetry<T>(fn: () => Promise<T>, retries = 4, delayMs = 500): Promise<T> {
+  let attempt = 0;
+  while (true) {
+    try {
+      return await fn();
+    } catch (err: any) {
+      attempt += 1;
+      const msg = err && err.message ? String(err.message) : "";
+      const shouldRetry = attempt < retries && /Engine is not yet connected/i.test(msg);
+      if (!shouldRetry) throw err;
+      await new Promise((res) => setTimeout(res, delayMs * attempt));
+    }
+  }
+}
+
 export interface Transaction {
   ownerPhone: string;
   transactionId: string;
@@ -201,19 +217,21 @@ export async function analyzeTransactionHabit(
 
   // Sync habit to database via Prisma
   try {
-    await prisma.habit_insights.create({
-      data: {
-        habit_id: habitEntry.habitId,
-        habit_label: `${habitEntry.category} - ${habitEntry.habitType}`,
-        evidence: `Transaction: ${habitEntry.transactionId}, Amount: ${habitEntry.transactionAmount}, Type: ${habitEntry.habitType}`,
-        counsel: habitEntry.suggestions,
-        full_text: `${habitEntry.spendingPattern}. Frequency: ${habitEntry.frequency}. Risk: ${habitEntry.riskLevel}`,
-        metrics: metricsPayload,
-        recorded_at: habitEntry.recordedAt,
-        previous_habit_id: habitEntry.previousHabitId || null,
-        owner: ownerId,
-      },
-    });
+    await prismaWithRetry(() =>
+      prisma.habit_insights.create({
+        data: {
+          habit_id: habitEntry.habitId,
+          habit_label: `${habitEntry.category} - ${habitEntry.habitType}`,
+          evidence: `Transaction: ${habitEntry.transactionId}, Amount: ${habitEntry.transactionAmount}, Type: ${habitEntry.habitType}`,
+          counsel: habitEntry.suggestions,
+          full_text: `${habitEntry.spendingPattern}. Frequency: ${habitEntry.frequency}. Risk: ${habitEntry.riskLevel}`,
+          metrics: metricsPayload,
+          recorded_at: habitEntry.recordedAt,
+          previous_habit_id: habitEntry.previousHabitId || null,
+          owner: ownerId,
+        },
+      }),
+    );
   } catch (error) {
     logger.error("habit-tracker", "Failed to save habit insight", error);
   }
@@ -698,11 +716,13 @@ async function loadRecentTransactions(
  */
 async function loadRecentHabits(count: number, ownerId: number): Promise<HabitEntry[]> {
   try {
-    const habits = await prisma.habit_insights.findMany({
-      where: { owner: ownerId },
-      orderBy: { recorded_at: 'desc' },
-      take: count,
-    });
+    const habits = await prismaWithRetry(() =>
+      prisma.habit_insights.findMany({
+        where: { owner: ownerId },
+        orderBy: { recorded_at: 'desc' },
+        take: count,
+      }),
+    );
     
     // Convert DB format to HabitEntry
     const habitEntries: HabitEntry[] = habits

@@ -6,6 +6,8 @@ export interface LoadTransactionsOptions {
   filePath?: string;
   ownerId?: number;
   cursor?: Date | null;
+  /** If true, do not filter by status (used for forced reanalysis) */
+  ignoreStatus?: boolean;
 }
 
 export async function loadTransactions(
@@ -14,7 +16,10 @@ export async function loadTransactions(
   void options;
 
   try {
-    const where: any = { status: "Active" };
+    const where: any = {};
+    if (!options.ignoreStatus) {
+      where.status = "Active";
+    }
     if (typeof options.ownerId === 'number') {
       where.owner = options.ownerId;
     }

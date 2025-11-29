@@ -47,6 +47,8 @@ export interface ConversationContext {
     timestamp: string;
   }>;
   updatedAt: string;
+  // timestamp of last agent switch to prevent rapid oscillation
+  lastAgentSwitchAt?: string;
 }
 
 export interface ConversationRouterOptions {
@@ -88,6 +90,52 @@ export class InMemoryConversationStore implements ConversationStore {
         this.contexts.delete(userId);
       }
     }
+  }
+}
+
+/**
+ * Extract simple numeric facts and goals from a free-text message.
+ * Returns a small object suitable for `session.collectedInfo` merging.
+ */
+function extractKeyNumbersFromText(text: string): Record<string, unknown> {
+  try {
+    const out: Record<string, unknown> = {};
+    const normalized = (text || "").replace(/[\u20B9,]/g, "").toLowerCase();
+
+    const incomeMatch = normalized.match(/income[^0-9]*(\d+[kKmM]?)/i) || normalized.match(/earn[^0-9]*(\d+[kKmM]?)/i) || normalized.match(/salary[^0-9]*(\d+[kKmM]?)/i);
+    if (incomeMatch && incomeMatch[1]) {
+      out.income = parseCompactNumber(incomeMatch[1]);
+    }
+
+    const savingsMatch = normalized.match(/savings?[^0-9]*(\d+[kKmM]?)/i) || normalized.match(/have\s*(\d+[kKmM]?)\s*savings?/i);
+    if (savingsMatch && savingsMatch[1]) {
+      out.savings = parseCompactNumber(savingsMatch[1]);
+    }
+
+    const amountMatch = normalized.match(/₹?\s*(\d+[kKmM]?)\s*(?:for|to|on)?\s*(phone|house|fund|emergency|sip|emi|loan)?/i);
+    if (amountMatch && amountMatch[1]) {
+      out.amount = parseCompactNumber(amountMatch[1]);
+    }
+
+    const goalMatch = normalized.match(/(?:save|buy|invest)\s+(.*)/i);
+    if (goalMatch && goalMatch[1]) {
+      out.goal = goalMatch[1].trim();
+    }
+
+    return out;
+  } catch (e) {
+    return {};
+  }
+}
+
+function parseCompactNumber(raw: string): number {
+  try {
+    const s = String(raw).trim().toLowerCase();
+    if (s.endsWith('k')) return Number(s.slice(0, -1)) * 1000;
+    if (s.endsWith('m')) return Number(s.slice(0, -1)) * 1000000;
+    return Number(s.replace(/[^0-9.]/g, '')) || 0;
+  } catch {
+    return 0;
   }
 }
 
@@ -203,6 +251,20 @@ export class ConversationRouter {
     this.sera = new SeraAgent();
   }
 
+  // Minimum time between agent switches to avoid flip-flopping on rapid messages
+  private static readonly SWITCH_COOLDOWN_MS = 2000;
+
+  private canSwitchAgent(context?: ConversationContext): boolean {
+    try {
+      if (!context || !context.lastAgentSwitchAt) return true;
+      const then = Date.parse(context.lastAgentSwitchAt);
+      if (isNaN(then)) return true;
+      return Date.now() - then >= ConversationRouter.SWITCH_COOLDOWN_MS;
+    } catch {
+      return true;
+    }
+  }
+
   private async restoreContext(userId: string): Promise<ConversationContext | undefined> {
     const stored = await this.store.load(userId);
     if (!stored) {
@@ -316,6 +378,7 @@ export class ConversationRouter {
         agentResponse: result.message,
         timestamp: new Date().toISOString(),
       });
+      context.lastAgentSwitchAt = new Date().toISOString();
       await this.persistContext(userId, context);
 
       return {
@@ -338,10 +401,12 @@ export class ConversationRouter {
       });
       context.chaturSessionId = chaturSession.sessionId;
 
-      // Immediately process the user's first message
+      // Extract simple numeric facts from the user's first message to avoid re-probing
+      const extracted = extractKeyNumbersFromText(normalizedInput.text || "");
       const result = await this.chatur.continueConversation(
         chaturSession.sessionId,
-        normalizedInput
+        normalizedInput,
+        { collectedInfo: extracted }
       );
 
       context.conversationHistory.push({
@@ -350,9 +415,49 @@ export class ConversationRouter {
         agentResponse: result.message,
         timestamp: new Date().toISOString(),
       });
-      
-      if (result.completed && result.guidance && options.onCoachBriefingReady) {
-        await options.onCoachBriefingReady(result.guidance);
+
+      // Persist coach briefings when the LLM returned explicit guidance
+      // or when the response appears to be substantive advice produced
+      // using rich context (insights / financial summary / recent txns).
+      try {
+        if (options.onCoachBriefingReady) {
+          // 1) Preferred: formal guidance object returned by the agent
+          if (result.completed && result.guidance) {
+            await options.onCoachBriefingReady(result.guidance);
+          } else {
+            // 2) Heuristic: if session had rich context and the message
+            // looks like actionable advice, synthesize a briefing and save it.
+            const chaturSess = chaturSession;
+            const hasRichContext = (Array.isArray(chaturSess.insights) && chaturSess.insights.length > 0)
+              || (chaturSess.financialSummary && (chaturSess.financialSummary.transactionCount ?? 0) > 0)
+              || (Array.isArray(chaturSess.recentTransactions) && chaturSess.recentTransactions.length > 0)
+              || (Array.isArray(chaturSess.pastBriefings) && chaturSess.pastBriefings.length > 0);
+
+            const messageIsAdviceLike = typeof result.message === "string" && result.message.trim().length > 120;
+
+            if (hasRichContext && messageIsAdviceLike) {
+              const guidance = {
+                headline:
+                  ((result as any).extractedInfo && ((result as any).extractedInfo as any).headline) ||
+                  (result.guidance && result.guidance.headline) ||
+                  String(result.message).slice(0, 80),
+                counsel: result.message || (((result as any).extractedInfo && ((result as any).extractedInfo as any).counsel) || ""),
+                evidence:
+                  (chaturSess.insights && chaturSess.insights[0] && chaturSess.insights[0].evidence) ||
+                  (((result as any).extractedInfo && ((result as any).extractedInfo as any).evidence) || ""),
+              };
+
+              try {
+                await options.onCoachBriefingReady(guidance as any);
+              } catch (e) {
+                // non-fatal: log and continue
+                console.error("Failed to persist synthesized coach briefing", e);
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Error while attempting to persist coach briefing", err);
       }
 
       await this.persistContext(userId, context);
@@ -445,6 +550,15 @@ export class ConversationRouter {
 
       // Check if Mill wants to escalate to Chatur
       if (result.action === "escalate_to_coach") {
+        if (!this.canSwitchAgent(context)) {
+          // Throttle switching to avoid rapid flip-flop
+          await this.persistContext(userId, context);
+          return {
+            agent: "mill",
+            message: "I'm still finishing the previous task — give me a moment and then I'll connect you with Chatur.",
+            completed: false,
+          };
+        }
         const insights = options.onInsightsAvailable ? await options.onInsightsAvailable() : [];
         const financialSummary = options.onQueryReady ? await options.onQueryReady() : undefined;
         const recentTransactions = options.onRecentTransactionsReady ? await options.onRecentTransactionsReady() : undefined;
@@ -459,7 +573,7 @@ export class ConversationRouter {
         });
         context.activeAgent = "chatur";
         context.chaturSessionId = chaturSession.sessionId;
-
+        context.lastAgentSwitchAt = new Date().toISOString();
         await this.persistContext(userId, context);
         return {
           agent: "chatur",
@@ -507,25 +621,36 @@ export class ConversationRouter {
       const recentTransactions = options.onRecentTransactionsReady ? await options.onRecentTransactionsReady() : undefined;
       const pastBriefings = options.onPastBriefingsReady ? await options.onPastBriefingsReady() : undefined;
 
+      // Extract numbers/goal from the user's message and merge into collectedInfo
+      const extracted = extractKeyNumbersFromText(normalizedInput.text || "");
       const result = await this.chatur.continueConversation(
-        context.chaturSessionId, 
+        context.chaturSessionId,
         normalizedInput,
         {
           insights,
           financialSummary,
           recentTransactions,
-          pastBriefings
+          pastBriefings,
+          collectedInfo: extracted,
         }
       );
 
       // Check if Chatur wants to escalate to Mill
       if (result.shouldEscalateToMill) {
+        if (!this.canSwitchAgent(context)) {
+          await this.persistContext(userId, context);
+          return {
+            agent: "chatur",
+            message: "I'm still processing the previous step — please hold on and I'll switch to Mill shortly.",
+            completed: false,
+          };
+        }
         const millSession = this.mill.startConversation({
           initialMessage: "Sure thing! Let me help you log that. What's the amount and description?",
         });
         context.activeAgent = "mill";
         context.millSessionId = millSession.sessionId;
-
+        context.lastAgentSwitchAt = new Date().toISOString();
         await this.persistContext(userId, context);
         return {
           agent: "mill",
@@ -572,7 +697,17 @@ export class ConversationRouter {
         const millSession = this.mill.startConversation({
           initialMessage: "I can help with that transaction. What are the details?",
         });
+        if (!this.canSwitchAgent(context)) {
+          await this.persistContext(userId, context);
+          return {
+            agent: "sera",
+            message: "I'm still finishing the previous task — please wait a moment.",
+            completed: false,
+          };
+        }
+
         context.activeAgent = "mill";
+        context.lastAgentSwitchAt = new Date().toISOString();
         context.millSessionId = millSession.sessionId;
 
         // Process the message with Mill immediately
@@ -616,7 +751,17 @@ export class ConversationRouter {
           pastBriefings,
           initialQuestion: "I can definitely help with financial advice. What's on your mind?",
         });
+        if (!this.canSwitchAgent(context)) {
+          await this.persistContext(userId, context);
+          return {
+            agent: "sera",
+            message: "Hold on — I'm processing the current step; I'll switch you to Chatur shortly.",
+            completed: false,
+          };
+        }
+
         context.activeAgent = "chatur";
+        context.lastAgentSwitchAt = new Date().toISOString();
         context.chaturSessionId = chaturSession.sessionId;
 
         // Process the message with Chatur immediately
@@ -724,6 +869,15 @@ export class ConversationRouter {
   private routeInitialMessage(message: string): ActiveAgent {
     const lower = message.toLowerCase();
 
+    // Detect product + price questions (e.g. "Is a ₹15,000 phone worth it?", "Is a 15000 rupee laptop worth buying?")
+    // Treat these as financial/advice queries and prefer Chatur unless there's an explicit store/platform mention.
+    const hasPriceCue = /\u20B9|rs\.?\s?\d+|\d+\s?rs\b|\d{3,}|\d+/.test(lower);
+    const hasProductKeyword = /\b(phone|laptop|tv|television|headphone|headphones|watch|fridge|refrigerator|camera|tablet|microwave|ac|air conditioner|fan|shoes|clothing|bike|motorbike|car)\b/.test(lower);
+    const hasStoreMention = /amazon|flipkart|croma|myntra|ajio|tatacliq|reliance digital|nykaa|decathlon/.test(lower);
+    if (hasPriceCue && hasProductKeyword && !hasStoreMention) {
+      return "chatur";
+    }
+
     // 1. Check for Financial Calculation/Planning Intent (Chatur) - Prioritize over shopping
     // "Calculate SIP", "Budget split", "Loan EMI" (without product context)
     if (lower.includes("calculate") || lower.includes("split")) {
@@ -738,6 +892,8 @@ export class ConversationRouter {
     }
 
     // 3. Check for Shopping Intent (Sera)
+    // Only route to Sera automatically when there's a clear shopping signal: an explicit store/platform mention,
+    // or a shopping verb together with a product keyword. This reduces false positives for finance/coach queries.
     if (this.isShoppingIntent(message)) {
       return "sera";
     }
@@ -793,25 +949,37 @@ export class ConversationRouter {
     if (lower.includes("should i buy") || lower.includes("can i afford")) {
       return false;
     }
-
     const keywordScore = ConversationRouter.keywordScore(ConversationRouter.SERA_KEYWORDS, lower);
-    const hasStoreMention = /amazon|flipkart|croma|myntra|ajio|tatacliq|reliance digital|nykaa|decathlon/.test(
-      lower,
-    );
-    const hasShoppingVerb = /buy|shop|shopping|wishlist|compare|deal|product|price|purchase|order|best|recommend|search/.test(
-      lower,
-    );
     const transactionCue = this.looksLikeTransactionIntent(lower);
 
-    if (transactionCue && !hasStoreMention && !hasShoppingVerb) {
+    // Strong store mention / platform -> shopping
+    const hasStore = /amazon|flipkart|croma|myntra|ajio|tatacliq|reliance digital|nykaa|decathlon/.test(lower);
+
+    // Product nouns
+    const hasProductKeyword = /\b(phone|laptop|tv|television|headphone|headphones|watch|shoes|clothing|camera|tablet|fridge|refrigerator|microwave|ac|air conditioner|fan)\b/.test(lower);
+
+    // Purchase-related verbs/phrases (stronger signals than the generic word "shopping")
+    const hasBuyVerb = /\b(buy|purchase|order|where to buy|where can i buy|best deal|cheapest|price|compare)\b/.test(lower);
+
+    // Generic "shopping" word should not by itself trigger Sera unless accompanied by a product/store/buy-verb
+    const containsShoppingWord = /\bshopping\b/.test(lower);
+    if (containsShoppingWord && !hasStore && !hasProductKeyword && !hasBuyVerb) {
       return false;
     }
 
-    if (hasStoreMention || hasShoppingVerb) {
-      return true;
+    // If user is clearly asking about a transaction/finance item, don't treat it as shopping (unless there's a clear buy intent + product)
+    if (transactionCue && !hasBuyVerb && !hasProductKeyword && !hasStore) {
+      return false;
     }
 
-    return keywordScore > 0 && !transactionCue;
+    // Explicit store mention is a clear shopping intent
+    if (hasStore) return true;
+
+    // Require buy-verb or the word "shopping" together with a product noun
+    if ((hasBuyVerb || containsShoppingWord) && hasProductKeyword) return true;
+
+    // Conservative fallback: require SERA keywords + product noun and no transaction cue
+    return keywordScore > 0 && !transactionCue && hasProductKeyword;
   }
 
   private async handoffToSera(

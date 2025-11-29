@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
 
-import { Prisma } from "../../../../data/generated/prisma";
+import { Prisma } from "../../../../generated/prisma/client";
 import { callLLM } from "../shared/llm-client";
 import { prisma } from "@/lib/prisma";
 import { logger } from "../shared/logger";
@@ -141,21 +141,25 @@ async function ensureInsightFreshness(ownerId: number): Promise<FreshInsightsRes
   const latestUpdatedAt = getLatestInsightUpdatedAt(insights);
 
   try {
-    // The `habit_processing_cursors` model may not be present in the generated Prisma client
-    // (schema drift between `data/latest_schema.prisma` and generated client). Use a raw
-    // query here so the code compiles even if the typed client doesn't expose the model.
-    const rows = await prisma.$queryRaw<Array<{ last_transaction_at: string | null; last_run_at: string | null }>>(
-      Prisma.sql`SELECT last_transaction_at, last_run_at FROM habit_processing_cursors WHERE owner = ${ownerId} LIMIT 1`,
-    );
+    // Use existing tables only — do not rely on a separate `habit_processing_cursors` table.
+    // Compute cursor values from aggregates on `tranasctions` and `habit_insights`.
+    const txAgg = await prismaWithRetry(() => prisma.tranasctions.aggregate({ where: { owner: ownerId }, _max: { analyzed_at: true } }));
+    const lastTx = txAgg._max?.analyzed_at ?? null;
 
-    const cursor = rows && rows.length > 0 ? rows[0] : null;
+    const insightAgg = await prismaWithRetry(() => prisma.habit_insights.aggregate({ where: { owner: ownerId }, _max: { recorded_at: true } }));
+    const lastInsight = insightAgg._max?.recorded_at ?? null;
+
+    const cursor = {
+      last_transaction_at: lastTx ? lastTx.toISOString() : null,
+      last_run_at: lastInsight ? lastInsight.toISOString() : null,
+    };
 
     const now = new Date();
-    const lastRunTooOld = !cursor?.last_run_at
+    const lastRunTooOld = !cursor.last_run_at
       ? true
       : now.getTime() - new Date(cursor.last_run_at).getTime() > DAILY_REFRESH_INTERVAL_MS;
     const hasNewTransactions = Boolean(
-      cursor?.last_transaction_at &&
+      cursor.last_transaction_at &&
       (!latestUpdatedAt || new Date(cursor.last_transaction_at) > latestUpdatedAt),
     );
     const needsRefresh = hasNewTransactions || lastRunTooOld;
@@ -184,6 +188,23 @@ async function ensureInsightFreshness(ownerId: number): Promise<FreshInsightsRes
   }
 
   return { insights, refreshed: false, latestUpdatedAt };
+}
+
+// Retry wrapper for Prisma calls to handle transient engine readiness errors.
+async function prismaWithRetry<T>(fn: () => Promise<T>, retries = 4, delayMs = 500): Promise<T> {
+  let attempt = 0;
+  while (true) {
+    try {
+      return await fn();
+    } catch (err: any) {
+      attempt += 1;
+      const msg = err && err.message ? String(err.message) : "";
+      const shouldRetry = attempt < retries && /Engine is not yet connected/i.test(msg);
+      if (!shouldRetry) throw err;
+      logger.warn("coach-agent", `Prisma engine not ready (attempt ${attempt}), retrying...`);
+      await new Promise((res) => setTimeout(res, delayMs * attempt));
+    }
+  }
 }
 
 function getLatestInsightUpdatedAt(insights: HabitInsightRecord[]): Date | null {
@@ -432,23 +453,25 @@ function buildCoachPrompt(
  */
 async function loadHabitInsights(ownerId: number): Promise<HabitInsightRecord[]> {
   try {
-    const habits = await prisma.habit_insights.findMany({
-      // Use `status` string field instead of legacy `superseded` boolean.
-      // Keep query selective and order by most recent.
-      where: { owner: ownerId, status: { not: "superseded" } },
-      orderBy: { recorded_at: "desc" },
-      select: {
-        id: true,
-        habit_id: true,
-        habit_label: true,
-        evidence: true,
-        counsel: true,
-        full_text: true,
-        recorded_at: true,
-        status: true,
-        previous_habit_id: true,
-      },
-    });
+    const habits = await prismaWithRetry(() =>
+      prisma.habit_insights.findMany({
+        // Use `status` string field instead of legacy `superseded` boolean.
+        // Keep query selective and order by most recent.
+        where: { owner: ownerId, status: { not: "superseded" } },
+        orderBy: { recorded_at: "desc" },
+        select: {
+          id: true,
+          habit_id: true,
+          habit_label: true,
+          evidence: true,
+          counsel: true,
+          full_text: true,
+          recorded_at: true,
+          status: true,
+          previous_habit_id: true,
+        },
+      }),
+    );
 
     return habits.map((habit) => ({
       id: habit.id,

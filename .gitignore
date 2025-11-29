@@ -46,3 +46,5 @@ scripts/*.d.ts.map
 test-*.js
 test-*.mjs
 test-*.ts
+
+/generated/prisma

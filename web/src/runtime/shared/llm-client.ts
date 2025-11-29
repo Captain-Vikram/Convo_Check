@@ -30,6 +30,11 @@ export async function callLLM(
     maxTokens?: number;
   }
 ) {
+  // Test hook: allow forcing an invalid LLM response for E2E tests.
+  if (process.env.MOCK_BAD_LLM === "1") {
+    return { text: "INVALID { not json" } as any;
+  }
+
   const model = createLLMClient(agentId);
   return generateText({
     model,

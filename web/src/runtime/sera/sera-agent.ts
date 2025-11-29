@@ -29,6 +29,7 @@ import {
 import {
   SearchResultPresenter,
   searchAmazonProduct,
+  ShoppingSearchService,
   type AmazonSearchResult,
 } from './services/search-service';
 import { createFinancialCalculatorTool } from '@/tools/financial-calculator';
@@ -132,6 +133,11 @@ export class SeraAgent {
       content: safeUserMessage,
     });
 
+    // If caller provided an owner in options, attach it to the session
+    if ((options as any).owner && typeof (options as any).owner === 'number') {
+      session.owner = Math.trunc((options as any).owner);
+    }
+
     // Keep only last MAX_HISTORY messages
     if (session.messages.length > MAX_HISTORY) {
       session.messages = session.messages.slice(-MAX_HISTORY);
@@ -209,6 +215,94 @@ export class SeraAgent {
       // Create enhanced tools with session context
       const enhancedGetProductDetails = this.searchAdapter.createContextualProductDetailsTool(session);
 
+      // Create owner-aware wrappers for wishlist tools so model-invoked tool calls
+      // read/write using the session.owner when available.
+      const addToWishlistToolWithOwner = {
+        ...(addToWishlistTool as any),
+        execute: async (params: any) => {
+          try {
+            const item = {
+              name: params.productName,
+              link: params.productLink,
+              currentPrice: params.currentPrice,
+              desiredPrice: params.desiredPrice,
+              rating: params.rating ?? undefined,
+              source: params.source,
+              dateAdded: new Date().toISOString().split('T')[0],
+              owner: session.owner,
+            } as any;
+
+            const saved = await addToWishlist(item as any);
+            return {
+              success: true,
+              message: 'Product saved to wishlist in database.',
+              id: saved.id,
+            };
+          } catch (error: any) {
+            logger.error('sera', 'Failed to add to wishlist (tool)', error);
+            return { success: false, message: `Failed to add to wishlist: ${error?.message ?? String(error)}` };
+          }
+        },
+      } as any;
+
+      const viewWishlistToolWithOwner = {
+        ...(viewWishlistTool as any),
+        execute: async (_params?: any) => {
+          const items = await getWishlist(session.owner);
+          if (!items || items.length === 0) return 'Your wishlist is empty.';
+          const lines: string[] = ['Your wishlist:'];
+          items.forEach((item, i) => {
+            lines.push(`${i + 1}. ${item.name} (Current: ${item.currentPrice}, Target: ${item.desiredPrice})`);
+          });
+          return lines.join('\n');
+        },
+      } as any;
+
+      // Auto-approve / explicit confirmation shortcut:
+      // If the user explicitly confirms ("yes, search", "please search now", etc.) or the caller
+      // requested `options.autoApproveTools`, perform the shopping search immediately using the
+      // internal ShoppingSearchService so we can return concrete results rather than relying on
+      // the model to call tools and produce text.
+      const confirmationRegex = /\b(yes|yep|please search|do it|go ahead|search now|please search now|sure, search)\b/i;
+      const isConfirmation = confirmationRegex.test(safeUserMessage) || (options as any).autoApproveTools === true;
+
+      if (isConfirmation) {
+        // Find a prior user message that looks like the search query (exclude the current confirmation)
+        const priorUser = session.messages
+          .slice()
+          .reverse()
+          .find((m) => m.role === 'user' && m.content && m.content !== safeUserMessage && /\b(search|laptop|phone|buy|under|price|find)\b/i.test(m.content));
+
+        const inferredQuery = priorUser?.content?.trim() ?? safeUserMessage;
+        const num = 10;
+
+        try {
+          const svc = new ShoppingSearchService();
+          const searchResp = await svc.search(inferredQuery, { num });
+          session.lastSearchResults = searchResp.results;
+
+          const formatted = this.formatResultsAsChat(searchResp.results, 5);
+          const assistantMessage = [`I've run the shopping search for: "${inferredQuery}".`, formatted].join('\n\n');
+
+          session.messages.push({ role: 'assistant', content: assistantMessage });
+
+          const response: SeraContinuationResult = {
+            message: assistantMessage,
+            completed: false,
+            searchResults: searchResp.results,
+          };
+
+          if (options.onSearchCompleted) {
+            options.onSearchCompleted(searchResp.results);
+          }
+
+          return response;
+        } catch (err: unknown) {
+          logger.error('sera', 'Direct search execution failed', err);
+          // fall through to normal LLM path
+        }
+      }
+
       logger.debug('sera', `Calling generateText with user message: "${safeUserMessage}"`);
 
       // Generate response with tools
@@ -219,14 +313,23 @@ export class SeraAgent {
         tools: {
           searchShopping: searchShoppingTool,
           amazonProductLookup: amazonProductLookupTool,
-          addToWishlist: addToWishlistTool,
-          viewWishlist: viewWishlistTool,
+          addToWishlist: addToWishlistToolWithOwner,
+          viewWishlist: viewWishlistToolWithOwner,
           getProductDetails: enhancedGetProductDetails,
           financialCalculator: createFinancialCalculatorTool(),
         },
       });
 
       logger.debug('sera', `generateText completed. Text: "${result.text?.substring(0, 100)}..."`);
+      // Debug: log tool call metadata so we can inspect tool invocations and results
+      try {
+        logger.debug('sera', 'generateText tool metadata', {
+          toolCalls: (result as any)?.toolCalls ?? null,
+          toolResults: (result as any)?.toolResults ?? null,
+        });
+      } catch (err) {
+        logger.warn('sera', 'Failed to log generateText tool metadata', { err: String(err) });
+      }
 
       const assistantMessage = result.text ?? "";
 
@@ -261,11 +364,28 @@ export class SeraAgent {
         }
       }
 
-      // Add assistant response to history
-      session.messages.push({
-        role: 'assistant',
-        content: assistantMessage,
-      });
+      // If the LLM returned toolResults but no assistant text, synthesize a friendly message
+      // including the formatted product table so the next API response contains visible results.
+      if ((typeof assistantMessage !== 'string' || assistantMessage.trim().length === 0) && searchResults && searchResults.length > 0) {
+        try {
+          const header = `Here are the top ${searchResults.length} products I found:`;
+          const formatted = SearchResultPresenter.formatResultsTable(searchResults);
+          // Use formatted table as the assistant message so clients receive the product list.
+          const synthesized = [header, formatted].join('\n\n');
+          session.messages.push({ role: 'assistant', content: synthesized });
+          // Replace assistantMessage for the outgoing response
+          (assistantMessage as any) = synthesized;
+        } catch (err) {
+          logger.warn('sera', 'Failed to synthesize assistant message from toolResults', { err: String(err) });
+          session.messages.push({ role: 'assistant', content: assistantMessage });
+        }
+      } else {
+        // Add assistant response to history
+        session.messages.push({
+          role: 'assistant',
+          content: assistantMessage,
+        });
+      }
 
       // Conversation is completed if user says goodbye or thanks explicitly
       const completed = /^(bye|goodbye|thanks?|thank you|that's all|exit|quit)$/i.test(
@@ -307,9 +427,46 @@ export class SeraAgent {
       session.messages = session.messages.slice(-MAX_HISTORY);
     }
 
-    try {
+      try {
       const model = this.getModelOrThrow();
       const enhancedGetProductDetails = this.searchAdapter.createContextualProductDetailsTool(session);
+
+      // Owner-aware tool wrappers for streaming path as well
+      const addToWishlistToolWithOwner = {
+        ...(addToWishlistTool as any),
+        execute: async (params: any) => {
+          try {
+            const item = {
+              name: params.productName,
+              link: params.productLink,
+              currentPrice: params.currentPrice,
+              desiredPrice: params.desiredPrice,
+              rating: params.rating ?? undefined,
+              source: params.source,
+              dateAdded: new Date().toISOString().split('T')[0],
+              owner: session.owner,
+            } as any;
+            const saved = await addToWishlist(item as any);
+            return { success: true, message: 'Product saved to wishlist in database.', id: saved.id };
+          } catch (error: any) {
+            logger.error('sera', 'Failed to add to wishlist (tool stream)', error);
+            return { success: false, message: `Failed to add to wishlist: ${error?.message ?? String(error)}` };
+          }
+        },
+      } as any;
+
+      const viewWishlistToolWithOwner = {
+        ...(viewWishlistTool as any),
+        execute: async (_params?: any) => {
+          const items = await getWishlist(session.owner);
+          if (!items || items.length === 0) return 'Your wishlist is empty.';
+          const lines: string[] = ['Your wishlist:'];
+          items.forEach((item, i) => {
+            lines.push(`${i + 1}. ${item.name} (Current: ${item.currentPrice}, Target: ${item.desiredPrice})`);
+          });
+          return lines.join('\n');
+        },
+      } as any;
 
       const result = streamText({
         model,
@@ -318,8 +475,8 @@ export class SeraAgent {
         tools: {
           searchShopping: searchShoppingTool,
           amazonProductLookup: amazonProductLookupTool,
-          addToWishlist: addToWishlistTool,
-          viewWishlist: viewWishlistTool,
+          addToWishlist: addToWishlistToolWithOwner,
+          viewWishlist: viewWishlistToolWithOwner,
           getProductDetails: enhancedGetProductDetails,
           financialCalculator: createFinancialCalculatorTool(),
         },
@@ -467,7 +624,32 @@ export class SeraAgent {
     const { results } = value as { results?: unknown };
     return Array.isArray(results);
   }
+
+  /**
+   * Format search results into a compact chat-style message similar to CLI/WhatsApp output.
+   */
+  private formatResultsAsChat(results: SearchResult[], limit = 5): string {
+    if (!results || results.length === 0) return 'No products found.';
+    const list = results.slice(0, limit).map((r, i) => {
+      const num = i + 1;
+      const title = (r.title || 'Untitled').replace(/\s+/g, ' ').trim();
+      const price = r.price ?? (r.priceNumeric ? `₹${r.priceNumeric}` : 'N/A');
+      const rating = r.rating ?? (r.ratingNumeric ? `${r.ratingNumeric}/5` : 'N/A');
+      const store = r.source ?? 'Unknown';
+      const link = r.link ?? '';
+
+      return [
+        `*${num}.* ${title}`,
+        `   💰 ${price}    ⭐ ${rating}    🏬 ${store}` + (link ? `\n   🔗 ${link}` : ''),
+      ].join('\n');
+    });
+
+    const header = `—— TOP ${Math.min(limit, results.length)} PRODUCTS ——`;
+    return [header, ...list].join('\n\n');
+  }
+
 }
+
 
 interface WishlistControllerDeps {
   findProductByReference(reference: string, results: SearchResult[]): SearchResult | null;
@@ -760,39 +942,15 @@ class WishlistController {
     }
 
     if (desiredPrice && session.lastSavedWishlistItemId && this.isPriceFollowUpMessage(normalized)) {
-      return {
-        type: 'update',
-        desiredPrice,
-      };
+      // Interpret a simple follow-up like "around ₹30,000" as an update to the last saved wishlist item
+      const ref = session.lastWishlistReference ?? `#${session.lastSavedWishlistItemId}`;
+      const cmd: WishlistCommand = { type: 'update' } as WishlistCommand;
+      (cmd as UpdateWishlistCommand).reference = ref;
+      (cmd as UpdateWishlistCommand).desiredPrice = desiredPrice;
+      return cmd;
     }
 
-    const fallbackReference =
-      this.extractReferenceToken(userMessage) ?? this.findReferenceByProductName(session, userMessage);
-
-    let pendingAction = session.pendingWishlistAction;
-    if (pendingAction) {
-      const requestedAtMs = new Date(pendingAction.requestedAt).getTime();
-      const ageMs = Number.isFinite(requestedAtMs) ? Date.now() - requestedAtMs : 0;
-      if (ageMs > 5 * 60 * 1000) {
-        delete session.pendingWishlistAction;
-        pendingAction = undefined;
-      }
-    }
-
-    if (fallbackReference && pendingAction?.type === 'add') {
-      const deferredCommand: WishlistCommand = {
-        type: 'add',
-        reference: fallbackReference,
-      };
-      if (pendingAction.desiredPrice) {
-        deferredCommand.desiredPrice = pendingAction.desiredPrice;
-      }
-      if (pendingAction.productUrl) {
-        deferredCommand.productUrl = pendingAction.productUrl;
-      }
-      return deferredCommand;
-    }
-
+    // No wishlist-specific command detected
     return null;
   }
 
@@ -812,7 +970,7 @@ class WishlistController {
   async handleCommand(session: SeraConversation, command: WishlistCommand): Promise<string> {
     switch (command.type) {
       case 'view': {
-        const items = await getWishlist();
+        const items = await getWishlist(session.owner);
         return this.formatWishlistMessage(items);
       }
       case 'update':
@@ -861,6 +1019,7 @@ class WishlistController {
       rating: product.rating,
       source: product.source ?? 'Unknown store',
       dateAdded: new Date().toISOString().split('T')[0],
+      owner: session.owner,
     };
 
     try {
@@ -883,7 +1042,7 @@ class WishlistController {
       return 'Tell me the target price you want and which wishlist item to update.';
     }
 
-    const wishlistItems = await getWishlist();
+    const wishlistItems = await getWishlist(session.owner);
     if (!wishlistItems || wishlistItems.length === 0) {
       return 'Your wishlist is empty right now. Add something first and then we can edit it.';
     }
@@ -917,7 +1076,7 @@ class WishlistController {
   }
 
   private async handleWishlistRemoval(session: SeraConversation, command: RemoveWishlistCommand): Promise<string> {
-    const wishlistItems = await getWishlist();
+    const wishlistItems = await getWishlist(session.owner);
     if (!wishlistItems || wishlistItems.length === 0) {
       return 'Your wishlist is already empty.';
     }
@@ -956,7 +1115,7 @@ class WishlistController {
 
   private async handleWishlistClear(session: SeraConversation): Promise<string> {
     try {
-      const deleted = await clearWishlist();
+      const deleted = await clearWishlist(session.owner);
       session.lastSavedWishlistItemId = undefined;
       session.lastSavedWishlistItemName = undefined;
       session.lastWishlistReference = undefined;

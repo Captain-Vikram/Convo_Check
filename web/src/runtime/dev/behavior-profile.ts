@@ -1,6 +1,22 @@
 import type { NormalizedTransaction } from "./transaction-normalizer";
 import { prisma } from "@/lib/prisma";
 
+// Small helper to retry Prisma operations when the query engine isn't ready.
+async function prismaWithRetry<T>(fn: () => Promise<T>, retries = 4, delayMs = 500): Promise<T> {
+  let attempt = 0;
+  while (true) {
+    try {
+      return await fn();
+    } catch (err: any) {
+      attempt += 1;
+      const msg = err && err.message ? String(err.message) : "";
+      const shouldRetry = attempt < retries && /Engine is not yet connected/i.test(msg);
+      if (!shouldRetry) throw err;
+      await new Promise((res) => setTimeout(res, delayMs * attempt));
+    }
+  }
+}
+
 export type BehaviorRiskLevel = "low" | "moderate" | "high";
 export type BehaviorClassification =
   | "expected"
@@ -141,10 +157,12 @@ export class BehaviorProfileCache {
 
       // Load habit insights from the DB via Prisma and build profiles
       try {
-        const habits = await prisma.habit_insights.findMany({
-          orderBy: { recorded_at: "desc" },
-          take: 1000,
-        });
+        const habits = await prismaWithRetry(() =>
+          prisma.habit_insights.findMany({
+            orderBy: { recorded_at: "desc" },
+            take: 1000,
+          }),
+        );
 
         if (!habits || habits.length === 0) {
           this.cache = EMPTY_PROFILES;

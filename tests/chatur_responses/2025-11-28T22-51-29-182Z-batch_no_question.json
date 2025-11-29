@@ -1,0 +1,23 @@
+{
+  "id": "85647e77-ba4b-44ce-8a4b-dbba08437be2",
+  "createdAt": "2025-11-28T22:51:28.585Z",
+  "headline": "Income & Spending Review",
+  "counsel": "Log all income sources and review frequent food & grocery spending to improve your cash flow and track progress toward your financial goals 🎯.",
+  "evidence": "Total income recorded is INR 0.00; last 30 days net cashflow is -INR 123.45, with frequent small to medium payments for Food & Groceries.",
+  "insightHash": "5e6ffae714f0130fbdf40aed200f2aaa34bedd61",
+  "answerVersion": 1,
+  "insightsUsed": [
+    "24954d4a-87ba-4e24-b204-65813a3a1561",
+    "f032768b-1013-49b5-8ab4-762031b110ca",
+    "c3484756-1cd8-4d6f-881a-e7060e89f722",
+    "224946a0-6c1b-45c7-a9e2-dff7718009df",
+    "fb54e812-ca5c-4a71-97d3-8a3a4a86680a",
+    "f0b86621-019d-4895-82bf-ab7c807d2975",
+    "355585a731d58fd25665c68cdce24adc585b9ffe",
+    "059d637cb3561ff43326a92a28de9cee3e493671",
+    "ec9ab239884a1da814e4fb34a66158c755a17c3a",
+    "8677160d8c10656b2e682fd90811b5e4d1d72221"
+  ],
+  "storedAnswer": "{\"headline\":\"Income & Spending Review\",\"counsel\":\"Log all income sources and review frequent food & grocery spending to improve your cash flow and track progress toward your financial goals 🎯.\",\"evidence\":\"Total income recorded is INR 0.00; last 30 days net cashflow is -INR 123.45, with frequent small to medium payments for Food & Groceries.\",\"decision\":\"Wait—Implement consistent income logging and evaluate frequent food & grocery purchases for a positive cash flow. 💰\"}",
+  "delivered": false
+}

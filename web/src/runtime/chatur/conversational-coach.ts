@@ -29,6 +29,7 @@ export interface CoachConversationOptions extends ConversationOptions {
   recentTransactions?: any[];
   pastBriefings?: any[];
   initialQuestion?: string;
+  collectedInfo?: Record<string, unknown>;
 }
 
 export class ConversationalCoach extends BaseConversationalAgent<CoachConversation> {
@@ -120,6 +121,7 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
       if (contextUpdate.financialSummary) session.financialSummary = contextUpdate.financialSummary;
       if (contextUpdate.recentTransactions) session.recentTransactions = contextUpdate.recentTransactions;
       if (contextUpdate.pastBriefings) session.pastBriefings = contextUpdate.pastBriefings;
+      if ((contextUpdate as any).collectedInfo) Object.assign(session.collectedInfo, (contextUpdate as any).collectedInfo);
     }
 
     const normalizedInput = normalizeAgentInput(userResponse);
@@ -212,7 +214,7 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
   }> {
     const prompt = this.buildConversationalPrompt(session);
     const messages: any[] = [
-      { role: "system", content: this.getConversationalSystemPrompt() },
+      { role: "system", content: this.getConversationalSystemPrompt() + this.getChainDirective() },
       { role: "user", content: prompt },
     ];
 
@@ -244,7 +246,43 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
                 throw new Error("Empty response from LLM");
               }
 
-              return this.parseConversationalResponse(text);
+              // Parse initial response
+              const parsed = this.parseConversationalResponse(text);
+
+              // If the assistant asked for data that we already have in session.collectedInfo,
+              // perform one automatic re-run by injecting known data to steer the model.
+              const probeRegex = /\b(income|savings|how much|what is your income|what is your savings|do you have)\b/i;
+              const hasProbe = probeRegex.test(parsed.message || "") && Object.keys(session.collectedInfo || {}).length > 0;
+
+              if (hasProbe) {
+                const knownParts: string[] = [];
+                const ci = session.collectedInfo || {};
+                if (ci.income) knownParts.push(`Income: ₹${ci.income}`);
+                if (ci.savings) knownParts.push(`Savings: ₹${ci.savings}`);
+                if (ci.amount) knownParts.push(`Amount: ₹${ci.amount}`);
+                if (ci.goal) knownParts.push(`Goal: ${ci.goal}`);
+
+                if (knownParts.length > 0) {
+                  const followUpMessages = messages.slice();
+                  followUpMessages.push({ role: 'user', content: `KNOWN_DATA: ${knownParts.join('; ')}. Please re-answer using these values without further probing.` });
+
+                  const rerun = await this.callLLM({
+                    messages: followUpMessages as CoreMessage[],
+                    tools: {
+                      webSearch: createWebSearchTool(searchWeb),
+                      financialCalculator: createFinancialCalculatorTool(),
+                    },
+                    maxSteps: 5,
+                  });
+
+                  const rerunText = (rerun.text ?? "").trim();
+                  if (rerunText) {
+                    return this.parseConversationalResponse(rerunText);
+                  }
+                }
+              }
+
+              return parsed;
             },
             { 
               maxAttempts: 3,
@@ -303,6 +341,12 @@ CONVERSATIONAL STRATEGY:
 
 Respond with a helpful message.
 
+Additional Mandatory Rules (READ CAREFULLY):
+- MANDATORY: For all numeric/financial calculations (SIP, EMI, affordability, budget splits), call the 'financialCalculator' tool and include the computed result in your response. Do not approximate numbers manually.
+- MANDATORY: Reference 1-2 relevant insights from the provided "Latest financial insights" in every personalized response when such insights exist. Use their evidence to ground recommendations (e.g., "Because Insight #1 shows...",
+  and cite briefly).
+- MANDATORY: If the user's message contains explicit numbers (income, savings, price), extract them and compute answers directly rather than asking for them again, unless the values are ambiguous or missing.
+
 KEY RULES:
 - If user says "log this" or "I spent X" → set shouldEscalateToMill: true
 - Focus on WHY and HOW, not just WHAT (that's Mill's job)
@@ -310,49 +354,36 @@ KEY RULES:
 - Be optimistic but realistic for gig worker context`;
   }
 
+  // Small helper to append mandatory chain instruction to system prompt (keeps intent clear)
+  private getChainDirective(): string {
+    return `\n\nCHAIN: 1) Extract numbers from EXTRACTED DATA and the user's query. 2) Use the financialCalculator tool for any numeric computation (SIP/EMI/affordability). 3) Personalize the recommendation using 1-2 insights above. 4) Deliver an actionable plan with steps and a timeline. Do NOT probe for data already present in EXTRACTED DATA.`;
+  }
+
   private buildConversationalPrompt(session: CoachConversation): string {
-    const lines: string[] = [];
+    const insights = session.insights || [];
+    const fsnap = session.financialSummary || { totalIncome: 0, totalExpense: 0, netBalance: 0, topCategories: [] as any[] };
 
-    if (session.financialSummary) {
-      lines.push("💰 Financial Snapshot (Use this for autonomous suggestions):");
-      lines.push(`- Total Income: ₹${session.financialSummary.totalIncome}`);
-      lines.push(`- Total Expenses: ₹${session.financialSummary.totalExpense}`);
-      lines.push(`- Net Balance: ₹${session.financialSummary.netBalance}`);
-      if (session.financialSummary.topCategories.length > 0) {
-        lines.push(`- Top Spending Categories: ${session.financialSummary.topCategories.map(c => `${c.category} (₹${c.totalSpent})`).join(", ")}`);
-      }
-    }
+    const recentTxs = (session.recentTransactions || []).slice(0, 5).map((tx: any) => {
+      const date = tx.date_of_transaction ? new Date(tx.date_of_transaction).toLocaleDateString() : 'unknown';
+      return `- ${date}: ${tx.description} ₹${tx.amount} (${tx.category || 'uncategorized'})`;
+    }).join('\n');
 
-    if (session.recentTransactions && session.recentTransactions.length > 0) {
-      lines.push("\nRecent Transactions (Use for specific context):");
-      session.recentTransactions.slice(0, 10).forEach(t => {
-        const date = t.date_of_transaction ? new Date(t.date_of_transaction).toLocaleDateString() : "Unknown Date";
-        lines.push(`- ${date}: ${t.description} (${t.type}) ₹${t.amount} [${t.category}]`);
-      });
-    }
+    const pastBriefings = (session.pastBriefings || []).slice(0, 2).map((b: any) => `- ${b.headline}: ${b.counsel}`).join('\n');
 
-    if (session.pastBriefings && session.pastBriefings.length > 0) {
-      lines.push("\nPast Advice (Do not repeat, build upon this):");
-      session.pastBriefings.slice(0, 3).forEach(b => {
-        lines.push(`- ${b.headline}: ${b.counsel}`);
-      });
-    }
+    const history = (session.messages || []).map(m => `${m.role === 'user' ? 'User' : 'Coach'}: ${m.content}`).join('\n');
 
-    lines.push("Latest financial insights:");
-    session.insights.forEach((insight, idx) => {
-      lines.push(`${idx + 1}. ${insight.fullText}`);
-    });
+    // Determine current question: prefer session.currentQuestion, else last user message
+    const currentQuestion = session.currentQuestion || (session.messages && [...session.messages].reverse().find(m => m.role === 'user')?.content) || '';
 
-    lines.push("\nConversation so far:");
-    session.messages.forEach((msg) => {
-      lines.push(`${msg.role === "user" ? "User" : "Coach"}: ${msg.content}`);
-    });
+    const insightBlock = insights.length > 0
+      ? insights.map((i: any, idx: number) => `${idx + 1}. ${i.habitLabel || i.habit_label || 'Insight'}: ${i.fullText || i.full_text || (i.evidence || '')} (Evidence: ${i.evidence || ''}; Counsel: ${i.counsel || ''})`).join('\n\n')
+      : 'No insights yet – build from snapshot.';
 
-    lines.push("\nCollected information:");
-    lines.push(JSON.stringify(session.collectedInfo, null, 2));
+    const extracted = session.collectedInfo || {};
 
-    lines.push("\nGenerate your next response.");
-    return lines.join("\n");
+    const topCategories = (fsnap.topCategories || []).map((c: any) => `${c.category || c.name}: ₹${c.totalSpent ?? c.total ?? c.amount ?? 0}`).join(', ') || 'none';
+
+    return `CRITICAL: PERSONALIZE EVERY RESPONSE USING THESE INSIGHTS (REFERENCE 1-2 WITH EVIDENCE):\n${insightBlock}\n\nEXTRACTED DATA: Income ₹${extracted.income ?? 'unknown'}, Savings ₹${extracted.savings ?? 'unknown'}, Goal: ${extracted.goal ?? 'none'}.\n\nSnapshot: Income ₹${fsnap.totalIncome}, Expense ₹${fsnap.totalExpense}, Balance ₹${fsnap.netBalance}.\nTop Categories: ${topCategories}.\n\nRecent Txs (use for examples):\n${recentTxs || 'none'}\n\nPast Advice:\n${pastBriefings || 'none'}\n\nConversation:\n${history || 'none'}\n\nQuery: ${currentQuestion}\n\nRULES:\n- If query has numbers/goal, use financialCalculator IMMEDIATELY (e.g., SIP/EMI/savings plan).\n- ALWAYS tie to 1 insight (e.g., \"From coffee habit insight...\").\n- Deliver plan in 3 steps if data sufficient – NO probing.\n- Output JSON if calc: {"headline": "...", "plan": ["step1", "step2"], "calc": {...}}\n`.trim();
   }
 
   private parseConversationalResponse(text: string): {
@@ -392,7 +423,32 @@ KEY RULES:
         shouldEscalateToMill: parsed.shouldEscalateToMill ?? false,
       };
     } catch {
-      // Fallback: treat entire text as message
+      // Attempt a lightweight extraction when JSON isn't present:
+      try {
+        const headlineMatch = text.match(/^(?:Headline:|HEADLINE:)?\s*([A-Za-z0-9\-\s,:]{5,100})/i);
+        const counselMatch = text.match(/(?:Counsel:|Advice:|Recommendation:|Counsel\s*-?)\s*([\s\S]{20,500})/i);
+        const shortSentences = text.split(/[\r\n]+/).map(s => s.trim()).filter(Boolean);
+        const fallbackHeadline = headlineMatch?.[1] ?? (shortSentences[0] && shortSentences[0].length < 120 ? shortSentences[0] : undefined);
+        const fallbackCounsel = counselMatch?.[1] ?? shortSentences.slice(1,3).join(' ');
+
+        if (fallbackHeadline || fallbackCounsel) {
+          const extracted: any = {
+            headline: fallbackHeadline ?? undefined,
+            counsel: fallbackCounsel ?? text,
+          };
+
+          return {
+            message: extracted.counsel || text,
+            completed: true,
+            extractedInfo: extracted,
+            shouldEscalateToMill: /log this|i spent|add transaction|save transaction/i.test(text),
+          };
+        }
+      } catch (e) {
+        // ignore
+      }
+
+      // Final fallback: treat entire text as message
       return { message: text, completed: false };
     }
   }

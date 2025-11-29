@@ -1,0 +1,31 @@
+{
+  "session": {
+    "sessionId": "7064681b-26d9-43df-b7e9-813bec3f7337",
+    "startedAt": "2025-11-28T22:49:01.000Z",
+    "insights": [],
+    "messages": [
+      {
+        "role": "assistant",
+        "content": "Advise on saving money.",
+        "timestamp": "2025-11-28T22:49:01.000Z"
+      },
+      {
+        "role": "user",
+        "content": "What about investments?",
+        "timestamp": "2025-11-28T22:49:01.001Z"
+      },
+      {
+        "role": "assistant",
+        "content": "That's a great question! 🚀 Investing is key to growing your wealth, especially with irregular income. For gig workers, it's often smart to focus on building an emergency fund first before diving into investments.\n\nWhat kind of investments are you curious about? Are you looking for short-term or long-term growth? Knowing your goals will help tailor the advice. 🎯",
+        "timestamp": "2025-11-28T22:49:04.594Z"
+      }
+    ],
+    "state": "active",
+    "collectedInfo": {},
+    "currentQuestion": "Advise on saving money."
+  },
+  "response": {
+    "message": "That's a great question! 🚀 Investing is key to growing your wealth, especially with irregular income. For gig workers, it's often smart to focus on building an emergency fund first before diving into investments.\n\nWhat kind of investments are you curious about? Are you looking for short-term or long-term growth? Knowing your goals will help tailor the advice. 🎯",
+    "completed": false
+  }
+}

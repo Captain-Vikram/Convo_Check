@@ -1,0 +1,84 @@
+{
+  "agent": "mill",
+  "message": "Awesome! Let's get it logged. What was the amount and what was it for? 💰",
+  "completed": false,
+  "switched": true,
+  "newAgent": "mill",
+  "sessionId": "3854032b-e3e9-4b9a-95cc-504eee01fd8e",
+  "context": {
+    "activeAgent": "mill",
+    "conversationHistory": [
+      {
+        "agent": "chatur",
+        "userMessage": "Should I buy a ₹15,000 phone?",
+        "agentResponse": "To help you decide, could you tell me your approximate monthly income? Knowing that will help me assess if the ₹15,000 phone is an affordable purchase for you right now and how it might fit into your overall financial picture. 💰\n\nRemember, I'm an AI coach and while I can offer guidance, sensitive financial decisions should involve a human professional.",
+        "timestamp": "2025-11-28T20:28:56.539Z"
+      },
+      {
+        "agent": "chatur",
+        "userMessage": "Should I buy a ₹15,000 phone?",
+        "agentResponse": "To help you decide on the ₹15,000 phone, I still need to know your approximate monthly income. Knowing that will help me assess if it's an affordable purchase for you right now and how it might fit into your financial picture. 💰",
+        "timestamp": "2025-11-28T20:29:02.910Z"
+      },
+      {
+        "agent": "sera",
+        "userMessage": "Is a ₹15k smartphone worth it?",
+        "agentResponse": "Ooh, that's a great question! Deciding if a ₹15,000 smartphone is \"worth it\" totally depends on what you're looking for and how you plan to use it. ✨\n\nTo help me give you the best advice, could you tell me a little more?\n*   What are you hoping to do with your new phone? (Like gaming, photography, just calls and messaging, etc.)\n*   Are there any specific features you absolutely need, or any brands you prefer?\n*   And, is ₹15,000 your strict budget, or are you open to a little flexibility?\n\nOnce I know more, I can totally help you find some amazing options! 🛍️",
+        "timestamp": "2025-11-28T20:29:08.335Z"
+      },
+      {
+        "agent": "sera",
+        "userMessage": "Advise on saving money.",
+        "agentResponse": "I'm specifically designed for product shopping, so I can't really give advice on general money-saving strategies. 😅 But I'd absolutely love to help you save money on your next purchase!\n\nAre you looking for any particular product today where I can help you find the best deals or compare options within your budget? Let's find you something amazing! 🛍️✨",
+        "timestamp": "2025-11-28T20:29:11.303Z"
+      },
+      {
+        "agent": "sera",
+        "userMessage": "What about investments?",
+        "agentResponse": "I'm your shopping assistant, not an investment advisor! 😅 I can't help with investment questions, but I'd be absolutely thrilled to help you find some amazing products to buy. What are you looking for today? Maybe a new gadget, some home decor, or something else fun? 🎉",
+        "timestamp": "2025-11-28T20:29:16.436Z"
+      },
+      {
+        "agent": "mill",
+        "userMessage": "I want to log a transaction.",
+        "agentResponse": "Awesome! Let's get it logged. What was the amount and what was it for? 💰",
+        "timestamp": "2025-11-28T20:29:23.076Z"
+      }
+    ],
+    "updatedAt": "2025-11-28T20:29:23.077Z",
+    "millSessionId": "3854032b-e3e9-4b9a-95cc-504eee01fd8e",
+    "millSession": {
+      "sessionId": "3854032b-e3e9-4b9a-95cc-504eee01fd8e",
+      "startedAt": "2025-11-28T20:29:16.451Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "content": "I can help with that transaction. What are the details?",
+          "timestamp": "2025-11-28T20:29:16.451Z"
+        },
+        {
+          "role": "user",
+          "content": "I want to log a transaction.",
+          "timestamp": "2025-11-28T20:29:16.451Z"
+        },
+        {
+          "role": "assistant",
+          "content": "Awesome! Let's get it logged. What was the amount and what was it for? 💰",
+          "timestamp": "2025-11-28T20:29:23.076Z"
+        }
+      ],
+      "state": "active",
+      "intent": "logging",
+      "collectedInfo": {}
+    }
+  },
+  "result": {
+    "collectedInfo": {}
+  },
+  "toolResult": {
+    "collectedInfo": {}
+  },
+  "parsed": {
+    "collectedInfo": {}
+  }
+}

@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
 
-import { Prisma } from "../../../../data/generated/prisma";
+import { Prisma } from "../../../../generated/prisma/client";
 import { logger } from "../shared/logger";
 import { analystAgent } from "@/agents/analyst";
 import { loadTransactions } from "./transactions-loader";
@@ -96,6 +96,8 @@ export interface RunAnalystOptions {
   ownerId?: number;
   /** Trigger source for logging/scheduling */
   trigger?: "manual" | "chatur" | "daily";
+  /** Maximum number of insights to persist from this run (optional) */
+  maxInsights?: number;
 }
 
 export interface AnalystRunResult {
@@ -172,7 +174,9 @@ export async function runAnalyst(options: RunAnalystOptions = {}): Promise<Analy
   logger.debug("analyst-agent", "Starting analyst run", { ownerId, reanalyzeAll, dryRun, trigger });
 
   const cursor = await loadProcessingCursor(ownerId);
-  const transactions = await loadTransactions({ ownerId, cursor: cursor?.lastTransactionAt ?? undefined });
+  const loadCursor = reanalyzeAll ? undefined : cursor?.lastTransactionAt ?? undefined;
+  // When reanalyzing all, bypass the status filter so we load every transaction.
+  const transactions = await loadTransactions({ ownerId, cursor: loadCursor, ignoreStatus: reanalyzeAll });
 
   if (transactions.length === 0) {
     return handleEmptyHistory(dryRun);
@@ -249,8 +253,12 @@ export async function runAnalyst(options: RunAnalystOptions = {}): Promise<Analy
     const bulletLines = normalizeBulletLines(rawOutput);
     let insights: HabitInsight[];
 
-    try {
+      try {
       insights = bulletLines.map(parseHabitInsight).filter(Boolean) as HabitInsight[];
+      // Respect caller's limit on number of insights to persist
+      if (typeof options.maxInsights === 'number' && Number.isFinite(options.maxInsights) && options.maxInsights > 0) {
+        insights = insights.slice(0, options.maxInsights);
+      }
       // If the language model failed to produce structured insights, fall back
       // to a simple heuristic-based insight so we persist at least one useful hint.
       if (insights.length === 0) {
@@ -462,16 +470,35 @@ async function markTransactionsAsAnalyzed(
 
   for (const tx of transactions) {
     try {
-      await prisma.tranasctions.update({
-        where: { id: tx.id },
-        data: {
-          analyzed_at: analyzedAt,
-          analyzed_version: version,
-          analysis_notes: `Analyzed by param agent v${version}`,
-        },
-      });
+      await prismaWithRetry(() =>
+        prisma.tranasctions.update({
+          where: { id: tx.id },
+          data: {
+            analyzed_at: analyzedAt,
+            analyzed_version: version,
+            analysis_notes: `Analyzed by param agent v${version}`,
+          },
+        }),
+      );
     } catch (error) {
       logger.error("analyst-agent", `Error marking transaction ${tx.id} as analyzed`, error);
+    }
+  }
+}
+
+// Small helper to retry Prisma operations when the query engine isn't ready.
+async function prismaWithRetry<T>(fn: () => Promise<T>, retries = 4, delayMs = 500): Promise<T> {
+  let attempt = 0;
+  while (true) {
+    try {
+      return await fn();
+    } catch (err: any) {
+      attempt += 1;
+      const msg = err && err.message ? String(err.message) : "";
+      const shouldRetry = attempt < retries && /Engine is not yet connected/i.test(msg);
+      if (!shouldRetry) throw err;
+      // Backoff
+      await new Promise((res) => setTimeout(res, delayMs * attempt));
     }
   }
 }
@@ -751,16 +778,18 @@ async function persistInsightsToDatabase(
 
     if (previousMatch) {
       try {
-        await prisma.habit_insights.update({
-          where: { id: previousMatch.id },
-          data: {
-            habit_label: insight.habitLabel,
-            evidence: insight.evidence,
-            counsel: insight.counsel,
-            full_text: insight.fullText,
-            status: "draft",
-          },
-        });
+        await prismaWithRetry(() =>
+          prisma.habit_insights.update({
+            where: { id: previousMatch.id },
+            data: {
+              habit_label: insight.habitLabel,
+              evidence: insight.evidence,
+              counsel: insight.counsel,
+              full_text: insight.fullText,
+              status: "draft",
+            },
+          }),
+        );
         updatedCount += 1;
         if (normalizedLabel) {
           previousMap.delete(normalizedLabel);
@@ -776,53 +805,59 @@ async function persistInsightsToDatabase(
 
     const habitId = randomUUID();
     try {
-      await prisma.habit_insights.create({
-        data: {
-          owner: ownerId,
-          habit_id: habitId,
-          habit_label: insight.habitLabel,
-          evidence: insight.evidence,
-          counsel: insight.counsel,
-          full_text: insight.fullText,
-          recorded_at: now,
-          status: "draft",
-          previous_habit_id: previousMatch?.habitId ?? null,
-        },
-      });
+      await prismaWithRetry(() =>
+        prisma.habit_insights.create({
+          data: {
+            owner: ownerId,
+            habit_id: habitId,
+            habit_label: insight.habitLabel,
+            evidence: insight.evidence,
+            counsel: insight.counsel,
+            full_text: insight.fullText,
+            recorded_at: now,
+            status: "draft",
+            previous_habit_id: previousMatch?.habitId ?? null,
+          },
+        }),
+      );
       createdIds.push(habitId);
     } catch (error) {
       logger.error("analyst-agent", "Failed to persist habit insight", error, {
         ownerId,
         habitLabel: insight.habitLabel,
       });
-        // Fallback: attempt raw SQL insert to support mismatched Prisma schema
-        try {
-          const inserted: any = await prisma.$queryRaw`
+      // Fallback: attempt raw SQL insert to support mismatched Prisma schema
+      try {
+        const inserted: any = await prismaWithRetry(() =>
+          prisma.$queryRaw`
             INSERT INTO habit_insights (habit_id, owner, habit_label, evidence, counsel, full_text, recorded_at, previous_habit_id)
             VALUES (${habitId}, ${ownerId}, ${insight.habitLabel}, ${insight.evidence}, ${insight.counsel}, ${insight.fullText}, ${now}, ${previousMatch?.habitId ?? null})
             RETURNING id, habit_id, owner, habit_label, evidence, counsel, full_text, recorded_at, previous_habit_id
-          `;
+          `,
+        );
 
-          const row = Array.isArray(inserted) ? inserted[0] : inserted;
-          if (row) {
-            createdIds.push(habitId);
-          }
-        } catch (fallbackErr) {
-          logger.error("analyst-agent", "Raw SQL fallback failed to persist habit insight", fallbackErr, {
-            ownerId,
-            habitLabel: insight.habitLabel,
-          });
+        const row = Array.isArray(inserted) ? inserted[0] : inserted;
+        if (row) {
+          createdIds.push(habitId);
         }
+      } catch (fallbackErr) {
+        logger.error("analyst-agent", "Raw SQL fallback failed to persist habit insight", fallbackErr, {
+          ownerId,
+          habitLabel: insight.habitLabel,
+        });
+      }
     }
   }
 
   const remainingPrevious = Array.from(previousMap.values());
   if (remainingPrevious.length > 0) {
     try {
-      await prisma.habit_insights.updateMany({
-        where: { id: { in: remainingPrevious.map((entry) => entry.id) } },
-        data: { status: "superseded" },
-      });
+      await prismaWithRetry(() =>
+        prisma.habit_insights.updateMany({
+          where: { id: { in: remainingPrevious.map((entry) => entry.id) } },
+          data: { status: "superseded" },
+        }),
+      );
     } catch (error) {
       logger.error("analyst-agent", "Failed to mark stale insights", error, {
         ownerId,
@@ -863,6 +898,72 @@ async function persistHabitSnapshot(options: HabitSnapshotPersistOptions): Promi
   const payload = buildHabitSnapshotPayload(options);
 
   try {
+    // If the DB schema doesn't include snapshot columns (snapshot_hash etc.),
+    // skip snapshot persistence to avoid runtime SQL errors on older schemas.
+    try {
+      const colCheck: any[] = await prismaWithRetry(() =>
+        prisma.$queryRaw`
+          SELECT column_name
+          FROM information_schema.columns
+          WHERE table_name = 'habit_insights' AND column_name = 'snapshot_hash'
+          LIMIT 1
+        `,
+      );
+      if (!colCheck || colCheck.length === 0) {
+        logger.warn("analyst-agent", "DB schema missing snapshot_hash; using metrics-based snapshot persistence", {
+          ownerId: options.ownerId,
+        });
+        // Fallback: persist master snapshot into existing `metrics` JSON field
+        try {
+          const masterHabitId = `master_${payload.snapshotId}`;
+          const masterMetrics = toJsonValue({
+            snapshotId: payload.snapshotId,
+            snapshotHash: payload.snapshotHash,
+            summaryData: payload.summaryData,
+            contextData: payload.contextData,
+            insightLabels: payload.insightLabels,
+            insightCount: payload.insightCount,
+            generatedAt: payload.generatedAt,
+          });
+
+          // Upsert master record by habit_id (unique convention)
+          await prismaWithRetry(() =>
+            prisma.habit_insights.upsert({
+              where: { habit_id: masterHabitId },
+              create: {
+                habit_id: masterHabitId,
+                owner: options.ownerId,
+                habit_label: `Snapshot ${payload.snapshotId}`,
+                evidence: JSON.stringify(payload.summaryData),
+                counsel: '',
+                full_text: JSON.stringify(payload.summaryData),
+                metrics: masterMetrics as any,
+                recorded_at: payload.generatedAt,
+                status: 'Active',
+              },
+              update: {
+                evidence: JSON.stringify(payload.summaryData),
+                counsel: '',
+                full_text: JSON.stringify(payload.summaryData),
+                metrics: masterMetrics as any,
+                date_updated: new Date(),
+                status: 'Active',
+              },
+            }),
+          );
+        } catch (fallbackErr) {
+          logger.error("analyst-agent", "Failed to persist habit snapshot into metrics fallback", fallbackErr, { ownerId: options.ownerId });
+        }
+        // Do not continue with the raw-sql path below when snapshot_hash is missing.
+        return;
+      }
+    } catch (colErr) {
+      logger.warn("analyst-agent", "Failed to verify habit_insights snapshot column; skipping snapshot persistence", {
+        ownerId: options.ownerId,
+        error: colErr instanceof Error ? colErr.message : String(colErr),
+      });
+      return;
+    }
     // Persist snapshot into consolidated `habit_insights` as a master record.
     const masterHabitId = `master_${payload.snapshotId}`;
     try {
@@ -990,10 +1091,12 @@ function normalizeHabitLabel(label?: string | null): string | null {
  */
 async function loadExistingInsights(ownerId: number): Promise<StoredHabitInsight[]> {
   try {
-    const habits = await prisma.habit_insights.findMany({
-      where: { owner: ownerId, status: "draft" },
-      orderBy: { recorded_at: "desc" },
-    });
+    const habits = await prismaWithRetry(() =>
+      prisma.habit_insights.findMany({
+        where: { owner: ownerId, status: "draft" },
+        orderBy: { recorded_at: "desc" },
+      }),
+    );
 
     return habits.map((habit) => ({
       id: habit.id,

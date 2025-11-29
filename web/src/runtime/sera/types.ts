@@ -16,6 +16,7 @@ export interface SeraConversation {
   sessionId: string;
   messages: ConversationMessage[];
   createdAt: string;
+  owner?: number | undefined;
   lastSearchResults?: SearchResult[] | undefined;
   lastWishlistReference?: string | undefined;
   lastSavedWishlistItemId?: string | undefined;
@@ -44,6 +45,7 @@ export interface SeraStartOptions {
 
 export interface SeraContinueOptions {
   onSearchCompleted?: (results: SearchResult[]) => void;
+  owner?: number | undefined;
 }
 
 export interface SeraContinuationResult {

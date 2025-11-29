@@ -710,20 +710,77 @@ export async function computeSpendingSummary(ownerId: number) {
  */
 export async function fetchHabitInsights(ownerId: number, limit = 5) {
   try {
-    // Use a raw SQL query to avoid Prisma trying to select DB columns
-    // that may be absent in the live database (e.g. `updated_at`).
+    // Detect if the live DB has the optional `superseded` column. Some
+    // deployments are missing it due to schema drift; adapt queries accordingly.
+    const hasSuperseded = Boolean(
+      Array.isArray(
+        await prisma.$queryRaw`
+          SELECT 1 FROM information_schema.columns WHERE table_name = 'habit_insights' AND column_name = 'superseded' LIMIT 1
+        `,
+      ) && (await prisma.$queryRaw`
+          SELECT 1 FROM information_schema.columns WHERE table_name = 'habit_insights' AND column_name = 'superseded' LIMIT 1
+        `).length
+    );
+
+    if (hasSuperseded) {
+      const rows = await prisma.$queryRaw`
+        SELECT id, habit_id, owner, habit_label, evidence, counsel, full_text, metrics, recorded_at, superseded, previous_habit_id
+        FROM habit_insights
+        WHERE owner = ${ownerId} AND coalesce(superseded, false) = false
+        ORDER BY recorded_at DESC
+        LIMIT ${limit}
+      `;
+      const arr = Array.isArray(rows) ? rows : [];
+      // Post-process metrics to prefer higher-confidence insights
+      const scored = arr.map((r: any) => ({ row: r, _score: extractInsightConfidence(r.metrics) }));
+      scored.sort((a: any, b: any) => (b._score || 0) - (a._score || 0));
+      return scored.map((s: any) => s.row).slice(0, limit);
+    }
+
+    // Fallback: table lacks `superseded` column — omit that filter
     const rows = await prisma.$queryRaw`
-      SELECT id, habit_id, owner, habit_label, evidence, counsel, full_text, metrics, recorded_at, superseded, previous_habit_id
+      SELECT id, habit_id, owner, habit_label, evidence, counsel, full_text, metrics, recorded_at, previous_habit_id
       FROM habit_insights
-      WHERE owner = ${ownerId} AND coalesce(superseded, false) = false
+      WHERE owner = ${ownerId}
       ORDER BY recorded_at DESC
       LIMIT ${limit}
     `;
 
-    return Array.isArray(rows) ? rows : [];
+    const arr = Array.isArray(rows) ? rows : [];
+    const scored = arr.map((r: any) => ({ row: r, _score: extractInsightConfidence(r.metrics) }));
+    scored.sort((a: any, b: any) => (b._score || 0) - (a._score || 0));
+    return scored.map((s: any) => s.row).slice(0, limit);
   } catch (err) {
     devLogger.error("fetchHabitInsights failed", { ownerId, error: err });
     return [];
+  }
+}
+
+function extractInsightConfidence(metrics: any): number {
+  try {
+    if (!metrics) return 0;
+    let mObj = metrics;
+    if (typeof metrics === "string") {
+      try {
+        mObj = JSON.parse(metrics);
+      } catch (e) {
+        return 0;
+      }
+    }
+    // metrics may contain a 'confidence' field as number (0..1) or string ('high')
+    const c = mObj?.confidence;
+    if (typeof c === "number") return Number(c);
+    if (typeof c === "string") {
+      const s = c.toLowerCase();
+      if (s === "high") return 3;
+      if (s === "medium") return 2;
+      if (s === "low") return 1;
+      const parsed = Number(c);
+      if (!Number.isNaN(parsed)) return parsed;
+    }
+    return 0;
+  } catch (e) {
+    return 0;
   }
 }
 
@@ -738,11 +795,27 @@ export async function persistSyntheticHabitInsight(ownerId: number, insight: { h
     // `updated_at` or other columns present in the generated client but
     // absent from the live database.
     const fullText = insight.fullText ?? `${insight.evidence}. Suggested: ${insight.counsel}`;
-    const inserted: any = await prisma.$queryRaw`
-      INSERT INTO habit_insights (habit_id, owner, habit_label, evidence, counsel, full_text, recorded_at, superseded, previous_habit_id)
-      VALUES (${habitId}, ${ownerId}, ${insight.habitLabel}, ${insight.evidence}, ${insight.counsel}, ${fullText}, now(), false, null)
-      RETURNING id, habit_id, owner, habit_label, evidence, counsel, full_text, metrics, recorded_at, superseded, previous_habit_id
+
+    // Detect `superseded` presence and choose insert form accordingly
+    const supCheck: any = await prisma.$queryRaw`
+      SELECT 1 FROM information_schema.columns WHERE table_name = 'habit_insights' AND column_name = 'superseded' LIMIT 1
     `;
+    const hasSuperseded = Array.isArray(supCheck) && supCheck.length > 0;
+
+    let inserted: any;
+    if (hasSuperseded) {
+      inserted = await prisma.$queryRaw`
+        INSERT INTO habit_insights (habit_id, owner, habit_label, evidence, counsel, full_text, recorded_at, superseded, previous_habit_id)
+        VALUES (${habitId}, ${ownerId}, ${insight.habitLabel}, ${insight.evidence}, ${insight.counsel}, ${fullText}, now(), false, null)
+        RETURNING id, habit_id, owner, habit_label, evidence, counsel, full_text, metrics, recorded_at, superseded, previous_habit_id
+      `;
+    } else {
+      inserted = await prisma.$queryRaw`
+        INSERT INTO habit_insights (habit_id, owner, habit_label, evidence, counsel, full_text, recorded_at, previous_habit_id)
+        VALUES (${habitId}, ${ownerId}, ${insight.habitLabel}, ${insight.evidence}, ${insight.counsel}, ${fullText}, now(), null)
+        RETURNING id, habit_id, owner, habit_label, evidence, counsel, full_text, metrics, recorded_at, previous_habit_id
+      `;
+    }
 
     // Some Prisma variants return the row as first element or as the value itself
     const row = Array.isArray(inserted) ? inserted[0] : inserted;
@@ -767,10 +840,19 @@ export async function persistSyntheticHabitInsight(ownerId: number, insight: { h
  */
 export async function createCoachBriefing(ownerId: number, briefing: { headline?: string; counsel?: string; evidence?: string; insight_hash?: string }) {
   try {
+    // Ensure owner exists to avoid FK violations; if not, fall back to dev user.
+    const ownerExists = await prisma.users.findUnique({ where: { id: ownerId } });
+    let targetOwner = ownerId;
+    if (!ownerExists) {
+      const fallback = process.env.DEV_USER_ID ? Number(process.env.DEV_USER_ID) : 1;
+      devLogger.warn("createCoachBriefing: owner missing, falling back", { ownerId, fallback });
+      targetOwner = fallback;
+    }
+
     const record = await prisma.coach_briefings.create({
       data: {
         id: randomUUID(),
-        owner: ownerId,
+        owner: targetOwner,
         headline: briefing.headline || "Coach Advice",
         counsel: briefing.counsel || "",
         evidence: briefing.evidence || "",

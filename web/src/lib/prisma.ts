@@ -1,4 +1,4 @@
-import { PrismaClient } from "../../../data/generated/prisma";
+import { PrismaClient } from "../../../generated/prisma/client";
 
 /**
  * Prisma Client Singleton with Connection Pooling
