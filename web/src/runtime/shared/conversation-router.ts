@@ -340,7 +340,7 @@ export class ConversationRouter {
     userId: string,
     firstInput: string | AgentInput,
     options: ConversationRouterOptions = {},
-  ): Promise<{ agent: ActiveAgent; message: string; sessionId: string }> {
+  ): Promise<{ agent: ActiveAgent; message: string }> {
     const normalizedInput = normalizeAgentInput(firstInput);
     const firstMessage = normalizedInput.text;
     let agent = this.routeInitialMessage(firstMessage);
@@ -384,7 +384,6 @@ export class ConversationRouter {
       return {
         agent: "mill",
         message: result.message,
-        sessionId: millSession.sessionId,
       };
     } else if (agent === "chatur") {
       const insights = options.onInsightsAvailable ? await options.onInsightsAvailable() : [];
@@ -465,7 +464,6 @@ export class ConversationRouter {
       return {
         agent: "chatur",
         message: result.message,
-        sessionId: chaturSession.sessionId,
       };
     } else if (agent === "sera") {
       const seraSession = this.sera.startConversation({ suppressGreeting: true });
@@ -484,7 +482,6 @@ export class ConversationRouter {
       return {
         agent: "sera",
         message: seraResult.message,
-        sessionId: seraSession.sessionId,
       };
     }
 
@@ -503,7 +500,6 @@ export class ConversationRouter {
     return {
       agent: "none",
       message: "", // Empty message as requested
-      sessionId: "welcome",
     };
   }
 
@@ -514,6 +510,7 @@ export class ConversationRouter {
     userId: string,
     userMessage: string | AgentInput,
     options: ConversationRouterOptions = {},
+    providedContext?: ConversationContext | string[],
   ): Promise<{
     agent: ActiveAgent;
     message: string;
@@ -524,7 +521,20 @@ export class ConversationRouter {
   }> {
     const normalizedInput = normalizeAgentInput(userMessage);
     const textMessage = normalizedInput.text;
-    const context = await this.restoreContext(userId);
+    // If caller provided a context, prefer it (stateless operation). Otherwise restore from store.
+    let context: ConversationContext | undefined;
+    if (Array.isArray(providedContext)) {
+      // Convert string[] to minimal ConversationContext
+      context = {
+        activeAgent: 'none',
+        conversationHistory: providedContext.map((m) => ({ agent: 'none' as ActiveAgent, userMessage: m, agentResponse: '', timestamp: new Date().toISOString() })),
+        updatedAt: new Date().toISOString(),
+      } as ConversationContext;
+    } else {
+      context = providedContext ? cloneContext(providedContext as ConversationContext) : await this.restoreContext(userId);
+    }
+  // Stateless mode when caller provided an array of previous messages.
+  const isStateless = Array.isArray(providedContext);
     if (!context) {
       const startResult = await this.startConversation(userId, normalizedInput, options);
       return { ...startResult, completed: false };
@@ -538,7 +548,7 @@ export class ConversationRouter {
         this.mill.endConversation(context.millSessionId, "completed");
         delete context.millSessionId;
         const handoffResult = await this.handoffToSera(context, normalizedInput);
-        await this.persistContext(userId, context);
+  if (!isStateless) await this.persistContext(userId, context);
         return handoffResult;
       }
 

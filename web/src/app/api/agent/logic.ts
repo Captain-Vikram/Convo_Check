@@ -37,7 +37,8 @@ export async function processAgentMessageRequest(
       userId,
       message,
       attachments,
-      options: body.options,
+  options: body.options,
+  context: (body as any).context,
     });
 
     // Return both the processed data and the raw response for debugging.

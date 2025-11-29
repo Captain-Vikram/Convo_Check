@@ -16,6 +16,15 @@ import { categorizeTransaction } from "@/runtime/shared/categorize";
 import * as fs from "fs";
 import * as path from "path";
 
+function safeClone<T>(obj: T): T {
+  try {
+    if (typeof structuredClone === "function") {
+      return structuredClone(obj as any) as T;
+    }
+  } catch (_) {}
+  return JSON.parse(JSON.stringify(obj)) as T;
+}
+
 const conversationRouter = new ConversationRouter(getConversationStore());
 
 function logDebug(message: string, data?: any) {
@@ -30,6 +39,8 @@ export interface AgentEntryRequest {
   message?: string;
   attachments?: AgentAttachment[];
   options?: ConversationRouterOptions;
+  // context is an optional array of previous chat messages (stateless)
+  context?: string[] | ConversationContext;
 }
 
 export interface AgentEntryResponse {
@@ -43,8 +54,8 @@ export interface AgentEntryResponse {
   toolResult?: unknown;
   parsed?: unknown;
   action?: string;
-  sessionId?: string;
-  context?: ConversationContext;
+  // Response may include either the conversation snapshot or the passed array of previous chat strings
+  context?: ConversationContext | string[];
   // Raw/diagnostic fields exposed to API callers for debugging tool integrations
   rawResponse?: unknown;
   toolCalls?: unknown[];
@@ -52,19 +63,7 @@ export interface AgentEntryResponse {
 }
 
 
-function resolveSessionId(context?: ConversationContext, agent?: ActiveAgent): string | undefined {
-  if (!context) return undefined;
-  switch (agent ?? context.activeAgent) {
-    case "mill":
-      return context.millSessionId;
-    case "chatur":
-      return context.chaturSessionId;
-    case "sera":
-      return context.seraSessionId;
-    default:
-      return context.millSessionId ?? context.chaturSessionId ?? context.seraSessionId;
-  }
-}
+// session ids are intentionally not returned in responses for stateless operation
 
 async function fetchUserInsights(userId: string): Promise<HabitInsight[]> {
   try {
@@ -302,15 +301,34 @@ export async function processAgentMessage(
 
   // If this is an sms_ingest_event, start a fresh conversation so Mill greets and asks consent.
   let response: any;
-  if (isSmsIngestEvent) {
+  if (isSmsIngestEvent && !req.context) {
+    // If caller supplied an explicit context, treat this as a continue with that context
     response = await conversationRouter.startConversation(req.userId, agentInput, routerOptions);
   } else {
-    response = await conversationRouter.continueConversation(req.userId, agentInput, routerOptions);
+    response = await conversationRouter.continueConversation(req.userId, agentInput, routerOptions, req.context);
   }
-
-  const context = await conversationRouter.getContext(req.userId);
-  const sessionId =
-    (response as { sessionId?: string }).sessionId ?? resolveSessionId(context, response.agent);
+  const context = req.context ?? (await conversationRouter.getContext(req.userId));
+  // Do not expose internal session id fields to API callers — keep response stateless
+  let sanitizedContext: ConversationContext | string[] | undefined = undefined;
+  if (context) {
+    if (Array.isArray(context)) {
+      // caller provided a simple array of previous messages; return as-is
+      sanitizedContext = context;
+    } else {
+      sanitizedContext = safeClone(context as ConversationContext);
+      try {
+        delete (sanitizedContext as any).millSessionId;
+        delete (sanitizedContext as any).chaturSessionId;
+        delete (sanitizedContext as any).seraSessionId;
+        // Also avoid exposing nested session objects that reference sessionId
+        if ((sanitizedContext as any).millSession) delete (sanitizedContext as any).millSession.sessionId;
+        if ((sanitizedContext as any).chaturSession) delete (sanitizedContext as any).chaturSession.sessionId;
+        if ((sanitizedContext as any).seraSession) delete (sanitizedContext as any).seraSession.sessionId;
+      } catch (e) {
+        // non-fatal
+      }
+    }
+  }
 
   // Attempt to extract machine-readable tool output embedded in assistant message
   // e.g. ```json
@@ -383,8 +401,7 @@ export async function processAgentMessage(
 
   return {
     ...response,
-    sessionId,
-    context,
+    context: sanitizedContext,
     result: toolResult,
     toolResult,
     parsed: toolResult,

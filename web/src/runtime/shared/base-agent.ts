@@ -148,7 +148,11 @@ export abstract class BaseConversationalAgent<
    * Hydrate conversation state from an external snapshot
    */
   hydrateSession(snapshot: TSession): void {
-    this.activeSessions.set(snapshot.sessionId, cloneStructured(snapshot));
+    try {
+      this.activeSessions.set(snapshot.sessionId, cloneStructured(snapshot));
+    } catch (e) {
+      // No-op in stateless mode or if structuredClone isn't available
+    }
   }
 
   /**
@@ -166,16 +170,24 @@ export abstract class BaseConversationalAgent<
    * Release a conversation from in-memory tracking (after snapshot)
    */
   releaseSession(sessionId: string): void {
-    this.activeSessions.delete(sessionId);
+    try {
+      this.activeSessions.delete(sessionId);
+    } catch (e) {
+      // no-op
+    }
   }
 
   /**
    * End conversation
    */
   endConversation(sessionId: string, state: "completed" | "abandoned" = "abandoned"): void {
-    const session = this.activeSessions.get(sessionId);
-    if (session) {
-      session.state = state;
+    try {
+      const session = this.activeSessions.get(sessionId);
+      if (session) {
+        session.state = state;
+      }
+    } catch (e) {
+      // no-op in stateless mode
     }
   }
 

@@ -1,82 +1,28 @@
-import { createClient } from "redis";
-
-import {
-  InMemoryConversationStore,
-  type ConversationContext,
-  type ConversationStore,
+import type {
+  ConversationContext,
+  ConversationStore,
 } from "@/runtime/shared/conversation-router";
 
-const CONTEXT_TTL_SECONDS = 60 * 60; // 1 hour
+// Stateless NO-OP conversation store.
+// Session handling is performed by the ingress (wa-ingress). To avoid
+// accidental Redis usage or persistence from this library, expose a
+// no-op store that never loads or saves sessions.
 
-class RedisConversationStore implements ConversationStore {
-  private clientPromise: Promise<ReturnType<typeof createClient>>;
-
-  constructor(private readonly url: string) {
-    this.clientPromise = this.initialize();
-  }
-
-  private async initialize() {
-    const client = createClient({ url: this.url });
-    client.on("error", (error) => {
-      console.error("[conversation-store] Redis error", error);
-    });
-    await client.connect();
-    return client;
-  }
-
-  private async getClient() {
-    return this.clientPromise;
-  }
-
-  private key(userId: string): string {
-    return `conversation:${userId}`;
-  }
-
-  async load(userId: string): Promise<ConversationContext | undefined> {
-    const client = await this.getClient();
-    const payload = await client.get(this.key(userId));
-    if (!payload) {
-      return undefined;
-    }
-
-    return JSON.parse(payload) as ConversationContext;
-  }
-
-  async save(userId: string, context: ConversationContext): Promise<void> {
-    const client = await this.getClient();
-    await client.set(this.key(userId), JSON.stringify(context), {
-      EX: CONTEXT_TTL_SECONDS,
-    });
-  }
-
-  async delete(userId: string): Promise<void> {
-    const client = await this.getClient();
-    await client.del(this.key(userId));
-  }
-
-  async cleanup(): Promise<void> {
-    // TTL-based eviction handled by Redis automatically
-  }
-}
-
-let cachedStore: ConversationStore | null = null;
-
-function initializeStore(): ConversationStore {
-  const redisUrl = process.env.REDIS_URL ?? process.env.UPSTASH_REDIS_URL;
-  if (redisUrl) {
-    return new RedisConversationStore(redisUrl);
-  }
-
-  console.warn(
-    "[conversation-store] REDIS_URL not configured. Falling back to in-memory conversations. This is not stateless.",
-  );
-  return new InMemoryConversationStore();
-}
+const noopStore: ConversationStore = {
+  async load(_userId: string) {
+    return undefined;
+  },
+  async save(_userId: string, _context: ConversationContext) {
+    // no-op
+  },
+  async delete(_userId: string) {
+    // no-op
+  },
+  async cleanup(_maxAgeMs?: number) {
+    // no-op
+  },
+};
 
 export function getConversationStore(): ConversationStore {
-  if (!cachedStore) {
-    cachedStore = initializeStore();
-  }
-
-  return cachedStore;
+  return noopStore;
 }

@@ -106,14 +106,10 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
     guidance?: CoachGuidance;
     shouldEscalateToMill?: boolean;
   }> {
-    const session = this.activeSessions.get(sessionId);
-    if (!session) {
-      throw new Error(`Conversation ${sessionId} not found`);
-    }
-
-    if (session.state !== "active") {
-      throw new Error(`Conversation ${sessionId} is ${session.state}`);
-    }
+  // In stateless mode the router may not hydrate sessions here.
+  // Use an ephemeral session object and avoid modifying shared activeSessions map.
+  const effectiveSessionId = sessionId || randomUUID();
+  const session = this.createSession(effectiveSessionId, { insights: [], initialQuestion: undefined } as any);
 
     // Update session context if provided
     if (contextUpdate) {
@@ -142,7 +138,7 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
 
     // Check if should escalate to Mill
     if (result.shouldEscalateToMill) {
-      session.state = "completed";
+  // Stateless handling: don't mutate persistent session state; return completed
       return {
         message:
           result.message +
@@ -166,7 +162,7 @@ export class ConversationalCoach extends BaseConversationalAgent<CoachConversati
 
     // Check if conversation is complete
     if (result.completed) {
-      session.state = "completed";
+  // Stateless: do not mark stored session as completed. Keep ephemeral session but indicate completed to caller.
       
       // If the result itself contains guidance fields (from JSON output), use them
       let guidance: CoachGuidance | undefined;

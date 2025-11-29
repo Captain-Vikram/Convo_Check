@@ -2,7 +2,10 @@ import processAgentMessage from "@/lib/mill/in-process-adapter";
 import { prisma } from "@/lib/prisma";
 import { WhatsAppWebhook } from "@/lib/wa/types";
 import { getPublicMediaUrlFromWhatsApp } from "@/lib/wa/whatsAppMedia";
-import { AgentAttachment, AgentAttachmentType } from "@/runtime/shared/multimodal";
+import {
+  AgentAttachment,
+  AgentAttachmentType,
+} from "@/runtime/shared/multimodal";
 import { randomUUID } from "crypto";
 import { wacloud } from "@/lib/wacloud";
 import { processMultimodalContent } from "./multimodal";
@@ -42,7 +45,10 @@ export async function processWhatsAppWebhook(
           name: "Image",
         });
         // Use caption if available, otherwise use original text
-        text = body.entry[0].changes[0].value.messages[0].image.caption || text || "I sent an image";
+        text =
+          body.entry[0].changes[0].value.messages[0].image.caption ||
+          text ||
+          "I sent an image";
       }
     }
 
@@ -67,8 +73,6 @@ export async function processWhatsAppWebhook(
         text = "I have attached an audio recording";
       }
     }
-
-
 
     console.log({
       phoneNumber: phoneNumber,
@@ -106,12 +110,34 @@ export async function processWhatsAppWebhook(
     let processedText = text;
     if (attachments.length > 0) {
       try {
-        processedText = await processMultimodalContent(text || "", attachments as { type: AgentAttachmentType; url: string; mimeType: string; name?: string }[]);
+        processedText = await processMultimodalContent(
+          text || "",
+          attachments as {
+            type: AgentAttachmentType;
+            url: string;
+            mimeType: string;
+            name?: string;
+          }[]
+        );
       } catch (error) {
         console.error("Error processing multimodal content:", error);
         processedText = text; // Fallback to original text
       }
     }
+
+    // GETTINGS OLDER MESSAGES
+
+    const last10Messages = await prisma.wa_messages.findMany({
+      take: 10,
+      orderBy: {
+        date_created: "desc",
+      },
+      select: {
+        text: true,
+        date_created: true,
+        direction: true,
+      },
+    });
 
     // STORE THE MESSAGE IN DB
 
@@ -147,7 +173,8 @@ export async function processWhatsAppWebhook(
     processAgentMessage({
       userId: String(userId),
       message: processedText,
-      attachments: attachments, // Attachments now include transcriptions
+      attachments: attachments, // Attachments now include transcriptions,
+      context: last10Messages.map((m) => `Direction: ${m.direction}, Date: ${m.date_created}, Message: ${m.text}`)
     })
       .then(async (res) => {
         try {

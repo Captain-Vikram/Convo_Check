@@ -121,9 +121,15 @@ export class SeraAgent {
     userMessage: string,
     options: SeraContinueOptions = {}
   ): Promise<SeraContinuationResult> {
-    const session = this.sessions.get(sessionId);
+    // In stateless mode, create an ephemeral session rather than throwing
+    let session = this.sessions.get(sessionId);
     if (!session) {
-      throw new Error(`Session not found: ${sessionId}`);
+      session = {
+        sessionId: sessionId || this.generateSessionId(),
+        messages: [],
+        createdAt: new Date().toISOString(),
+      } as SeraConversation;
+      // do not persist
     }
 
     const safeUserMessage = userMessage?.trim().length ? userMessage : '[No textual input provided]';
@@ -413,15 +419,17 @@ export class SeraAgent {
    * Stream conversation response (for better UX)
    */
   async *streamConversation(sessionId: string, userMessage: string): AsyncGenerator<string> {
-    const session = this.sessions.get(sessionId);
+    // In stateless mode, create ephemeral session if missing
+    let session = this.sessions.get(sessionId);
     if (!session) {
-      throw new Error(`Session not found: ${sessionId}`);
+      session = {
+        sessionId: sessionId || this.generateSessionId(),
+        messages: [],
+        createdAt: new Date().toISOString(),
+      } as SeraConversation;
     }
 
-    session.messages.push({
-      role: 'user',
-      content: userMessage,
-    });
+    session.messages.push({ role: 'user', content: userMessage });
 
     if (session.messages.length > MAX_HISTORY) {
       session.messages = session.messages.slice(-MAX_HISTORY);

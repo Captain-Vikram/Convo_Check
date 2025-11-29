@@ -67,19 +67,9 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
     action?: "transaction_logged" | "data_retrieved" | "escalate_to_coach";
     payload?: LogCashTransactionPayload | SpendingSummaryResult | { reason: string };
   }> {
-    const session = this.activeSessions.get(sessionId);
-    if (!session) {
-      throw new Error(`Mill conversation ${sessionId} not found`);
-    }
-
-    if (session.state !== "active") {
-      // If session is already completed/abandoned but router still routed here,
-      // return completed so router can clean up.
-      return {
-        message: "Session previously ended.",
-        completed: true,
-      };
-    }
+  // Create an ephemeral session for stateless operation. Do not read/write shared session map.
+  const effectiveSessionId = sessionId || randomUUID();
+  const session = this.createSession(effectiveSessionId, {} as any);
 
     const normalizedInput = normalizeAgentInput(userMessage);
     const summarized = summarizeInputForHistory(normalizedInput);
@@ -94,7 +84,7 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
       userEntry.attachments = normalizedInput.attachments;
     }
 
-    session.messages.push(userEntry);
+  session.messages.push(userEntry);
 
     // Generate Mill's response using LLM
     const result = await this.generateMillResponse(session, normalizedInput);
@@ -122,7 +112,7 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
       if (options.onTransactionReady) {
         await options.onTransactionReady(payload);
       }
-      session.state = "completed";
+      // Stateless: do not persist session state; report completed to caller
       return {
         message: result.message,
         completed: true,
@@ -150,10 +140,10 @@ export class ConversationalMill extends BaseConversationalAgent<MillConversation
           const parsed = this.parseMillResponse(finalText);
 
           // If parsing succeeded and there's a message, return it along with payload
-          if (parsed && parsed.message) {
-            session.state = "completed";
-            // push assistant message into history
-            session.messages.push({ role: "assistant", content: parsed.message, timestamp: new Date().toISOString() });
+      if (parsed && parsed.message) {
+        // Stateless: don't modify persisted session state here
+        // push assistant message into ephemeral history for this run
+        session.messages.push({ role: "assistant", content: parsed.message, timestamp: new Date().toISOString() });
             const mappedAction = parsed.action === "log_transaction" ? "transaction_logged"
               : parsed.action === "query_data" ? "data_retrieved"
               : parsed.action === "escalate_to_coach" ? "escalate_to_coach"
