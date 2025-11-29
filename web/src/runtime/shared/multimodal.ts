@@ -45,6 +45,7 @@ export function buildMultimodalContent(input: AgentInput): CoreMessage["content"
         try {
           parts.push({ type: "image", image: new URL(att.url) });
         } catch {
+          // If URL creation fails, fallback to using the raw URL string
           parts.push({ type: "image", image: att.url });
         }
       } else if (att.data) {
@@ -53,18 +54,19 @@ export function buildMultimodalContent(input: AgentInput): CoreMessage["content"
     }
 
     if (att.type === "audio") {
-      if (att.url) {
-        try {
-          parts.push({ type: "audio", audio: new URL(att.url) });
-        } catch {
-          parts.push({ type: "audio", audio: att.url });
-        }
-      } else if (att.data) {
-        parts.push({ type: "audio", audio: att.data });
-      }
-
+      // For audio, if we have a transcription, prioritize that
       if (att.transcription) {
+        // Add the transcription as text content
         parts.push({ type: "text", text: `Audio transcription: ${att.transcription}` });
+      } else if (att.url) {
+        // If no transcription exists, try to use the file for models that support direct audio
+        try {
+          const urlObj = new URL(att.url);
+          parts.push({ type: "file", data: urlObj, mimeType: att.mimeType || "audio/mpeg" });
+        } catch {
+          // If URL creation fails, include as text indicating the file
+          parts.push({ type: "text", text: `Audio file: ${att.url}` });
+        }
       }
     }
   });

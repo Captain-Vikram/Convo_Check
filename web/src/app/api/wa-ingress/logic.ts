@@ -2,9 +2,10 @@ import processAgentMessage from "@/lib/mill/in-process-adapter";
 import { prisma } from "@/lib/prisma";
 import { WhatsAppWebhook } from "@/lib/wa/types";
 import { getPublicMediaUrlFromWhatsApp } from "@/lib/wa/whatsAppMedia";
-import { AgentAttachmentType } from "@/runtime/shared/multimodal";
+import { AgentAttachment, AgentAttachmentType } from "@/runtime/shared/multimodal";
 import { randomUUID } from "crypto";
 import { wacloud } from "@/lib/wacloud";
+import { processMultimodalContent } from "./multimodal";
 
 interface ProcessWhatsAppWebhookResult {
   success: boolean;
@@ -20,25 +21,28 @@ export async function processWhatsAppWebhook(
     const wamid = body.entry[0].changes[0].value.messages[0].id;
     let text = body.entry[0].changes[0].value.messages[0].text?.body;
 
-    let mediaURL = "";
-    let mimeType = "";
-    let mediaType = "";
+    // Array to hold all attachments
+    const attachments: AgentAttachment[] = [];
 
     if (
       body.entry[0].changes[0].value.messages[0].type == "image" &&
       body.entry[0].changes[0].value.messages[0].image
     ) {
-      const imageBase64 = await getPublicMediaUrlFromWhatsApp({
+      const imageResult = await getPublicMediaUrlFromWhatsApp({
         id: body.entry[0].changes[0].value.messages[0].image?.id,
         mime_type: body.entry[0].changes[0].value.messages[0].image.mime_type,
         sha256: body.entry[0].changes[0].value.messages[0].image.sha256,
         type: "image",
       });
-      if (imageBase64) {
-        mimeType = imageBase64.mimeType;
-        mediaURL = imageBase64.url;
-        text = body.entry[0].changes[0].value.messages[0].image.caption || text;
-        mediaType = "image";
+      if (imageResult) {
+        attachments.push({
+          type: "image" as AgentAttachmentType,
+          mimeType: imageResult.mimeType,
+          url: imageResult.url,
+          name: "Image",
+        });
+        // Use caption if available, otherwise use original text
+        text = body.entry[0].changes[0].value.messages[0].image.caption || text || "I sent an image";
       }
     }
 
@@ -46,24 +50,31 @@ export async function processWhatsAppWebhook(
       body.entry[0].changes[0].value.messages[0].type == "audio" &&
       body.entry[0].changes[0].value.messages[0].audio
     ) {
-      const audio = await getPublicMediaUrlFromWhatsApp({
+      const audioResult = await getPublicMediaUrlFromWhatsApp({
         id: body.entry[0].changes[0].value.messages[0].audio?.id,
         mime_type: body.entry[0].changes[0].value.messages[0].audio.mime_type,
         sha256: body.entry[0].changes[0].value.messages[0].audio.sha256,
         type: "audio",
       });
-      if (audio) {
-        mimeType = audio.mimeType;
-        mediaURL = audio.url;
+      if (audioResult) {
+        attachments.push({
+          type: "audio" as AgentAttachmentType,
+          mimeType: audioResult.mimeType,
+          url: audioResult.url,
+          name: "Audio recording",
+        });
+        // Set placeholder text that will be replaced with transcription
         text = "I have attached an audio recording";
-        mediaType = "audio";
       }
     }
+
+
 
     console.log({
       phoneNumber: phoneNumber,
       wamid: wamid,
       text: text,
+      attachments: attachments,
     });
 
     // GET USER ID FROM THE DB
@@ -91,6 +102,17 @@ export async function processWhatsAppWebhook(
       }
     }
 
+    // PROCESS MULTIMODAL CONTENT IF THERE ARE ATTACHMENTS
+    let processedText = text;
+    if (attachments.length > 0) {
+      try {
+        processedText = await processMultimodalContent(text || "", attachments as { type: AgentAttachmentType; url: string; mimeType: string; name?: string }[]);
+      } catch (error) {
+        console.error("Error processing multimodal content:", error);
+        processedText = text; // Fallback to original text
+      }
+    }
+
     // STORE THE MESSAGE IN DB
 
     const message = await prisma.wa_messages.create({
@@ -98,7 +120,7 @@ export async function processWhatsAppWebhook(
         id: randomUUID(),
         date_created: new Date(),
         date_updated: new Date(),
-        text: text,
+        text: processedText, // Use the processed text with transcriptions
         wamid: wamid,
         users: {
           connect: {
@@ -117,28 +139,15 @@ export async function processWhatsAppWebhook(
 
     console.log({
       userId: String(userId),
-      message: text,
-      attachments: [
-        {
-          mimeType: mimeType,
-          type: mediaType,
-          url: mediaURL,
-          name: "Media",
-        },
-      ],
+      message: processedText,
+      attachments: attachments,
     });
 
+    // PROCESS THE MESSAGE WITH AGENT
     processAgentMessage({
       userId: String(userId),
-      message: text,
-      attachments: [
-        {
-          mimeType: mimeType,
-          type: mediaType as AgentAttachmentType,
-          url: mediaURL,
-          name: "Image data",
-        },
-      ],
+      message: processedText,
+      attachments: attachments, // Attachments now include transcriptions
     })
       .then(async (res) => {
         try {
@@ -148,7 +157,7 @@ export async function processWhatsAppWebhook(
             enableLinkPreview: false,
           });
 
-          prisma.wa_messages.create({
+          await prisma.wa_messages.create({
             data: {
               id: randomUUID(),
               date_created: new Date(),
