@@ -1,0 +1,31 @@
+{
+  "session": {
+    "sessionId": "51877665-c854-4533-b2df-e3ea996b90f5",
+    "startedAt": "2025-11-28T22:34:34.920Z",
+    "insights": [],
+    "messages": [
+      {
+        "role": "assistant",
+        "content": "Advise on saving money.",
+        "timestamp": "2025-11-28T22:34:34.920Z"
+      },
+      {
+        "role": "user",
+        "content": "What about investments?",
+        "timestamp": "2025-11-28T22:34:34.921Z"
+      },
+      {
+        "role": "assistant",
+        "content": "That's a great question! 📈 To give you the best advice on investments, could you tell me a little about your current financial goals? Are you saving for something specific, or looking to grow your wealth generally?",
+        "timestamp": "2025-11-28T22:34:38.214Z"
+      }
+    ],
+    "state": "active",
+    "collectedInfo": {},
+    "currentQuestion": "Advise on saving money."
+  },
+  "response": {
+    "message": "That's a great question! 📈 To give you the best advice on investments, could you tell me a little about your current financial goals? Are you saving for something specific, or looking to grow your wealth generally?",
+    "completed": false
+  }
+}

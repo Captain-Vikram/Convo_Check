@@ -1,0 +1,31 @@
+{
+  "session": {
+    "sessionId": "a888e5c9-ace7-4d9c-90a9-5763aeb6b551",
+    "startedAt": "2025-11-28T22:54:18.640Z",
+    "insights": [],
+    "messages": [
+      {
+        "role": "assistant",
+        "content": "Advise on saving money.",
+        "timestamp": "2025-11-28T22:54:18.640Z"
+      },
+      {
+        "role": "user",
+        "content": "What about investments?",
+        "timestamp": "2025-11-28T22:54:18.642Z"
+      },
+      {
+        "role": "assistant",
+        "content": "That's a great question! 📈 To give you the best advice on investments, I need a little more context. What are you hoping to achieve with your investments, and what's your comfort level with risk? Knowing your goals helps me tailor the right options for you! 🎯",
+        "timestamp": "2025-11-28T22:54:21.926Z"
+      }
+    ],
+    "state": "active",
+    "collectedInfo": {},
+    "currentQuestion": "Advise on saving money."
+  },
+  "response": {
+    "message": "That's a great question! 📈 To give you the best advice on investments, I need a little more context. What are you hoping to achieve with your investments, and what's your comfort level with risk? Knowing your goals helps me tailor the right options for you! 🎯",
+    "completed": false
+  }
+}

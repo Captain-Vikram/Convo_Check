@@ -41,7 +41,7 @@ If the message is not a financial transaction, output null.`;
 }
 // TEMP: sms-log.ts deleted - state is now in database
 // import { createSmsLog, type SmsLog } from "../../../src/runtime/dev/sms-log";
-import type { Prisma } from "../../../data/generated/prisma";
+import type { Prisma } from "../../../generated/prisma/client";
 
 import { prisma } from "@/lib/prisma";
 

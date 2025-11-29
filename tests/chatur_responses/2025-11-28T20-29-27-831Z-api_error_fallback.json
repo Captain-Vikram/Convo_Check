@@ -1,0 +1,11 @@
+{
+  "agent": "none",
+  "message": "",
+  "sessionId": "welcome",
+  "completed": false,
+  "context": {
+    "activeAgent": "none",
+    "conversationHistory": [],
+    "updatedAt": "2025-11-28T20:29:27.830Z"
+  }
+}

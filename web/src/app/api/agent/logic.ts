@@ -6,6 +6,7 @@ export interface ProcessAgentMessageResult {
   success: boolean;
   data?: any;
   error?: string;
+  rawResponse?: any;
 }
 
 export async function processAgentMessageRequest(
@@ -39,9 +40,11 @@ export async function processAgentMessageRequest(
       options: body.options,
     });
 
+    // Return both the processed data and the raw response for debugging.
     return {
       success: true,
       data: result,
+      rawResponse: result,
     };
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : String(error);

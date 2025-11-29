@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"src/**/*.ts\"",
     "schema:introspect": "tsx scripts/introspect-schema.ts",
-    "db": "npx prisma db pull --schema=./data/introspected-schema.prisma --force && npx prisma generate --schema=./data/introspected-schema.prisma"
+    "db": "npx prisma db pull --force && npx prisma generate"
   },
   "keywords": [
     "cli",
@@ -37,7 +37,7 @@
     "axios": "^1.13.2",
     "dotenv": "^17.2.3",
     "fastify": "^5.6.1",
-    "node-fetch": "^3.3.2",
+    "node-fetch": "^2.7.0",
     "pg": "^8.16.3",
     "prisma": "^6.18.0",
     "undici": "^6.19.7",

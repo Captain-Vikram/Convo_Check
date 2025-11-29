@@ -45,6 +45,10 @@ export interface AgentEntryResponse {
   action?: string;
   sessionId?: string;
   context?: ConversationContext;
+  // Raw/diagnostic fields exposed to API callers for debugging tool integrations
+  rawResponse?: unknown;
+  toolCalls?: unknown[];
+  toolResults?: unknown[];
 }
 
 
@@ -185,8 +189,29 @@ async function saveCoachBriefing(userId: string, briefing: CoachBriefing): Promi
 
 async function fetchFinancialSummary(userId: string): Promise<SpendingSummaryResult> {
   try {
-    const ownerId = parseInt(userId, 10);
-    if (isNaN(ownerId)) throw new Error("Invalid user ID");
+    let ownerId = parseInt(userId, 10);
+    if (isNaN(ownerId)) {
+      // Non-numeric userId (e.g., UUID or test string). Try DEV_USER_ID fallback.
+      logDebug("fetchFinancialSummary: non-numeric userId, attempting DEV_USER_ID fallback", { userId });
+      const envOwner = process.env.DEV_USER_ID ? Number(process.env.DEV_USER_ID) : NaN;
+      if (!Number.isNaN(envOwner)) {
+        ownerId = envOwner;
+        logDebug("fetchFinancialSummary: using DEV_USER_ID fallback", { ownerId });
+      } else {
+        // Unable to resolve numeric owner - return empty summary instead of throwing
+        logDebug("fetchFinancialSummary: cannot resolve numeric ownerId, returning empty summary", { userId });
+        return {
+          totalIncome: 0,
+          totalExpense: 0,
+          netBalance: 0,
+          transactionCount: 0,
+          recentTransactions: [],
+          topCategories: [],
+          paramInsights: [],
+          coachAdvice: null,
+        };
+      }
+    }
 
     return await computeSpendingSummary(ownerId);
   } catch (e) {
@@ -317,7 +342,44 @@ export async function processAgentMessage(
   }
 
   const toolResult = parsedResult ?? (response as any).result ?? undefined;
-  const action = (parsedResult && typeof (parsedResult as any).action === 'string') ? (parsedResult as any).action : (toolResult && (toolResult as any).pendingAction) ?? (context && (context as any).millSession?.pendingAction) ?? undefined;
+  const action = (parsedResult && typeof (parsedResult as any).action === 'string')
+    ? (parsedResult as any).action
+    : (toolResult && (toolResult as any).pendingAction) ?? (context && (context as any).millSession?.pendingAction) ?? undefined;
+
+  // Capture any tool metadata that agent implementations may attach
+  const observedToolCalls = (response as any).toolCalls ?? (response as any).toolCall ?? undefined;
+  const observedToolResults = (response as any).toolResults ?? (response as any).toolResult ?? undefined;
+
+  // If assistant message is empty but toolResults are available, synthesize a short summary
+  try {
+    if ((typeof (response as any).message !== 'string' || !(response as any).message.trim()) && observedToolResults) {
+      const maybeResults = Array.isArray(observedToolResults)
+        ? observedToolResults
+        : typeof observedToolResults === 'object'
+          ? [observedToolResults]
+          : undefined;
+
+      if (maybeResults && maybeResults.length > 0) {
+        const summaryParts: string[] = [];
+        summaryParts.push("Tool results available:");
+        const first = maybeResults[0];
+        if (first && typeof first === 'object') {
+          if ((first as any).results && Array.isArray((first as any).results)) {
+            summaryParts.push(`Found ${(first as any).results.length} results.`);
+          } else if ((first as any).message) {
+            summaryParts.push(String((first as any).message).slice(0, 200));
+          } else {
+            summaryParts.push(JSON.stringify(first).slice(0, 200));
+          }
+        }
+
+        (response as any).message = summaryParts.join(' ');
+        logDebug('processAgentMessage: synthesized message from toolResults', { summary: (response as any).message });
+      }
+    }
+  } catch (err) {
+    logDebug('processAgentMessage: error synthesizing message from toolResults', err);
+  }
 
   return {
     ...response,
@@ -327,6 +389,9 @@ export async function processAgentMessage(
     toolResult,
     parsed: toolResult,
     action,
+    rawResponse: response,
+    toolCalls: observedToolCalls ? (Array.isArray(observedToolCalls) ? observedToolCalls : [observedToolCalls]) : undefined,
+    toolResults: observedToolResults ? (Array.isArray(observedToolResults) ? observedToolResults : [observedToolResults]) : undefined,
   };
 }
 

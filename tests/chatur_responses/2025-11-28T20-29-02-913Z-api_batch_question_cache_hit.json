@@ -1,0 +1,66 @@
+{
+  "agent": "chatur",
+  "message": "To help you decide on the ₹15,000 phone, I still need to know your approximate monthly income. Knowing that will help me assess if it's an affordable purchase for you right now and how it might fit into your financial picture. 💰",
+  "completed": false,
+  "sessionId": "ab9ebd6b-4d44-427f-abfb-00a38c0b21e1",
+  "context": {
+    "activeAgent": "chatur",
+    "conversationHistory": [
+      {
+        "agent": "chatur",
+        "userMessage": "Should I buy a ₹15,000 phone?",
+        "agentResponse": "To help you decide, could you tell me your approximate monthly income? Knowing that will help me assess if the ₹15,000 phone is an affordable purchase for you right now and how it might fit into your overall financial picture. 💰\n\nRemember, I'm an AI coach and while I can offer guidance, sensitive financial decisions should involve a human professional.",
+        "timestamp": "2025-11-28T20:28:56.539Z"
+      },
+      {
+        "agent": "chatur",
+        "userMessage": "Should I buy a ₹15,000 phone?",
+        "agentResponse": "To help you decide on the ₹15,000 phone, I still need to know your approximate monthly income. Knowing that will help me assess if it's an affordable purchase for you right now and how it might fit into your financial picture. 💰",
+        "timestamp": "2025-11-28T20:29:02.910Z"
+      }
+    ],
+    "updatedAt": "2025-11-28T20:29:02.910Z",
+    "chaturSessionId": "ab9ebd6b-4d44-427f-abfb-00a38c0b21e1",
+    "chaturSession": {
+      "sessionId": "ab9ebd6b-4d44-427f-abfb-00a38c0b21e1",
+      "startedAt": "2025-11-28T20:28:50.519Z",
+      "insights": [],
+      "financialSummary": {
+        "totalIncome": 0,
+        "totalExpense": 0,
+        "netBalance": 0,
+        "transactionCount": 0,
+        "recentTransactions": [],
+        "topCategories": [],
+        "paramInsights": [],
+        "coachAdvice": null
+      },
+      "recentTransactions": [],
+      "pastBriefings": [],
+      "messages": [
+        {
+          "role": "user",
+          "content": "Should I buy a ₹15,000 phone?",
+          "timestamp": "2025-11-28T20:28:50.520Z"
+        },
+        {
+          "role": "assistant",
+          "content": "To help you decide, could you tell me your approximate monthly income? Knowing that will help me assess if the ₹15,000 phone is an affordable purchase for you right now and how it might fit into your overall financial picture. 💰\n\nRemember, I'm an AI coach and while I can offer guidance, sensitive financial decisions should involve a human professional.",
+          "timestamp": "2025-11-28T20:28:56.539Z"
+        },
+        {
+          "role": "user",
+          "content": "Should I buy a ₹15,000 phone?",
+          "timestamp": "2025-11-28T20:28:57.605Z"
+        },
+        {
+          "role": "assistant",
+          "content": "To help you decide on the ₹15,000 phone, I still need to know your approximate monthly income. Knowing that will help me assess if it's an affordable purchase for you right now and how it might fit into your financial picture. 💰",
+          "timestamp": "2025-11-28T20:29:02.910Z"
+        }
+      ],
+      "state": "active",
+      "collectedInfo": {}
+    }
+  }
+}

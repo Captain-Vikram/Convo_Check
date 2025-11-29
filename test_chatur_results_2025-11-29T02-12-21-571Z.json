@@ -1,0 +1,630 @@
+{
+  "meta": {
+    "baseUrl": "http://localhost:3000",
+    "userId": "2",
+    "timestamp": "2025-11-29T02-12-21-571Z"
+  },
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0
+  },
+  "results": [
+    {
+      "testName": "Chatur: Purchase Decision - Phone",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "d45bdf1a-01a4-47a2-b25c-1a35435d4174",
+        "message": "Should I buy a ₹15,000 phone? My monthly income is ₹20,000 and I have ₹2,000 savings."
+      },
+      "timestamp": "2025-11-29T02:09:08.962Z",
+      "status": "PASSED",
+      "response": {
+        "agent": "chatur",
+        "message": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+        "sessionId": "81168b6f-d688-436c-9e32-499a996e2a31",
+        "completed": false,
+        "context": {
+          "activeAgent": "chatur",
+          "conversationHistory": [
+            {
+              "agent": "chatur",
+              "userMessage": "Should I buy a ₹15,000 phone? My monthly income is ₹20,000 and I have ₹2,000 savings.",
+              "agentResponse": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+              "timestamp": "2025-11-29T02:09:44.629Z"
+            }
+          ],
+          "updatedAt": "2025-11-29T02:09:44.629Z",
+          "chaturSessionId": "81168b6f-d688-436c-9e32-499a996e2a31",
+          "chaturSession": {
+            "sessionId": "81168b6f-d688-436c-9e32-499a996e2a31",
+            "startedAt": "2025-11-29T02:09:12.986Z",
+            "insights": [],
+            "financialSummary": {
+              "totalIncome": 1257033,
+              "totalExpense": 1217227.4600000002,
+              "netBalance": 39805.539999999804,
+              "transactionCount": 123,
+              "recentTransactions": [],
+              "topCategories": [
+                {
+                  "category": "Education",
+                  "totalSpent": 182878,
+                  "count": 0
+                },
+                {
+                  "category": "Bills",
+                  "totalSpent": 171986,
+                  "count": 0
+                },
+                {
+                  "category": "Food",
+                  "totalSpent": 169874,
+                  "count": 0
+                },
+                {
+                  "category": "Fuel",
+                  "totalSpent": 130292,
+                  "count": 0
+                },
+                {
+                  "category": "Other Expense",
+                  "totalSpent": 110294.6,
+                  "count": 0
+                }
+              ],
+              "paramInsights": [],
+              "coachAdvice": null
+            },
+            "recentTransactions": [],
+            "pastBriefings": [],
+            "messages": [
+              {
+                "role": "user",
+                "content": "Should I buy a ₹15,000 phone? My monthly income is ₹20,000 and I have ₹2,000 savings.",
+                "timestamp": "2025-11-29T02:09:12.987Z"
+              },
+              {
+                "role": "assistant",
+                "content": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+                "timestamp": "2025-11-29T02:09:44.628Z"
+              }
+            ],
+            "state": "active",
+            "collectedInfo": {
+              "income": 20000,
+              "savings": 2000,
+              "amount": 15000,
+              "goal": "a 15000 phone? my monthly income is 20000 and i have 2000 savings."
+            },
+            "currentQuestion": "What area to improve?"
+          }
+        },
+        "rawResponse": {
+          "agent": "chatur",
+          "message": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+          "sessionId": "81168b6f-d688-436c-9e32-499a996e2a31",
+          "completed": false
+        }
+      },
+      "error": null
+    },
+    {
+      "testName": "Chatur: Loan Affordability Check",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "cff357c5-af15-458c-96c1-4f026195b7a2",
+        "message": "I want to buy a house worth ₹50 Lakhs. I have ₹5 Lakhs savings and earn ₹50,000 per month. Can I afford it?"
+      },
+      "timestamp": "2025-11-29T02:09:46.648Z",
+      "status": "PASSED",
+      "response": {
+        "agent": "chatur",
+        "message": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+        "sessionId": "a45bce0c-05d7-4da1-8742-92cf84b17fc1",
+        "completed": false,
+        "context": {
+          "activeAgent": "chatur",
+          "conversationHistory": [
+            {
+              "agent": "chatur",
+              "userMessage": "I want to buy a house worth ₹50 Lakhs. I have ₹5 Lakhs savings and earn ₹50,000 per month. Can I afford it?",
+              "agentResponse": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+              "timestamp": "2025-11-29T02:10:11.146Z"
+            }
+          ],
+          "updatedAt": "2025-11-29T02:10:11.146Z",
+          "chaturSessionId": "a45bce0c-05d7-4da1-8742-92cf84b17fc1",
+          "chaturSession": {
+            "sessionId": "a45bce0c-05d7-4da1-8742-92cf84b17fc1",
+            "startedAt": "2025-11-29T02:09:48.008Z",
+            "insights": [],
+            "financialSummary": {
+              "totalIncome": 1257033,
+              "totalExpense": 1217227.4600000002,
+              "netBalance": 39805.539999999804,
+              "transactionCount": 123,
+              "recentTransactions": [],
+              "topCategories": [
+                {
+                  "category": "Education",
+                  "totalSpent": 182878,
+                  "count": 0
+                },
+                {
+                  "category": "Bills",
+                  "totalSpent": 171986,
+                  "count": 0
+                },
+                {
+                  "category": "Food",
+                  "totalSpent": 169874,
+                  "count": 0
+                },
+                {
+                  "category": "Fuel",
+                  "totalSpent": 130292,
+                  "count": 0
+                },
+                {
+                  "category": "Other Expense",
+                  "totalSpent": 110294.6,
+                  "count": 0
+                }
+              ],
+              "paramInsights": [],
+              "coachAdvice": null
+            },
+            "recentTransactions": [],
+            "pastBriefings": [],
+            "messages": [
+              {
+                "role": "user",
+                "content": "I want to buy a house worth ₹50 Lakhs. I have ₹5 Lakhs savings and earn ₹50,000 per month. Can I afford it?",
+                "timestamp": "2025-11-29T02:09:48.009Z"
+              },
+              {
+                "role": "assistant",
+                "content": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+                "timestamp": "2025-11-29T02:10:11.146Z"
+              }
+            ],
+            "state": "active",
+            "collectedInfo": {
+              "income": 50000,
+              "savings": 50000,
+              "amount": 50,
+              "goal": "a house worth 50 lakhs. i have 5 lakhs savings and earn 50000 per month. can i afford it?"
+            },
+            "currentQuestion": "What area to improve?"
+          }
+        },
+        "rawResponse": {
+          "agent": "chatur",
+          "message": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+          "sessionId": "a45bce0c-05d7-4da1-8742-92cf84b17fc1",
+          "completed": false
+        }
+      },
+      "error": null
+    },
+    {
+      "testName": "Chatur: Goal Planning - Emergency Fund",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "b917acc5-2dd2-4436-8f7c-859705706114",
+        "message": "I want to save ₹1 Lakh for an emergency fund in 6 months. My income is ₹30,000. Make a plan."
+      },
+      "timestamp": "2025-11-29T02:10:13.164Z",
+      "status": "PASSED",
+      "response": {
+        "agent": "chatur",
+        "message": "To save ₹1 Lakh in 6 months, commit ₹16,667 monthly. Review top spends like Food, Bills, Fuel for cuts.",
+        "sessionId": "9e356a54-dd46-4a9a-9bbb-300a01f9f296",
+        "completed": false,
+        "context": {
+          "activeAgent": "chatur",
+          "conversationHistory": [
+            {
+              "agent": "chatur",
+              "userMessage": "I want to save ₹1 Lakh for an emergency fund in 6 months. My income is ₹30,000. Make a plan.",
+              "agentResponse": "To save ₹1 Lakh in 6 months, commit ₹16,667 monthly. Review top spends like Food, Bills, Fuel for cuts.",
+              "timestamp": "2025-11-29T02:11:14.532Z"
+            }
+          ],
+          "updatedAt": "2025-11-29T02:11:14.532Z",
+          "chaturSessionId": "9e356a54-dd46-4a9a-9bbb-300a01f9f296",
+          "chaturSession": {
+            "sessionId": "9e356a54-dd46-4a9a-9bbb-300a01f9f296",
+            "startedAt": "2025-11-29T02:10:14.659Z",
+            "insights": [],
+            "financialSummary": {
+              "totalIncome": 1257033,
+              "totalExpense": 1217227.4600000002,
+              "netBalance": 39805.539999999804,
+              "transactionCount": 123,
+              "recentTransactions": [],
+              "topCategories": [
+                {
+                  "category": "Education",
+                  "totalSpent": 182878,
+                  "count": 0
+                },
+                {
+                  "category": "Bills",
+                  "totalSpent": 171986,
+                  "count": 0
+                },
+                {
+                  "category": "Food",
+                  "totalSpent": 169874,
+                  "count": 0
+                },
+                {
+                  "category": "Fuel",
+                  "totalSpent": 130292,
+                  "count": 0
+                },
+                {
+                  "category": "Other Expense",
+                  "totalSpent": 110294.6,
+                  "count": 0
+                }
+              ],
+              "paramInsights": [],
+              "coachAdvice": null
+            },
+            "recentTransactions": [],
+            "pastBriefings": [],
+            "messages": [
+              {
+                "role": "user",
+                "content": "I want to save ₹1 Lakh for an emergency fund in 6 months. My income is ₹30,000. Make a plan.",
+                "timestamp": "2025-11-29T02:10:14.660Z"
+              },
+              {
+                "role": "assistant",
+                "content": "To save ₹1 Lakh in 6 months, commit ₹16,667 monthly. Review top spends like Food, Bills, Fuel for cuts.",
+                "timestamp": "2025-11-29T02:11:14.532Z"
+              }
+            ],
+            "state": "completed",
+            "collectedInfo": {
+              "income": 30000,
+              "amount": 1,
+              "goal": "1 lakh for an emergency fund in 6 months. my income is 30000. make a plan.",
+              "headline": "Emergency Fund Goal 🎯",
+              "counsel": "To save ₹1 Lakh in 6 months, commit ₹16,667 monthly. Review top spends like Food, Bills, Fuel for cuts.",
+              "evidence": "With a ₹30,000 monthly income, saving ₹16,667 monthly is needed for your ₹1 Lakh emergency fund goal. Your 'Financial Snapshot' highlights Food, Bills, and Fuel as top spending areas to optimize for these savings.",
+              "decision": "Yes—achievable with disciplined spending cuts. Start by allocating ₹16,667 towards your emergency fund each month. This leaves you with ₹13,333 for other expenses. Consider reducing spending in categories like Food (by cooking at home more), Bills (by optimizing usage or subscriptions), and Fuel (by planning trips efficiently) to meet your target. Remember, I'm an AI coach, so always consult human professionals for sensitive financial decisions."
+            }
+          }
+        },
+        "rawResponse": {
+          "agent": "chatur",
+          "message": "To save ₹1 Lakh in 6 months, commit ₹16,667 monthly. Review top spends like Food, Bills, Fuel for cuts.",
+          "sessionId": "9e356a54-dd46-4a9a-9bbb-300a01f9f296",
+          "completed": false
+        }
+      },
+      "error": null
+    },
+    {
+      "testName": "Chatur: Habit Coaching - Food Spend",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "0a68cb66-e143-4b47-8f1b-454b8c8d5190",
+        "message": "I spend 40% of my income on food delivery. Help me cut costs."
+      },
+      "timestamp": "2025-11-29T02:11:16.542Z",
+      "status": "PASSED",
+      "response": {
+        "agent": "chatur",
+        "message": "Aim to reduce food delivery to <20% of your income. ✂️ Try cooking more or batch prepping meals to save significantly for your 🎯 goals!",
+        "sessionId": "f6757c4d-684c-4bff-8665-93906e7295ae",
+        "completed": false,
+        "context": {
+          "activeAgent": "chatur",
+          "conversationHistory": [
+            {
+              "agent": "chatur",
+              "userMessage": "I spend 40% of my income on food delivery. Help me cut costs.",
+              "agentResponse": "Aim to reduce food delivery to <20% of your income. ✂️ Try cooking more or batch prepping meals to save significantly for your 🎯 goals!",
+              "timestamp": "2025-11-29T02:11:34.191Z"
+            }
+          ],
+          "updatedAt": "2025-11-29T02:11:36.235Z",
+          "chaturSessionId": "f6757c4d-684c-4bff-8665-93906e7295ae",
+          "chaturSession": {
+            "sessionId": "f6757c4d-684c-4bff-8665-93906e7295ae",
+            "startedAt": "2025-11-29T02:11:22.821Z",
+            "insights": [],
+            "financialSummary": {
+              "totalIncome": 0,
+              "totalExpense": 0,
+              "netBalance": 0,
+              "transactionCount": 0,
+              "recentTransactions": [],
+              "topCategories": [],
+              "paramInsights": [],
+              "coachAdvice": null
+            },
+            "recentTransactions": [],
+            "pastBriefings": [],
+            "messages": [
+              {
+                "role": "user",
+                "content": "I spend 40% of my income on food delivery. Help me cut costs.",
+                "timestamp": "2025-11-29T02:11:22.821Z"
+              },
+              {
+                "role": "assistant",
+                "content": "Aim to reduce food delivery to <20% of your income. ✂️ Try cooking more or batch prepping meals to save significantly for your 🎯 goals!",
+                "timestamp": "2025-11-29T02:11:34.191Z"
+              }
+            ],
+            "state": "completed",
+            "collectedInfo": {
+              "amount": 40,
+              "headline": "Cut Food Delivery Costs",
+              "counsel": "Aim to reduce food delivery to <20% of your income. ✂️ Try cooking more or batch prepping meals to save significantly for your 🎯 goals!",
+              "evidence": "Spending 40% of your income on food delivery is a significant portion.",
+              "decision": "Yes—reducing this expense will greatly improve your financial health and help you save more. Remember, I'm an AI coach and can be imperfect; sensitive decisions should involve a human professional."
+            }
+          }
+        },
+        "rawResponse": {
+          "agent": "chatur",
+          "message": "Aim to reduce food delivery to <20% of your income. ✂️ Try cooking more or batch prepping meals to save significantly for your 🎯 goals!",
+          "sessionId": "f6757c4d-684c-4bff-8665-93906e7295ae",
+          "completed": false
+        }
+      },
+      "error": null
+    },
+    {
+      "testName": "Chatur: Risk Analysis - Suspicious Transaction",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "d5017580-d647-40e1-b485-3c9db1b5cc65",
+        "message": "I just sent ₹8,000 to a stranger at 2 AM via UPI. Is that risky?"
+      },
+      "timestamp": "2025-11-29T02:11:38.246Z",
+      "status": "PASSED",
+      "response": {
+        "agent": "none",
+        "message": "",
+        "sessionId": "welcome",
+        "completed": false,
+        "context": {
+          "activeAgent": "none",
+          "conversationHistory": [],
+          "updatedAt": "2025-11-29T02:11:38.260Z"
+        },
+        "rawResponse": {
+          "agent": "none",
+          "message": "",
+          "sessionId": "welcome",
+          "completed": false
+        }
+      },
+      "error": null
+    },
+    {
+      "testName": "Chatur: SIP Calculation",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "a08f8093-4ff1-42ea-82d9-7be471543307",
+        "message": "Calculate SIP: Invest 5000 per month at 12% for 10 years"
+      },
+      "timestamp": "2025-11-29T02:11:40.268Z",
+      "status": "PASSED",
+      "response": {
+        "agent": "chatur",
+        "message": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+        "sessionId": "fedfdc1a-0a64-4c38-b694-420c7300b42e",
+        "completed": false,
+        "context": {
+          "activeAgent": "chatur",
+          "conversationHistory": [
+            {
+              "agent": "chatur",
+              "userMessage": "Calculate SIP: Invest 5000 per month at 12% for 10 years",
+              "agentResponse": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+              "timestamp": "2025-11-29T02:11:56.321Z"
+            }
+          ],
+          "updatedAt": "2025-11-29T02:11:56.321Z",
+          "chaturSessionId": "fedfdc1a-0a64-4c38-b694-420c7300b42e",
+          "chaturSession": {
+            "sessionId": "fedfdc1a-0a64-4c38-b694-420c7300b42e",
+            "startedAt": "2025-11-29T02:11:41.466Z",
+            "insights": [],
+            "financialSummary": {
+              "totalIncome": 1257033,
+              "totalExpense": 1217227.4600000002,
+              "netBalance": 39805.539999999804,
+              "transactionCount": 123,
+              "recentTransactions": [],
+              "topCategories": [
+                {
+                  "category": "Education",
+                  "totalSpent": 182878,
+                  "count": 0
+                },
+                {
+                  "category": "Bills",
+                  "totalSpent": 171986,
+                  "count": 0
+                },
+                {
+                  "category": "Food",
+                  "totalSpent": 169874,
+                  "count": 0
+                },
+                {
+                  "category": "Fuel",
+                  "totalSpent": 130292,
+                  "count": 0
+                },
+                {
+                  "category": "Other Expense",
+                  "totalSpent": 110294.6,
+                  "count": 0
+                }
+              ],
+              "paramInsights": [],
+              "coachAdvice": null
+            },
+            "recentTransactions": [],
+            "pastBriefings": [],
+            "messages": [
+              {
+                "role": "user",
+                "content": "Calculate SIP: Invest 5000 per month at 12% for 10 years",
+                "timestamp": "2025-11-29T02:11:41.466Z"
+              },
+              {
+                "role": "assistant",
+                "content": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+                "timestamp": "2025-11-29T02:11:56.321Z"
+              }
+            ],
+            "state": "active",
+            "collectedInfo": {
+              "amount": 5000,
+              "goal": "5000 per month at 12% for 10 years"
+            },
+            "currentQuestion": "What area to improve?"
+          }
+        },
+        "rawResponse": {
+          "agent": "chatur",
+          "message": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+          "sessionId": "fedfdc1a-0a64-4c38-b694-420c7300b42e",
+          "completed": false
+        }
+      },
+      "error": null
+    },
+    {
+      "testName": "Chatur: Context Follow-up - SIP Increase",
+      "url": "http://localhost:3000/api/agent",
+      "method": "POST",
+      "requestBody": {
+        "userId": "a08f8093-4ff1-42ea-82d9-7be471543307",
+        "message": "What if I increase the monthly amount to 10000?"
+      },
+      "timestamp": "2025-11-29T02:11:58.334Z",
+      "status": "PASSED",
+      "response": {
+        "agent": "chatur",
+        "message": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+        "completed": false,
+        "sessionId": "fedfdc1a-0a64-4c38-b694-420c7300b42e",
+        "context": {
+          "activeAgent": "chatur",
+          "conversationHistory": [
+            {
+              "agent": "chatur",
+              "userMessage": "Calculate SIP: Invest 5000 per month at 12% for 10 years",
+              "agentResponse": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+              "timestamp": "2025-11-29T02:11:56.321Z"
+            },
+            {
+              "agent": "chatur",
+              "userMessage": "What if I increase the monthly amount to 10000?",
+              "agentResponse": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+              "timestamp": "2025-11-29T02:12:19.556Z"
+            }
+          ],
+          "updatedAt": "2025-11-29T02:12:19.556Z",
+          "chaturSessionId": "fedfdc1a-0a64-4c38-b694-420c7300b42e",
+          "chaturSession": {
+            "sessionId": "fedfdc1a-0a64-4c38-b694-420c7300b42e",
+            "startedAt": "2025-11-29T02:11:41.466Z",
+            "insights": [],
+            "financialSummary": {
+              "totalIncome": 1257033,
+              "totalExpense": 1217227.4600000002,
+              "netBalance": 39805.539999999804,
+              "transactionCount": 123,
+              "recentTransactions": [],
+              "topCategories": [
+                {
+                  "category": "Education",
+                  "totalSpent": 182878,
+                  "count": 0
+                },
+                {
+                  "category": "Bills",
+                  "totalSpent": 171986,
+                  "count": 0
+                },
+                {
+                  "category": "Food",
+                  "totalSpent": 169874,
+                  "count": 0
+                },
+                {
+                  "category": "Fuel",
+                  "totalSpent": 130292,
+                  "count": 0
+                },
+                {
+                  "category": "Other Expense",
+                  "totalSpent": 110294.6,
+                  "count": 0
+                }
+              ],
+              "paramInsights": [],
+              "coachAdvice": null
+            },
+            "recentTransactions": [],
+            "pastBriefings": [],
+            "messages": [
+              {
+                "role": "user",
+                "content": "Calculate SIP: Invest 5000 per month at 12% for 10 years",
+                "timestamp": "2025-11-29T02:11:41.466Z"
+              },
+              {
+                "role": "assistant",
+                "content": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+                "timestamp": "2025-11-29T02:11:56.321Z"
+              },
+              {
+                "role": "user",
+                "content": "What if I increase the monthly amount to 10000?",
+                "timestamp": "2025-11-29T02:11:59.587Z"
+              },
+              {
+                "role": "assistant",
+                "content": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+                "timestamp": "2025-11-29T02:12:19.556Z"
+              }
+            ],
+            "state": "active",
+            "collectedInfo": {
+              "amount": 10000,
+              "goal": "5000 per month at 12% for 10 years"
+            },
+            "currentQuestion": "What area to improve?"
+          }
+        },
+        "rawResponse": {
+          "agent": "chatur",
+          "message": "Thanks for sharing that! Based on your insights, I see some patterns. What would you like to focus on improving first?",
+          "completed": false
+        }
+      },
+      "error": null
+    }
+  ]
+}

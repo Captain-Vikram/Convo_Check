@@ -30,6 +30,11 @@
     "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "resolveJsonModule": true
+    ,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["web/src/*"]
+    }
   },
   "include": [
     "src/**/*.ts",

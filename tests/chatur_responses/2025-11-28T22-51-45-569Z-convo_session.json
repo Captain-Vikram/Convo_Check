@@ -1,0 +1,31 @@
+{
+  "session": {
+    "sessionId": "b61f9fb2-ce0a-42d5-81e6-81447f00e2cb",
+    "startedAt": "2025-11-28T22:51:42.179Z",
+    "insights": [],
+    "messages": [
+      {
+        "role": "assistant",
+        "content": "Advise on saving money.",
+        "timestamp": "2025-11-28T22:51:42.179Z"
+      },
+      {
+        "role": "user",
+        "content": "What about investments?",
+        "timestamp": "2025-11-28T22:51:42.180Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Investing is a great step towards growing your money! 💰 What kind of investments are you curious about, or what are your financial goals you're hoping to achieve with them? Knowing that will help me guide you better.",
+        "timestamp": "2025-11-28T22:51:45.568Z"
+      }
+    ],
+    "state": "active",
+    "collectedInfo": {},
+    "currentQuestion": "Advise on saving money."
+  },
+  "response": {
+    "message": "Investing is a great step towards growing your money! 💰 What kind of investments are you curious about, or what are your financial goals you're hoping to achieve with them? Knowing that will help me guide you better.",
+    "completed": false
+  }
+}
